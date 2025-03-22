@@ -1,0 +1,39 @@
+/* Container to limit the scroll width */
+.marquee-container {
+  --gap: 2rem;
+  --duration: 120s;
+  --scroll-start: 0;
+  --scroll-end: calc(-100% - var(--gap));
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  gap: var(--gap);
+}
+
+/* Enable smooth animation */
+.marquee-scroll {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-around;
+  gap: var(--gap);
+  min-width: 100%;
+  animation: scroll-x var(--duration) linear infinite;
+}
+
+.marquee-scroll.reverse {
+  animation-direction: reverse;
+}
+
+/* Pause on hover */
+.marquee-container:hover .marquee-scroll {
+  animation-play-state: paused;
+}
+
+@keyframes scroll-x {
+  from {
+    transform: translateX(var(--scroll-start));
+  }
+  to {
+    transform: translateX(var(--scroll-end));
+  }
+} 

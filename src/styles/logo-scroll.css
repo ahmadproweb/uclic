@@ -1,0 +1,87 @@
+/* Container to limit the scroll width */
+.logo-container {
+  --logo-width: auto;
+  --logo-height: 35px;
+  --gap: 1.5rem;
+  --duration: 120s;
+  --scroll-start: 0;
+  --scroll-end: calc(-100% - var(--gap));
+  margin-top: 20px !important;
+  margin-bottom: 20px !important;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  margin: auto;
+  max-width: 100vw;
+  padding: 0;
+}
+
+/* Scrolling area */
+.logo-scroll {
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  gap: var(--gap);
+  mask-image: linear-gradient(
+    to right,
+    hsl(0 0% 0% / 0),
+    hsl(0 0% 0% / 1) 20%,
+    hsl(0 0% 0% / 1) 80%,
+    hsl(0 0% 0% / 0)
+  );
+}
+
+.logo-scroll__wrapper {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: var(--gap);
+  min-width: 100%;
+  animation: scroll var(--duration) linear infinite;
+}
+
+.logo-scroll__wrapper:nth-child(even) {
+  margin-left: calc(var(--logo-width) / -2);
+}
+
+.logo-container:last-child .logo-scroll__wrapper {
+  animation-direction: reverse;
+}
+
+.logo-scroll:hover .logo-scroll__wrapper {
+  animation-play-state: paused;
+}
+
+/* Logo styling */
+.logo-item {
+  height: var(--logo-height);
+  width: auto;
+  max-width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s;
+  padding: 0 0.5rem;
+}
+
+.logo-item img {
+  max-width: 120px;
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+}
+
+.logo-item:hover {
+  transform: scale(1.05);
+}
+
+/* Infinite scroll animation */
+@keyframes scroll {
+  from {
+    transform: translateX(var(--scroll-start));
+  }
+  to {
+    transform: translateX(var(--scroll-end));
+  }
+} 

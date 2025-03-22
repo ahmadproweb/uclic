@@ -1,0 +1,45 @@
+@keyframes slide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes slide-reverse {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-fast {
+  animation: slide 40s linear infinite;
+}
+
+.animate-slide-reverse-fast {
+  animation: slide-reverse 40s linear infinite;
+  transform: translateX(-50%); /* Position initiale pour éviter le vide */
+}
+
+/* Pause l'animation au survol */
+.hover\:pause:hover {
+  animation-play-state: paused;
+}
+
+/* Assure que le conteneur des logos est assez large pour le défilement */
+.logos {
+  width: max-content;
+  display: flex;
+  gap: 2rem;
+  padding: 0 rem;
+}
+
+/* Assure que le conteneur parent masque le débordement */
+.carousel {
+  overflow: hidden;
+  width: 100%;
+} 
