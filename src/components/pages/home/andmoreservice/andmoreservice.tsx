@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, ReactNode } from 'react';
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
-import Team from '../team/team';
 import { colors } from '@/config/theme';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Link from 'next/link';
+import { CTAButton } from "@/components/ui/cta-button";
 
 const services = [
   {
@@ -110,7 +111,20 @@ const services = [
   },
 ];
 
-export default function AndMoreService() {
+interface AndMoreServiceProps {
+  children: ReactNode;
+}
+
+// Helper function to create slug from title
+const createSlug = (title: string) => {
+  return title
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '') // Remove special characters
+    .replace(/\s+/g, '-') // Replace spaces with -
+    .replace(/--+/g, '-'); // Replace multiple - with single -
+};
+
+export default function AndMoreService({ children }: AndMoreServiceProps) {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
   const { theme: currentTheme } = useTheme();
   const isDark = currentTheme === 'dark';
@@ -262,95 +276,119 @@ export default function AndMoreService() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-4">
             {services.map((service) => {
               const cardStyle = getCardStyle(service.id);
+              const slug = createSlug(service.title);
               return (
-                <div
+                <Link
                   key={service.id}
-                  className={cn(
-                    "relative p-4 md:p-6 rounded-2xl md:rounded-3xl cursor-pointer",
-                    "transition-all duration-300 backdrop-blur-sm",
-                    "group"
-                  )}
-                  style={{
-                    ...cardStyle,
-                    border: isDark ? 'none' : '1px solid rgba(0, 0, 0, 0.1)'
-                  }}
-                  onMouseEnter={() => setHoveredId(service.id)}
-                  onMouseLeave={() => setHoveredId(null)}
+                  href={`/services/${slug}`}
+                  className="block group/link"
                 >
-                  <div className="flex items-start gap-3 md:gap-4">
-                    <div className={cn(
-                      "w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl",
-                      "flex items-center justify-center flex-shrink-0 transition-all duration-300"
+                  <div
+                    className={cn(
+                      "relative p-4 md:p-6 rounded-2xl md:rounded-3xl cursor-pointer",
+                      "transition-all duration-300 backdrop-blur-sm",
+                      "group"
                     )}
                     style={{
-                      backgroundColor: hoveredId === service.id ? themeColors.common.black : themeColors.primary.main,
-                      color: hoveredId === service.id ? themeColors.primary.main : themeColors.common.black
-                    }}>
-                      {service.icon}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-lg md:text-xl font-medium mb-2 line-clamp-1 transition-colors duration-300"
-                        style={{
-                          color: hoveredId === service.id ? themeColors.common.black : (isDark ? themeColors.common.white : themeColors.common.black)
-                        }}>
-                        {service.title}
-                      </h3>
-                      <p className="text-sm line-clamp-3 md:line-clamp-none transition-colors duration-300"
-                        style={{
-                          color: hoveredId === service.id ? `${themeColors.common.black}B3` : (isDark ? `${themeColors.common.white}B3` : `${themeColors.common.black}B3`)
-                        }}>
-                        {service.description}
-                      </p>
-                    </div>
-                    <div className={cn(
-                      "w-8 h-8 md:w-10 md:h-10 rounded-full border flex items-center justify-center flex-shrink-0",
-                      "transition-all duration-300"
-                    )}
-                    style={{
-                      borderColor: hoveredId === service.id 
-                        ? themeColors.common.black
-                        : isDark 
-                          ? `${themeColors.common.white}4D`
-                          : `${themeColors.common.black}4D`,
-                      backgroundColor: hoveredId === service.id 
-                        ? themeColors.common.black
-                        : 'transparent'
-                    }}>
-                      <svg 
-                        width="16" 
-                        height="16" 
-                        viewBox="0 0 24 24" 
-                        fill="none" 
-                        xmlns="http://www.w3.org/2000/svg"
-                        className={cn(
-                          "w-4 h-4 md:w-5 md:h-5 transition-all duration-300",
-                          hoveredId === service.id ? "rotate-[-45deg]" : ""
-                        )}
-                        style={{
-                          stroke: hoveredId === service.id 
-                            ? themeColors.primary.main
-                            : isDark 
-                              ? themeColors.common.white
-                              : themeColors.common.black
-                        }}
-                      >
-                        <path 
-                          d="M5 12H19M19 12L12 5M19 12L12 19" 
-                          strokeWidth="2" 
-                          strokeLinecap="round" 
-                          strokeLinejoin="round"
-                        />
-                      </svg>
+                      ...cardStyle,
+                      border: isDark ? 'none' : '1px solid rgba(0, 0, 0, 0.1)'
+                    }}
+                    onMouseEnter={() => setHoveredId(service.id)}
+                    onMouseLeave={() => setHoveredId(null)}
+                  >
+                    <div className="flex items-start gap-3 md:gap-4">
+                      <div className={cn(
+                        "w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl",
+                        "flex items-center justify-center flex-shrink-0 transition-all duration-300"
+                      )}
+                      style={{
+                        backgroundColor: hoveredId === service.id ? themeColors.common.black : themeColors.primary.main,
+                        color: hoveredId === service.id ? themeColors.primary.main : themeColors.common.black
+                      }}>
+                        {service.icon}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-lg md:text-xl font-medium mb-2 line-clamp-1 transition-colors duration-300"
+                          style={{
+                            color: hoveredId === service.id ? themeColors.common.black : (isDark ? themeColors.common.white : themeColors.common.black)
+                          }}>
+                          {service.title}
+                        </h3>
+                        <p className="text-sm line-clamp-3 md:line-clamp-none transition-colors duration-300"
+                          style={{
+                            color: hoveredId === service.id ? `${themeColors.common.black}B3` : (isDark ? `${themeColors.common.white}B3` : `${themeColors.common.black}B3`)
+                          }}>
+                          {service.description}
+                        </p>
+                      </div>
+                      <div className={cn(
+                        "w-8 h-8 md:w-10 md:h-10 rounded-full border flex items-center justify-center flex-shrink-0",
+                        "transition-all duration-300"
+                      )}
+                      style={{
+                        borderColor: hoveredId === service.id 
+                          ? themeColors.common.black
+                          : isDark 
+                            ? `${themeColors.common.white}4D`
+                            : `${themeColors.common.black}4D`,
+                        backgroundColor: hoveredId === service.id 
+                          ? themeColors.common.black
+                          : 'transparent'
+                      }}>
+                        <svg 
+                          width="16" 
+                          height="16" 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          xmlns="http://www.w3.org/2000/svg"
+                          className={cn(
+                            "w-4 h-4 md:w-5 md:h-5 transition-all duration-300",
+                            hoveredId === service.id ? "rotate-[-45deg]" : ""
+                          )}
+                          style={{
+                            stroke: hoveredId === service.id 
+                              ? themeColors.primary.main
+                              : isDark 
+                                ? themeColors.common.white
+                                : themeColors.common.black
+                          }}
+                        >
+                          <path 
+                            d="M5 12H19M19 12L12 5M19 12L12 19" 
+                            strokeWidth="2" 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>
         </div>
 
         {/* Team Section */}
-        <Team />
+        <div id="team-section">
+          {children}
+        </div>
+
+        {/* CTA Section */}
+        <div className="flex justify-center mt-8 md:mt-12">
+          <CTAButton 
+            href="/equipe" 
+            variant="simple"
+            simpleVariant="secondary"
+            className={cn(
+              "bg-black hover:bg-black/90",
+              "text-white hover:text-white",
+              "border-2 border-transparent"
+            )}
+          >
+            Rejoignez Uclic
+          </CTAButton>
+        </div>
       </div>
     </section>
   );

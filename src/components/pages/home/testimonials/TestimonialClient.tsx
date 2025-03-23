@@ -80,7 +80,7 @@ export default function TestimonialClient({ testimonials }: TestimonialClientPro
             "text-3xl md:text-4xl font-normal mb-2 md:mb-3 tracking-[-1px]",
             isDark ? "text-white" : "text-black"
           )}>
-            Nos clients parlent de <span className="text-[#DAFF47]">nous</span>
+            Nos clients parlent de <span className="text-[#D9FF4B]">nous</span>
           </h2>
           <p className={cn(
             "text-sm md:text-base",

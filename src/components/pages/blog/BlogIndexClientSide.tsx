@@ -113,6 +113,19 @@ export default function BlogIndexClientSide({ posts: blogPosts }: { posts: BlogP
         }}
       />
 
+      {/* Grain effect overlay */}
+      <div 
+        className={cn(
+          "absolute inset-0 z-0 mix-blend-soft-light",
+          isDark ? "opacity-90" : "opacity-50"
+        )}
+        style={{
+          backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.7\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\' opacity=\'0.8\'/%3E%3C/svg%3E")',
+          backgroundRepeat: 'repeat',
+          backgroundSize: '100px 100px'
+        }}
+      />
+
       {/* New overlay gradient - black to transparent */}
       <div 
         className="absolute bottom-0 left-0 right-0 z-[1]"
@@ -129,7 +142,7 @@ export default function BlogIndexClientSide({ posts: blogPosts }: { posts: BlogP
         <div className="text-center mb-12 md:mb-16">
           <span className={cn(
             "text-base mb-4 block font-semibold",
-            isDark ? "text-[#DAFF47]" : "text-black"
+            isDark ? "text-[#D9FF4B]" : "text-black"
           )}>Blog</span>
           <h1 className={cn(
             "text-3xl md:text-5xl font-normal mb-4",
@@ -139,7 +152,7 @@ export default function BlogIndexClientSide({ posts: blogPosts }: { posts: BlogP
           </h1>
           <div className={cn(
             "w-12 h-0.5 mx-auto mb-4",
-            isDark ? "bg-[#DAFF47]" : "bg-black"
+            isDark ? "bg-[#D9FF4B]" : "bg-black"
           )}/>
           <p className={cn(
             "text-base md:text-lg",
@@ -172,7 +185,7 @@ export default function BlogIndexClientSide({ posts: blogPosts }: { posts: BlogP
                   <span 
                     className={cn(
                       'text-sm uppercase tracking-wider font-semibold inline-block px-3 py-1 rounded-full',
-                      isDark ? 'bg-[#DAFF47] text-black' : 'bg-black text-[#DAFF47]'
+                      isDark ? 'bg-[#D9FF4B] text-black' : 'bg-black text-[#D9FF4B]'
                     )}
                   >
                     À la une
@@ -198,7 +211,7 @@ export default function BlogIndexClientSide({ posts: blogPosts }: { posts: BlogP
                 <Link 
                   href={`/blog/${featuredPost.slug}`}
                   className="px-6 py-2 rounded-full text-sm font-medium mt-8 inline-block transition-all
-                    bg-[#DAFF47] text-black hover:bg-[#DAFF47]/90"
+                    bg-[#D9FF4B] text-black hover:bg-[#D9FF4B]/90"
                 >
                   Lire l&apos;article
                 </Link>

@@ -59,7 +59,7 @@ export default function ClientSideBlog({ blogPosts }: ClientSideBlogProps) {
         <div className="text-center mb-12 md:mb-16">
           <span className={cn(
             "text-base mb-4 block font-semibold",
-            isDark ? "text-[#DAFF47]" : "text-black"
+            isDark ? "text-[#D9FF4B]" : "text-black"
           )}>Blog</span>
           <h2 className={cn(
             "text-3xl md:text-5xl font-normal mb-4",
@@ -69,7 +69,7 @@ export default function ClientSideBlog({ blogPosts }: ClientSideBlogProps) {
           </h2>
           <div className={cn(
             "w-12 h-0.5 mx-auto mb-4",
-            isDark ? "bg-[#DAFF47]" : "bg-black"
+            isDark ? "bg-[#D9FF4B]" : "bg-black"
           )}/>
           <p className={cn(
             "text-base md:text-lg",
@@ -107,7 +107,7 @@ export default function ClientSideBlog({ blogPosts }: ClientSideBlogProps) {
                   decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <span className="absolute bottom-4 left-4 inline-block px-3 py-1 bg-black text-[#DAFF47] rounded-full text-sm z-10">
+                <span className="absolute bottom-4 left-4 inline-block px-3 py-1 bg-black text-[#D9FF4B] rounded-full text-sm z-10">
                   {post.category}
                 </span>
               </div>
@@ -138,7 +138,7 @@ export default function ClientSideBlog({ blogPosts }: ClientSideBlogProps) {
         <div className="text-center mb-24">
           <Link
             href="/blog"
-            className="inline-flex items-center px-6 py-3 bg-black text-white rounded-full hover:bg-[#DAFF47] hover:text-black transition-all duration-300"
+            className="inline-flex items-center px-6 py-3 bg-black text-white rounded-full hover:bg-[#D9FF4B] hover:text-black transition-all duration-300"
           >
             <span className="mr-2">Voir tout</span>
             <svg className="w-4 h-4 transform rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

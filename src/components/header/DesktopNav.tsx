@@ -29,8 +29,8 @@ export function DesktopNav({
               isDirectlyOverHero || isOverHero
                 ? "text-gray-900 dark:text-white hover:text-[#97BE11]"
                 : "text-gray-900 dark:text-white hover:text-[#97BE11]",
-              "dark:text-white dark:hover:text-[#DAFF47]",
-              isMegaMenuOpen && item.hasMegaMenu && "text-[#97BE11] dark:text-[#DAFF47]"
+              "dark:text-white dark:hover:text-[#D9FF4B]",
+              isMegaMenuOpen && item.hasMegaMenu && "text-[#97BE11] dark:text-[#D9FF4B]"
             )}
             onClick={() => item.hasMegaMenu ? setIsMegaMenuOpen(!isMegaMenuOpen) : null}
             onMouseEnter={() => item.hasMegaMenu ? setIsMegaMenuOpen(true) : null}

@@ -36,7 +36,7 @@ export default function HeroAnimation() {
             black
           );
           --color-on-background: white;
-          --c1: #DAFF47;
+          --c1: #D9FF4B;
           --c2: rgba(218, 255, 71, 0.8);
           --c3: rgba(218, 255, 71, 0.6);
           --c4: rgba(218, 255, 71, 0.9);

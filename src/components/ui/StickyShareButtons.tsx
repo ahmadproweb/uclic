@@ -103,8 +103,8 @@ export default function StickyShareButtons({ url, title }: StickyShareButtonsPro
             className={cn(
               'w-10 h-10 my-2 rounded-full flex items-center justify-center transition-all',
               isDark 
-                ? 'text-white hover:bg-[#DAFF47] hover:text-black' 
-                : 'text-black hover:bg-[#DAFF47]'
+                ? 'text-white hover:bg-[#D9FF4B] hover:text-black' 
+                : 'text-black hover:bg-[#D9FF4B]'
             )}
             aria-label={`Partager sur ${network.name}`}
             title={`Partager sur ${network.name}`}

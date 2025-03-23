@@ -37,7 +37,7 @@ export default function ScrollToTop() {
       className={cn(
         'fixed bottom-8 right-8 z-50 p-3 rounded-full shadow-lg transition-all duration-300 ease-in-out',
         isDark
-          ? 'bg-[#DAFF47] hover:bg-[#DAFF47]/90'
+          ? 'bg-[#D9FF4B] hover:bg-[#D9FF4B]/90'
           : 'bg-black hover:bg-black/90',
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12 pointer-events-none'
       )}

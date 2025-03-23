@@ -75,7 +75,7 @@ export default async function LegalPage({ params }: Props) {
             "[&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-4",
             "[&>ol]:list-decimal [&>ol]:pl-6 [&>ol]:mb-4",
             "[&>li]:mb-2 [&>li]:text-black/80 [&>li]:dark:text-white/90",
-            "[&>a]:text-[#97BE11] [&>a]:dark:text-[#DAFF47] [&>a]:underline"
+            "[&>a]:text-[#97BE11] [&>a]:dark:text-[#D9FF4B] [&>a]:underline"
           )}
           dangerouslySetInnerHTML={{ 
             __html: page.content

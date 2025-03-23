@@ -16,7 +16,7 @@ export default function PreFooter({ noBgGradient = false }: PreFooterProps) {
   return (
     <div className={cn(
       "w-full rounded-[32px] overflow-visible",
-      noBgGradient ? "bg-black" : isDark ? "bg-[#DAFF47]" : "bg-black"
+      noBgGradient ? "bg-black" : isDark ? "bg-[#D9FF4B]" : "bg-black"
     )}>
       <div className="grid grid-cols-1 md:grid-cols-2 items-center relative">
         {/* Left Content */}
@@ -30,7 +30,7 @@ export default function PreFooter({ noBgGradient = false }: PreFooterProps) {
           <div className="flex flex-col md:flex-row gap-4">
             <Link 
               href="/services"
-              className="inline-flex items-center px-6 py-3 bg-white hover:bg-[#DAFF47] text-black rounded-full transition-all duration-300 text-base"
+              className="inline-flex items-center px-6 py-3 bg-white hover:bg-[#D9FF4B] text-black rounded-full transition-all duration-300 text-base"
             >
               Nos services
               <svg 

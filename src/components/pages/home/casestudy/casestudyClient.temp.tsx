@@ -67,7 +67,7 @@ export default function CaseStudy({ portfolios }: CaseStudyProps) {
   return (
     <section id="casestudy" className={cn(
       "w-full py-16 md:py-32 relative transition-colors duration-300",
-      isDark ? "bg-black/90 hover:bg-black/95" : "bg-[#F5F5F5] hover:bg-[#DAFF47]/5"
+      isDark ? "bg-black/90 hover:bg-black/95" : "bg-[#F5F5F5] hover:bg-[#D9FF4B]/5"
     )}>
       {/* Éléments décoratifs - Mouse */}
       <div ref={mouse1Ref} className="absolute top-20 left-[10%] w-[46px] h-[45px] transform rotate-[-15deg] hidden md:block" style={{ zIndex: 1 }}>
@@ -102,8 +102,8 @@ export default function CaseStudy({ portfolios }: CaseStudyProps) {
                 "rounded-2xl md:rounded-[32px] p-6 md:p-8 flex flex-col",
                 "transition-all duration-300 hover:-translate-y-2 hover:shadow-xl cursor-pointer group",
                 isDark 
-                  ? "bg-white/5 hover:bg-[#DAFF47]/20" 
-                  : "bg-white hover:bg-[#DAFF47] border border-black/5"
+                  ? "bg-white/5 hover:bg-[#D9FF4B]/20" 
+                  : "bg-white hover:bg-[#D9FF4B] border border-black/5"
               )}
             >
               <div className={cn(
@@ -123,7 +123,7 @@ export default function CaseStudy({ portfolios }: CaseStudyProps) {
               <h3 className={cn(
                 "text-xl md:text-2xl font-medium mb-3 md:mb-4 transition-colors duration-300",
                 isDark 
-                  ? "text-white group-hover:text-[#DAFF47]" 
+                  ? "text-white group-hover:text-[#D9FF4B]" 
                   : "text-black group-hover:text-black"
               )}
                 dangerouslySetInnerHTML={{ __html: portfolio.title }}
@@ -137,8 +137,8 @@ export default function CaseStudy({ portfolios }: CaseStudyProps) {
               <button className={cn(
                 "group flex items-center transition-colors duration-300 text-sm md:text-base",
                 isDark 
-                  ? "text-[#DAFF47]" 
-                  : "text-[#DAFF47] group-hover:text-black"
+                  ? "text-[#D9FF4B]" 
+                  : "text-[#D9FF4B] group-hover:text-black"
               )}>
                 Découvrir
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" 
@@ -155,7 +155,7 @@ export default function CaseStudy({ portfolios }: CaseStudyProps) {
             href="/portfolio"
             className={cn(
               "inline-flex items-center hover:underline transition-all",
-              isDark ? "text-white hover:text-[#DAFF47]" : "text-black hover:text-[#97BE11]"
+              isDark ? "text-white hover:text-[#D9FF4B]" : "text-black hover:text-[#97BE11]"
             )}
           >
             <span className="mr-2">Voir tous les cas clients</span>

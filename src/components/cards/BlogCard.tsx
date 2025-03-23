@@ -39,7 +39,7 @@ export default function BlogCard({ post }: BlogCardProps) {
             className={cn(
               "absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-medium",
               "transition-all duration-200 hover:transform hover:scale-105",
-              "bg-[#DAFF47] text-black hover:bg-[#E2FF47]"
+              "bg-[#D9FF4B] text-black hover:bg-[#E2FF47]"
             )}
             onClick={(e) => e.stopPropagation()}
           >

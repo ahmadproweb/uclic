@@ -1,5 +1,3 @@
-"use client";
-
 import { MarqueeClient } from './MarqueeClient';
 
 interface ServiceLink {

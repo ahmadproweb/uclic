@@ -9,6 +9,8 @@ import CaseStudyWrapper from "@/components/pages/home/casestudy";
 import Testimonials from "@/components/pages/home/testimonials/testimonials";
 import FAQ from "@/components/pages/home/faq/faq";
 import Blog from '@/components/pages/home/blog/blog';
+import TeamSection from '@/components/pages/home/team/team-section';
+import { Suspense } from 'react';
 
 export default function Home() {
   return (
@@ -17,7 +19,13 @@ export default function Home() {
       <Partners />
       <Service />
       <MarqueeText />
-      <AndMoreService />
+      <AndMoreService>
+        <Suspense fallback={<div className="w-full h-[400px] flex items-center justify-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        </div>}>
+          <TeamSection />
+        </Suspense>
+      </AndMoreService>
       <PartnerBtoB />
       <ProcessSteps />
       <CaseStudyWrapper />

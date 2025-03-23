@@ -78,12 +78,12 @@ function RelatedPortfolios({ currentPortfolio }: { currentPortfolio: PortfolioPo
         {/* Carte colorée selon la charte graphique */}
         <div className={cn(
           "rounded-xl overflow-hidden relative p-8 flex flex-col justify-between h-[320px]",
-          isDark ? "bg-[#DAFF47]/10 border border-[#DAFF47]/30" : "bg-[#97BE11]/10 border border-[#97BE11]/30"
+          isDark ? "bg-[#D9FF4B]/10 border border-[#D9FF4B]/30" : "bg-[#97BE11]/10 border border-[#97BE11]/30"
         )}>
           <div>
             <div className={cn(
               "absolute top-6 right-6 opacity-20",
-              isDark ? "text-[#DAFF47]" : "text-[#97BE11]"
+              isDark ? "text-[#D9FF4B]" : "text-[#97BE11]"
             )}>
               <svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" strokeLinecap="round" strokeLinejoin="round"/>
@@ -91,7 +91,7 @@ function RelatedPortfolios({ currentPortfolio }: { currentPortfolio: PortfolioPo
             </div>
             <span className={cn(
               "inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4",
-              isDark ? "bg-[#DAFF47] text-black" : "bg-[#97BE11] text-white"
+              isDark ? "bg-[#D9FF4B] text-black" : "bg-[#97BE11] text-white"
             )}>
               Portfolio UCLIC
             </span>
@@ -110,7 +110,7 @@ function RelatedPortfolios({ currentPortfolio }: { currentPortfolio: PortfolioPo
           </div>
           <Link href="/portfolio" className={cn(
             "inline-flex items-center text-sm font-medium hover:underline",
-            isDark ? "text-[#DAFF47]" : "text-[#97BE11]"
+            isDark ? "text-[#D9FF4B]" : "text-[#97BE11]"
           )}>
             <span className="mr-2">Explorer le portfolio</span>
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -195,7 +195,7 @@ function RelatedPortfolios({ currentPortfolio }: { currentPortfolio: PortfolioPo
                   className={cn(
                     "w-2 h-2 rounded-full transition-all",
                     currentSlide === index
-                      ? isDark ? "bg-[#DAFF47]" : "bg-[#97BE11]"
+                      ? isDark ? "bg-[#D9FF4B]" : "bg-[#97BE11]"
                       : isDark ? "bg-white/20" : "bg-black/20"
                   )}
                   aria-label={`Aller au slide ${index + 1}`}
@@ -372,7 +372,7 @@ export default function PortfolioPostClientSide({ portfolio }: PortfolioPostProp
               href="/portfolio"
               className={cn(
                 "inline-flex items-center hover:underline transition-all",
-                isDark ? "text-white hover:text-[#DAFF47]" : "text-black hover:text-[#97BE11]"
+                isDark ? "text-white hover:text-[#D9FF4B]" : "text-black hover:text-[#97BE11]"
               )}
             >
               <span className="mr-2">Voir toutes les réalisations</span>

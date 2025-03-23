@@ -77,20 +77,54 @@ export default function FooterUI({ legalPages }: FooterUIProps) {
         <div className="col-span-1 md:col-span-2 mb-8 md:mb-0">
           <h3 className="text-xs md:text-sm font-medium mb-4">Plan du site</h3>
           <ul className="space-y-2 md:space-y-4">
-            {['À propos', 'Notre équipe', 'La charte du Freelance', 'Nous rejoindre', 'Link Fifteen'].map((link) => (
-              <li key={link}>
-                <a 
-                  href="#" 
-                  className={`text-xs md:text-sm transition-colors ${
-                    isDark 
-                      ? 'text-white/60 hover:text-[#97BE11]' 
-                      : 'text-gray-900 hover:text-[#97BE11]'
-                  }`}
-                >
-                  {link}
-                </a>
-              </li>
-            ))}
+            <li>
+              <Link 
+                href="/a-propos" 
+                className={`text-xs md:text-sm transition-colors ${
+                  isDark 
+                    ? 'text-white/60 hover:text-[#97BE11]' 
+                    : 'text-gray-900 hover:text-[#97BE11]'
+                }`}
+              >
+                À propos
+              </Link>
+            </li>
+            <li>
+              <Link 
+                href="/equipe" 
+                className={`text-xs md:text-sm transition-colors ${
+                  isDark 
+                    ? 'text-white/60 hover:text-[#97BE11]' 
+                    : 'text-gray-900 hover:text-[#97BE11]'
+                }`}
+              >
+                Notre équipe
+              </Link>
+            </li>
+            <li>
+              <Link 
+                href="/charte-freelance" 
+                className={`text-xs md:text-sm transition-colors ${
+                  isDark 
+                    ? 'text-white/60 hover:text-[#97BE11]' 
+                    : 'text-gray-900 hover:text-[#97BE11]'
+                }`}
+              >
+                La charte du Freelance
+              </Link>
+            </li>
+            <li>
+              <Link 
+                href="/contact" 
+                className={`text-xs md:text-sm transition-colors ${
+                  isDark 
+                    ? 'text-white/60 hover:text-[#97BE11]' 
+                    : 'text-gray-900 hover:text-[#97BE11]'
+                }`}
+              >
+                Nous rejoindre
+              </Link>
+            </li>
           </ul>
         </div>
 
@@ -117,7 +151,7 @@ export default function FooterUI({ legalPages }: FooterUIProps) {
                 className={`${
                   isDark 
                     ? 'text-white/60 hover:text-[#97BE11]' 
-                    : 'text-gray-600 hover:text-[#97BE11]'
+                    : 'text-black-600 hover:text-[#97BE11]'
                 } transition-colors duration-200`}
               >
                 {page.title}

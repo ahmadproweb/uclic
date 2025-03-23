@@ -89,8 +89,8 @@ export default function ShareButtons({
           className={cn(
             'transition-all duration-200 flex items-center justify-center',
             isDark 
-              ? 'text-white hover:bg-[#DAFF47] hover:text-black' 
-              : 'text-black hover:bg-[#DAFF47]',
+              ? 'text-white hover:bg-[#D9FF4B] hover:text-black' 
+              : 'text-black hover:bg-[#D9FF4B]',
             variant === 'horizontal' ? 'w-10 h-10 rounded-full' : 'w-full py-2 px-4 rounded-lg'
           )}
           aria-label={`Partager sur ${network.name}`}

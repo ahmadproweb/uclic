@@ -52,7 +52,7 @@ export default function ProcessSteps() {
   return (
     <section id="process-steps"
       className={cn(
-        "w-full py-16 md:py-32 relative bg-[#DAFF47]",
+        "w-full py-16 md:py-32 relative bg-[#D9FF4B]",
         "display: none md:block"
       )}
       style={{
@@ -83,7 +83,7 @@ export default function ProcessSteps() {
               <p className="text-white/80 text-base md:text-lg leading-relaxed mb-6">
                 Nous mobilisons les bonnes ressources, au bon moment, avec une précision chirurgicale. Chaque étape de notre processus est optimisée pour des actions, mesurables et alignées sur vos objectifs. Pas de place pour l&apos;improvisation, des stratégies exécutées avec méthode et agilité.
               </p>
-              <button className="w-full md:w-auto group flex items-center justify-center text-black bg-[#DAFF47] rounded-full py-3 md:py-4 px-4 md:px-6 text-sm md:text-base hover:bg-[#E2FF47] transition-all duration-300">
+              <button className="w-full md:w-auto group flex items-center justify-center text-black bg-[#D9FF4B] rounded-full py-3 md:py-4 px-4 md:px-6 text-sm md:text-base hover:bg-[#E2FF47] transition-all duration-300">
                 Contactez un expert
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" 
                   className="ml-2 w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform duration-300">

@@ -87,7 +87,7 @@ export function CTAButton({
   const commonClasses = cn(
     "group inline-flex items-center gap-2",
     "font-bold rounded-full",
-    variant === 'mainCTA' && "bg-[#DAFF47] text-black hover:bg-[#DAFF47]/80",
+    variant === 'mainCTA' && "bg-[#D9FF4B] text-black hover:bg-[#D9FF4B]/80",
     variant === 'simple' && simpleVariant === 'secondary' && "text-black dark:text-white",
     "transition-all duration-200",
     "w-fit whitespace-nowrap",

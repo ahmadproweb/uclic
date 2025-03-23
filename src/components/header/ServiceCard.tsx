@@ -21,10 +21,10 @@ export function ServiceCard({ service, isMobile, onSelect }: ServiceCardProps) {
         isMobile ? "w-full" : "w-[19%]",
         "px-4 py-5 min-h-[400px] relative rounded-xl transition-all duration-300",
         isSEOCard 
-          ? "bg-[#DAFF47] hover:bg-[#E2FF47]" 
+          ? "bg-[#D9FF4B] hover:bg-[#E2FF47]" 
           : isDark 
-            ? "bg-white/5 hover:bg-[#DAFF47]/100" 
-            : "bg-black/5 hover:bg-[#DAFF47]/100"
+            ? "bg-white/5 hover:bg-[#D9FF4B]/100" 
+            : "bg-black/5 hover:bg-[#D9FF4B]/100"
       )}
     >
       <div className="flex flex-col h-full">

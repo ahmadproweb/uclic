@@ -11,8 +11,8 @@ export default function Hero() {
       <div className="relative z-10 w-full max-w-7xl mx-auto grid lg:grid-cols-2 gap-6 lg:gap-8 items-center mt-4 sm:mt-6 md:mt-0">
         {/* Colonne de gauche - Texte */}
         <div className="max-w-full lg:max-w-2xl text-left">
-          <div className="inline-block px-4 py-1.5 bg-[#97BE11]/10 dark:bg-[#DAFF47]/10 rounded-full mb-4 mt-16">
-            <span className="text-[#97BE11] dark:text-[#DAFF47] text-sm font-medium">Freelance Growth</span>
+          <div className="inline-block px-4 py-1.5 bg-[#97BE11]/10 dark:bg-[#D9FF4B]/10 rounded-full mb-4 mt-16">
+            <span className="text-[#97BE11] dark:text-[#D9FF4B] text-sm font-medium">Freelance Growth</span>
           </div>
           <h1 className={cn(
             "text-4xl sm:text-4xl md:text-5xl lg:text-[64px]",
