@@ -51,9 +51,30 @@ export default function HeroAnimation() {
         .wrapper {
           mix-blend-mode: plus-lighter;
           position: relative;
+          margin-left: 130px;
           z-index: 1;
-          transform: scale(0.5);
           padding-top: 2rem;
+          transform: scale(0.5);
+        }
+
+        @media (max-width: 1600px) {
+          .wrapper {
+            transform: scale(0.7);
+          }
+        }
+
+        @media (max-width: 768px) {
+          .wrapper {
+            transform: scale(0.5);
+          }
+        }
+
+        @media (max-width: 480px) {
+          .wrapper {
+            transform: scale(1);
+                      margin-left: 0px !important;
+
+          }
         }
 
         .container {
