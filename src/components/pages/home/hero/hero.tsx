@@ -12,7 +12,7 @@ export default function Hero() {
       <HeroBackground />
 
       {/* Contenu principal */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto grid lg:grid-cols-2 gap-6 lg:gap-8 items-center mt-4 sm:mt-6 md:mt-0 px-4 sm:px-6 lg:px-8 pt-16 pb-20 sm:pb-0 sm:pt-20 md:pt-8">
+      <div className="relative z-10 w-full max-w-7xl mx-auto grid lg:grid-cols-2 gap-6 lg:gap-8 items-center mt-4 sm:mt-6 md:mt-0 px-4 sm:px-6 lg:px-8 pt-20 pb-24 sm:pb-0 sm:pt-24 md:pt-12">
         {/* Colonne de gauche - Texte */}
         <div className="max-w-full lg:max-w-2xl text-left">
           <div className="inline-block px-4 py-1.5 bg-[#9FB832]/10 dark:bg-[#E0FF5C]/10 rounded-full mb-4 mt-16">
