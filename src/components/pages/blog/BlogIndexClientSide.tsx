@@ -142,7 +142,7 @@ export default function BlogIndexClientSide({ posts: blogPosts }: { posts: BlogP
         <div className="text-center mb-12 md:mb-16">
           <span className={cn(
             "text-base mb-4 block font-semibold",
-            isDark ? "text-[#D9FF4B]" : "text-black"
+            isDark ? "text-[#E0FF5C]" : "text-black"
           )}>Blog</span>
           <h1 className={cn(
             "text-3xl md:text-5xl font-normal mb-4",
@@ -152,7 +152,7 @@ export default function BlogIndexClientSide({ posts: blogPosts }: { posts: BlogP
           </h1>
           <div className={cn(
             "w-12 h-0.5 mx-auto mb-4",
-            isDark ? "bg-[#D9FF4B]" : "bg-black"
+            isDark ? "bg-[#E0FF5C]" : "bg-black"
           )}/>
           <p className={cn(
             "text-base md:text-lg",
@@ -185,7 +185,7 @@ export default function BlogIndexClientSide({ posts: blogPosts }: { posts: BlogP
                   <span 
                     className={cn(
                       'text-sm uppercase tracking-wider font-semibold inline-block px-3 py-1 rounded-full',
-                      isDark ? 'bg-[#D9FF4B] text-black' : 'bg-black text-[#D9FF4B]'
+                      isDark ? 'bg-[#E0FF5C] text-black' : 'bg-black text-[#E0FF5C]'
                     )}
                   >
                     À la une
@@ -211,7 +211,7 @@ export default function BlogIndexClientSide({ posts: blogPosts }: { posts: BlogP
                 <Link 
                   href={`/blog/${featuredPost.slug}`}
                   className="px-6 py-2 rounded-full text-sm font-medium mt-8 inline-block transition-all
-                    bg-[#D9FF4B] text-black hover:bg-[#D9FF4B]/90"
+                    bg-[#E0FF5C] text-black hover:bg-[#E0FF5C]/90"
                 >
                   Lire l&apos;article
                 </Link>

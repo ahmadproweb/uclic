@@ -26,10 +26,10 @@ export function MegaMenu({ isOpen, onMouseLeave }: MegaMenuProps) {
             "backdrop-blur-xl shadow-2xl border rounded-[15px] overflow-hidden",
             isDark ? [
               "border-white/10",
-              "bg-gradient-to-br from-[#D9FF4B3D]/20 via-black/80 to-black/80"
+              "bg-gradient-to-br from-[#E0FF5C3D]/20 via-black/80 to-black/80"
             ] : [
               "border-black/5",
-              "bg-gradient-to-br from-[#D9FF4B3D]/30 via-white/80 to-white/80"
+              "bg-gradient-to-br from-[#E0FF5C3D]/30 via-white/80 to-white/80"
             ]
           )}
         >

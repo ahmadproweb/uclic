@@ -66,7 +66,7 @@ export default function Header() {
                 className={cn(
                   "hidden sm:inline-flex items-center gap-2",
                   "font-bold rounded-full",
-                  "bg-[#D9FF4B] text-black hover:bg-[#D9FF4B]/90",
+                  "bg-[#fff] text-black hover:bg-[#E0FF5C]/90",
                   "transition-all duration-200",
                   "px-5 py-2.5 text-base",
                   "group"

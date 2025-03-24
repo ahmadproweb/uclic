@@ -1,7 +1,8 @@
 'use client';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
+import { CTAButton } from "@/components/ui/cta-button";
 
 export default function ProcessSteps() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -52,7 +53,7 @@ export default function ProcessSteps() {
   return (
     <section id="process-steps"
       className={cn(
-        "w-full py-16 md:py-32 relative bg-[#D9FF4B]",
+        "w-full py-16 md:py-32 relative bg-[#e4f984] dark:bg-[#e4f984]",
         "display: none md:block"
       )}
       style={{
@@ -83,19 +84,32 @@ export default function ProcessSteps() {
               <p className="text-white/80 text-base md:text-lg leading-relaxed mb-6">
                 Nous mobilisons les bonnes ressources, au bon moment, avec une précision chirurgicale. Chaque étape de notre processus est optimisée pour des actions, mesurables et alignées sur vos objectifs. Pas de place pour l&apos;improvisation, des stratégies exécutées avec méthode et agilité.
               </p>
-              <button className="w-full md:w-auto group flex items-center justify-center text-black bg-[#D9FF4B] rounded-full py-3 md:py-4 px-4 md:px-6 text-sm md:text-base hover:bg-[#E2FF47] transition-all duration-300">
+              <CTAButton href="/contact" variant="mainCTA" size="l">
                 Contactez un expert
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" 
-                  className="ml-2 w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform duration-300">
-                  <path d="M4 12H20M20 12L14 6M20 12L14 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </button>
+              </CTAButton>
             </div>
           </div>
 
           {/* Timeline */}
           <div className="col-span-1 lg:col-span-7 relative">
             <div className="absolute left-[7px] top-0 bottom-0 w-0 border-l-2 border-dashed border-black/20 hidden md:block"></div>
+            
+            {/* Radial gradient background */}
+            <div 
+              className="absolute inset-0 opacity-100"
+              style={{
+                background: 'radial-gradient(circle at center, #EDFFA3 0%, transparent 70%)'
+              }}
+            />
+            
+            {/* Text gradient background */}
+            <div 
+              className="absolute inset-0 opacity-40"
+              style={{
+                background: 'radial-gradient(circle at center, #E0FF5C 0%, transparent 70%)',
+                mixBlendMode: 'multiply'
+              }}
+            />
             
             <div className="relative w-full overflow-hidden" style={{ minHeight: '500px' }}>
               <AnimatePresence initial={false} mode="wait">

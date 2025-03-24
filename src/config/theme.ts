@@ -3,7 +3,7 @@ import { ThemeColors } from './types/theme';
 export const colors: ThemeColors = {
   colors: {
     primary: {
-      main: '#D9FF4B',      // Vert principal
+      main: '#E0FF5C',      // Vert principal
       light: '#E5FF7E',     // Version plus claire
       dark: '#AECC3C',      // Version plus foncée
       contrastText: '#000000',

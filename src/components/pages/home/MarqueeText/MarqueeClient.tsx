@@ -20,7 +20,7 @@ const MarqueeItem = ({ word }: { word: ServiceLink }) => (
     aria-label={`${word.text} - ${word.description}`}
   >
     <div className="relative px-4 py-2">
-      <span className="text-[40px] text-black dark:text-white font-normal tracking-[-0.02em] relative z-10 group-hover:text-white dark:group-hover:text-[#D9FF4B] transition-colors duration-300">
+      <span className="text-[40px] text-black dark:text-white font-normal tracking-[-0.02em] relative z-10 group-hover:text-white dark:group-hover:text-[#E0FF5C] transition-colors duration-300">
         {word.text}
       </span>
       <div 
@@ -29,7 +29,7 @@ const MarqueeItem = ({ word }: { word: ServiceLink }) => (
       />
     </div>
     <div className="relative z-10 ml-2" aria-hidden="true">
-      <div className="w-[36px] h-[36px] rounded-full flex items-center justify-center bg-[#D9FF4B] transition-all duration-300 group-hover:-translate-y-1">
+      <div className="w-[36px] h-[36px] rounded-full flex items-center justify-center bg-[#E0FF5C] transition-all duration-300 group-hover:-translate-y-1">
         <svg 
           width="16" 
           height="16" 

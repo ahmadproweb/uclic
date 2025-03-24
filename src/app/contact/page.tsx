@@ -12,9 +12,9 @@ export default function ContactPage() {
   const isDark = currentTheme === 'dark';
 
   return (
-    <main className="w-full min-h-screen">
+    <main className="w-full">
       <section className={cn(
-        "w-full relative overflow-hidden pt-32 pb-16 md:pb-24"
+        "w-full relative overflow-hidden pt-40 pb-16 md:pb-24"
       )}>
         {/* Base Background gradient */}
         <div 
@@ -47,7 +47,7 @@ export default function ContactPage() {
                 <h1 className={cn(
                   "text-3xl sm:text-4xl md:text-5xl lg:text-[50px]",
                   "font-bold tracking-[-1px]",
-                  "text-black/90 dark:text-white/90",
+                  "text-black dark:text-white",
                   "leading-[1.1]",
                   "mb-6"
                 )}>
@@ -59,7 +59,7 @@ export default function ContactPage() {
                 
                 <p className={cn(
                   "text-lg md:text-xl",
-                  "text-black/60 dark:text-white/60",
+                  "text-black dark:text-white",
                   "mb-8"
                 )}>
                   Que vous ayez une idée précise ou que vous cherchiez des conseils, nous sommes là pour vous accompagner dans votre transformation digitale.
@@ -82,12 +82,15 @@ export default function ContactPage() {
                         </svg>
                       </div>
                       <div>
-                        <h3 className="text-lg font-medium text-black/90 dark:text-white/90 mb-1">Email</h3>
+                        <h3 className={cn(
+                          "text-lg font-medium mb-1",
+                          isDark ? "text-white" : "text-black"
+                        )}>Email</h3>
                         <a 
                           href="mailto:contact@uclic.fr" 
                           className={cn(
                             "text-base hover:underline transition-all",
-                            isDark ? "text-white/70 hover:text-white" : "text-black/70 hover:text-black"
+                            isDark ? "text-white hover:text-white" : "text-black hover:text-black"
                           )}
                         >
                           contact@uclic.fr
@@ -109,12 +112,15 @@ export default function ContactPage() {
                         </svg>
                       </div>
                       <div>
-                        <h3 className="text-lg font-medium text-black/90 dark:text-white/90 mb-1">Téléphone</h3>
+                        <h3 className={cn(
+                          "text-lg font-medium mb-1",
+                          isDark ? "text-white" : "text-black"
+                        )}>Téléphone</h3>
                         <a 
                           href="tel:+33123456789" 
                           className={cn(
                             "text-base hover:underline transition-all",
-                            isDark ? "text-white/70 hover:text-white" : "text-black/70 hover:text-black"
+                            isDark ? "text-white hover:text-white" : "text-black hover:text-black"
                           )}
                         >
                           +33 1 23 45 67 89
@@ -192,7 +198,8 @@ export default function ContactPage() {
             <div className="lg:sticky lg:top-32">
               <div className={cn(
                 "w-full rounded-[32px] overflow-hidden border p-8",
-                "bg-white dark:bg-black"
+                isDark ? "bg-[#161616]" : "bg-white",
+                isDark ? "shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1)]" : ""
               )}
               style={{
                 borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
@@ -214,11 +221,11 @@ export default function ContactPage() {
                       id="name"
                       name="name"
                       className={cn(
-                        "w-full px-4 py-3 rounded-xl border bg-transparent",
+                        "w-full px-4 py-3 rounded-xl border",
                         "focus:outline-none focus:ring-2 transition-all",
                         isDark 
-                          ? "border-white/10 focus:border-white/20 focus:ring-white/20 text-white" 
-                          : "border-black/10 focus:border-black/20 focus:ring-black/20 text-black"
+                          ? "border-white/10 focus:border-white/20 focus:ring-[#E0FF5C]/20 text-white bg-white/5" 
+                          : "border-black/10 focus:border-black/20 focus:ring-[#E0FF5C]/40 text-black bg-black/5"
                       )}
                       placeholder="John Doe"
                     />
@@ -240,11 +247,11 @@ export default function ContactPage() {
                       id="email"
                       name="email"
                       className={cn(
-                        "w-full px-4 py-3 rounded-xl border bg-transparent",
+                        "w-full px-4 py-3 rounded-xl border",
                         "focus:outline-none focus:ring-2 transition-all",
                         isDark 
-                          ? "border-white/10 focus:border-white/20 focus:ring-white/20 text-white" 
-                          : "border-black/10 focus:border-black/20 focus:ring-black/20 text-black"
+                          ? "border-white/10 focus:border-white/20 focus:ring-[#E0FF5C]/20 text-white bg-white/5" 
+                          : "border-black/10 focus:border-black/20 focus:ring-[#E0FF5C]/40 text-black bg-black/5"
                       )}
                       placeholder="john@example.com"
                     />
@@ -266,13 +273,13 @@ export default function ContactPage() {
                       name="message"
                       rows={6}
                       className={cn(
-                        "w-full px-4 py-3 rounded-xl border bg-transparent",
+                        "w-full px-4 py-3 rounded-xl border",
                         "focus:outline-none focus:ring-2 transition-all",
                         isDark 
-                          ? "border-white/10 focus:border-white/20 focus:ring-white/20 text-white" 
-                          : "border-black/10 focus:border-black/20 focus:ring-black/20 text-black"
+                          ? "border-white/10 focus:border-white/20 focus:ring-[#E0FF5C]/20 text-white bg-white/5 placeholder:text-white/50" 
+                          : "border-black/10 focus:border-black/20 focus:ring-[#E0FF5C]/40 text-black bg-black/5 placeholder:text-black/50"
                       )}
-                      placeholder="Décrivez votre projet..."
+                      placeholder="Décrivez votre projet en quelques mots..."
                     />
                   </div>
 
@@ -307,7 +314,7 @@ export default function ContactPage() {
         isDark ? "bg-black" : "bg-[#F3F4F6]"
       )}>
         <Partners />
-    </div>
+      </div>
     </main>
   );
 } 

@@ -1,18 +1,22 @@
+'use client';
+
 import { cn } from "@/lib/utils";
 import HeroClient from './HeroClient';
 import HeroAnimation from './HeroAnimation';
 import { CTAButton } from "@/components/ui/cta-button";
-import { UnderlinedText } from "@/components/ui/underlined-text";
+import HeroBackground from './HeroBackground';
 
 export default function Hero() {
   return (
-    <section className="relative w-full min-h-[calc(100vh-var(--header-height))] flex items-center justify-center overflow-hidden bg-[#F5F5F1] dark:bg-black pt-16 pb-20 sm:pb-0 sm:pt-20 md:pt-8 px-4 sm:px-6 lg:px-8">
+    <section className="relative w-full min-h-[calc(60vh-var(--header-height))] flex items-center justify-center overflow-hidden">
+      <HeroBackground />
+
       {/* Contenu principal */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto grid lg:grid-cols-2 gap-6 lg:gap-8 items-center mt-4 sm:mt-6 md:mt-0">
+      <div className="relative z-10 w-full max-w-7xl mx-auto grid lg:grid-cols-2 gap-6 lg:gap-8 items-center mt-4 sm:mt-6 md:mt-0 px-4 sm:px-6 lg:px-8 pt-16 pb-20 sm:pb-0 sm:pt-20 md:pt-8">
         {/* Colonne de gauche - Texte */}
         <div className="max-w-full lg:max-w-2xl text-left">
-          <div className="inline-block px-4 py-1.5 bg-[#97BE11]/10 dark:bg-[#D9FF4B]/10 rounded-full mb-4 mt-16">
-            <span className="text-[#97BE11] dark:text-[#D9FF4B] text-sm font-medium">Freelance Growth</span>
+          <div className="inline-block px-4 py-1.5 bg-[#9FB832]/10 dark:bg-[#E0FF5C]/10 rounded-full mb-4 mt-16">
+            <span className="text-[#9FB832] dark:text-[#E0FF5C] text-sm font-medium">Freelance Growth</span>
           </div>
           <h1 className={cn(
             "text-4xl sm:text-4xl md:text-5xl lg:text-[64px]",
@@ -25,11 +29,18 @@ export default function Hero() {
             <span className="block mb-0.5 text-[#000000] dark:text-[#F5F5F1]">des actions là où</span>
             <span className="block text-[#000000] dark:text-[#F5F5F1]">
               l&apos;impact est{' '}
-              <UnderlinedText text="maximal" />
+              <span className="inline-block font-bold relative">
+                <span className="relative z-10 text-[#9FB832] dark:text-[#E0FF5C]">
+                  maximal
+                </span>
+                <span 
+                  className="absolute bottom-[-8px] left-[10%] w-[80%] h-[6px] -z-10 bg-[#9FB832]/20 dark:bg-[#E0FF5C]/20"
+                />
+              </span>
             </span>
           </h1>
 
-          <p className="text-base md:text-lg text-black/70 dark:text-white/70 mt-6 mb-8 md:mb-12 max-w-xl pr-4">
+          <p className="text-base md:text-lg text-black/100 dark:text-white/100 mt-6 mb-8 md:mb-12 max-w-xl pr-4">
             Nous convertissons vos défis en leviers{' '}
             <br className="block md:hidden" />
             de croissance avec des stratégies{' '}
@@ -53,8 +64,8 @@ export default function Hero() {
         </div>
 
         {/* Colonne de droite - Animation */}
-        <div className="relative w-full lg:w-full lg:ml-[150px]">
-          <div className="w-[500px] lg:w-[600px] mx-auto lg:mx-0 lg:ml-auto lg:mr-[150px]">
+        <div className="relative">
+          <div className="mx-auto lg:mx-0 lg:ml-auto">
             <HeroAnimation />
           </div>
         </div>

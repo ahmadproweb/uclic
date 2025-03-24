@@ -265,7 +265,7 @@ export default function AndMoreService({ children }: AndMoreServiceProps) {
       <div className="relative z-10 max-w-[1250px] mx-auto px-4">
         <h2 className={cn(
           "text-3xl sm:text-4xl md:text-5xl lg:text-[50px]",
-          "font-bold tracking-[-1px]",
+          "font-medium tracking-[-1px]",
           "text-black/90 dark:text-white/90",
           "leading-[1.1]",
           "mb-12 md:mb-20 text-center transition-colors duration-300"

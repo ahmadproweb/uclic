@@ -11,12 +11,9 @@ export function ServiceCard({ title, text, icon: Icon, theme }: ServiceCardProps
     <article 
       className="rounded-[32px] p-10 relative overflow-hidden h-full transition-all duration-500 ease-out hover:-translate-y-4 group"
       style={{
-        background: `linear-gradient(145deg, 
-          ${theme.colors.primary.main}CC,
-          ${theme.colors.primary.main}99
-        )`,
+        backgroundColor: '#E0FF5C',
         backdropFilter: 'blur(10px)',
-        boxShadow: `0 8px 32px -4px ${theme.colors.primary.main}40`
+        boxShadow: '0 8px 32px -4px rgba(237, 255, 163, 0.25)'
       }}
     >
       <div 

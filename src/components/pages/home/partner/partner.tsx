@@ -1,6 +1,9 @@
 "use client";
 
 import { PartnerClient } from './PartnerClient';
+import { cn } from "@/lib/utils";
+import { useTheme } from "@/context/ThemeContext";
+import { UnderlinedText } from '@/components/ui/underlined-text';
 
 // Données statiques avec descriptions SEO
 const row1 = [
@@ -33,13 +36,20 @@ const row2 = [
   { name: "BUT", image: "/partners/but.png", alt: "Logo BUT, enseigne de mobilier et électroménager" }
 ];
 
-export default function Partners() {
+interface PartnersProps {
+  forceBlackLogos?: boolean;
+}
+
+export default function Partners({ forceBlackLogos = false }: PartnersProps) {
+  const { theme: currentTheme } = useTheme();
+  const isDark = currentTheme === 'dark';
+
   return (
     <section 
-      className="w-full flex flex-col gap-0 py-4 md:py-0 bg-[#F5F5F1] dark:bg-black/60 overflow-hidden"
+      className="w-full flex flex-col gap-0 py-8 md:py-12 bg-[#F3F4F6] dark:bg-black/100 overflow-hidden"
       aria-label="Nos partenaires de confiance"
     >
-      <PartnerClient row1={row1} row2={row2} />
+      <PartnerClient row1={row1} row2={row2} forceBlackLogos={forceBlackLogos} />
     </section>
   );
 } 

@@ -31,7 +31,7 @@ export default function NewsletterSection() {
             isDark ? 'text-white' : 'text-gray-900'
           } ${
             isDark ? 'placeholder:text-white/40' : 'placeholder:text-gray-500'
-          } focus:outline-none focus:ring-2 focus:ring-[#97BE11]`}
+          } focus:outline-none focus:ring-2 focus:ring-[#E0FF5C]`}
         />
         <button 
           type="submit"

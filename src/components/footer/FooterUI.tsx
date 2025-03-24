@@ -41,8 +41,8 @@ export default function FooterUI({ legalPages }: FooterUIProps) {
                   href="#" 
                   className={`text-xs md:text-sm transition-colors ${
                     isDark 
-                      ? 'text-white/60 hover:text-[#97BE11]' 
-                      : 'text-gray-900 hover:text-[#97BE11]'
+                      ? 'text-white/60 hover:text-[#E0FF5C]' 
+                      : 'text-gray-900 hover:text-[#E0FF5C]'
                   }`}
                 >
                   {service}
@@ -62,8 +62,8 @@ export default function FooterUI({ legalPages }: FooterUIProps) {
                   href="#" 
                   className={`text-xs md:text-sm transition-colors ${
                     isDark 
-                      ? 'text-white/60 hover:text-[#97BE11]' 
-                      : 'text-gray-900 hover:text-[#97BE11]'
+                      ? 'text-white/60 hover:text-[#E0FF5C]' 
+                      : 'text-gray-900 hover:text-[#E0FF5C]'
                   }`}
                 >
                   {expertise}
@@ -82,8 +82,8 @@ export default function FooterUI({ legalPages }: FooterUIProps) {
                 href="/a-propos" 
                 className={`text-xs md:text-sm transition-colors ${
                   isDark 
-                    ? 'text-white/60 hover:text-[#97BE11]' 
-                    : 'text-gray-900 hover:text-[#97BE11]'
+                    ? 'text-white/60 hover:text-[#E0FF5C]' 
+                    : 'text-gray-900 hover:text-[#E0FF5C]'
                 }`}
               >
                 À propos
@@ -94,8 +94,8 @@ export default function FooterUI({ legalPages }: FooterUIProps) {
                 href="/equipe" 
                 className={`text-xs md:text-sm transition-colors ${
                   isDark 
-                    ? 'text-white/60 hover:text-[#97BE11]' 
-                    : 'text-gray-900 hover:text-[#97BE11]'
+                    ? 'text-white/60 hover:text-[#E0FF5C]' 
+                    : 'text-gray-900 hover:text-[#E0FF5C]'
                 }`}
               >
                 Notre équipe
@@ -106,8 +106,8 @@ export default function FooterUI({ legalPages }: FooterUIProps) {
                 href="/charte-freelance" 
                 className={`text-xs md:text-sm transition-colors ${
                   isDark 
-                    ? 'text-white/60 hover:text-[#97BE11]' 
-                    : 'text-gray-900 hover:text-[#97BE11]'
+                    ? 'text-white/60 hover:text-[#E0FF5C]' 
+                    : 'text-gray-900 hover:text-[#E0FF5C]'
                 }`}
               >
                 La charte du Freelance
@@ -118,8 +118,8 @@ export default function FooterUI({ legalPages }: FooterUIProps) {
                 href="/contact" 
                 className={`text-xs md:text-sm transition-colors ${
                   isDark 
-                    ? 'text-white/60 hover:text-[#97BE11]' 
-                    : 'text-gray-900 hover:text-[#97BE11]'
+                    ? 'text-white/60 hover:text-[#E0FF5C]' 
+                    : 'text-gray-900 hover:text-[#E0FF5C]'
                 }`}
               >
                 Nous rejoindre
@@ -150,8 +150,8 @@ export default function FooterUI({ legalPages }: FooterUIProps) {
                 href={`/legal/${page.slug}`}
                 className={`${
                   isDark 
-                    ? 'text-white/60 hover:text-[#97BE11]' 
-                    : 'text-black-600 hover:text-[#97BE11]'
+                    ? 'text-white/60 hover:text-[#E0FF5C]' 
+                    : 'text-black-600 hover:text-[#E0FF5C]'
                 } transition-colors duration-200`}
               >
                 {page.title}
@@ -168,8 +168,8 @@ export default function FooterUI({ legalPages }: FooterUIProps) {
               href="#" 
               className={`p-1.5 md:p-2 ${
                 isDark 
-                  ? 'text-white/60 hover:text-[#97BE11]' 
-                  : 'text-gray-600 hover:text-[#97BE11]'
+                  ? 'text-white/60 hover:text-[#E0FF5C]' 
+                  : 'text-gray-600 hover:text-[#E0FF5C]'
               } rounded-full transition-colors`}
               aria-label={social}
             >

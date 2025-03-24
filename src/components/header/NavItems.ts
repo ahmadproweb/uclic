@@ -5,27 +5,27 @@ export const navItems: NavItem[] = [
     label: "Nos services", 
     href: "/services", 
     hasMegaMenu: true,
-    className: "transition-colors duration-300 hover:text-[#D9FF4B]" 
+    className: "transition-colors duration-300 hover:text-[#E0FF5C]" 
   },
   { 
     label: "Nos expertises", 
     href: "/expertises",
-    className: "transition-colors duration-300 hover:text-[#D9FF4B]"
+    className: "transition-colors duration-300 hover:text-[#E0FF5C]"
   },
   { 
     label: "Cas clients", 
     href: "/cas-clients",
-    className: "transition-colors duration-300 hover:text-[#D9FF4B]"
+    className: "transition-colors duration-300 hover:text-[#E0FF5C]"
   },
   { 
     label: "Blog", 
     href: "/blog",
-    className: "transition-colors duration-300 hover:text-[#D9FF4B]"
+    className: "transition-colors duration-300 hover:text-[#E0FF5C]"
   },
   { 
     label: "À propos", 
     href: "/a-propos",
-    className: "transition-colors duration-300 hover:text-[#D9FF4B]"
+    className: "transition-colors duration-300 hover:text-[#E0FF5C]"
   },
 ];
 

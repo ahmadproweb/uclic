@@ -36,7 +36,7 @@ export default function HeroAnimation() {
             black
           );
           --color-on-background: white;
-          --c1: #D9FF4B;
+          --c1: #E0FF5C;
           --c2: rgba(218, 255, 71, 0.8);
           --c3: rgba(218, 255, 71, 0.6);
           --c4: rgba(218, 255, 71, 0.9);
@@ -52,7 +52,7 @@ export default function HeroAnimation() {
           mix-blend-mode: plus-lighter;
           position: relative;
           z-index: 1;
-          transform: scale(0.75);
+          transform: scale(0.5);
           padding-top: 2rem;
         }
 

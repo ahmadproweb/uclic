@@ -46,12 +46,12 @@ export function OtherConsultants({ currentMember, initialMembers = [] }: OtherCo
         <div className="max-w-[1250px] mx-auto px-4">
           <div className={cn(
             "rounded-3xl overflow-hidden relative p-8 flex flex-col justify-between min-h-[320px]",
-            isDark ? "bg-[#D9FF4B]/10 border border-[#D9FF4B]/30" : "bg-[#97BE11]/10 border border-[#97BE11]/30"
+            isDark ? "bg-[#E0FF5C]/10 border border-[#E0FF5C]/30" : "bg-[#E0FF5C]/10 border border-[#E0FF5C]/30"
           )}>
             <div>
               <div className={cn(
                 "absolute top-6 right-6 opacity-20",
-                isDark ? "text-[#D9FF4B]" : "text-[#97BE11]"
+                isDark ? "text-[#E0FF5C]" : "text-[#E0FF5C]"
               )}>
                 <svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" strokeLinecap="round" strokeLinejoin="round"/>
@@ -59,7 +59,7 @@ export function OtherConsultants({ currentMember, initialMembers = [] }: OtherCo
               </div>
               <span className={cn(
                 "inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4",
-                isDark ? "bg-[#D9FF4B] text-black" : "bg-[#97BE11] text-white"
+                isDark ? "bg-[#E0FF5C] text-black" : "bg-[#E0FF5C] text-white"
               )}>
                 Notre équipe
               </span>
@@ -78,7 +78,7 @@ export function OtherConsultants({ currentMember, initialMembers = [] }: OtherCo
             </div>
             <Link href="/equipe" className={cn(
               "inline-flex items-center text-sm font-medium hover:underline",
-              isDark ? "text-[#D9FF4B]" : "text-[#97BE11]"
+              isDark ? "text-[#E0FF5C]" : "text-[#E0FF5C]"
             )}>
               <span className="mr-2">Voir toute l&apos;équipe</span>
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -116,7 +116,7 @@ export function OtherConsultants({ currentMember, initialMembers = [] }: OtherCo
                     className={cn(
                       "w-2.5 h-2.5 rounded-full transition-colors",
                       currentSlide === index 
-                        ? (isDark ? "bg-[#D9FF4B]" : "bg-[#97BE11]") 
+                        ? (isDark ? "bg-[#E0FF5C]" : "bg-[#E0FF5C]") 
                         : (isDark ? "bg-white/20" : "bg-black/20")
                     )}
                     aria-label={`Page ${index + 1}`}
@@ -162,12 +162,12 @@ export function OtherConsultants({ currentMember, initialMembers = [] }: OtherCo
           {/* Carte colorée selon la charte graphique */}
           <div className={cn(
             "rounded-3xl overflow-hidden relative p-8 flex flex-col justify-between h-[400px]",
-            isDark ? "bg-[#D9FF4B]/10 border border-[#D9FF4B]/30" : "bg-[#97BE11]/10 border border-[#97BE11]/30"
+            isDark ? "bg-[#E0FF5C]/10 border border-[#E0FF5C]/30" : "bg-[#E0FF5C]/10 border border-[#E0FF5C]/30"
           )}>
             <div>
               <div className={cn(
                 "absolute top-6 right-6 opacity-20",
-                isDark ? "text-[#D9FF4B]" : "text-[#97BE11]"
+                isDark ? "text-[#E0FF5C]" : "text-[#E0FF5C]"
               )}>
                 <svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" strokeLinecap="round" strokeLinejoin="round"/>
@@ -175,7 +175,7 @@ export function OtherConsultants({ currentMember, initialMembers = [] }: OtherCo
               </div>
               <span className={cn(
                 "inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4",
-                isDark ? "bg-[#D9FF4B] text-black" : "bg-[#97BE11] text-white"
+                isDark ? "bg-[#E0FF5C] text-black" : "bg-[#E0FF5C] text-white"
               )}>
                 Notre équipe
               </span>
@@ -194,7 +194,7 @@ export function OtherConsultants({ currentMember, initialMembers = [] }: OtherCo
             </div>
             <Link href="/equipe" className={cn(
               "inline-flex items-center text-sm font-medium hover:underline",
-              isDark ? "text-[#D9FF4B]" : "text-[#97BE11]"
+              isDark ? "text-[#E0FF5C]" : "text-[#E0FF5C]"
             )}>
               <span className="mr-2">Voir toute l&apos;équipe</span>
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -224,18 +224,18 @@ export function OtherConsultants({ currentMember, initialMembers = [] }: OtherCo
                 {/* Contenu */}
                 <div className="absolute inset-0 p-8 flex flex-col justify-end">
                   {member.equipeFields.role && (
-                    <span className="inline-block px-3 py-1 bg-[#D9FF4B] text-black rounded-full text-xs font-medium mb-4">
+                    <span className="inline-block px-3 py-1 bg-[#E0FF5C] text-black rounded-full text-xs font-medium mb-4">
                       {member.equipeFields.role}
                     </span>
                   )}
-                  <h4 className="text-2xl text-white font-bold mb-4 group-hover:text-[#D9FF4B] transition-colors">
+                  <h4 className="text-2xl text-white font-bold mb-4 group-hover:text-[#E0FF5C] transition-colors">
                     {member.title}
                   </h4>
                   <div 
                     className="text-white/80 text-base line-clamp-3 mb-6"
                     dangerouslySetInnerHTML={{ __html: member.equipeFields.extrait }}
                   />
-                  <div className="flex items-center text-sm text-white/60 group-hover:text-[#D9FF4B] transition-colors">
+                  <div className="flex items-center text-sm text-white/60 group-hover:text-[#E0FF5C] transition-colors">
                     <span className="mr-2">En savoir plus</span>
                     <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round"/>

@@ -27,10 +27,10 @@ export function DesktopNav({
             className={cn(
               "text-base font-medium transition-colors duration-300 cursor-pointer flex items-center",
               isDirectlyOverHero || isOverHero
-                ? "text-gray-900 dark:text-white hover:text-[#97BE11]"
-                : "text-gray-900 dark:text-white hover:text-[#97BE11]",
-              "dark:text-white dark:hover:text-[#D9FF4B]",
-              isMegaMenuOpen && item.hasMegaMenu && "text-[#97BE11] dark:text-[#D9FF4B]"
+                ? "text-gray-900 dark:text-white hover:text-[#E0FF5C]"
+                : "text-gray-900 dark:text-white hover:text-[#E0FF5C]",
+              "dark:text-white dark:hover:text-[#E0FF5C]",
+              isMegaMenuOpen && item.hasMegaMenu && "text-[#E0FF5C] dark:text-[#E0FF5C]"
             )}
             onClick={() => item.hasMegaMenu ? setIsMegaMenuOpen(!isMegaMenuOpen) : null}
             onMouseEnter={() => item.hasMegaMenu ? setIsMegaMenuOpen(true) : null}

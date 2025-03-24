@@ -94,7 +94,7 @@ export default function Pagination({
             className={cn(
               "w-10 h-10 rounded-full flex items-center justify-center transition-all",
               Number(pageNumber) === currentPage 
-                ? "bg-[#D9FF4B] text-black font-medium" 
+                ? "bg-[#E0FF5C] text-black font-medium" 
                 : isDark 
                   ? "text-white hover:bg-white/10" 
                   : "text-black hover:bg-black/10"

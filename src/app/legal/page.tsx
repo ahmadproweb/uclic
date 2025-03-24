@@ -24,7 +24,7 @@ export default async function LegalPages() {
           <div className="flex items-center gap-2 text-sm mb-8">
             <Link 
               href="/" 
-              className="text-gray-600 dark:text-white/60 hover:text-[#97BE11] transition-colors"
+              className="text-gray-600 dark:text-white/60 hover:text-[#E0FF5C] transition-colors"
             >
               Accueil
             </Link>
@@ -57,7 +57,7 @@ export default async function LegalPages() {
             href="/legal/rgpd" 
             className="group p-6 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors relative overflow-hidden"
           >
-            <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white group-hover:text-[#97BE11] dark:group-hover:text-[#97BE11] transition-colors">
+            <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white group-hover:text-[#E0FF5C] dark:group-hover:text-[#E0FF5C] transition-colors">
               RGPD
             </h2>
             <p className="text-gray-700 dark:text-gray-300 line-clamp-2">
@@ -69,7 +69,7 @@ export default async function LegalPages() {
             href="/legal/conditions-generales-de-vente" 
             className="group p-6 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors relative overflow-hidden"
           >
-            <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white group-hover:text-[#97BE11] dark:group-hover:text-[#97BE11] transition-colors">
+            <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white group-hover:text-[#E0FF5C] dark:group-hover:text-[#E0FF5C] transition-colors">
               Conditions Générales de Vente
             </h2>
             <p className="text-gray-700 dark:text-gray-300 line-clamp-2">
@@ -81,7 +81,7 @@ export default async function LegalPages() {
             href="/legal/mentions-legales" 
             className="group p-6 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors relative overflow-hidden"
           >
-            <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white group-hover:text-[#97BE11] dark:group-hover:text-[#97BE11] transition-colors">
+            <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white group-hover:text-[#E0FF5C] dark:group-hover:text-[#E0FF5C] transition-colors">
               Mentions légales
             </h2>
             <p className="text-gray-700 dark:text-gray-300 line-clamp-2">

@@ -12,10 +12,17 @@ interface Partner {
 interface PartnerClientProps {
   row1: Partner[];
   row2: Partner[];
+  forceBlackLogos?: boolean;
 }
 
-export function PartnerClient({ row1, row2 }: PartnerClientProps) {
+export function PartnerClient({ row1, row2, forceBlackLogos = false }: PartnerClientProps) {
   const { theme } = useTheme();
+  const isDark = theme === 'dark';
+
+  const getLogoFilter = () => {
+    if (forceBlackLogos) return "[filter:brightness(0)]";
+    return isDark ? "[filter:brightness(0)_invert(1)]" : "[filter:brightness(0)]";
+  };
 
   return (
     <div className="flex flex-col space-y-12 group/logos">
@@ -30,9 +37,8 @@ export function PartnerClient({ row1, row2 }: PartnerClientProps) {
                   alt={partner.alt}
                   className={cn(
                     "h-[35px] w-auto max-w-[120px] object-contain transition-all duration-300",
-                    theme === 'dark' 
-                      ? "[filter:brightness(0)_invert(1)] hover:opacity-80" 
-                      : "[filter:brightness(0)] hover:opacity-80"
+                    getLogoFilter(),
+                    "hover:opacity-80"
                   )}
                 />
               </div>
@@ -46,9 +52,8 @@ export function PartnerClient({ row1, row2 }: PartnerClientProps) {
                   alt={partner.alt}
                   className={cn(
                     "h-[35px] w-auto max-w-[120px] object-contain transition-all duration-300",
-                    theme === 'dark' 
-                      ? "[filter:brightness(0)_invert(1)] hover:opacity-80" 
-                      : "[filter:brightness(0)] hover:opacity-80"
+                    getLogoFilter(),
+                    "hover:opacity-80"
                   )}
                 />
               </div>
@@ -68,9 +73,8 @@ export function PartnerClient({ row1, row2 }: PartnerClientProps) {
                   alt={partner.alt}
                   className={cn(
                     "h-[35px] w-auto max-w-[120px] object-contain transition-all duration-300",
-                    theme === 'dark' 
-                      ? "[filter:brightness(0)_invert(1)] hover:opacity-80" 
-                      : "[filter:brightness(0)] hover:opacity-80"
+                    getLogoFilter(),
+                    "hover:opacity-80"
                   )}
                 />
               </div>
@@ -84,9 +88,8 @@ export function PartnerClient({ row1, row2 }: PartnerClientProps) {
                   alt={partner.alt}
                   className={cn(
                     "h-[35px] w-auto max-w-[120px] object-contain transition-all duration-300",
-                    theme === 'dark' 
-                      ? "[filter:brightness(0)_invert(1)] hover:opacity-80" 
-                      : "[filter:brightness(0)] hover:opacity-80"
+                    getLogoFilter(),
+                    "hover:opacity-80"
                   )}
                 />
               </div>

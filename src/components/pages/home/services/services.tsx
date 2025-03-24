@@ -57,14 +57,14 @@ export default function Services() {
             id="services-title"
             className={cn(
               "text-3xl sm:text-4xl md:text-5xl lg:text-[50px]",
-              "font-bold tracking-[-1px]",
+              "font-medium tracking-[-1px]",
               "text-black/90 dark:text-white/90",
               "leading-[1.1]"
             )}
           >
             <span className="block">Rapide, flexible</span>
             <span className="block">
-              et incroyablement{' '}
+              et incroyablement efficace{' '}
               <UnderlinedText text="efficace" />
             </span>
           </h2>

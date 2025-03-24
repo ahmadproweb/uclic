@@ -59,6 +59,17 @@ export function CTAButton({
     l: "w-8 h-8"
   };
 
+  const commonClasses = cn(
+    "group inline-flex items-center gap-2",
+    "font-bold rounded-full",
+    variant === 'mainCTA' && "bg-white text-black hover:bg-[#E0FF5C]",
+    variant === 'simple' && simpleVariant === 'secondary' && "text-black dark:text-white",
+    "transition-all duration-200",
+    "w-fit whitespace-nowrap",
+    sizeClasses[size],
+    className
+  );
+
   const buttonContent = (
     <>
       {children}
@@ -82,17 +93,6 @@ export function CTAButton({
         </svg>
       </span>
     </>
-  );
-
-  const commonClasses = cn(
-    "group inline-flex items-center gap-2",
-    "font-bold rounded-full",
-    variant === 'mainCTA' && "bg-[#D9FF4B] text-black hover:bg-[#D9FF4B]/80",
-    variant === 'simple' && simpleVariant === 'secondary' && "text-black dark:text-white",
-    "transition-all duration-200",
-    "w-fit whitespace-nowrap",
-    sizeClasses[size],
-    className
   );
 
   if (href) {

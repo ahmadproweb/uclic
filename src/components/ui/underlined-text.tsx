@@ -11,14 +11,14 @@ export function UnderlinedText({
 }: UnderlinedTextProps) {
   return (
     <span className={cn(
-      "inline-block font-bold relative",
+      "inline-block font-medium relative",
       className
     )}>
-      <span className="relative z-10 text-[#97BE11] dark:text-[#D9FF4B]">
+      <span className="relative z-10 text-dark dark:text-white">
         {text}
       </span>
       <span 
-        className="absolute bottom-[-8px] left-[10%] w-[80%] h-[6px] -z-10 bg-[#97BE11]/20 dark:bg-[#D9FF4B]/20"
+        className="absolute bottom-[-8px] left-[10%] w-[80%] h-[6px] -z-10 bg-dark/100 dark:bg-white/100"
       />
     </span>
   );

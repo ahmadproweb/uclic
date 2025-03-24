@@ -169,8 +169,8 @@ export default function FAQ() {
                   "inline-flex items-center px-6 py-3 text-base rounded-full",
                   "transition-all duration-300 transform hover:scale-105",
                   isDark 
-                    ? "bg-[#D9FF4B] text-black hover:bg-[#D9FF4B]/90" 
-                    : "bg-black text-white hover:bg-[#D9FF4B] hover:text-black"
+                    ? "bg-[#E0FF5C] text-black hover:bg-[#E0FF5C]/90" 
+                    : "bg-black text-white hover:bg-[#E0FF5C] hover:text-black"
                 )}
               >
                 Discutons de votre projet
@@ -241,8 +241,8 @@ export default function FAQ() {
                       "transition-all duration-300 transform",
                       openItem === item.id ? "rotate-45" : "rotate-0",
                       isDark 
-                        ? "bg-[#D9FF4B] text-black" 
-                        : "bg-black text-white group-hover:bg-[#D9FF4B] group-hover:text-black"
+                        ? "bg-[#E0FF5C] text-black" 
+                        : "bg-black text-white group-hover:bg-[#E0FF5C] group-hover:text-black"
                     )}>
                       +
                     </div>

@@ -63,12 +63,12 @@ function RelatedPortfolios({ currentPortfolio }: { currentPortfolio: PortfolioPo
         {/* Carte colorée selon la charte graphique */}
         <div className={cn(
           "rounded-xl overflow-hidden relative p-8 flex flex-col justify-between h-[320px]",
-          isDark ? "bg-[#D9FF4B]/10 border border-[#D9FF4B]/30" : "bg-[#97BE11]/10 border border-[#97BE11]/30"
+          isDark ? "bg-[#E0FF5C]/10 border border-[#E0FF5C]/30" : "bg-[#E0FF5C]/10 border border-[#E0FF5C]/30"
         )}>
           <div>
             <div className={cn(
               "absolute top-6 right-6 opacity-20",
-              isDark ? "text-[#D9FF4B]" : "text-[#97BE11]"
+              isDark ? "text-[#E0FF5C]" : "text-[#E0FF5C]"
             )}>
               <svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" strokeLinecap="round" strokeLinejoin="round"/>
@@ -76,7 +76,7 @@ function RelatedPortfolios({ currentPortfolio }: { currentPortfolio: PortfolioPo
             </div>
             <span className={cn(
               "inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4",
-              isDark ? "bg-[#D9FF4B] text-black" : "bg-[#97BE11] text-white"
+              isDark ? "bg-[#E0FF5C] text-black" : "bg-[#E0FF5C] text-white"
             )}>
               Portfolio UCLIC
             </span>
@@ -95,7 +95,7 @@ function RelatedPortfolios({ currentPortfolio }: { currentPortfolio: PortfolioPo
           </div>
           <Link href="/cas-clients" className={cn(
             "inline-flex items-center text-sm font-medium hover:underline",
-            isDark ? "text-[#D9FF4B]" : "text-[#97BE11]"
+            isDark ? "text-[#E0FF5C]" : "text-[#E0FF5C]"
           )}>
             <span className="mr-2">Explorer les cas clients</span>
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -245,7 +245,7 @@ export default function PortfolioPostClientSide({ portfolio }: PortfolioPostProp
 
       const headers = table.querySelectorAll('th');
       headers.forEach(th => {
-        addClasses(th, 'bg-[#D9FF4B]/20 text-left p-4 font-semibold');
+        addClasses(th, 'bg-[#E0FF5C]/20 text-left p-4 font-semibold');
       });
 
       const cells = table.querySelectorAll('td');
@@ -310,9 +310,9 @@ export default function PortfolioPostClientSide({ portfolio }: PortfolioPostProp
     quotes.forEach(quote => {
       addClasses(quote, 'border-l-4 pl-6 italic my-10 py-1 text-lg md:text-xl');
       if (isDark) {
-        addClasses(quote, 'border-[#D9FF4B]/70 text-white/80');
+        addClasses(quote, 'border-[#E0FF5C]/70 text-white/80');
       } else {
-        addClasses(quote, 'border-[#97BE11]/70 text-black/70');
+        addClasses(quote, 'border-[#E0FF5C]/70 text-black/70');
       }
     });
 
@@ -322,9 +322,9 @@ export default function PortfolioPostClientSide({ portfolio }: PortfolioPostProp
       if (!link.closest('figure, nav')) {
         addClasses(link, 'font-medium transition-colors duration-200 underline decoration-1 underline-offset-2');
         if (isDark) {
-          addClasses(link, 'text-[#D9FF4B] hover:text-[#D9FF4B]/80 decoration-[#D9FF4B]/30');
+          addClasses(link, 'text-[#E0FF5C] hover:text-[#E0FF5C]/80 decoration-[#E0FF5C]/30');
         } else {
-          addClasses(link, 'text-[#97BE11] hover:text-[#97BE11]/80 decoration-[#97BE11]/30');
+          addClasses(link, 'text-[#E0FF5C] hover:text-[#E0FF5C]/80 decoration-[#E0FF5C]/30');
         }
       }
     });
@@ -441,8 +441,8 @@ export default function PortfolioPostClientSide({ portfolio }: PortfolioPostProp
               
               // Theme specific styles
               isDark 
-                ? "prose-invert prose-headings:text-white prose-headings:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] prose-p:text-white/90 prose-li:text-white/90 prose-a:text-[#D9FF4B] prose-a:hover:text-[#D9FF4B]/80 prose-a:decoration-[#D9FF4B]/30 prose-blockquote:border-[#D9FF4B]/70 prose-blockquote:text-white/80 prose-code:bg-white/10 prose-pre:bg-black/30 prose-hr:border-white/10" 
-                : "prose-h1:text-[#111] prose-h2:text-[#111] prose-h3:text-[#111] prose-h4:text-[#111] prose-h5:text-[#111] prose-h6:text-[#111] prose-headings:font-semibold prose-p:text-black/80 prose-li:text-black/80 prose-a:text-[#97BE11] prose-a:hover:text-[#97BE11]/80 prose-a:decoration-[#97BE11]/30 prose-blockquote:border-[#97BE11]/70 prose-blockquote:text-black/70 prose-code:bg-black/5 prose-pre:bg-black/5 prose-hr:border-black/10"
+                ? "prose-invert prose-headings:text-white prose-headings:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] prose-p:text-white/90 prose-li:text-white/90 prose-a:text-[#E0FF5C] prose-a:hover:text-[#E0FF5C]/80 prose-a:decoration-[#E0FF5C]/30 prose-blockquote:border-[#E0FF5C]/70 prose-blockquote:text-white/80 prose-code:bg-white/10 prose-pre:bg-black/30 prose-hr:border-white/10" 
+                : "prose-h1:text-[#111] prose-h2:text-[#111] prose-h3:text-[#111] prose-h4:text-[#111] prose-h5:text-[#111] prose-h6:text-[#111] prose-headings:font-semibold prose-p:text-black/80 prose-li:text-black/80 prose-a:text-[#E0FF5C] prose-a:hover:text-[#E0FF5C]/80 prose-a:decoration-[#E0FF5C]/30 prose-blockquote:border-[#E0FF5C]/70 prose-blockquote:text-black/70 prose-code:bg-black/5 prose-pre:bg-black/5 prose-hr:border-black/10"
             )}
             dangerouslySetInnerHTML={{ __html: portfolio.content }}
           />
@@ -491,7 +491,7 @@ export default function PortfolioPostClientSide({ portfolio }: PortfolioPostProp
                 href="/cas-clients"
                 className={cn(
                   "inline-flex items-center hover:underline transition-all",
-                  isDark ? "text-white hover:text-[#D9FF4B]" : "text-black hover:text-[#97BE11]"
+                  isDark ? "text-white hover:text-[#E0FF5C]" : "text-black hover:text-[#E0FF5C]"
                 )}
               >
                 <span className="mr-2">Voir tous les cas clients</span>

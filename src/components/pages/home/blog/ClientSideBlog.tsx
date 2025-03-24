@@ -5,6 +5,8 @@ import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 import { colors as theme } from '@/config/theme';
 import PreFooter from '@/components/footer/PreFooter';
+import { CTAButton } from '@/components/ui/cta-button';
+import Partners from '@/components/pages/home/partner/partner';
 
 // Define the blog post interface
 interface BlogPost {
@@ -43,9 +45,22 @@ export default function ClientSideBlog({ blogPosts }: ClientSideBlogProps) {
         }}
       />
 
+      {/* Grain effect overlay */}
+      <div 
+        className={cn(
+          "absolute inset-0 z-[1] mix-blend-soft-light",
+          isDark ? "opacity-90" : "opacity-50"
+        )}
+        style={{
+          backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.7\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\' opacity=\'0.8\'/%3E%3C/svg%3E")',
+          backgroundRepeat: 'repeat',
+          backgroundSize: '100px 100px'
+        }}
+      />
+
       {/* New overlay gradient - black to transparent */}
       <div 
-        className="absolute bottom-0 left-0 right-0 z-[1]"
+        className="absolute bottom-0 left-0 right-0 z-[2]"
         style={{
           background: isDark
             ? 'linear-gradient(to top, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 100%)'
@@ -59,7 +74,7 @@ export default function ClientSideBlog({ blogPosts }: ClientSideBlogProps) {
         <div className="text-center mb-12 md:mb-16">
           <span className={cn(
             "text-base mb-4 block font-semibold",
-            isDark ? "text-[#D9FF4B]" : "text-black"
+            isDark ? "text-[#E0FF5C]" : "text-black"
           )}>Blog</span>
           <h2 className={cn(
             "text-3xl md:text-5xl font-normal mb-4",
@@ -69,7 +84,7 @@ export default function ClientSideBlog({ blogPosts }: ClientSideBlogProps) {
           </h2>
           <div className={cn(
             "w-12 h-0.5 mx-auto mb-4",
-            isDark ? "bg-[#D9FF4B]" : "bg-black"
+            isDark ? "bg-[#E0FF5C]" : "bg-black"
           )}/>
           <p className={cn(
             "text-base md:text-lg",
@@ -107,7 +122,7 @@ export default function ClientSideBlog({ blogPosts }: ClientSideBlogProps) {
                   decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <span className="absolute bottom-4 left-4 inline-block px-3 py-1 bg-black text-[#D9FF4B] rounded-full text-sm z-10">
+                <span className="absolute bottom-4 left-4 inline-block px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-sm z-10">
                   {post.category}
                 </span>
               </div>
@@ -136,16 +151,19 @@ export default function ClientSideBlog({ blogPosts }: ClientSideBlogProps) {
 
         {/* See all button */}
         <div className="text-center mb-24">
-          <Link
+          <CTAButton 
             href="/blog"
-            className="inline-flex items-center px-6 py-3 bg-black text-white rounded-full hover:bg-[#D9FF4B] hover:text-black transition-all duration-300"
+            variant="mainCTA"
+            className="bg-black text-white hover:bg-black/90"
           >
-            <span className="mr-2">Voir tout</span>
-            <svg className="w-4 h-4 transform rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </Link>
+            Voir tout
+          </CTAButton>
         </div>
+      </div>
+
+      {/* Partners Section with black background */}
+      <div className="w-full bg-black">
+        <Partners forceBlackLogos />
       </div>
 
       {/* PreFooter Section avec conteneur similaire à BlogPostClientSide */}

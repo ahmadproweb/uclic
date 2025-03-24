@@ -20,7 +20,7 @@
   align-items: center;
   justify-content: center;
   z-index: 10;
-  --c1: #D9FF4B;
+  --c1: #E0FF5C;
   --c2: rgba(218, 255, 71, 0.8);
   --c3: rgba(218, 255, 71, 0.6);
   --c4: rgba(218, 255, 71, 0.9);
@@ -44,10 +44,10 @@
 }
 
 :global(.dark) .wrapper {
-  --c1: #D9FF4B;
-  --c2: #D9FF4B;
-  --c3: #D9FF4B;
-  --c4: #D9FF4B;
+  --c1: #E0FF5C;
+  --c2: #E0FF5C;
+  --c3: #E0FF5C;
+  --c4: #E0FF5C;
 }
 
 .container {

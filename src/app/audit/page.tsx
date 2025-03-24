@@ -11,9 +11,9 @@ export default function AuditPage() {
   const isDark = currentTheme === 'dark';
 
   return (
-    <main className="w-full min-h-screen">
+    <main className="w-full">
       <section className={cn(
-        "w-full relative overflow-hidden pt-32 pb-16 md:pb-24"
+        "w-full relative overflow-hidden pt-40 pb-16 md:pb-24"
       )}>
         {/* Base Background gradient */}
         <div 
@@ -133,14 +133,29 @@ export default function AuditPage() {
                 </div>
 
                 <div 
-                  className="text-sm p-4 rounded-xl mb-6"
+                  className={cn(
+                    "text-sm p-6 rounded-2xl mb-6 flex items-start gap-4 backdrop-blur-xl",
+                    isDark ? "bg-white/[0.03]" : "bg-white/60",
+                    isDark ? "shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1)]" : "shadow-[inset_0_0_0_1px_rgba(0,0,0,0.05)]"
+                  )}
                   style={{
-                    backgroundColor: isDark ? 'rgba(217, 255, 75, 0.1)' : 'rgba(217, 255, 75, 0.15)',
-                    color: isDark ? theme.colors.primary.light : theme.colors.primary.dark
+                    borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
                   }}
                 >
-                  <p className="font-medium">🔥 Déjà +50 entreprises accompagnées ce mois-ci</p>
-                  <p className="mt-1 text-black dark:text-white">Les créneaux se remplissent rapidement. Réservez le vôtre maintenant.</p>
+                  <div className="shrink-0 w-5 h-5">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={isDark ? "text-white" : "text-black"}>
+                      <path d="M12 8V12L14 14M12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p className={cn(
+                      "font-medium mb-1",
+                      isDark ? "text-white" : "text-black"
+                    )}>🔥 Déjà +50 entreprises accompagnées ce mois-ci</p>
+                    <p className={cn(
+                      isDark ? "text-white/70" : "text-black/70"
+                    )}>Les créneaux se remplissent rapidement. Réservez le vôtre maintenant.</p>
+                  </div>
                 </div>
 
                 <p className={cn(
@@ -153,9 +168,9 @@ export default function AuditPage() {
             </div>
 
             {/* Right Column - Calendly */}
-            <div className="lg:sticky lg:top-32 h-[600px] lg:h-[calc(100vh-140px)]">
+            <div className="lg:sticky lg:top-32 h-[500px] lg:h-[600px]">
               <div className={cn(
-                "w-full h-full rounded-[32px] overflow-hidden border shadow-xl",
+                "w-full h-full rounded-[32px] overflow-hidden border",
                 "bg-white"
               )}
               style={{
@@ -166,6 +181,14 @@ export default function AuditPage() {
                   width="100%"
                   height="100%"
                   frameBorder="0"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    border: 'none',
+                    scrollbarWidth: 'none',
+                    msOverflowStyle: 'none'
+                  }}
+                  className="[&::-webkit-scrollbar]:hidden"
                 />
               </div>
             </div>
@@ -179,7 +202,7 @@ export default function AuditPage() {
         isDark ? "bg-black" : "bg-[#F3F4F6]"
       )}>
         <Partners />
-    </div>
+      </div>
     </main>
   );
-} 
+}

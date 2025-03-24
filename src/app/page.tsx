@@ -14,7 +14,7 @@ import { Suspense } from 'react';
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col">
+    <main className="flex flex-col">
       <Hero />
       <Partners />
       <Service />

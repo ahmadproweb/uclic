@@ -172,7 +172,7 @@ export default function TeamMemberPageLayout({
                     "prose-ul:pl-6 prose-ol:pl-6 prose-li:mb-3",
                     "prose-ul:list-none prose-ul:pl-0",
                     "[&_ul>li]:relative [&_ul>li]:pl-6 [&_ul>li]:mb-3",
-                    "[&_ul>li]:before:content-[''] [&_ul>li]:before:absolute [&_ul>li]:before:left-0 [&_ul>li]:before:top-[0.6em] [&_ul>li]:before:w-2 [&_ul>li]:before:h-2 [&_ul>li]:before:bg-[#D9FF4B] [&_ul>li]:before:rounded-full",
+                    "[&_ul>li]:before:content-[''] [&_ul>li]:before:absolute [&_ul>li]:before:left-0 [&_ul>li]:before:top-[0.6em] [&_ul>li]:before:w-2 [&_ul>li]:before:h-2 [&_ul>li]:before:bg-[#E0FF5C] [&_ul>li]:before:rounded-full",
                     "[&_p]:text-base [&_p]:leading-relaxed",
                     isDark ? "[&_p]:text-white/90" : "[&_p]:text-gray-900",
                     "[&_strong]:font-semibold",

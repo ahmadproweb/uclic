@@ -42,7 +42,7 @@ const StarRating = ({ rating }: { rating: number }) => {
           width="20" 
           height="20" 
           viewBox="0 0 20 20" 
-          className={`transition-colors duration-300 ${i < rating ? 'fill-[#97BE11]' : 'fill-gray-300'}`}
+          className={`transition-colors duration-300 ${i < rating ? 'fill-[#E0FF5C]' : 'fill-gray-300'}`}
         >
           <path d="M10 0L12.2451 6.90983H19.5106L13.6327 11.1803L15.8779 18.0902L10 13.8197L4.12215 18.0902L6.36729 11.1803L0.489435 6.90983H7.75486L10 0Z"/>
         </svg>
@@ -54,8 +54,6 @@ const StarRating = ({ rating }: { rating: number }) => {
 export default function TestimonialClient({ testimonials }: TestimonialClientProps) {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
-  const decorRef1 = useRef(null);
-  const decorRef2 = useRef(null);
 
   return (
     <section 
@@ -65,22 +63,13 @@ export default function TestimonialClient({ testimonials }: TestimonialClientPro
         isDark ? "bg-black/95 hover:bg-black" : "bg-white hover:bg-gray-50"
       )}
     >
-      <div 
-        ref={decorRef1}
-        className="absolute top-20 left-[5%] w-32 h-32 rounded-full opacity-20 blur-3xl bg-[#97BE11]"
-      />
-      <div 
-        ref={decorRef2}
-        className="absolute bottom-20 right-[5%] w-48 h-48 rounded-full opacity-20 blur-3xl bg-[#97BE11]"
-      />
-
       <div className="max-w-[1250px] mx-auto px-4 relative z-10">
-        <div className="text-center mb-8 md:mb-12">
+        <div className="text-center mb-8 md:mb-16">
           <h2 className={cn(
-            "text-3xl md:text-4xl font-normal mb-2 md:mb-3 tracking-[-1px]",
+            "text-3xl md:text-5xl font-normal mb-2 md:mb-3 tracking-[-1px]",
             isDark ? "text-white" : "text-black"
           )}>
-            Nos clients parlent de <span className="text-[#D9FF4B]">nous</span>
+            Nos clients parlent de <span className="text-white bg-white/10 px-2 py-1 rounded-md">nous</span>
           </h2>
           <p className={cn(
             "text-sm md:text-base",
