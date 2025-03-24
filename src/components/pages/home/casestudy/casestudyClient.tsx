@@ -11,8 +11,7 @@ import { CTAButton } from '@/components/ui/cta-button';
 
 // Fonction pour décoder les caractères HTML
 const decodeHTMLEntities = (text: string): string => {
-  const textarea = document.createElement('textarea');
-  textarea.innerHTML = text
+  return text
     .replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(dec))
     .replace(/&quot;/g, '"')
     .replace(/&amp;/g, '&')
@@ -23,7 +22,6 @@ const decodeHTMLEntities = (text: string): string => {
     .replace(/&lsquo;/g, "'")
     .replace(/&ndash;/g, "–")
     .replace(/&mdash;/g, "—");
-  return textarea.value;
 };
 
 interface Portfolio {
