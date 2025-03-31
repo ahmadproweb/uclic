@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { MarqueeClient } from './MarqueeClient';
 
 interface ServiceLink {
@@ -24,28 +25,33 @@ const services: ServiceLink[] = [
   { text: "Brand Strategy", href: "/services/brand-strategy", description: "Stratégie de marque et positionnement" },
   { text: "Marketing AI", href: "/services/marketing-ai", description: "Solutions marketing basées sur l'intelligence artificielle" },
   { text: "Social Media", href: "/services/social-media", description: "Gestion des réseaux sociaux et stratégie social media" }
-];
+] as const;
 
-export default function MarqueeText() {
+const ServicesList = memo(function ServicesList() {
+  return (
+    <div className="sr-only">
+      <h2>Nos services marketing</h2>
+      <ul>
+        {services.map((service) => (
+          <li key={service.href}>
+            <a href={service.href}>{service.text} - {service.description}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+});
+
+ServicesList.displayName = 'ServicesList';
+
+export default memo(function MarqueeText() {
   return (
     <section 
-      className="w-full bg-white dark:bg-black overflow-hidden py-8"
+      className="w-full bg-white dark:bg-black overflow-hidden py-8 will-change-transform"
       aria-label="Nos services marketing"
     >
-      {/* Liste de services accessible aux lecteurs d'écran */}
-      <div className="sr-only">
-        <h2>Nos services marketing</h2>
-        <ul>
-          {services.map((service, idx) => (
-            <li key={idx}>
-              <a href={service.href}>{service.text} - {service.description}</a>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Composant visuel avec animation */}
+      <ServicesList />
       <MarqueeClient words={services} />
     </section>
   );
-} 
+}); 

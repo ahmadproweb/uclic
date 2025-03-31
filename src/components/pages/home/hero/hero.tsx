@@ -44,15 +44,15 @@ export default function Hero() {
             </span>
           </h1>
 
-          <p className="text-base md:text-lg text-black/100 dark:text-white/100 mt-6 mb-8 md:mb-12 max-w-xl pr-4">
-            Nous convertissons vos défis en leviers{' '}
-            <br className="block md:hidden" />
-            de croissance avec des stratégies{' '}
-            <br className="block md:hidden" />
-            data-driven, des outils IA avancés{' '}
-            <br className="block md:hidden" />
-            et les meilleurs freelances{' '}
-            <br className="block md:hidden" />
+          <p className={cn(
+            "text-base md:text-lg mt-6 mb-8 md:mb-12 max-w-xl pr-4",
+            "text-black dark:text-white font-[450]",
+            "leading-relaxed tracking-[-0.01em]"
+          )}>
+            Nous convertissons vos défis en leviers
+            de croissance avec des stratégies
+            data-driven, des outils IA avancés
+            et les meilleurs freelances
             sélectionnés pour vos besoins.
           </p>
 

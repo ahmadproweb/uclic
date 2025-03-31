@@ -260,7 +260,20 @@ const nextConfig = {
             value: 'public, max-age=0, must-revalidate'
           }
         ]
-      }
+      },
+      {
+        source: '/graphql',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=0, must-revalidate',
+          },
+          {
+            key: 'Content-Encoding',
+            value: 'gzip',
+          },
+        ],
+      },
     ];
   },
   typescript: {

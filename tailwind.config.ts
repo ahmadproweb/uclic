@@ -3,10 +3,9 @@ import type { Config } from "tailwindcss"
 const config = {
   darkMode: "class",
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   prefix: "",
   theme: {
@@ -19,7 +18,7 @@ const config = {
     },
     extend: {
       fontFamily: {
-        sans: ['absans-regular', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-inter)'],
       },
       keyframes: {
         'pulse-slow': {
@@ -34,11 +33,22 @@ const config = {
           '0%, 100%': { transform: 'scale(1)', opacity: '0.2' },
           '50%': { transform: 'scale(1.02)', opacity: '0.4' },
         },
+        'fade-in-up': {
+          '0%': {
+            opacity: '0',
+            transform: 'translateY(20px)'
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'translateY(0)'
+          },
+        }
       },
       animation: {
         'pulse-slow': 'pulse-slow 6s ease-in-out infinite',
         'pulse-slower': 'pulse-slower 8s ease-in-out infinite',
         'pulse-slowest': 'pulse-slowest 10s ease-in-out infinite',
+        'fade-in-up': 'fade-in-up 0.5s ease-out forwards'
       },
     },
   },

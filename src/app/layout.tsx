@@ -1,20 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { inter } from '@/lib/fonts';
 import "./globals.css";
 import Header from "@/components/header/Header";
 import Footer from "@/components/footer/Footer";
 import { ThemeProvider } from "@/context/ThemeContext";
 import Script from "next/script";
-
-const inter = Inter({ 
-  subsets: ["latin"],
-  display: 'swap',
-  preload: true,
-  adjustFontFallback: true,
-  fallback: ['system-ui', 'arial'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-inter'
-});
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -47,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" suppressHydrationWarning>
+    <html lang="fr" className={`${inter.variable} font-sans`} suppressHydrationWarning>
       <head>
         <meta name="color-scheme" content="light dark" />
         <link 
@@ -143,7 +133,7 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-      <body suppressHydrationWarning className={`${inter.className} antialiased font-sans`}>
+      <body suppressHydrationWarning>
         <ThemeProvider>
           <div suppressHydrationWarning>
             <Header />
