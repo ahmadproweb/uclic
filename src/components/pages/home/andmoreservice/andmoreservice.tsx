@@ -272,7 +272,7 @@ export default function AndMoreService({ children }: AndMoreServiceProps) {
         )}>
           Et bien plus
         </h2>
-        <div className="relative w-full mb-16 md:mb-32">
+        <div className="relative w-full mb-8 md:mb-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-4">
             {services.map((service) => {
               const cardStyle = getCardStyle(service.id);
@@ -381,9 +381,10 @@ export default function AndMoreService({ children }: AndMoreServiceProps) {
             variant="simple"
             simpleVariant="secondary"
             className={cn(
-              "bg-black hover:bg-black/90",
-              "text-white hover:text-white",
-              "border-2 border-transparent"
+              "!bg-black hover:!bg-white",
+              "!text-white hover:!text-black",
+              "[&_svg]:!text-white [&_svg]:!stroke-white hover:[&_svg]:!text-black hover:[&_svg]:!stroke-black",
+              "[&_span]:border-white hover:[&_span]:border-black"
             )}
           >
             Rejoignez Uclic

@@ -1,12 +1,12 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import Link from 'next/link';
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 import { colors as theme } from '@/config/theme';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { CTAButton } from '@/components/ui/cta-button';
 
 const faqItems = [
   {
@@ -52,8 +52,6 @@ export default function FAQ() {
   const sectionRef = useRef<HTMLElement | null>(null);
   const titleRef = useRef<HTMLDivElement | null>(null);
   const questionsRef = useRef<HTMLDivElement | null>(null);
-  const gradientRef = useRef<HTMLDivElement | null>(null);
-  const blobRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -91,32 +89,6 @@ export default function FAQ() {
           }
         });
       }
-
-      // Animation du dégradé
-      if (gradientRef.current) {
-        gsap.to(gradientRef.current, {
-          x: "+=30",
-          y: "+=20",
-          rotation: "-=15",
-          duration: 10,
-          ease: "sine.inOut",
-          repeat: -1,
-          yoyo: true
-        });
-      }
-
-      // Animation du blob
-      if (blobRef.current) {
-        gsap.to(blobRef.current, {
-          x: "-=40",
-          y: "+=30",
-          rotation: "-=25",
-          duration: 15,
-          ease: "sine.inOut",
-          repeat: -1,
-          yoyo: true
-        });
-      }
     }, sectionRef);
 
     return () => ctx.revert();
@@ -126,7 +98,7 @@ export default function FAQ() {
     <section 
       ref={sectionRef}
       className={cn(
-        "w-full pt-16 md:pt-24 pb-16 md:pb-24 relative overflow-hidden",
+        "w-full pt-16 md:pt-24 pb-8 md:pb-12 relative overflow-hidden",
         "transition-colors duration-300",
         isDark ? "bg-black/95" : "bg-white"
       )}
@@ -159,71 +131,46 @@ export default function FAQ() {
               <p className={cn(
                 "text-base md:text-lg max-w-md",
                 "transition-colors duration-300",
-                isDark ? "text-white/60" : "text-black/60"
+                isDark ? "text-white" : "text-black"
               )}>
                 Nous répondons à vos <br/>questions sur le Growth <br/> et comment bien choisir <br/>votre partenaire <br/>de croissance
               </p>
-              <Link 
+              <CTAButton 
                 href="/contact"
+                variant="mainCTA"
                 className={cn(
-                  "inline-flex items-center px-6 py-3 text-base rounded-full",
-                  "transition-all duration-300 transform hover:scale-105",
+                  "group",
                   isDark 
-                    ? "bg-[#E0FF5C] text-black hover:bg-[#E0FF5C]/90" 
-                    : "bg-black text-white hover:bg-[#E0FF5C] hover:text-black"
+                    ? "!bg-[#E0FF5C] !text-black hover:!bg-[#E0FF5C]/90 [&_span]:!border-black [&_svg]:!stroke-black"
+                    : "!bg-[#E0FF5C] !text-black hover:!bg-[#E0FF5C]/90 [&_span]:!border-black [&_svg]:!stroke-black"
                 )}
               >
                 Discutons de votre projet
-                <svg 
-                  width="20" 
-                  height="20" 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  strokeWidth="2" 
-                  className="ml-2 transition-transform duration-300 group-hover:translate-x-1"
-                >
-                  <path d="M4 12h16m0 0l-6-6m6 6l-6 6" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </Link>
+              </CTAButton>
             </div>
           </div>
 
           {/* Colonne de droite - Questions */}
           <div ref={questionsRef} className="col-span-1 lg:col-span-7 relative z-10">
-            {/* Radial gradient background */}
-            <div 
-              ref={gradientRef}
-              className="absolute -inset-10 z-0 pointer-events-none opacity-60"
-              style={{
-                background: `radial-gradient(circle at center, ${theme.colors.primary.main}50 0%, transparent 70%)`,
-                filter: 'blur(40px)'
-              }}
-            />
-            
             <div className="space-y-4 relative">
               {faqItems.map((item) => (
                 <div 
                   key={item.id} 
                   className={cn(
                     "faq-item rounded-2xl overflow-hidden relative",
-                    "transition-all duration-300 backdrop-blur-2xl"
+                    "transition-all duration-300 backdrop-blur-2xl",
+                    "hover:-translate-y-1 hover:shadow-xl",
+                    "cursor-pointer group"
                   )}
                   style={{
                     background: isDark 
-                      ? 'rgba(0, 0, 0, 0.3)' 
-                      : 'rgba(255, 255, 255, 0.25)',
+                      ? 'rgba(255, 255, 255, 0.05)' 
+                      : 'rgba(255, 255, 255, 0.05)',
                     backdropFilter: 'blur(16px) saturate(180%)',
                     WebkitBackdropFilter: 'blur(16px) saturate(180%)',
-                    boxShadow: isDark 
-                      ? `0 8px 32px -4px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.05)` 
-                      : `0 8px 32px -4px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(255, 255, 255, 0.5)`,
-                    borderTop: isDark 
+                    border: isDark 
                       ? '1px solid rgba(255, 255, 255, 0.1)' 
-                      : '1px solid rgba(255, 255, 255, 0.7)',
-                    borderLeft: isDark 
-                      ? '1px solid rgba(255, 255, 255, 0.05)' 
-                      : '1px solid rgba(255, 255, 255, 0.5)'
+                      : '1px solid rgba(0, 0, 0, 0.1)'
                   }}
                 >
                   <button
@@ -257,7 +204,7 @@ export default function FAQ() {
                       "p-5 md:p-6 pt-0",
                       "whitespace-pre-line text-base",
                       "transition-colors duration-300",
-                      isDark ? "text-white/60" : "text-black/60"
+                      isDark ? "text-white" : "text-black"
                     )}>
                       {item.answer}
                     </div>
@@ -265,20 +212,6 @@ export default function FAQ() {
                 </div>
               ))}
             </div>
-            
-            {/* Élément décoratif supplémentaire */}
-            <div 
-              ref={blobRef}
-              className="absolute bottom-20 right-[5%] w-48 h-48 rounded-full opacity-20 blur-3xl transition-colors duration-300" 
-              style={{
-                background: "rgb(217, 255, 75)",
-                zIndex: 1,
-                translate: "none", 
-                rotate: "none", 
-                scale: "none",
-                transform: "translate3d(-18.975px, 28.4626px, 0px) rotate(-170.775deg)"
-              }}
-            ></div>
           </div>
         </div>
       </div>

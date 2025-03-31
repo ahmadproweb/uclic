@@ -12,13 +12,12 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('dark');
+  const [mounted, setMounted] = useState(false);
+  const [theme, setTheme] = useState<Theme>('dark'); // Always start with dark theme for SSR
 
   useEffect(() => {
-    // Toujours démarrer en mode sombre
-    document.documentElement.classList.add('dark');
-    
-    // Récupérer le thème sauvegardé
+    // Only run on client, after mount
+    setMounted(true);
     const savedTheme = localStorage.getItem('theme') as Theme;
     if (savedTheme) {
       setTheme(savedTheme);
@@ -26,20 +25,24 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    // Mettre à jour la classe sur le document
-    document.documentElement.classList.remove('light', 'dark');
-    document.documentElement.classList.add(theme);
-    // Sauvegarder le thème
-    localStorage.setItem('theme', theme);
-  }, [theme]);
+    if (mounted) {
+      document.documentElement.classList.remove('light', 'dark');
+      document.documentElement.classList.add(theme);
+      localStorage.setItem('theme', theme);
+      window.dispatchEvent(new CustomEvent('themeChange', { detail: theme }));
+    }
+  }, [theme, mounted]);
 
   const toggleTheme = () => {
     setTheme(prevTheme => prevTheme === 'dark' ? 'light' : 'dark');
   };
 
+  // Render with SSR theme until client-side theme is available
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
+      <div suppressHydrationWarning>
+        {children}
+      </div>
     </ThemeContext.Provider>
   );
 }

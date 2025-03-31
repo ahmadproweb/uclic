@@ -3,10 +3,9 @@
 import Link from 'next/link';
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
-import { colors as theme } from '@/config/theme';
 import PreFooter from '@/components/footer/PreFooter';
 import { CTAButton } from '@/components/ui/cta-button';
-import Partners from '@/components/pages/home/partner/partner';
+import LogoGrid from './LogoGrid';
 
 // Define the blog post interface
 interface BlogPost {
@@ -35,13 +34,27 @@ export default function ClientSideBlog({ blogPosts }: ClientSideBlogProps) {
 
   return (
     <section className="w-full pt-16 md:pt-20 pb-16 md:pb-24 relative overflow-hidden">
+      {/* Background gradient */}
+      <div 
+        className="absolute bottom-0 left-0 right-0 h-[25%] z-0 block dark:hidden"
+        style={{
+          background: 'linear-gradient(180deg, rgba(243, 244, 246, 0) 0%, rgb(243, 244, 246) 100%)'
+        }}
+      />
+      <div 
+        className="absolute bottom-0 left-0 right-0 h-[25%] z-0 hidden dark:block"
+        style={{
+          background: 'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 100%)'
+        }}
+      />
+
       {/* Base Background gradient */}
       <div 
         className="absolute inset-0 z-0"
         style={{
           background: isDark 
-            ? `linear-gradient(180deg, ${theme.colors.common.black}, ${theme.colors.primary.main})`
-            : `linear-gradient(180deg, ${theme.colors.common.white}, ${theme.colors.primary.main})`
+            ? 'linear-gradient(180deg, #000000 0%, #88954e 30%, #acbf59 50%, rgb(143 157 81) 80%, #000000 100%)'
+            : 'linear-gradient(180deg, #ffffff 0%, #E3FC76 30%, #E3FC76 50%, rgb(230 255 119) 80%, #ffffff 100%)'
         }}
       />
 
@@ -63,8 +76,8 @@ export default function ClientSideBlog({ blogPosts }: ClientSideBlogProps) {
         className="absolute bottom-0 left-0 right-0 z-[2]"
         style={{
           background: isDark
-            ? 'linear-gradient(to top, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 100%)'
-            : 'linear-gradient(to top, rgb(243, 244, 246) 0%, rgba(243, 244, 246, 1) 40%, rgba(243, 244, 246, 0) 100%)',
+            ? 'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 100%)'
+            : 'linear-gradient(180deg, rgba(243, 244, 246, 0) 0%, rgb(243, 244, 246) 100%)',
           height: '25%'
         }}
       />
@@ -87,10 +100,11 @@ export default function ClientSideBlog({ blogPosts }: ClientSideBlogProps) {
             isDark ? "bg-[#E0FF5C]" : "bg-black"
           )}/>
           <p className={cn(
-            "text-base md:text-lg",
-            isDark ? "text-white/80" : "text-black/70"
+            "text-base md:text-lg max-w-md mx-auto text-center",
+            "transition-colors duration-300",
+            isDark ? "text-white" : "text-black"
           )}>
-            Devenez un vrai couteau suisse avec les conseils<br/>des experts Uclic
+            Découvrez nos derniers articles sur le Growth Marketing et la transformation digitale
           </p>
         </div>
 
@@ -100,15 +114,7 @@ export default function ClientSideBlog({ blogPosts }: ClientSideBlogProps) {
             <Link
               href={`/blog/${post.slug}`}
               key={post.id}
-              className="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl backdrop-blur-sm"
-              style={{
-                background: `linear-gradient(145deg, 
-                  ${theme.colors.primary.main}CC,
-                  ${theme.colors.primary.main}99
-                )`,
-                backdropFilter: 'blur(10px)',
-                boxShadow: `0 8px 32px -4px ${theme.colors.primary.main}40`
-              }}
+              className="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl bg-[#E0FF5C]"
             >
               {/* Featured Image */}
               <div className="relative w-full h-48 overflow-hidden">
@@ -136,13 +142,24 @@ export default function ClientSideBlog({ blogPosts }: ClientSideBlogProps) {
                   {post.description}
                 </p>
 
-                <div className="flex items-center gap-2 text-sm text-black/70">
-                  <div className="w-6 h-6 rounded-full bg-black/10 flex items-center justify-center">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <div className="flex items-center text-xs text-black/60">
+                  <div className="w-6 h-6 rounded-full bg-black/10 flex items-center justify-center mr-2">
+                    <svg 
+                      className="w-3 h-3" 
+                      viewBox="0 0 24 24" 
+                      fill="none" 
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path 
+                        d="M12 8v4l3 3M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z" 
+                        stroke="currentColor" 
+                        strokeWidth="2" 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round"
+                      />
                     </svg>
                   </div>
-                  {post.author} • {post.readTime}
+                  {post.readTime} min de lecture
                 </div>
               </div>
             </Link>
@@ -153,8 +170,12 @@ export default function ClientSideBlog({ blogPosts }: ClientSideBlogProps) {
         <div className="text-center mb-24">
           <CTAButton 
             href="/blog"
-            variant="mainCTA"
-            className="bg-black text-white hover:bg-black/90"
+            variant="simple"
+            className={cn(
+              isDark 
+                ? "!bg-white !text-black hover:!bg-[#E0FF5C] [&_svg]:!stroke-black [&_span]:border-black hover:[&_span]:border-black hover:[&_svg]:!stroke-black"
+                : "!bg-black hover:!bg-white !text-white hover:!text-black [&_svg]:!text-white [&_svg]:!stroke-white hover:[&_svg]:!text-black hover:[&_svg]:!stroke-black [&_span]:border-white hover:[&_span]:border-black"
+            )}
           >
             Voir tout
           </CTAButton>
@@ -163,7 +184,7 @@ export default function ClientSideBlog({ blogPosts }: ClientSideBlogProps) {
 
       {/* Partners Section with black background */}
       <div className="w-full bg-black">
-        <Partners forceBlackLogos />
+        <LogoGrid />
       </div>
 
       {/* PreFooter Section avec conteneur similaire à BlogPostClientSide */}

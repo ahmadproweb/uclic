@@ -103,6 +103,18 @@ export default function FooterUI({ legalPages }: FooterUIProps) {
             </li>
             <li>
               <Link 
+                href="/levee-de-fonds" 
+                className={`text-xs md:text-sm transition-colors ${
+                  isDark 
+                    ? 'text-white/60 hover:text-[#E0FF5C]' 
+                    : 'text-gray-900 hover:text-[#E0FF5C]'
+                }`}
+              >
+                Levées de fonds
+              </Link>
+            </li>
+            <li>
+              <Link 
                 href="/charte-freelance" 
                 className={`text-xs md:text-sm transition-colors ${
                   isDark 
@@ -123,6 +135,18 @@ export default function FooterUI({ legalPages }: FooterUIProps) {
                 }`}
               >
                 Nous rejoindre
+              </Link>
+            </li>
+            <li>
+              <Link 
+                href="/toolbox" 
+                className={`text-xs md:text-sm transition-colors ${
+                  isDark 
+                    ? 'text-white/60 hover:text-[#E0FF5C]' 
+                    : 'text-gray-900 hover:text-[#E0FF5C]'
+                }`}
+              >
+                Toolbox
               </Link>
             </li>
           </ul>

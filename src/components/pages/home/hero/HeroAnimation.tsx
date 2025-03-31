@@ -53,7 +53,7 @@ export default function HeroAnimation() {
           position: relative;
           margin-left: 130px;
           z-index: 1;
-          padding-top: 2rem;
+          padding-top: 3rem;
           transform: scale(0.5);
         }
 

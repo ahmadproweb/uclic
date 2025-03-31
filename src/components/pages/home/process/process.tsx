@@ -3,10 +3,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
 import { CTAButton } from "@/components/ui/cta-button";
+import { useTheme } from "@/context/ThemeContext";
 
 export default function ProcessSteps() {
   const [currentStep, setCurrentStep] = useState(0);
   const [isAutoPlayEnabled, setIsAutoPlayEnabled] = useState(true);
+  const [mounted, setMounted] = useState(false);
+  const { theme: currentTheme } = useTheme();
+  const isDark = currentTheme === 'dark';
 
   const steps = [
     {
@@ -26,6 +30,10 @@ export default function ProcessSteps() {
       description: "Une fois les canaux validés, nous intensifions nos efforts sur les plus performants. Nous optimisons chaque aspect pour maximiser le ROI et mettons en place des processus d'amélioration continue."
     }
   ];
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!isAutoPlayEnabled) return;
@@ -53,15 +61,15 @@ export default function ProcessSteps() {
   return (
     <section id="process-steps"
       className={cn(
-        "w-full py-16 md:py-32 relative bg-[#e4f984] dark:bg-[#e4f984]",
+        "w-full py-16 md:py-32 relative",
         "display: none md:block"
       )}
       style={{
-        backgroundImage: 'url(/backgroundstep.svg)',
-        backgroundPosition: 'right top',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: '30% auto',
-        backgroundAttachment: 'none',
+        backgroundImage: `url(/backgroundstep.svg), linear-gradient(180deg, #E1FD6C 0%, #E6F98B 100%)`,
+        backgroundPosition: 'right top, center',
+        backgroundRepeat: 'no-repeat, no-repeat',
+        backgroundSize: '30% auto, cover',
+        backgroundBlendMode: 'normal',
       }}
     >
       {/* Grain effect */}
@@ -84,7 +92,16 @@ export default function ProcessSteps() {
               <p className="text-white/80 text-base md:text-lg leading-relaxed mb-6">
                 Nous mobilisons les bonnes ressources, au bon moment, avec une précision chirurgicale. Chaque étape de notre processus est optimisée pour des actions, mesurables et alignées sur vos objectifs. Pas de place pour l&apos;improvisation, des stratégies exécutées avec méthode et agilité.
               </p>
-              <CTAButton href="/contact" variant="mainCTA" size="l">
+              <CTAButton 
+                href="/contact" 
+                variant="mainCTA" 
+                size="l"
+                className={cn(
+                  mounted && !isDark
+                    ? "!bg-white !text-black hover:!bg-[#E0FF5C] hover:!text-black [&_svg]:!stroke-black [&_span]:border-black hover:[&_span]:border-black"
+                    : ""
+                )}
+              >
                 Contactez un expert
               </CTAButton>
             </div>
@@ -112,10 +129,10 @@ export default function ProcessSteps() {
             />
             
             <div className="relative w-full overflow-hidden" style={{ minHeight: '500px' }}>
-              <AnimatePresence initial={false} mode="wait">
+              <AnimatePresence mode="popLayout">
                 {/* Étape actuelle */}
                 <motion.div
-                  key={currentStep}
+                  key={`step-${currentStep}`}
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -50 }}
@@ -173,7 +190,7 @@ export default function ProcessSteps() {
                 {/* Aperçu de l'étape suivante - masqué sur mobile */}
                 {currentStep < steps.length - 1 && (
                   <motion.div
-                    key={`preview-${currentStep}`}
+                    key={`preview-step-${currentStep + 1}`}
                     initial={{ opacity: 0, y: 100 }}
                     animate={{ opacity: 0.3, y: 50 }}
                     exit={{ opacity: 0, y: 0 }}

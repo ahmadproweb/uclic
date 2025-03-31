@@ -8,6 +8,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { getPortfolios } from '@/services/wordpress';
 import { CTAButton } from '@/components/ui/cta-button';
+import Link from 'next/link';
 
 // Fonction pour décoder les caractères HTML
 const decodeHTMLEntities = (text: string): string => {
@@ -137,14 +138,16 @@ export default function CaseStudy({ portfolios: initialPortfolios }: CaseStudyPr
         {/* Grille des cartes */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {portfolios.map((portfolio: Portfolio) => (
-            <div 
+            <Link 
               key={portfolio.id}
+              href={`/cas-clients/${portfolio.slug}`}
               className={cn(
-                "rounded-2xl md:rounded-[32px] p-6 md:p-8 flex flex-col h-full",
-                "transition-all duration-300 hover:-translate-y-2 hover:shadow-xl group",
-                isDark 
-                  ? "bg-white/5 hover:bg-[#E0FF5C]/20" 
-                  : "bg-white hover:bg-white border border-black/5"
+                "rounded-2xl md:rounded-[32px] p-5 md:p-6",
+                "transition-all duration-300",
+                "hover:-translate-y-1 hover:shadow-xl",
+                "cursor-pointer group backdrop-blur-sm",
+                isDark ? "bg-white/5 border border-white/10" : "bg-white border border-black/5",
+                "hover:bg-white/10"
               )}
             >
               <div className={cn(
@@ -191,15 +194,19 @@ export default function CaseStudy({ portfolios: initialPortfolios }: CaseStudyPr
                   <path d="M4 12H20M20 12L14 6M20 12L14 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 
         <div className="mt-8 md:mt-16 text-center">
           <CTAButton
-            href="/portfolio"
+            href="/cas-clients"
             variant="simple"
-            className="!bg-white !text-black hover:!bg-[#E0FF5C]"
+            className={cn(
+              isDark 
+                ? "!bg-white !text-black hover:!bg-[#E0FF5C] [&_svg]:!stroke-black [&_span]:border-black hover:[&_span]:border-black hover:[&_svg]:!stroke-black"
+                : "!bg-black hover:!bg-white !text-white hover:!text-black [&_svg]:!text-white [&_svg]:!stroke-white hover:[&_svg]:!text-black hover:[&_svg]:!stroke-black [&_span]:border-white hover:[&_span]:border-black"
+            )}
           >
             Voir tous les cas clients
           </CTAButton>

@@ -66,21 +66,29 @@ export default function Header() {
                 className={cn(
                   "hidden sm:inline-flex items-center gap-2",
                   "font-bold rounded-full",
-                  "bg-[#fff] text-black hover:bg-[#E0FF5C]/90",
+                  isDark 
+                    ? "bg-[#fff] text-black hover:bg-[#E0FF5C]/90"
+                    : "bg-[#E0FF5C] text-black hover:bg-black hover:text-white",
                   "transition-all duration-200",
                   "px-5 py-2.5 text-base",
                   "group"
                 )}
               >
                 Audit Gratuit
-                <span className="rounded-full border border-black flex items-center justify-center w-7 h-7 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-1">
+                <span className={cn(
+                  "rounded-full border flex items-center justify-center w-7 h-7 transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-1",
+                  isDark ? "border-black" : "border-black group-hover:border-white"
+                )}>
                   <svg 
                     width="15" 
                     height="15" 
                     viewBox="0 0 24 24" 
                     fill="none" 
                     xmlns="http://www.w3.org/2000/svg" 
-                    className="stroke-black transition-transform duration-200 group-hover:-rotate-45"
+                    className={cn(
+                      "transition-transform duration-200 group-hover:-rotate-45",
+                      isDark ? "stroke-black" : "stroke-black group-hover:stroke-white"
+                    )}
                   >
                     <path 
                       d="M5 12H19M19 12L12 5M19 12L12 19" 

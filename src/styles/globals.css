@@ -3,3 +3,40 @@
   opacity: 0.05;
   pointer-events: none;
 } 
+
+/* Styles pour le bloc EN BREF */
+.wp-block-table:has(strong:first-child:contains("EN BREF")) {
+  @apply table-container overflow-x-auto my-10 rounded-lg shadow-md 
+         bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 
+         border border-gray-200 dark:border-gray-700;
+}
+
+.wp-block-table:has(strong:first-child:contains("EN BREF")) table {
+  @apply w-full border-none m-0;
+}
+
+.wp-block-table:has(strong:first-child:contains("EN BREF")) td {
+  @apply p-6 border-none;
+}
+
+.wp-block-table:has(strong:first-child:contains("EN BREF")) strong:first-child {
+  @apply text-lg font-bold text-emerald-600 dark:text-emerald-400 
+         inline-block mb-4;
+}
+
+.wp-block-table:has(strong:first-child:contains("EN BREF")) ul {
+  @apply space-y-3 list-none pl-0;
+}
+
+.wp-block-table:has(strong:first-child:contains("EN BREF")) li {
+  @apply flex items-start gap-2;
+}
+
+.wp-block-table:has(strong:first-child:contains("EN BREF")) li::before {
+  content: "•";
+  @apply text-emerald-500 dark:text-emerald-400 font-bold mt-0.5;
+}
+
+.wp-block-table:has(strong:first-child:contains("EN BREF")) li strong {
+  @apply text-gray-900 dark:text-gray-100 font-semibold;
+} 

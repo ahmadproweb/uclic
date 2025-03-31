@@ -1,9 +1,9 @@
 'use client';
 
-import Link from "next/link";
 import { colors as theme } from '@/config/theme';
 import { cn } from '@/lib/utils';
 import { useTheme } from "@/context/ThemeContext";
+import { CTAButton } from "@/components/ui/cta-button";
 
 interface PreFooterProps {
   noBgGradient?: boolean;
@@ -28,40 +28,21 @@ export default function PreFooter({ noBgGradient = false }: PreFooterProps) {
             Contactez-nous pour découvrir comment nous pouvons booster vos résultats dès aujourd&apos;hui.
           </p>
           <div className="flex flex-col md:flex-row gap-4">
-            <Link 
+            <CTAButton 
               href="/services"
-              className="inline-flex items-center px-6 py-3 bg-white hover:bg-[#E0FF5C] text-black rounded-full transition-all duration-300 text-base"
+              variant="mainCTA"
+              className="group !bg-[#E0FF5C] !text-black hover:!bg-[#E0FF5C]/90 [&_span]:!border-black [&_svg]:!stroke-black"
             >
               Nos services
-              <svg 
-                width="20" 
-                height="20" 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                stroke="currentColor" 
-                strokeWidth="2" 
-                className="ml-2"
-              >
-                <path d="M4 12h16m0 0l-6-6m6 6l-6 6" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </Link>
-            <Link 
+            </CTAButton>
+            <CTAButton 
               href="/cas-clients"
-              className="inline-flex items-center px-6 py-3 border border-white/10 text-white hover:bg-white/5 rounded-full transition-all duration-300 text-base"
+              variant="simple"
+              simpleVariant="secondary"
+              className="group !bg-white !text-black hover:!bg-[#E0FF5C] [&_span]:!border-black [&_svg]:!stroke-black"
             >
               Nos études de cas
-              <svg 
-                width="20" 
-                height="20" 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                stroke="currentColor" 
-                strokeWidth="2" 
-                className="ml-2"
-              >
-                <path d="M4 12h16m0 0l-6-6m6 6l-6 6" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </Link>
+            </CTAButton>
           </div>
         </div>
 

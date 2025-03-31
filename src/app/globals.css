@@ -439,3 +439,59 @@ body {
 .animation-play-state-paused {
   animation-play-state: paused;
 }
+
+/* JavaScript detection styles */
+@media (scripting: none) {
+  .js-only {
+    display: none !important;
+  }
+}
+
+@media (scripting: enabled) {
+  .no-js-only {
+    display: none !important;
+  }
+}
+
+/* Light mode hover styles */
+:root:not([data-theme='dark']) {
+  --hover-green: rgb(174, 204, 60);
+}
+
+/* Interactive elements hover - Only for text links, excluding CTAButton and other buttons */
+:root:not([data-theme='dark']) {
+  & a:not(.group):not([role='button']):hover {
+    color: var(--hover-green) !important;
+  }
+
+  & .hover\:text-primary:not(.group):not([role='button']):hover {
+    color: var(--hover-green) !important;
+  }
+}
+
+/* Styles pour le contenu WordPress */
+.prose ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.prose ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.prose li {
+  margin: 0.5rem 0;
+}
+
+.dark .prose ul,
+.dark .prose ol {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.prose ul > li::marker,
+.prose ol > li::marker {
+  color: currentColor;
+}

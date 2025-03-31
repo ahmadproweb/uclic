@@ -38,7 +38,11 @@ const StarRating = ({ rating }: { rating: number }) => {
       {[...Array(5)].map((_, i) => (
         <svg 
           key={i} 
-          ref={el => starsRef.current[i] = el}
+          ref={(el) => {
+            if (starsRef.current) {
+              starsRef.current[i] = el;
+            }
+          }}
           width="20" 
           height="20" 
           viewBox="0 0 20 20" 
@@ -69,13 +73,14 @@ export default function TestimonialClient({ testimonials }: TestimonialClientPro
             "text-3xl md:text-5xl font-normal mb-2 md:mb-3 tracking-[-1px]",
             isDark ? "text-white" : "text-black"
           )}>
-            Nos clients parlent de <span className="text-white bg-white/10 px-2 py-1 rounded-md">nous</span>
+            Nos clients parlent de nous
           </h2>
           <p className={cn(
-            "text-sm md:text-base",
-            isDark ? "text-white/70" : "text-black/70"
+            "text-base md:text-lg max-w-md mx-auto",
+            "transition-colors duration-300",
+            isDark ? "text-white" : "text-black"
           )}>
-            Découvrez ce que nos clients disent de nos services
+            Découvrez ce que nos clients disent de leur expérience avec Uclic
           </p>
         </div>
 
@@ -88,16 +93,17 @@ export default function TestimonialClient({ testimonials }: TestimonialClientPro
                 "transition-all duration-300",
                 "hover:-translate-y-1 hover:shadow-xl",
                 "cursor-pointer group backdrop-blur-sm",
-                isDark ? "border border-white/10" : "border border-black/5",
-                isDark ? "bg-white/5" : "bg-white"
+                isDark ? "bg-white/5 border border-white/10" : "bg-white border border-black/5",
+                "hover:bg-white/10"
               )}
             >
               <StarRating rating={testimonial.reviewGivenStar} />
               <p className={cn(
-                "text-sm md:text-base mb-4 md:mb-6",
-                isDark ? "text-white/80" : "text-black/80"
+                "text-sm md:text-base max-w-md mb-4",
+                "transition-colors duration-300",
+                isDark ? "text-white" : "text-black"
               )}>
-                "{testimonial.review}"
+                &ldquo;{testimonial.review}&rdquo;
               </p>
               <div className="flex items-center gap-2 md:gap-3">
                 <div className={cn(
@@ -123,18 +129,20 @@ export default function TestimonialClient({ testimonials }: TestimonialClientPro
                   )}
                 </div>
                 <div>
-                  <p className={cn(
-                    "font-medium text-sm md:text-base",
+                  <div className={cn(
+                    "text-sm md:text-base font-medium",
+                    "transition-colors duration-300",
                     isDark ? "text-white" : "text-black"
                   )}>
                     {testimonial.title}
-                  </p>
-                  <p className={cn(
+                  </div>
+                  <div className={cn(
                     "text-xs md:text-sm",
+                    "transition-colors duration-300",
                     isDark ? "text-white/60" : "text-black/60"
                   )}>
                     {testimonial.clientDesignation}
-                  </p>
+                  </div>
                 </div>
               </div>
             </div>

@@ -5,8 +5,12 @@ import HeroClient from './HeroClient';
 import HeroAnimation from './HeroAnimation';
 import { CTAButton } from "@/components/ui/cta-button";
 import HeroBackground from './HeroBackground';
+import { useTheme } from "@/context/ThemeContext";
 
 export default function Hero() {
+  const { theme: currentTheme } = useTheme();
+  const isDark = currentTheme === 'dark';
+
   return (
     <section className="relative w-full min-h-[calc(60vh-var(--header-height))] flex items-center justify-center overflow-hidden">
       <HeroBackground />
@@ -53,11 +57,30 @@ export default function Hero() {
           </p>
 
           <div className="flex flex-row gap-3">
-            <CTAButton href="/audit" variant="mainCTA" size="l">
+            <CTAButton 
+              href="/audit" 
+              className={cn(
+                "text-base sm:text-lg",
+                isDark 
+                  ? "bg-[#fff] text-black hover:bg-[#E0FF5C]/90 hover:text-black [&_svg]:stroke-black hover:[&_svg]:stroke-black [&_span]:border-black hover:[&_span]:border-black"
+                  : "bg-[#E0FF5C] text-black hover:bg-black hover:text-white"
+              )}
+            >
               Audit Gratuit
             </CTAButton>
 
-            <CTAButton href="/contact" variant="simple" simpleVariant="secondary" size="l" className="px-4 [&>svg]:hidden md:[&>svg]:inline-flex [&>span]:hidden md:[&>span]:inline-flex">
+            <CTAButton 
+              href="/contact" 
+              variant="simple" 
+              simpleVariant="secondary" 
+              size="l" 
+              className={cn(
+                "px-4",
+                isDark 
+                  ? "!bg-transparent !text-white hover:!bg-black/80 [&_svg]:!block [&_svg]:!text-white [&_svg]:!stroke-white [&_span]:border-white hover:[&_span]:border-white"
+                  : "[&>svg]:hidden md:[&>svg]:inline-flex [&>span]:hidden md:[&>span]:inline-flex hover:text-white hover:bg-black"
+              )}
+            >
               Nous Contacter
             </CTAButton>
           </div>

@@ -8,6 +8,61 @@ import {
   getRelatedPosts
 } from '@/services/wordpress';
 import BlogPostClientSide from '@/components/pages/blog/BlogPostClientSide';
+import { Suspense } from 'react';
+import { Metadata } from 'next';
+
+// JSON-LD Types
+interface JsonLdImage {
+  "@type": "ImageObject";
+  url: string;
+  width?: number;
+  height?: number;
+}
+
+interface JsonLdOrganization {
+  "@type": "Organization";
+  name: string;
+  url: string;
+  logo?: JsonLdImage;
+}
+
+interface JsonLdPerson {
+  "@type": "Person";
+  name: string;
+  url?: string;
+}
+
+interface JsonLdWebPage {
+  "@type": "WebPage";
+  "@id": string;
+}
+
+interface BlogPostJsonLd {
+  "@context": "https://schema.org";
+  "@type": "BlogPosting";
+  headline: string;
+  datePublished: string;
+  dateModified: string;
+  image: string;
+  author: JsonLdPerson | JsonLdOrganization;
+  publisher: JsonLdOrganization;
+  description: string;
+  mainEntityOfPage: JsonLdWebPage;
+  wordCount?: number;
+  articleBody?: string;
+  keywords?: string;
+  articleSection?: string;
+}
+
+// Add JSON-LD Script component
+function JsonLd({ data }: { data: BlogPostJsonLd }) {
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
 
 // Define params type for this page
 type BlogPostParams = {
@@ -15,6 +70,24 @@ type BlogPostParams = {
     slug: string;
   };
 };
+
+// Generate metadata for the page
+export async function generateMetadata({ params }: BlogPostParams): Promise<Metadata> {
+  const slug = await Promise.resolve(params.slug);
+  const post = await getPostBySlug(slug);
+
+  if (!post) {
+    return {
+      title: 'Article non trouvé - Blog UCLIC',
+      description: 'L\'article que vous recherchez n\'existe pas.'
+    };
+  }
+
+  return {
+    title: `${decodeHtmlEntitiesServer(post.title.rendered)} - Blog UCLIC`,
+    description: decodeHtmlEntitiesServer(post.excerpt.rendered.replace(/<[^>]*>/g, '')),
+  };
+}
 
 // Generate static params for all blog posts
 export async function generateStaticParams() {
@@ -50,40 +123,27 @@ async function getPostBySlug(slug: string): Promise<WordPressPost | null> {
   }
 }
 
-// Server Component for Blog Post Page
+// Main page component
 export default async function BlogPostPage({ params }: BlogPostParams) {
-  const post = await getPostBySlug(params.slug);
-  
-  // Précharger les articles associés et récents pour le SEO
-  let relatedPosts: WordPressPost[] = [];
-  let latestPosts: WordPressPost[] = [];
-  
-  try {
-    // Récupérer les articles associés (même catégorie)
-    if (post) {
-      relatedPosts = await getRelatedPosts(post, 3);
-    }
-    
-    // Récupérer les articles récents
-    latestPosts = await getLatestPosts(6);
-    // Exclure l'article courant des articles récents
-    if (post) {
-      latestPosts = latestPosts.filter(latest => latest.id !== post.id).slice(0, 6);
-    }
-  } catch (error) {
-    console.error('Error fetching related content:', error);
-  }
+  const slug = await Promise.resolve(params.slug);
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     notFound();
   }
-  
-  // Transform post data
-  const postData = {
+
+  // Get related and latest posts for the sidebar
+  const [relatedPosts, latestPosts] = await Promise.all([
+    getRelatedPosts(post),
+    getLatestPosts(3)
+  ]);
+
+  // Transform WordPress post to our format
+  const transformedPost = {
     id: post.id,
     title: decodeHtmlEntitiesServer(post.title.rendered),
     content: post.content.rendered,
-    excerpt: decodeHtmlEntitiesServer(post.excerpt.rendered.replace(/<[^>]*>/g, '')),
+    excerpt: post.excerpt.rendered,
     date: post.date,
     reading_time: estimateReadingTime(post.content.rendered),
     category: getPostCategory(post),
@@ -91,52 +151,48 @@ export default async function BlogPostPage({ params }: BlogPostParams) {
     featured_image_url: post._embedded?.['wp:featuredmedia']?.[0]?.source_url || '',
     slug: post.slug
   };
-  
+
+  // Prepare JSON-LD data
+  const jsonLd: BlogPostJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": transformedPost.title,
+    "datePublished": transformedPost.date,
+    "dateModified": post.modified || transformedPost.date,
+    "image": transformedPost.featured_image_url,
+    "author": {
+      "@type": "Person",
+      "name": transformedPost.author
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "UCLIC",
+      "url": "https://uclic.fr",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://uclic.fr/images/logo.png"
+      }
+    },
+    "description": decodeHtmlEntitiesServer(transformedPost.excerpt.replace(/<[^>]*>/g, '')),
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://uclic.fr/blog/${transformedPost.slug}`
+    },
+    "wordCount": transformedPost.content.split(/\s+/).length,
+    "articleBody": decodeHtmlEntitiesServer(transformedPost.content.replace(/<[^>]*>/g, '')),
+    "articleSection": transformedPost.category?.name
+  };
+
   return (
     <>
-      
-      {/* Version SEO crawlable des articles associés - cachée visuellement mais disponible pour les crawlers */}
-      <div className="sr-only">
-        {relatedPosts.length > 0 && (
-          <div>
-            <h2>Articles dans la même catégorie</h2>
-            <ul>
-              {relatedPosts.map(rPost => (
-                <li key={rPost.id}>
-                  <a href={`/blog/${rPost.slug}`}>{decodeHtmlEntitiesServer(rPost.title.rendered)}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-        
-        {latestPosts.length > 0 && (
-          <div>
-            <h2>Articles récents</h2>
-            <ul>
-              {latestPosts.map(lPost => (
-                <li key={lPost.id}>
-                  <a href={`/blog/${lPost.slug}`}>{decodeHtmlEntitiesServer(lPost.title.rendered)}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {/* Version SEO du PreFooter */}
-        <div>
-          <h2>Prêt à transformer votre marketing ?</h2>
-          <p>Contactez-nous pour découvrir comment nous pouvons booster vos résultats dès aujourd&apos;hui.</p>
-          <a href="/contact">Prendre contact</a>
-          <a href="/case-studies">Nos études de cas</a>
-        </div>
-      </div>
-      
-      <BlogPostClientSide 
-        post={postData} 
-        preloadedRelatedPosts={relatedPosts}
-        preloadedLatestPosts={latestPosts}
-      />
+      <JsonLd data={jsonLd} />
+      <Suspense fallback={<div className="p-12 text-center">Chargement de l'article...</div>}>
+        <BlogPostClientSide 
+          post={transformedPost}
+          preloadedRelatedPosts={relatedPosts}
+          preloadedLatestPosts={latestPosts}
+        />
+      </Suspense>
     </>
   );
 } 

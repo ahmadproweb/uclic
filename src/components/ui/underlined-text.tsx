@@ -14,11 +14,12 @@ export function UnderlinedText({
       "inline-block font-medium relative",
       className
     )}>
-      <span className="relative z-10 text-dark dark:text-white">
+      <span className="relative z-10 inherit">
         {text}
       </span>
       <span 
-        className="absolute bottom-[-8px] left-[10%] w-[80%] h-[6px] -z-10 bg-dark/100 dark:bg-white/100"
+        className="absolute bottom-[-8px] left-[10%] w-[80%] h-[6px] -z-10"
+        style={{ backgroundColor: 'currentColor' }}
       />
     </span>
   );

@@ -36,7 +36,7 @@ export function PartnerClient({ row1, row2, forceBlackLogos = false }: PartnerCl
                   src={partner.image}
                   alt={partner.alt}
                   className={cn(
-                    "h-[35px] w-auto max-w-[120px] object-contain transition-all duration-300",
+                    "h-[12px] w-[40px] object-contain transition-all duration-300",
                     getLogoFilter(),
                     "hover:opacity-80"
                   )}
@@ -51,7 +51,7 @@ export function PartnerClient({ row1, row2, forceBlackLogos = false }: PartnerCl
                   src={partner.image}
                   alt={partner.alt}
                   className={cn(
-                    "h-[35px] w-auto max-w-[120px] object-contain transition-all duration-300",
+                    "h-[12px] w-[40px] object-contain transition-all duration-300",
                     getLogoFilter(),
                     "hover:opacity-80"
                   )}
@@ -72,7 +72,7 @@ export function PartnerClient({ row1, row2, forceBlackLogos = false }: PartnerCl
                   src={partner.image}
                   alt={partner.alt}
                   className={cn(
-                    "h-[35px] w-auto max-w-[120px] object-contain transition-all duration-300",
+                    "h-[12px] w-[40px] object-contain transition-all duration-300",
                     getLogoFilter(),
                     "hover:opacity-80"
                   )}
@@ -87,7 +87,7 @@ export function PartnerClient({ row1, row2, forceBlackLogos = false }: PartnerCl
                   src={partner.image}
                   alt={partner.alt}
                   className={cn(
-                    "h-[35px] w-auto max-w-[120px] object-contain transition-all duration-300",
+                    "h-[12px] w-[40px] object-contain transition-all duration-300",
                     getLogoFilter(),
                     "hover:opacity-80"
                   )}

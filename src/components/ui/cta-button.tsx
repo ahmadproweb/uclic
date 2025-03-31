@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { cn } from "@/lib/utils";
+import { useTheme } from "@/context/ThemeContext";
 
 // Composant pour le texte
 interface CTATextProps {
@@ -47,6 +48,9 @@ export function CTAButton({
   simpleVariant = 'primary',
   size = 'l',
 }: CTAButtonProps) {
+  const { theme: currentTheme } = useTheme();
+  const isDark = currentTheme === 'dark';
+
   const sizeClasses = {
     s: "px-4 py-2 text-sm",
     m: "px-5 py-2.5 text-base",
@@ -62,8 +66,11 @@ export function CTAButton({
   const commonClasses = cn(
     "group inline-flex items-center gap-2",
     "font-bold rounded-full",
-    variant === 'mainCTA' && "bg-white text-black hover:bg-[#E0FF5C]",
-    variant === 'simple' && simpleVariant === 'secondary' && "text-black dark:text-white",
+    variant === 'mainCTA' && isDark 
+      ? "bg-white text-black hover:bg-[#E0FF5C]"
+      : variant === 'simple' && simpleVariant === 'secondary'
+        ? "text-black dark:text-white"
+        : "bg-[#E0FF5C] text-black hover:bg-black hover:text-[#E0FF5C]",
     "transition-all duration-200",
     "w-fit whitespace-nowrap",
     sizeClasses[size],
@@ -75,7 +82,7 @@ export function CTAButton({
       {children}
       <span className={cn(
         "rounded-full border flex items-center justify-center transition-all duration-200 group-hover:translate-x-1 group-hover:-translate-y-1",
-        variant === 'mainCTA' ? "border-black" : "border-current",
+        variant === 'mainCTA' && isDark ? "border-black" : "border-black group-hover:border-white",
         iconSizeClasses[size]
       )}>
         <svg 
@@ -86,7 +93,11 @@ export function CTAButton({
           xmlns="http://www.w3.org/2000/svg" 
           className={cn(
             "transition-transform duration-200 group-hover:-rotate-45",
-            variant === 'mainCTA' ? "stroke-black" : "stroke-current"
+            variant === 'mainCTA' && isDark 
+              ? "stroke-black" 
+              : variant === 'simple' && simpleVariant === 'secondary' && isDark
+                ? "stroke-white"
+                : "stroke-black group-hover:stroke-white"
           )}
         >
           <path d="M5 12H19M19 12L12 5M19 12L12 19" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

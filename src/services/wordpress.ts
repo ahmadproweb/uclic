@@ -369,41 +369,24 @@ async function getCategoryIdBySlug(slug: string): Promise<number> {
   }
 }
 
-export async function getPageBySlug(slug: string) {
+// Function to fetch a single page by slug
+export async function getPageBySlug(slug: string): Promise<WordPressPage | null> {
   try {
-    const response = await fetch(`https://uclic.fr/graphql`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query: `
-          query GetPageBySlug($slug: String!) {
-            pageBy(uri: $slug) {
-              id
-              title
-              content
-              slug
-              status
-            }
-          }
-        `,
-        variables: {
-          slug: slug
-        }
-      }),
-      next: { revalidate: 3600 } // Cache for 1 hour
-    });
+    const response = await fetch(
+      `https://uclic.fr/wp-json/wp/v2/pages?slug=${slug}`,
+      { next: { revalidate: 3600 } } // Cache for 1 hour
+    );
 
     if (!response.ok) {
       throw new Error(`Failed to fetch page: ${response.status}`);
     }
 
-    const { data } = await response.json();
-    console.log("GraphQL response:", data); // Pour déboguer
-    return data.pageBy;
+    const pages: WordPressPage[] = await response.json();
+    
+    // WordPress returns an array, but we only want the first match
+    return pages[0] || null;
   } catch (error) {
-    console.error('Error fetching page:', error);
+    console.error('Error fetching WordPress page:', error);
     return null;
   }
 }

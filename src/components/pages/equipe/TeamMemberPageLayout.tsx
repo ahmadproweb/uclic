@@ -5,21 +5,29 @@ import { colors as theme } from '@/config/theme';
 import { cn } from '@/lib/utils';
 import { CTAButton } from '@/components/ui/cta-button';
 import PreFooter from '@/components/footer/PreFooter';
+import { useEffect, useState } from 'react';
 
 interface TeamMemberPageLayoutProps {
   member: TeamMember;
   isDark: boolean;
   children?: React.ReactNode;
-  related?: TeamMember[];
 }
 
 export default function TeamMemberPageLayout({
   member,
   children,
-  related,
 }: TeamMemberPageLayoutProps) {
   const { theme: currentTheme } = useTheme();
   const isDark = currentTheme === 'dark';
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <>
@@ -30,24 +38,37 @@ export default function TeamMemberPageLayout({
             {/* Breadcrumb */}
             <nav className={cn(
               "flex items-center space-x-2 text-xs",
-              isDark ? "text-white/50" : "text-black/50"
+              isDark ? "text-white/100" : "text-black/100"
             )}>
-              <Link href="/" className="hover:underline">Accueil</Link>
+              <Link href="/" className={cn(
+                "hover:underline transition-colors",
+                isDark ? "text-white/100 hover:text-[#E0FF5C]" : "text-black/100 hover:text-black"
+              )}>Accueil</Link>
               <span>/</span>
-              <Link href="/equipe" className="hover:underline">Équipe</Link>
+              <Link href="/equipe" className={cn(
+                "hover:underline transition-colors",
+                isDark ? "text-white/100 hover:text-[#E0FF5C]" : "text-black/100 hover:text-black"
+              )}>Équipe</Link>
               <span>/</span>
-              <span className="text-primary">{member.title}</span>
+              <span className={cn(
+                isDark ? "text-[#E0FF5C]" : "text-primary"
+              )}>{member.title}</span>
             </nav>
 
             {/* Back button */}
             <Link 
               href="/equipe" 
               className={cn(
-                "inline-flex items-center text-sm hover:underline transition-all",
-                isDark ? "text-white/80 hover:text-white" : "text-black/70 hover:text-black"
+                "inline-flex items-center text-sm transition-all",
+                isDark 
+                  ? "text-white/100 hover:text-[#E0FF5C]" 
+                  : "text-black/100 hover:text-black"
               )}
             >
-              <svg className="w-4 h-4 mr-2 transform rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg className={cn(
+                "w-4 h-4 mr-2 transform rotate-180",
+                isDark ? "stroke-white/100" : "stroke-black/100"
+              )} viewBox="0 0 24 24" fill="none" strokeWidth="2">
                 <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
               Retour à l&apos;équipe
@@ -72,14 +93,17 @@ export default function TeamMemberPageLayout({
                 {member.equipeFields.role && (
                   <div className={cn(
                     "px-4 py-1.5 rounded-full text-sm font-medium mb-6 text-center",
-                    "bg-primary text-black"
+                    isDark ? "bg-primary text-black" : "bg-primary text-white"
                   )}>
                     {member.equipeFields.role}
                   </div>
                 )}
 
                 {/* Member name */}
-                <h1 className="text-2xl font-bold mb-8 text-center text-white">
+                <h1 className={cn(
+                  "text-2xl font-bold mb-8 text-center",
+                  isDark ? "text-white" : "text-black"
+                )}>
                   {member.title}
                 </h1>
 
@@ -94,7 +118,7 @@ export default function TeamMemberPageLayout({
                         "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300",
                         isDark 
                           ? "bg-primary/10 hover:bg-primary/20 text-primary" 
-                          : "bg-primary hover:bg-primary/90 text-white"
+                          : "bg-primary hover:bg-primary/100 text-white"
                       )}
                     >
                       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -113,7 +137,7 @@ export default function TeamMemberPageLayout({
                         "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300",
                         isDark 
                           ? "bg-primary/10 hover:bg-primary/20 text-primary" 
-                          : "bg-primary hover:bg-primary/90 text-white"
+                          : "bg-primary hover:bg-primary/100 text-white"
                       )}
                     >
                       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -130,7 +154,7 @@ export default function TeamMemberPageLayout({
                         "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300",
                         isDark 
                           ? "bg-primary/10 hover:bg-primary/20 text-primary" 
-                          : "bg-primary hover:bg-primary/90 text-white"
+                          : "bg-primary hover:bg-primary/100 text-white"
                       )}
                     >
                       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -161,7 +185,7 @@ export default function TeamMemberPageLayout({
                   className={cn(
                     "prose prose-lg max-w-none",
                     isDark ? "prose-invert" : "",
-                    isDark ? "prose-p:text-white/90" : "prose-p:text-gray-900",
+                    isDark ? "prose-p:text-white/100" : "prose-p:text-gray-900",
                     "prose-p:mb-8 prose-p:leading-relaxed",
                     "prose-headings:font-medium",
                     "[&>h2]:text-3xl [&>h2]:font-medium [&>h2]:mb-6",
@@ -174,13 +198,13 @@ export default function TeamMemberPageLayout({
                     "[&_ul>li]:relative [&_ul>li]:pl-6 [&_ul>li]:mb-3",
                     "[&_ul>li]:before:content-[''] [&_ul>li]:before:absolute [&_ul>li]:before:left-0 [&_ul>li]:before:top-[0.6em] [&_ul>li]:before:w-2 [&_ul>li]:before:h-2 [&_ul>li]:before:bg-[#E0FF5C] [&_ul>li]:before:rounded-full",
                     "[&_p]:text-base [&_p]:leading-relaxed",
-                    isDark ? "[&_p]:text-white/90" : "[&_p]:text-gray-900",
+                    isDark ? "[&_p]:text-white/100" : "[&_p]:text-gray-900",
                     "[&_strong]:font-semibold",
                     isDark ? "[&_strong]:text-white" : "[&_strong]:text-gray-900",
                     "[&_p:has(strong)]:mb-2",
                     "[&_p+p]:mt-8",
                     "[&>h2+p]:mt-8",
-                    isDark ? "[&_li]:text-white/90" : "[&_li]:text-gray-900"
+                    isDark ? "[&_li]:text-white/100" : "[&_li]:text-gray-900"
                   )}
                   dangerouslySetInnerHTML={{ __html: member.content }}
                 />
