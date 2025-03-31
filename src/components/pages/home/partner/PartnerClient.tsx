@@ -35,8 +35,11 @@ export function PartnerClient({ row1, row2, forceBlackLogos = false }: PartnerCl
                 <img
                   src={partner.image}
                   alt={partner.alt}
+                  width={40}
+                  height={12}
+                  loading={idx < row1.length ? "eager" : "lazy"}
                   className={cn(
-                    "h-[12px] w-[40px] object-contain transition-all duration-300",
+                    "object-contain transition-all duration-300",
                     getLogoFilter(),
                     "hover:opacity-80"
                   )}
@@ -50,8 +53,11 @@ export function PartnerClient({ row1, row2, forceBlackLogos = false }: PartnerCl
                 <img
                   src={partner.image}
                   alt={partner.alt}
+                  width={40}
+                  height={12}
+                  loading="lazy"
                   className={cn(
-                    "h-[12px] w-[40px] object-contain transition-all duration-300",
+                    "object-contain transition-all duration-300",
                     getLogoFilter(),
                     "hover:opacity-80"
                   )}
@@ -71,8 +77,11 @@ export function PartnerClient({ row1, row2, forceBlackLogos = false }: PartnerCl
                 <img
                   src={partner.image}
                   alt={partner.alt}
+                  width={40}
+                  height={12}
+                  loading={idx < row2.length ? "eager" : "lazy"}
                   className={cn(
-                    "h-[12px] w-[40px] object-contain transition-all duration-300",
+                    "object-contain transition-all duration-300",
                     getLogoFilter(),
                     "hover:opacity-80"
                   )}
@@ -86,8 +95,11 @@ export function PartnerClient({ row1, row2, forceBlackLogos = false }: PartnerCl
                 <img
                   src={partner.image}
                   alt={partner.alt}
+                  width={40}
+                  height={12}
+                  loading="lazy"
                   className={cn(
-                    "h-[12px] w-[40px] object-contain transition-all duration-300",
+                    "object-contain transition-all duration-300",
                     getLogoFilter(),
                     "hover:opacity-80"
                   )}
