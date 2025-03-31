@@ -10,8 +10,7 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === 'production',
   },
   devIndicators: {
-    buildActivity: true,
-    buildActivityPosition: 'bottom-right',
+    position: 'bottom-right',
   },
   experimental: {
     optimizeCss: true,
@@ -29,11 +28,7 @@ const nextConfig = {
         '*.svg': ['@svgr/webpack']
       }
     },
-    fontLoaders: [
-      { loader: '@next/font/google', options: { subsets: ['latin'] } },
-    ],
     optimizeServerReact: true,
-    adjustFontFallbacks: true,
     optimisticClientCache: true,
     serverActions: {
       bodySizeLimit: '2mb'
@@ -169,7 +164,7 @@ const nextConfig = {
             level: 11,
             quality: 11
           },
-          threshold: 8192, // Seuil plus bas pour compresser plus de fichiers
+          threshold: 8192,
           minRatio: 0.8,
           deleteOriginalAssets: false,
         }),
@@ -214,12 +209,16 @@ const nextConfig = {
             value: 'nosniff'
           },
           {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block'
+          },
+          {
             key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin'
+            value: 'strict-origin-when-cross-origin'
           },
           {
             key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=()'
+            value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()'
           }
         ]
       },
