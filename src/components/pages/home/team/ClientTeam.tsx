@@ -11,6 +11,7 @@ const ClientTeam = ({ initialData }: { initialData: TeamMember[] }) => {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>(initialData);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const { theme: currentTheme } = useTheme();
   const isDark = currentTheme === 'dark';
   const themeColors = colors.colors;
@@ -18,10 +19,13 @@ const ClientTeam = ({ initialData }: { initialData: TeamMember[] }) => {
   useEffect(() => {
     const loadTeamData = async () => {
       try {
+        setIsLoading(true);
+        setError(null);
         const data = await fetchTeamData();
         setTeamMembers(data);
       } catch (error) {
         console.error('Error loading team data:', error);
+        setError(error instanceof Error ? error.message : 'Failed to load team data');
       } finally {
         setIsLoading(false);
       }
@@ -46,6 +50,31 @@ const ClientTeam = ({ initialData }: { initialData: TeamMember[] }) => {
       {children}
     </a>
   );
+
+  if (error) {
+    return (
+      <section id="team" className={cn(
+        "w-full rounded-2xl md:rounded-[32px] p-6 md:p-16 relative",
+        "bg-primary/20"
+      )}
+      style={{
+        '--tw-bg-opacity': isDark ? '0.2' : '0.1',
+        backgroundColor: themeColors.primary.main
+      } as React.CSSProperties}>
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-center">
+            <p className="text-red-500 mb-4">{error}</p>
+            <button 
+              onClick={() => window.location.reload()}
+              className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/80 transition-colors"
+            >
+              Retry
+            </button>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   if (isLoading) {
     return (
@@ -122,8 +151,8 @@ const ClientTeam = ({ initialData }: { initialData: TeamMember[] }) => {
               >
                 <div className="relative w-16 md:w-24 flex-shrink-0">
                   <img
-                    src={member.equipeFields.image?.node.sourceUrl || "https://media.istockphoto.com/id/1919265357/fr/photo/portrait-en-gros-plan-dun-homme-daffaires-confiant-debout-dans-son-bureau.jpg?s=612x612&w=0&k=20&c=u_cAYkuDe1e8oeBrKBNLbPiBrZ_fflqLhwxIXXlgsOg="}
-                    alt={member.title}
+                    src={member.equipeFields.miniImage?.node.sourceUrl || member.equipeFields.image?.node.sourceUrl || "https://media.istockphoto.com/id/1919265357/fr/photo/portrait-en-gros-plan-dun-homme-daffaires-confiant-debout-dans-son-bureau.jpg?s=612x612&w=0&k=20&c=u_cAYkuDe1e8oeBrKBNLbPiBrZ_fflqLhwxIXXlgsOg="}
+                    alt={member.equipeFields.miniImage?.node.altText || member.equipeFields.image?.node.altText || member.title}
                     className={cn(
                       "w-16 h-16 md:w-24 md:h-24 object-cover object-top rounded-xl md:rounded-2xl transition-all duration-300",
                       "grayscale group-hover/card:grayscale-0"

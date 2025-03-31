@@ -14,6 +14,12 @@ export interface TeamListMember {
         altText: string;
       }
     } | null;
+    miniImage: {
+      node: {
+        sourceUrl: string;
+        altText: string;
+      }
+    } | null;
   };
 }
 
@@ -28,6 +34,12 @@ export interface TeamMember {
     autre: string;
     extrait: string;
     image: {
+      node: {
+        sourceUrl: string;
+        altText: string;
+      }
+    } | null;
+    miniImage: {
       node: {
         sourceUrl: string;
         altText: string;
@@ -221,15 +233,25 @@ export async function fetchTeamData(): Promise<TeamMember[]> {
       body: JSON.stringify({
         query: `
           query GetTeamMembers {
-            equipes(first: 100) {
+            equipes(first: 100, where: { orderby: { field: DATE, order: ASC } }) {
               nodes {
                 title
                 slug
                 content
+                date
                 equipeFields {
                   role
                   extrait
+                  linkedin
+                  twitter
+                  autre
                   image {
+                    node {
+                      sourceUrl
+                      altText
+                    }
+                  }
+                  miniImage {
                     node {
                       sourceUrl
                       altText
@@ -244,25 +266,37 @@ export async function fetchTeamData(): Promise<TeamMember[]> {
     });
 
     if (!response.ok) {
-      throw new Error('Network response was not ok');
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const data = await response.json();
-    console.log("Server GraphQL Response:", data);
+    
+    if (data.errors) {
+      console.error('GraphQL Errors:', JSON.stringify(data.errors, null, 2));
+      throw new Error(`GraphQL query failed: ${data.errors[0]?.message || 'Unknown error'}`);
+    }
 
-    // Vérification plus robuste des données
     if (!data?.data?.equipes?.nodes) {
-      console.error('Invalid response structure:', data);
+      console.error('Invalid response structure:', JSON.stringify(data, null, 2));
       return [];
     }
 
     return data.data.equipes.nodes.map((member: any) => ({
       ...member,
-      equipeFields: member.equipeFields || {}
+      equipeFields: {
+        ...member.equipeFields,
+        linkedin: member.equipeFields?.linkedin || '',
+        twitter: member.equipeFields?.twitter || '',
+        autre: member.equipeFields?.autre || '',
+        role: member.equipeFields?.role || '',
+        extrait: member.equipeFields?.extrait || '',
+        image: member.equipeFields?.image || null,
+        miniImage: member.equipeFields?.miniImage || null
+      }
     }));
 
   } catch (error) {
-    console.error('Error fetching team data:', error);
+    console.error('Error fetching team data:', error instanceof Error ? error.message : 'Unknown error');
     return [];
   }
 }
