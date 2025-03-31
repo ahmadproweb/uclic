@@ -4,7 +4,6 @@ import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 import { UnderlinedText } from '@/components/ui/underlined-text';
 import { memo } from 'react';
-import Image from 'next/image';
 
 // Type definitions
 interface Partner {
@@ -48,12 +47,10 @@ const PartnerCard = memo(({ partner, isDark }: { partner: Partner; isDark: boole
         : "bg-black border border-white/5 hover:border-white/10"
     )}>
       <div className="relative w-[50px] h-[20px] sm:w-[65px] sm:h-[25px] md:w-[80px] md:h-[30px]">
-        <Image 
+        <img 
           src={partner.logo}
           alt={`${partner.name} logo`}
-          fill
-          sizes="(max-width: 640px) 50px, (max-width: 768px) 65px, 80px"
-          className="object-contain opacity-100 [filter:brightness(0)_invert(1)]"
+          className="absolute inset-0 w-full h-full object-contain opacity-100 [filter:brightness(0)_invert(1)]"
           loading="lazy"
         />
       </div>
