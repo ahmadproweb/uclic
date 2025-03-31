@@ -9,7 +9,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { getPortfolios } from '@/services/wordpress';
 import { CTAButton } from '@/components/ui/cta-button';
 import Link from 'next/link';
-import Image from 'next/image';
 
 // Utils
 const decodeHTMLEntities = (text: string): string => {
@@ -96,12 +95,10 @@ const PortfolioCard = memo(({ portfolio, isDark }: { portfolio: Portfolio; isDar
       )}>
         {imageUrl && (
           <div className="relative w-full h-full">
-            <Image
+            <img
               src={optimizedImageUrl}
               alt={portfolio.title}
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="object-cover"
+              className="absolute inset-0 w-full h-full object-cover"
               loading="lazy"
             />
           </div>

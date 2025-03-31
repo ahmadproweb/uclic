@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 import { colors } from '@/config/theme';
 import { fetchTeamData, type TeamMember } from '@/lib/wordpress';
 import Link from 'next/link';
-import Image from 'next/image';
 
 // Memoized SocialIcon component
 const SocialIcon = memo(({ href, children, backgroundColor }: { 
@@ -76,16 +75,14 @@ const TeamMemberCard = memo(({
       >
         <div className="relative w-16 md:w-24 flex-shrink-0">
           <div className="relative w-16 h-16 md:w-24 md:h-24">
-            <Image
+            <img
               src={member.equipeFields.miniImage?.node.sourceUrl || member.equipeFields.image?.node.sourceUrl || "https://media.istockphoto.com/id/1919265357/fr/photo/portrait-en-gros-plan-dun-homme-daffaires-confiant-debout-dans-son-bureau.jpg?s=612x612&w=0&k=20&c=u_cAYkuDe1e8oeBrKBNLbPiBrZ_fflqLhwxIXXlgsOg="}
               alt={member.equipeFields.miniImage?.node.altText || member.equipeFields.image?.node.altText || member.title}
-              fill
-              sizes="(max-width: 768px) 64px, 96px"
               className={cn(
-                "object-cover object-top rounded-xl md:rounded-2xl transition-all duration-300",
+                "absolute inset-0 w-full h-full object-cover object-top rounded-xl md:rounded-2xl transition-all duration-300",
                 "grayscale group-hover/card:grayscale-0"
               )}
-              priority={true}
+              loading="eager"
             />
           </div>
           <div className={cn(
