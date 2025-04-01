@@ -161,20 +161,29 @@ function PartnerBtoB() {
             <div className="relative">
               <DecorativeSquares isDark={isDark} />
 
-              <div 
-                className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-7 relative z-[2]"
-                role="list"
+              <ul 
+                className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-7 relative z-[2] list-none p-0"
                 aria-label="Liste de nos partenaires"
               >
                 {partners.map((partner, index) => (
-                  <PartnerCard 
-                    key={`partner-${index}`}
-                    partner={partner}
-                    isDark={isDark}
-                  />
+                  <li key={`partner-${index}`}>
+                    <PartnerCard 
+                      partner={partner}
+                      isDark={isDark}
+                    />
+                  </li>
                 ))}
-                <PlusButton isDark={isDark} />
-              </div>
+                <li>
+                  <button
+                    type="button"
+                    className="w-full h-full rounded-[24px] md:rounded-[32px] flex items-center justify-center bg-transparent hover:bg-black/5 dark:hover:bg-white/5 transition-colors duration-200"
+                    aria-label="Voir plus de partenaires"
+                    onClick={() => {/* Votre logique ici */}}
+                  >
+                    <PlusButton isDark={isDark} />
+                  </button>
+                </li>
+              </ul>
             </div>
           </div>
         </div>

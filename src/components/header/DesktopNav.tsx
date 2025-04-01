@@ -41,6 +41,10 @@ const NavItem = memo(({
       )}
       onClick={onClick}
       onMouseEnter={onMouseEnter}
+      role={item.hasMegaMenu ? "button" : undefined}
+      aria-expanded={item.hasMegaMenu ? isMegaMenuOpen : undefined}
+      aria-haspopup={item.hasMegaMenu ? "true" : undefined}
+      aria-label={item.hasMegaMenu ? `${item.label} - Cliquez pour ${isMegaMenuOpen ? 'fermer' : 'ouvrir'} le menu` : undefined}
     >
       {item.label}
       {item.hasMegaMenu && (
@@ -71,14 +75,14 @@ const NavItem = memo(({
       <Link 
         href={item.href} 
         className={cn(
-          "absolute inset-0 opacity-0",
+          "absolute inset-0",
           isDirectlyOverHero || isOverHero
             ? "text-gray-900 dark:text-white"
             : "text-gray-900 dark:text-white"
         )}
-        aria-label={item.label}
+        aria-label={`Accéder à ${item.label}`}
       >
-        <span className="sr-only">{item.label}</span>
+        {item.label}
       </Link>
     )}
   </div>

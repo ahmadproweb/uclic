@@ -19,6 +19,8 @@ const config = {
     extend: {
       fontFamily: {
         sans: ['var(--font-inter)'],
+        display: ['var(--font-display)', 'system-ui', 'sans-serif'],
+        body: ['var(--font-body)', 'system-ui', 'sans-serif'],
       },
       keyframes: {
         'pulse-slow': {
@@ -50,8 +52,13 @@ const config = {
         'pulse-slowest': 'pulse-slowest 10s ease-in-out infinite',
         'fade-in-up': 'fade-in-up 0.5s ease-out forwards'
       },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      },
     },
   },
+  plugins: [],
   // ... rest of your existing configuration
 } satisfies Config
 

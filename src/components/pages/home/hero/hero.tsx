@@ -6,6 +6,7 @@ import HeroAnimation from './HeroAnimation';
 import { CTAButton } from "@/components/ui/cta-button";
 import HeroBackground from './HeroBackground';
 import { useTheme } from "@/context/ThemeContext";
+import { Suspense } from 'react';
 
 export default function Hero() {
   const { theme: currentTheme } = useTheme();
@@ -44,17 +45,14 @@ export default function Hero() {
             </span>
           </h1>
 
-          <p className={cn(
+          <h2 className={cn(
             "text-base md:text-lg mt-6 mb-8 md:mb-12 max-w-xl pr-4",
-            "text-black dark:text-white font-[450]",
-            "leading-relaxed tracking-[-0.01em]"
+            "text-black dark:text-white",
+            "leading-relaxed tracking-[-0.01em]",
+            "font-absans"
           )}>
-            Nous convertissons vos défis en leviers
-            de croissance avec des stratégies
-            data-driven, des outils IA avancés
-            et les meilleurs freelances
-            sélectionnés pour vos besoins.
-          </p>
+            Nous convertissons vos défis en leviers de croissance avec des stratégies data-driven, des outils IA avancés et les meilleurs freelances sélectionnés pour vos besoins.
+          </h2>
 
           <div className="flex flex-row gap-3">
             <CTAButton 
@@ -87,15 +85,21 @@ export default function Hero() {
         </div>
 
         {/* Colonne de droite - Animation */}
-        <div className="relative">
-          <div className="mx-auto lg:mx-0 lg:ml-auto">
-            <HeroAnimation />
+        <Suspense fallback={<div className="h-full w-full flex items-center justify-center">
+          <div className="w-full h-full bg-gray-100 dark:bg-gray-800 animate-pulse rounded-lg"></div>
+        </div>}>
+          <div className="relative">
+            <div className="mx-auto lg:mx-0 lg:ml-auto">
+              <HeroAnimation />
+            </div>
           </div>
-        </div>
+        </Suspense>
       </div>
 
       {/* HeroClient pour les animations */}
-      <HeroClient />
+      <Suspense>
+        <HeroClient />
+      </Suspense>
     </section>
   );
 } 

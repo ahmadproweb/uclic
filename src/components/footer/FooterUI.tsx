@@ -20,7 +20,7 @@ const FooterLogo = memo(({ isDark }: { isDark: boolean }) => (
     <div className="mb-4 md:mb-6">
       <Logo />
     </div>
-    <p className={`${isDark ? 'text-white/60' : 'text-gray-600'} text-xs md:text-sm leading-relaxed`}>
+    <p className={`${isDark ? 'text-white/80' : 'text-gray-700'} text-xs md:text-sm leading-relaxed`}>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Pellentesque sit amet hendrerit.
     </p>
   </div>
@@ -30,7 +30,7 @@ FooterLogo.displayName = 'FooterLogo';
 
 const ServicesSection = memo(({ isDark }: { isDark: boolean }) => (
   <div className="col-span-1 md:col-span-2 mb-8 md:mb-0">
-    <h3 className="text-xs md:text-sm font-medium mb-4">Nos services</h3>
+    <h3 className={`text-xs md:text-sm font-medium mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>Nos services</h3>
     <ul className="space-y-2 md:space-y-4">
       {['Agence SEO', 'Agence SEA', 'Agence Data', 'Agence Automation', 'Agence CRM'].map((service) => (
         <li key={service}>
@@ -38,8 +38,8 @@ const ServicesSection = memo(({ isDark }: { isDark: boolean }) => (
             href="#" 
             className={`text-xs md:text-sm transition-colors ${
               isDark 
-                ? 'text-white/60 hover:text-[#E0FF5C]' 
-                : 'text-gray-900 hover:text-[#E0FF5C]'
+                ? 'text-white/80 hover:text-[#E0FF5C]' 
+                : 'text-gray-700 hover:text-[#9FB832]'
             }`}
           >
             {service}
@@ -54,7 +54,7 @@ ServicesSection.displayName = 'ServicesSection';
 
 const ExpertiseSection = memo(({ isDark }: { isDark: boolean }) => (
   <div className="col-span-1 md:col-span-2 mb-8 md:mb-0">
-    <h3 className="text-xs md:text-sm font-medium mb-4">Notre expertise</h3>
+    <h3 className={`text-xs md:text-sm font-medium mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>Notre expertise</h3>
     <ul className="space-y-2 md:space-y-4">
       {['SEO', 'SEA', 'SMA', 'r8n', 'Meta'].map((expertise) => (
         <li key={expertise}>
@@ -62,8 +62,8 @@ const ExpertiseSection = memo(({ isDark }: { isDark: boolean }) => (
             href="#" 
             className={`text-xs md:text-sm transition-colors ${
               isDark 
-                ? 'text-white/60 hover:text-[#E0FF5C]' 
-                : 'text-gray-900 hover:text-[#E0FF5C]'
+                ? 'text-white/80 hover:text-[#E0FF5C]' 
+                : 'text-gray-700 hover:text-[#9FB832]'
             }`}
           >
             {expertise}
@@ -78,7 +78,7 @@ ExpertiseSection.displayName = 'ExpertiseSection';
 
 const SiteMapSection = memo(({ isDark }: { isDark: boolean }) => (
   <div className="col-span-1 md:col-span-2 mb-8 md:mb-0">
-    <h3 className="text-xs md:text-sm font-medium mb-4">Plan du site</h3>
+    <h3 className={`text-xs md:text-sm font-medium mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>Plan du site</h3>
     <ul className="space-y-2 md:space-y-4">
       {[
         { href: '/a-propos', text: 'À propos' },
@@ -93,8 +93,8 @@ const SiteMapSection = memo(({ isDark }: { isDark: boolean }) => (
             href={href}
             className={`text-xs md:text-sm transition-colors ${
               isDark 
-                ? 'text-white/60 hover:text-[#E0FF5C]' 
-                : 'text-gray-900 hover:text-[#E0FF5C]'
+                ? 'text-white/80 hover:text-[#E0FF5C]' 
+                : 'text-gray-700 hover:text-[#9FB832]'
             }`}
           >
             {text}
@@ -110,7 +110,7 @@ SiteMapSection.displayName = 'SiteMapSection';
 const FooterBottom = memo(({ isDark, legalPages }: { isDark: boolean; legalPages: FooterUIProps['legalPages'] }) => (
   <div className="flex flex-col md:flex-row justify-center md:justify-between items-center gap-6 md:gap-6">
     <div className="flex flex-col md:flex-row items-center md:items-start gap-3 md:gap-6 text-xs md:text-sm">
-      <span className={isDark ? 'text-white/80' : 'text-gray-900'}>
+      <span className={isDark ? 'text-white/90' : 'text-gray-900'}>
         © {new Date().getFullYear()} Uclic. Tous droits réservés.
       </span>
       <div className="flex flex-col md:flex-row items-center gap-3 md:gap-6">
@@ -120,8 +120,8 @@ const FooterBottom = memo(({ isDark, legalPages }: { isDark: boolean; legalPages
             href={`/legal/${page.slug}`}
             className={`${
               isDark 
-                ? 'text-white/60 hover:text-[#E0FF5C]' 
-                : 'text-black-600 hover:text-[#E0FF5C]'
+                ? 'text-white/80 hover:text-[#E0FF5C]' 
+                : 'text-gray-700 hover:text-[#9FB832]'
             } transition-colors duration-200`}
           >
             {page.title}
@@ -137,8 +137,8 @@ const FooterBottom = memo(({ isDark, legalPages }: { isDark: boolean; legalPages
           href="#" 
           className={`p-1.5 md:p-2 ${
             isDark 
-              ? 'text-white/60 hover:text-[#E0FF5C]' 
-              : 'text-gray-600 hover:text-[#E0FF5C]'
+              ? 'text-white/80 hover:text-[#E0FF5C]' 
+              : 'text-gray-700 hover:text-[#9FB832]'
           } rounded-full transition-colors`}
           aria-label={social}
         >

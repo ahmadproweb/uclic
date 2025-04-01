@@ -48,9 +48,11 @@ function NewsletterSection() {
   }, []);
 
   return (
-    <div className={`${isDark ? 'bg-white/10' : 'bg-black/5'} rounded-[32px] p-4 md:p-8 animate-fade-in-up`}>
-      <h3 className="text-xs md:text-sm font-medium mb-4">Abonnez-vous</h3>
-      <p className={`${isDark ? 'text-white/60' : 'text-gray-600'} text-xs md:text-sm mb-4`}>
+    <div className={`${isDark ? 'bg-white/20' : 'bg-black/10'} rounded-[32px] p-4 md:p-8 animate-fade-in-up`}>
+      <h3 className={`text-xs md:text-sm font-medium mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+        Abonnez-vous
+      </h3>
+      <p className={`${isDark ? 'text-white/90' : 'text-gray-700'} text-xs md:text-sm mb-4`}>
         Profitez de conseil d&apos;experts dans votre boîte mail
       </p>
       <form className="relative mb-3 md:mb-4" onSubmit={handleSubmit}>
@@ -59,15 +61,15 @@ function NewsletterSection() {
           value={email}
           onChange={handleEmailChange}
           placeholder="Votre email"
-          className={`w-full ${isDark ? 'bg-white/5' : 'bg-black/5'} rounded-full py-2 md:py-3 px-4 text-xs md:text-sm ${
+          className={`w-full ${isDark ? 'bg-white/10' : 'bg-black/10'} rounded-full py-2 md:py-3 px-4 text-xs md:text-sm ${
             isDark ? 'text-white' : 'text-gray-900'
           } ${
-            isDark ? 'placeholder:text-white/40' : 'placeholder:text-gray-500'
+            isDark ? 'placeholder:text-white/70' : 'placeholder:text-gray-600'
           } focus:outline-none focus:ring-2 focus:ring-[#E0FF5C]`}
         />
         <SubmitButton />
       </form>
-      <p className={`${isDark ? 'text-white/40' : 'text-gray-500'} text-xs`}>
+      <p className={`${isDark ? 'text-white/70' : 'text-gray-600'} text-xs`}>
         En vous inscrivant, vous acceptez de recevoir des emails marketing de notre part.
       </p>
     </div>

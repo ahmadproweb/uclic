@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { inter } from '@/lib/fonts';
+import { inter, absans } from '@/lib/fonts';
 import "./globals.css";
 import Header from "@/components/header/Header";
 import Footer from "@/components/footer/Footer";
@@ -37,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className={`${inter.variable} font-sans`} suppressHydrationWarning>
+    <html lang="fr" className={`${inter.variable} ${absans.variable} font-sans`} suppressHydrationWarning>
       <head>
         <meta name="color-scheme" content="light dark" />
         <link 
@@ -48,10 +48,6 @@ export default function RootLayout({
           rel="preconnect" 
           href="https://fonts.gstatic.com" 
           crossOrigin="anonymous" 
-        />
-        <link 
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
         />
         
         <Script id="performance-optimizations" strategy="afterInteractive">
