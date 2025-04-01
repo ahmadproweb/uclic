@@ -28,66 +28,11 @@ const FooterLogo = memo(({ isDark }: { isDark: boolean }) => (
 
 FooterLogo.displayName = 'FooterLogo';
 
-const ServicesSection = memo(({ isDark }: { isDark: boolean }) => (
+const FooterLinks = memo(({ isDark, title, links }: { isDark: boolean; title: string; links: Array<{ href: string; text: string }> }) => (
   <div className="col-span-1 md:col-span-2 mb-8 md:mb-0">
-    <h3 className={`text-xs md:text-sm font-medium mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>Nos services</h3>
+    <h3 className={`text-xs md:text-sm font-medium mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>{title}</h3>
     <ul className="space-y-2 md:space-y-4">
-      {['Agence SEO', 'Agence SEA', 'Agence Data', 'Agence Automation', 'Agence CRM'].map((service) => (
-        <li key={service}>
-          <a 
-            href="#" 
-            className={`text-xs md:text-sm transition-colors ${
-              isDark 
-                ? 'text-white/80 hover:text-[#E0FF5C]' 
-                : 'text-gray-700 hover:text-[#9FB832]'
-            }`}
-          >
-            {service}
-          </a>
-        </li>
-      ))}
-    </ul>
-  </div>
-));
-
-ServicesSection.displayName = 'ServicesSection';
-
-const ExpertiseSection = memo(({ isDark }: { isDark: boolean }) => (
-  <div className="col-span-1 md:col-span-2 mb-8 md:mb-0">
-    <h3 className={`text-xs md:text-sm font-medium mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>Notre expertise</h3>
-    <ul className="space-y-2 md:space-y-4">
-      {['SEO', 'SEA', 'SMA', 'r8n', 'Meta'].map((expertise) => (
-        <li key={expertise}>
-          <a 
-            href="#" 
-            className={`text-xs md:text-sm transition-colors ${
-              isDark 
-                ? 'text-white/80 hover:text-[#E0FF5C]' 
-                : 'text-gray-700 hover:text-[#9FB832]'
-            }`}
-          >
-            {expertise}
-          </a>
-        </li>
-      ))}
-    </ul>
-  </div>
-));
-
-ExpertiseSection.displayName = 'ExpertiseSection';
-
-const SiteMapSection = memo(({ isDark }: { isDark: boolean }) => (
-  <div className="col-span-1 md:col-span-2 mb-8 md:mb-0">
-    <h3 className={`text-xs md:text-sm font-medium mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>Plan du site</h3>
-    <ul className="space-y-2 md:space-y-4">
-      {[
-        { href: '/a-propos', text: 'À propos' },
-        { href: '/equipe', text: 'Notre équipe' },
-        { href: '/levee-de-fonds', text: 'Levées de fonds' },
-        { href: '/charte-freelance', text: 'La charte du Freelance' },
-        { href: '/contact', text: 'Nous rejoindre' },
-        { href: '/toolbox', text: 'Toolbox' }
-      ].map(({ href, text }) => (
+      {links.map(({ href, text }) => (
         <li key={href}>
           <Link 
             href={href}
@@ -105,15 +50,23 @@ const SiteMapSection = memo(({ isDark }: { isDark: boolean }) => (
   </div>
 ));
 
-SiteMapSection.displayName = 'SiteMapSection';
+FooterLinks.displayName = 'FooterLinks';
 
-const FooterBottom = memo(({ isDark, legalPages }: { isDark: boolean; legalPages: FooterUIProps['legalPages'] }) => (
-  <div className="flex flex-col md:flex-row justify-center md:justify-between items-center gap-6 md:gap-6">
-    <div className="flex flex-col md:flex-row items-center md:items-start gap-3 md:gap-6 text-xs md:text-sm">
-      <span className={isDark ? 'text-white/90' : 'text-gray-900'}>
-        © {new Date().getFullYear()} Uclic. Tous droits réservés.
-      </span>
-      <div className="flex flex-col md:flex-row items-center gap-3 md:gap-6">
+const FooterBottom = memo(({ isDark, legalPages }: { isDark: boolean; legalPages: FooterUIProps['legalPages'] }) => {
+  const socialLinks = [
+    { name: 'Facebook', href: '#' },
+    { name: 'LinkedIn', href: '#' },
+    { name: 'Twitter', href: '#' },
+    { name: 'Instagram', href: '#' },
+    { name: 'YouTube', href: '#' }
+  ];
+
+  return (
+    <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+      <nav className="flex flex-col md:flex-row items-center gap-3 md:gap-6 text-xs md:text-sm">
+        <span className={isDark ? 'text-white/90' : 'text-gray-900'}>
+          © {new Date().getFullYear()} Uclic. Tous droits réservés.
+        </span>
         {legalPages.map((page) => (
           <Link 
             key={page.id}
@@ -127,27 +80,25 @@ const FooterBottom = memo(({ isDark, legalPages }: { isDark: boolean; legalPages
             {page.title}
           </Link>
         ))}
-      </div>
+      </nav>
+      
+      <nav className="flex justify-center gap-4" aria-label="Réseaux sociaux">
+        {socialLinks.map(({ name, href }) => (
+          <Link 
+            key={name}
+            href={href} 
+            className={`p-1.5 md:p-2 ${
+              isDark 
+                ? 'text-white/80 hover:text-[#E0FF5C]' 
+                : 'text-gray-700 hover:text-[#9FB832]'
+            } rounded-full transition-colors`}
+            aria-label={name}
+          />
+        ))}
+      </nav>
     </div>
-    
-    <div className="flex justify-center gap-4">
-      {['Facebook', 'LinkedIn', 'Twitter', 'Instagram', 'YouTube'].map((social) => (
-        <a 
-          key={social}
-          href="#" 
-          className={`p-1.5 md:p-2 ${
-            isDark 
-              ? 'text-white/80 hover:text-[#E0FF5C]' 
-              : 'text-gray-700 hover:text-[#9FB832]'
-          } rounded-full transition-colors`}
-          aria-label={social}
-        >
-          {/* SVG icons will be added here */}
-        </a>
-      ))}
-    </div>
-  </div>
-));
+  );
+});
 
 FooterBottom.displayName = 'FooterBottom';
 
@@ -155,14 +106,39 @@ function FooterUI({ legalPages }: FooterUIProps) {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
+  const servicesLinks = [
+    { href: '/services/seo', text: 'Agence SEO' },
+    { href: '/services/sea', text: 'Agence SEA' },
+    { href: '/services/data', text: 'Agence Data' },
+    { href: '/services/automation', text: 'Agence Automation' },
+    { href: '/services/crm', text: 'Agence CRM' }
+  ];
+
+  const expertiseLinks = [
+    { href: '/expertise/seo', text: 'SEO' },
+    { href: '/expertise/sea', text: 'SEA' },
+    { href: '/expertise/sma', text: 'SMA' },
+    { href: '/expertise/r8n', text: 'r8n' },
+    { href: '/expertise/meta', text: 'Meta' }
+  ];
+
+  const siteMapLinks = [
+    { href: '/a-propos', text: 'À propos' },
+    { href: '/equipe', text: 'Notre équipe' },
+    { href: '/levee-de-fonds', text: 'Levées de fonds' },
+    { href: '/charte-freelance', text: 'La charte du Freelance' },
+    { href: '/contact', text: 'Nous rejoindre' },
+    { href: '/toolbox', text: 'Toolbox' }
+  ];
+
   return (
     <footer className={`${isDark ? 'bg-black' : 'bg-gray-100'} ${isDark ? 'text-white' : 'text-gray-900'} pt-6 md:pt-12 pb-6 md:pb-8`}>
       <div className="max-w-[1250px] mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-8 mb-8 md:mb-16">
           <FooterLogo isDark={isDark} />
-          <ServicesSection isDark={isDark} />
-          <ExpertiseSection isDark={isDark} />
-          <SiteMapSection isDark={isDark} />
+          <FooterLinks isDark={isDark} title="Nos services" links={servicesLinks} />
+          <FooterLinks isDark={isDark} title="Notre expertise" links={expertiseLinks} />
+          <FooterLinks isDark={isDark} title="Plan du site" links={siteMapLinks} />
           <div className="col-span-1 md:col-span-3">
             <NewsletterSection />
           </div>

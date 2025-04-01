@@ -2,7 +2,6 @@
 
 import { memo, useCallback } from 'react';
 import { useTheme } from "@/context/ThemeContext";
-import { colors as theme } from '@/config/theme';
 import { FormEvent, useState } from 'react';
 
 // Memoized Components
@@ -39,39 +38,38 @@ function NewsletterSection() {
 
   const handleSubmit = useCallback((e: FormEvent) => {
     e.preventDefault();
-    // Ajoutez ici votre logique d'inscription à la newsletter
     console.log('Email soumis:', email);
   }, [email]);
 
-  const handleEmailChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  }, []);
-
   return (
     <div className={`${isDark ? 'bg-white/20' : 'bg-black/10'} rounded-[32px] p-4 md:p-8 animate-fade-in-up`}>
-      <h3 className={`text-xs md:text-sm font-medium mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-        Abonnez-vous
-      </h3>
-      <p className={`${isDark ? 'text-white/90' : 'text-gray-700'} text-xs md:text-sm mb-4`}>
-        Profitez de conseil d&apos;experts dans votre boîte mail
-      </p>
-      <form className="relative mb-3 md:mb-4" onSubmit={handleSubmit}>
-        <input 
-          type="email" 
-          value={email}
-          onChange={handleEmailChange}
-          placeholder="Votre email"
-          className={`w-full ${isDark ? 'bg-white/10' : 'bg-black/10'} rounded-full py-2 md:py-3 px-4 text-xs md:text-sm ${
-            isDark ? 'text-white' : 'text-gray-900'
-          } ${
-            isDark ? 'placeholder:text-white/70' : 'placeholder:text-gray-600'
-          } focus:outline-none focus:ring-2 focus:ring-[#E0FF5C]`}
-        />
-        <SubmitButton />
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="space-y-2">
+          <h3 className={`text-xs md:text-sm font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>
+            Abonnez-vous
+          </h3>
+          <p className={`${isDark ? 'text-white/90' : 'text-gray-700'} text-xs md:text-sm`}>
+            Profitez de conseil d&apos;experts dans votre boîte mail
+          </p>
+        </div>
+
+        <div className="relative">
+          <input 
+            type="email" 
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            placeholder="Votre email"
+            className={`w-full ${isDark ? 'bg-white/10' : 'bg-black/10'} rounded-full py-2 md:py-3 px-4 text-xs md:text-sm ${
+              isDark ? 'text-white placeholder:text-white/70' : 'text-gray-900 placeholder:text-gray-600'
+            } focus:outline-none focus:ring-2 focus:ring-[#E0FF5C]`}
+          />
+          <SubmitButton />
+        </div>
+
+        <p className={`${isDark ? 'text-white/70' : 'text-gray-600'} text-xs`}>
+          En vous inscrivant, vous acceptez de recevoir des emails marketing de notre part.
+        </p>
       </form>
-      <p className={`${isDark ? 'text-white/70' : 'text-gray-600'} text-xs`}>
-        En vous inscrivant, vous acceptez de recevoir des emails marketing de notre part.
-      </p>
     </div>
   );
 }
