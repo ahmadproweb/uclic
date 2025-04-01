@@ -1,11 +1,21 @@
 'use client';
 
-import { useState, useEffect, memo, useCallback } from 'react';
+import { useState, useEffect, memo } from 'react';
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 import { colors } from '@/config/theme';
 import { fetchTeamData, type TeamMember } from '@/lib/wordpress';
 import Link from 'next/link';
+
+interface ThemeColors {
+  common: {
+    black: string;
+    white: string;
+  };
+  primary: {
+    main: string;
+  };
+}
 
 // Memoized SocialIcon component
 const SocialIcon = memo(({ href, children, backgroundColor, label }: { 
@@ -14,25 +24,22 @@ const SocialIcon = memo(({ href, children, backgroundColor, label }: {
   backgroundColor: string,
   label: string
 }) => (
-  <button 
-    type="button"
+  <a 
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
     className={cn(
-      "w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center transition-all duration-300",
-      "bg-primary hover:bg-primary/80"
+      "w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center",
+      "bg-primary hover:bg-primary/80 transition-colors duration-300"
     )}
     style={{
       backgroundColor,
       '--tw-bg-opacity': '1'
     } as React.CSSProperties}
-    onClick={(e) => {
-      e.stopPropagation();
-      e.preventDefault();
-      window.open(href, '_blank');
-    }}
     aria-label={label}
   >
     {children}
-  </button>
+  </a>
 ));
 
 SocialIcon.displayName = 'SocialIcon';
@@ -48,22 +55,27 @@ const TeamMemberCard = memo(({
   member: TeamMember, 
   hoveredId: string | null,
   onHover: (id: string | null) => void,
-  themeColors: any,
+  themeColors: ThemeColors,
   isDark: boolean
 }) => {
   const isHovered = hoveredId === member.slug;
+  const fullName = member.title;
+  const [firstName, ...lastNameParts] = fullName.split(' ');
+  const lastName = lastNameParts.join(' ');
   
   return (
-    <Link
-      key={member.slug}
-      href={`/equipe/${member.slug}`}
-      className="block group/card"
+    <article 
+      className="group/card"
+      onMouseEnter={() => onHover(member.slug)}
+      onMouseLeave={() => onHover(null)}
     >
-      <div
+      <Link
+        href={`/equipe/${member.slug}`}
         className={cn(
           "relative rounded-2xl md:rounded-[32px] p-4 md:p-8",
-          "transition-all duration-300 flex flex-row md:items-start gap-4 md:gap-6",
-          "backdrop-blur-sm group/member cursor-pointer h-[220px] md:h-[280px]"
+          "transition-colors duration-300 flex flex-row items-start gap-4 md:gap-6",
+          "backdrop-blur-sm h-[220px] md:h-[280px]",
+          "focus:outline-none focus:ring-2 focus:ring-primary/50"
         )}
         style={{
           backgroundColor: isHovered
@@ -72,24 +84,22 @@ const TeamMemberCard = memo(({
               ? 'rgba(0, 0, 0, 0.06)' 
               : 'rgba(0, 0, 0, 0.05)'
         }}
-        onMouseEnter={() => onHover(member.slug)}
-        onMouseLeave={() => onHover(null)}
       >
-        <div className="relative w-16 md:w-24 flex-shrink-0">
-          <div className="relative w-16 h-16 md:w-24 md:h-24">
-            <img
-              src={member.equipeFields.miniImage?.node.sourceUrl || member.equipeFields.image?.node.sourceUrl || "https://media.istockphoto.com/id/1919265357/fr/photo/portrait-en-gros-plan-dun-homme-daffaires-confiant-debout-dans-son-bureau.jpg?s=612x612&w=0&k=20&c=u_cAYkuDe1e8oeBrKBNLbPiBrZ_fflqLhwxIXXlgsOg="}
-              alt={member.equipeFields.miniImage?.node.altText || member.equipeFields.image?.node.altText || member.title}
-              className={cn(
-                "absolute inset-0 w-full h-full object-cover object-top rounded-xl md:rounded-2xl transition-all duration-300",
-                "grayscale group-hover/card:grayscale-0"
-              )}
-              loading="eager"
-            />
-          </div>
+        <figure className="relative w-16 md:w-24 h-16 md:h-24 flex-shrink-0">
+          <img
+            src={member.equipeFields.miniImage?.node.sourceUrl || member.equipeFields.image?.node.sourceUrl || "https://media.istockphoto.com/id/1919265357/fr/photo/portrait-en-gros-plan-dun-homme-daffaires-confiant-debout-dans-son-bureau.jpg?s=612x612&w=0&k=20&c=u_cAYkuDe1e8oeBrKBNLbPiBrZ_fflqLhwxIXXlgsOg="}
+            alt={member.equipeFields.miniImage?.node.altText || member.equipeFields.image?.node.altText || `Photo de ${member.title}`}
+            className={cn(
+              "w-full h-full object-cover object-top rounded-xl md:rounded-2xl",
+              "grayscale group-hover/card:grayscale-0 transition-[filter] duration-300"
+            )}
+            loading="eager"
+            width={96}
+            height={96}
+          />
           <div className={cn(
             "absolute -right-2 md:-right-4 top-0 flex flex-col gap-2 md:gap-3",
-            "opacity-0 group-hover/member:opacity-100 transition-opacity duration-300"
+            "opacity-0 group-hover/card:opacity-100 transition-opacity duration-300"
           )}>
             {member.equipeFields.linkedin && (
               <SocialIcon 
@@ -129,27 +139,31 @@ const TeamMemberCard = memo(({
               </SocialIcon>
             )}
           </div>
-        </div>
-        <div className="flex-1 min-w-0 flex flex-col">
-          <h3 style={{ 
-            color: isHovered ? themeColors.common.white : themeColors.common.black 
-          }} className="text-lg md:text-xl font-medium mb-1 md:mb-2 transition-colors duration-300 break-words flex flex-col">
-            <span>{member.title.split(' ')[0]}</span>
-            <span>{member.title.split(' ').slice(1).join(' ')}</span>
+        </figure>
+
+        <div className="flex-1 min-w-0">
+          <h3 
+            className="text-lg md:text-xl font-medium mb-1 md:mb-2 transition-colors duration-300"
+            style={{ color: isHovered ? themeColors.common.white : themeColors.common.black }}
+          >
+            <span className="block">{firstName}</span>
+            {lastName && <span className="block">{lastName}</span>}
           </h3>
-          <p style={{ 
-            color: isHovered ? `${themeColors.common.white}cc` : `${themeColors.common.black}cc` 
-          }} className="text-sm md:text-base mb-1 md:mb-2 transition-colors duration-300">
+          <p 
+            className="text-sm md:text-base mb-1 md:mb-2 transition-colors duration-300"
+            style={{ color: isHovered ? `${themeColors.common.white}cc` : `${themeColors.common.black}cc` }}
+          >
             {member.equipeFields.role}
           </p>
-          <p style={{ 
-            color: isHovered ? `${themeColors.common.white}99` : `${themeColors.common.black}99` 
-          }} className="text-xs md:text-sm leading-relaxed transition-colors duration-300">
+          <p 
+            className="text-xs md:text-sm leading-relaxed transition-colors duration-300"
+            style={{ color: isHovered ? `${themeColors.common.white}99` : `${themeColors.common.black}99` }}
+          >
             {member.equipeFields.extrait}
           </p>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </article>
   );
 });
 
@@ -165,47 +179,43 @@ const ClientTeam = ({ initialData }: { initialData: TeamMember[] }) => {
   const themeColors = colors.colors;
 
   useEffect(() => {
-    const loadTeamData = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-        const data = await fetchTeamData();
-        setTeamMembers(data);
-      } catch (error) {
-        console.error('Error loading team data:', error);
-        setError(error instanceof Error ? error.message : 'Failed to load team data');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     if (initialData.length === 0) {
+      const loadTeamData = async () => {
+        try {
+          setIsLoading(true);
+          setError(null);
+          const data = await fetchTeamData();
+          setTeamMembers(data);
+        } catch (error) {
+          console.error('Error loading team data:', error);
+          setError(error instanceof Error ? error.message : 'Failed to load team data');
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
       loadTeamData();
     }
   }, [initialData]);
 
-  const handleHover = useCallback((id: string | null) => {
-    setHoveredId(id);
-  }, []);
-
   if (error) {
     return (
-      <section id="team" className={cn(
-        "w-full rounded-2xl md:rounded-[32px] p-6 md:p-16 relative",
-        "bg-primary/20"
-      )}
-      style={{
-        '--tw-bg-opacity': isDark ? '0.2' : '0.1',
-        backgroundColor: themeColors.primary.main
-      } as React.CSSProperties}>
+      <section 
+        id="team" 
+        className="w-full rounded-2xl md:rounded-[32px] p-6 md:p-16 relative bg-primary/20"
+        style={{
+          '--tw-bg-opacity': isDark ? '0.2' : '0.1',
+          backgroundColor: themeColors.primary.main
+        } as React.CSSProperties}
+      >
         <div className="flex items-center justify-center min-h-[400px]">
-          <div className="text-center">
+          <div className="text-center" role="alert">
             <p className="text-red-500 mb-4">{error}</p>
             <button 
               onClick={() => window.location.reload()}
               className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/80 transition-colors"
             >
-              Retry
+              Réessayer
             </button>
           </div>
         </div>
@@ -215,61 +225,80 @@ const ClientTeam = ({ initialData }: { initialData: TeamMember[] }) => {
 
   if (isLoading) {
     return (
-      <section id="team" className={cn(
-        "w-full rounded-2xl md:rounded-[32px] p-6 md:p-16 relative",
-        "bg-primary/20"
-      )}
-      style={{
-        '--tw-bg-opacity': isDark ? '0.2' : '0.1',
-        backgroundColor: themeColors.primary.main
-      } as React.CSSProperties}>
-        <div className="flex items-center justify-center min-h-[400px]">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      <section 
+        id="team" 
+        className="w-full rounded-2xl md:rounded-[32px] p-6 md:p-16 relative bg-primary/20"
+        style={{
+          '--tw-bg-opacity': isDark ? '0.2' : '0.1',
+          backgroundColor: themeColors.primary.main
+        } as React.CSSProperties}
+      >
+        <div className="flex items-center justify-center min-h-[400px]" role="status">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary">
+            <span className="sr-only">Chargement...</span>
+          </div>
         </div>
       </section>
     );
   }
 
   return (
-    <section id="team" className={cn(
-      "w-full rounded-2xl md:rounded-[32px] p-6 md:p-16 relative",
-      "bg-primary/20"
-    )}
-    style={{
-      '--tw-bg-opacity': isDark ? '0.2' : '0.1',
-      backgroundColor: themeColors.primary.main
-    } as React.CSSProperties}>
-      {/* Top Left Cross - masqué sur mobile */}
-      <div className="hidden md:block absolute top-10 left-10">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2V22M2 12H22" stroke={themeColors.common.black} strokeWidth="2" strokeLinecap="round"/>
-        </svg>
-      </div>
+    <section 
+      id="team" 
+      className="w-full rounded-2xl md:rounded-[32px] p-6 md:p-16 relative bg-primary/20"
+      style={{
+        '--tw-bg-opacity': isDark ? '0.2' : '0.1',
+        backgroundColor: themeColors.primary.main
+      } as React.CSSProperties}
+    >
+      {/* Décorations */}
+      <svg 
+        width="24" 
+        height="24" 
+        viewBox="0 0 24 24" 
+        fill="none" 
+        xmlns="http://www.w3.org/2000/svg"
+        className="hidden md:block absolute top-10 left-10"
+        aria-hidden="true"
+      >
+        <path d="M12 2V22M2 12H22" stroke={themeColors.common.black} strokeWidth="2" strokeLinecap="round"/>
+      </svg>
 
-      {/* Top Right Cross - masqué sur mobile */}
-      <div className="hidden md:block absolute top-10 right-10">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2V22M2 12H22" stroke={themeColors.common.black} strokeWidth="2" strokeLinecap="round"/>
-        </svg>
-      </div>
+      <svg 
+        width="24" 
+        height="24" 
+        viewBox="0 0 24 24" 
+        fill="none" 
+        xmlns="http://www.w3.org/2000/svg"
+        className="hidden md:block absolute top-10 right-10"
+        aria-hidden="true"
+      >
+        <path d="M12 2V22M2 12H22" stroke={themeColors.common.black} strokeWidth="2" strokeLinecap="round"/>
+      </svg>
 
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-8 md:mb-16">
-          <p style={{ color: themeColors.common.black }} className="text-base md:text-lg mb-2 md:mb-4 transition-colors duration-300 tracking-[-0.5px]">
+        <header className="text-center mb-8 md:mb-16">
+          <p 
+            className="text-base md:text-lg mb-2 md:mb-4 transition-colors duration-300 tracking-[-0.5px]"
+            style={{ color: themeColors.common.black }}
+          >
             Faites-nous entrer en jeu
           </p>
-          <h2 style={{ color: themeColors.common.black }} className="tracking-[-1px] text-3xl md:text-4xl lg:text-5xl font-light transition-colors duration-300">
+          <h2 
+            className="tracking-[-1px] text-3xl md:text-4xl lg:text-5xl font-light transition-colors duration-300"
+            style={{ color: themeColors.common.black }}
+          >
             Une équipe sur-mesure à<br className="hidden md:block" />vos côtés
           </h2>
-        </div>
+        </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {teamMembers.map((member) => (
             <TeamMemberCard
               key={member.slug}
               member={member}
               hoveredId={hoveredId}
-              onHover={handleHover}
+              onHover={setHoveredId}
               themeColors={themeColors}
               isDark={isDark}
             />
@@ -278,6 +307,6 @@ const ClientTeam = ({ initialData }: { initialData: TeamMember[] }) => {
       </div>
     </section>
   );
-}
+};
 
 export default memo(ClientTeam); 
