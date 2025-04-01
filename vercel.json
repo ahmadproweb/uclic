@@ -50,7 +50,7 @@
     }
   ],
   "rewrites": [
-    { "source": "/:path*", "destination": "/" }
+    { "source": "/(.*)", "destination": "/" }
   ],
   "cleanUrls": true,
   "trailingSlash": false
