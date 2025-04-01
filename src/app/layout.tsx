@@ -37,9 +37,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className={`${inter.variable} ${absans.variable} font-sans`} suppressHydrationWarning>
+    <html lang="fr" className={`${inter.variable} ${absans.variable} font-sans dark`} suppressHydrationWarning>
       <head>
-        <meta name="color-scheme" content="light dark" />
+        <meta name="color-scheme" content="dark" />
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            (function() {
+              document.documentElement.classList.add('dark');
+              localStorage.setItem('theme', 'dark');
+            })();
+          `
+        }} />
         <link 
           rel="preconnect" 
           href="https://fonts.googleapis.com" 

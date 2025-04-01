@@ -35,10 +35,7 @@ const partners: Partner[] = [
 
 // Memoized Partner Card Component
 const PartnerCard = memo(({ partner, isDark }: { partner: Partner; isDark: boolean }) => (
-  <div 
-    className="aspect-square flex items-center justify-center relative"
-    role="listitem"
-  >
+  <div className="aspect-square flex items-center justify-center relative">
     <div className={cn(
       "w-full h-full rounded-[24px] md:rounded-[32px] flex items-center justify-center",
       "transition-colors duration-300 ease-in-out",
@@ -87,23 +84,13 @@ DecorativeSquares.displayName = 'DecorativeSquares';
 // Memoized Plus Button Component
 const PlusButton = memo(({ isDark }: { isDark: boolean }) => (
   <div className="aspect-square flex items-center justify-center relative">
-    <div
-      className={cn(
-        "w-full h-full rounded-[24px] md:rounded-[32px] flex items-center justify-center cursor-pointer focus:ring-2 focus:ring-offset-2",
-        isDark 
-          ? "bg-black border-2 border-white/20 focus:ring-white hover:opacity-80" 
-          : "bg-white border-2 border-black focus:ring-black hover:opacity-80"
-      )}
-      role="button"
-      aria-label="Voir plus de partenaires"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          // Action du bouton
-        }
-      }}
-    >
+    <div className={cn(
+      "w-full h-full rounded-[24px] md:rounded-[32px] flex items-center justify-center",
+      "transition-colors duration-300 ease-in-out",
+      isDark 
+        ? "bg-black border border-white/10 hover:border-white/20" 
+        : "bg-black border border-white/5 hover:border-white/10"
+    )}>
       <svg 
         width="24" 
         height="24" 
@@ -115,7 +102,7 @@ const PlusButton = memo(({ isDark }: { isDark: boolean }) => (
       >
         <path 
           d="M12 4V20M4 12H20" 
-          stroke={isDark ? "white" : "black"} 
+          stroke="white" 
           strokeWidth="2" 
           strokeLinecap="round"
         />
@@ -161,29 +148,27 @@ function PartnerBtoB() {
             <div className="relative">
               <DecorativeSquares isDark={isDark} />
 
-              <ul 
-                className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-7 relative z-[2] list-none p-0"
+              
+              <div 
+                className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-7 relative z-[2]"
+                role="list"
                 aria-label="Liste de nos partenaires"
               >
                 {partners.map((partner, index) => (
-                  <li key={`partner-${index}`}>
+                  <div 
+                    key={`partner-${index}`}
+                    role="listitem"
+                  >
                     <PartnerCard 
                       partner={partner}
                       isDark={isDark}
                     />
-                  </li>
+                  </div>
                 ))}
-                <li>
-                  <button
-                    type="button"
-                    className="w-full h-full rounded-[24px] md:rounded-[32px] flex items-center justify-center bg-transparent hover:bg-black/5 dark:hover:bg-white/5 transition-colors duration-200"
-                    aria-label="Voir plus de partenaires"
-                    onClick={() => {/* Votre logique ici */}}
-                  >
-                    <PlusButton isDark={isDark} />
-                  </button>
-                </li>
-              </ul>
+                <div role="listitem">
+                  <PlusButton isDark={isDark} />
+                </div>
+              </div>
             </div>
           </div>
         </div>

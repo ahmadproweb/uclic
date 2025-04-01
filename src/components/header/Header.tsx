@@ -91,38 +91,77 @@ const Header = () => {
   
   useEffect(() => {
     const handleScroll = () => {
+      if (!headerRef.current) return;
       const scrolled = window.scrollY > SCROLL_THRESHOLD;
-      setIsScrolled(scrolled);
+      if (scrolled !== isScrolled) {
+        setIsScrolled(scrolled);
+      }
     };
     
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          headerRef.current?.classList.remove('header-hidden');
+        } else {
+          headerRef.current?.classList.add('header-hidden');
+        }
+      },
+      { threshold: [0] }
+    );
+
+    if (headerRef.current) {
+      observer.observe(headerRef.current);
+    }
+    
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      observer.disconnect();
+    };
+  }, [isScrolled]);
 
   const toggleMobileMenu = useCallback(() => {
     setIsMobileMenuOpen(prev => !prev);
-  }, []);
+    // Prevent body scroll when menu is open
+    document.body.style.overflow = !isMobileMenuOpen ? 'hidden' : '';
+  }, [isMobileMenuOpen]);
   
   const handleMegaMenuClose = useCallback(() => {
     setIsMegaMenuOpen(false);
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 px-4 py-4" ref={headerRef}>
-      <header className={cn(
-        "max-w-7xl mx-auto rounded-2xl transition-all duration-300",
-        "border backdrop-blur-md",
-        isScrolled ? "py-3 px-6" : "py-4 px-8",
-        isDark ? [
-          "bg-black/40 border-white/10 text-white",
-          isScrolled && "bg-black/60 shadow-[0_0_30px_-15px_rgba(255,255,255,0.3)]"
-        ] : [
-          "bg-white/40 border-black/5 text-black",
-          isScrolled && "bg-white/60 shadow-[0_0_30px_-15px_rgba(0,0,0,0.3)]"
-        ],
-        isMobileMenuOpen && "bg-transparent border-transparent shadow-none"
-      )}>
-        <div className="flex items-center justify-between h-[45px]">
+    <div 
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 px-4 py-4",
+        "transition-transform duration-300 transform",
+        "will-change-transform"
+      )} 
+      ref={headerRef}
+    >
+      <header 
+        className={cn(
+          "max-w-7xl mx-auto rounded-2xl transition-all duration-300",
+          "border backdrop-blur-md",
+          "will-change-[background-color,box-shadow]",
+          isScrolled ? "py-3 px-6" : "py-4 px-8",
+          isDark ? [
+            "bg-black/40 border-white/10 text-white",
+            isScrolled && "bg-black/60 shadow-[0_0_30px_-15px_rgba(255,255,255,0.3)]"
+          ] : [
+            "bg-white/40 border-black/5 text-black",
+            isScrolled && "bg-white/60 shadow-[0_0_30px_-15px_rgba(0,0,0,0.3)]"
+          ],
+          isMobileMenuOpen && "bg-transparent border-transparent shadow-none"
+        )}
+        role="banner"
+        aria-label="En-tête du site"
+      >
+        <nav 
+          className="flex items-center justify-between h-[45px]"
+          role="navigation"
+          aria-label="Navigation principale"
+        >
           <Logo />
 
           <DesktopNav
@@ -139,7 +178,7 @@ const Header = () => {
             isMobileMenuOpen={isMobileMenuOpen}
             onClick={toggleMobileMenu}
           />
-        </div>
+        </nav>
       </header>
 
       <MegaMenu 

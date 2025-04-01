@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, ReactNode } from 'react';
+import { useState, useEffect, useRef, ReactNode, useMemo, memo } from 'react';
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 import { colors } from '@/config/theme';
@@ -122,6 +122,145 @@ const createSlug = (title: string) => {
     .replace(/--+/g, '-'); // Replace multiple - with single -
 };
 
+// Memoized decorative mouse SVG component
+const DecorativeMouse = memo(({ fill }: { fill: string }) => (
+  <svg width="46" height="45" viewBox="0 0 46 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M45.0146 35.3088C46.9298 40.5262 41.8604 45.5956 36.643 43.6804L3.84584 31.6409C-0.995415 29.8637 -0.872338 22.9743 4.0293 21.3712L14.5981 17.9146C17.6999 16.9001 20.0918 14.406 20.9756 11.2644L23.0275 3.9706C24.4554 -1.10461 31.5466 -1.3798 33.3634 3.5695L45.0146 35.3088Z" fill={fill}/>
+  </svg>
+));
+
+DecorativeMouse.displayName = 'DecorativeMouse';
+
+// Memoized service card component
+const ServiceCard = memo(({ 
+  service, 
+  hoveredId, 
+  onHover, 
+  isDark, 
+  themeColors 
+}: { 
+  service: typeof services[0], 
+  hoveredId: number | null, 
+  onHover: (id: number | null) => void,
+  isDark: boolean,
+  themeColors: typeof colors.colors
+}) => {
+  const cardStyle = useMemo(() => {
+    const baseOpacity = isDark ? '1A' : '33';
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    
+    const baseStyle = {
+      backgroundColor: hoveredId === service.id 
+        ? themeColors.primary.main 
+        : `${themeColors.primary.main}${service.id === 5 ? (isDark ? '40' : '60') : baseOpacity}`,
+    };
+
+    if (isMobile) return baseStyle;
+
+    return {
+      ...baseStyle,
+      transform: service.id === 5 ? 'translateX(50px)' : 
+                (service.id >= 4 && service.id <= 6) ? 'translateX(50px)' : 'none',
+      zIndex: service.id === 5 ? 2 : 1
+    };
+  }, [service.id, hoveredId, isDark, themeColors]);
+
+  const slug = useMemo(() => createSlug(service.title), [service.title]);
+
+              return (
+                <Link
+                  key={service.id}
+                  href={`/services/${slug}`}
+                  className="block group/link"
+      aria-label={`En savoir plus sur ${service.title}`}
+                >
+                  <div
+                    className={cn(
+                      "relative p-4 md:p-6 rounded-2xl md:rounded-3xl cursor-pointer",
+                      "transition-all duration-300 backdrop-blur-sm",
+                      "group"
+                    )}
+                    style={{
+                      ...cardStyle,
+                      border: isDark ? 'none' : '1px solid rgba(0, 0, 0, 0.1)'
+                    }}
+        onMouseEnter={() => onHover(service.id)}
+        onMouseLeave={() => onHover(null)}
+        role="article"
+                  >
+                    <div className="flex items-start gap-3 md:gap-4">
+                      <div className={cn(
+                        "w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl",
+                        "flex items-center justify-center flex-shrink-0 transition-all duration-300"
+                      )}
+                      style={{
+                        backgroundColor: hoveredId === service.id ? themeColors.common.black : themeColors.primary.main,
+                        color: hoveredId === service.id ? themeColors.primary.main : themeColors.common.black
+                      }}>
+                        {service.icon}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-lg md:text-xl font-medium mb-2 line-clamp-1 transition-colors duration-300"
+                          style={{
+                            color: hoveredId === service.id ? themeColors.common.black : (isDark ? themeColors.common.white : themeColors.common.black)
+                          }}>
+                          {service.title}
+                        </h3>
+                        <p className="text-sm line-clamp-3 md:line-clamp-none transition-colors duration-300"
+                          style={{
+                            color: hoveredId === service.id ? `${themeColors.common.black}B3` : (isDark ? `${themeColors.common.white}B3` : `${themeColors.common.black}B3`)
+                          }}>
+                          {service.description}
+                        </p>
+                      </div>
+                      <div className={cn(
+                        "w-8 h-8 md:w-10 md:h-10 rounded-full border flex items-center justify-center flex-shrink-0",
+                        "transition-all duration-300"
+                      )}
+                      style={{
+                        borderColor: hoveredId === service.id 
+                          ? themeColors.common.black
+                          : isDark 
+                            ? `${themeColors.common.white}4D`
+                            : `${themeColors.common.black}4D`,
+                        backgroundColor: hoveredId === service.id 
+                          ? themeColors.common.black
+                          : 'transparent'
+                      }}>
+                        <svg 
+                          width="16" 
+                          height="16" 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          xmlns="http://www.w3.org/2000/svg"
+                          className={cn(
+                            "w-4 h-4 md:w-5 md:h-5 transition-all duration-300",
+                            hoveredId === service.id ? "rotate-[-45deg]" : ""
+                          )}
+                          style={{
+                            stroke: hoveredId === service.id 
+                              ? themeColors.primary.main
+                              : isDark 
+                                ? themeColors.common.white
+                                : themeColors.common.black
+                          }}
+                        >
+                          <path 
+                            d="M5 12H19M19 12L12 5M19 12L12 19" 
+                            strokeWidth="2" 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              );
+});
+
+ServiceCard.displayName = 'ServiceCard';
+
 export default function AndMoreService({ children }: AndMoreServiceProps) {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -197,9 +336,21 @@ export default function AndMoreService({ children }: AndMoreServiceProps) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Memoize background gradient style
+  const backgroundStyle = useMemo(() => ({
+    background: isDark 
+      ? `linear-gradient(to bottom, ${themeColors.common.black}, ${themeColors.primary.main}33, ${themeColors.primary.main})`
+      : `linear-gradient(to bottom, ${themeColors.common.white}, ${themeColors.primary.main}1A, ${themeColors.primary.main})`
+  }), [isDark, themeColors]);
+
   return (
-    <section ref={sectionRef} id="plus-de-service" className="w-full relative py-12 md:py-10 overflow-hidden">
-      {/* Decorative Mouse Elements */}
+    <section 
+      ref={sectionRef} 
+      id="plus-de-service" 
+      className="w-full relative py-12 md:py-10 overflow-hidden"
+      aria-label="Services supplémentaires"
+    >
+      {/* Decorative Mouse Elements with proper aria-hidden */}
       <div 
         ref={mouse1Ref} 
         className={cn(
@@ -207,10 +358,9 @@ export default function AndMoreService({ children }: AndMoreServiceProps) {
           isVisible && "translate-x-[100px] translate-y-[80px] -rotate-[45deg]"
         )} 
         style={{ zIndex: 1 }}
+        aria-hidden="true"
       >
-        <svg width="46" height="45" viewBox="0 0 46 45" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M45.0146 35.3088C46.9298 40.5262 41.8604 45.5956 36.643 43.6804L3.84584 31.6409C-0.995415 29.8637 -0.872338 22.9743 4.0293 21.3712L14.5981 17.9146C17.6999 16.9001 20.0918 14.406 20.9756 11.2644L23.0275 3.9706C24.4554 -1.10461 31.5466 -1.3798 33.3634 3.5695L45.0146 35.3088Z" fill={`${themeColors.primary.main}93`}/>
-        </svg>
+        <DecorativeMouse fill={`${themeColors.primary.main}93`} />
       </div>
       <div 
         ref={mouse2Ref} 
@@ -237,14 +387,11 @@ export default function AndMoreService({ children }: AndMoreServiceProps) {
         </svg>
       </div>
 
-      {/* Gradient background */}
+      {/* Gradient background with memoized style */}
       <div 
         className="absolute inset-0 z-0 transition-colors duration-300"
-        style={{
-          background: isDark 
-            ? `linear-gradient(to bottom, ${themeColors.common.black}, ${themeColors.primary.main}33, ${themeColors.primary.main})`
-            : `linear-gradient(to bottom, ${themeColors.common.white}, ${themeColors.primary.main}1A, ${themeColors.primary.main})`
-        }}
+        style={backgroundStyle}
+        aria-hidden="true"
       />
 
       {/* Grain effect overlay */}
@@ -272,104 +419,25 @@ export default function AndMoreService({ children }: AndMoreServiceProps) {
           Et bien plus
         </h2>
         <div className="relative w-full mb-8 md:mb-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-4">
-            {services.map((service) => {
-              const cardStyle = getCardStyle(service.id);
-              const slug = createSlug(service.title);
-              return (
-                <Link
-                  key={service.id}
-                  href={`/services/${slug}`}
-                  className="block group/link"
-                >
-                  <div
-                    className={cn(
-                      "relative p-4 md:p-6 rounded-2xl md:rounded-3xl cursor-pointer",
-                      "transition-all duration-300 backdrop-blur-sm",
-                      "group"
-                    )}
-                    style={{
-                      ...cardStyle,
-                      border: isDark ? 'none' : '1px solid rgba(0, 0, 0, 0.1)'
-                    }}
-                    onMouseEnter={() => setHoveredId(service.id)}
-                    onMouseLeave={() => setHoveredId(null)}
-                  >
-                    <div className="flex items-start gap-3 md:gap-4">
-                      <div className={cn(
-                        "w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl",
-                        "flex items-center justify-center flex-shrink-0 transition-all duration-300"
-                      )}
-                      style={{
-                        backgroundColor: hoveredId === service.id ? themeColors.common.black : themeColors.primary.main,
-                        color: hoveredId === service.id ? themeColors.primary.main : themeColors.common.black
-                      }}>
-                        {service.icon}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-lg md:text-xl font-medium mb-2 line-clamp-1 transition-colors duration-300"
-                          style={{
-                            color: hoveredId === service.id ? themeColors.common.black : (isDark ? themeColors.common.white : themeColors.common.black)
-                          }}>
-                          {service.title}
-                        </h3>
-                        <p className="text-sm line-clamp-3 md:line-clamp-none transition-colors duration-300"
-                          style={{
-                            color: hoveredId === service.id ? `${themeColors.common.black}B3` : (isDark ? `${themeColors.common.white}B3` : `${themeColors.common.black}B3`)
-                          }}>
-                          {service.description}
-                        </p>
-                      </div>
-                      <div className={cn(
-                        "w-8 h-8 md:w-10 md:h-10 rounded-full border flex items-center justify-center flex-shrink-0",
-                        "transition-all duration-300"
-                      )}
-                      style={{
-                        borderColor: hoveredId === service.id 
-                          ? themeColors.common.black
-                          : isDark 
-                            ? `${themeColors.common.white}4D`
-                            : `${themeColors.common.black}4D`,
-                        backgroundColor: hoveredId === service.id 
-                          ? themeColors.common.black
-                          : 'transparent'
-                      }}>
-                        <svg 
-                          width="16" 
-                          height="16" 
-                          viewBox="0 0 24 24" 
-                          fill="none" 
-                          xmlns="http://www.w3.org/2000/svg"
-                          className={cn(
-                            "w-4 h-4 md:w-5 md:h-5 transition-all duration-300",
-                            hoveredId === service.id ? "rotate-[-45deg]" : ""
-                          )}
-                          style={{
-                            stroke: hoveredId === service.id 
-                              ? themeColors.primary.main
-                              : isDark 
-                                ? themeColors.common.white
-                                : themeColors.common.black
-                          }}
-                        >
-                          <path 
-                            d="M5 12H19M19 12L12 5M19 12L12 19" 
-                            strokeWidth="2" 
-                            strokeLinecap="round" 
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              );
-            })}
+          <div 
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-4"
+            role="list"
+          >
+            {services.map((service) => (
+              <ServiceCard
+                key={service.id}
+                service={service}
+                hoveredId={hoveredId}
+                onHover={setHoveredId}
+                isDark={isDark}
+                themeColors={themeColors}
+              />
+            ))}
           </div>
         </div>
 
         {/* Team Section */}
-        <div id="team-section">
+        <div id="team-section" role="region" aria-label="Notre équipe">
           {children}
         </div>
 

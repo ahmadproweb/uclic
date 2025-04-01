@@ -1,7 +1,6 @@
 'use client';
 
 import { memo } from 'react';
-import { UnderlinedText } from '@/components/ui/underlined-text';
 
 // Types
 interface Logo {
@@ -40,47 +39,36 @@ const logos: Logo[] = [
   { name: "BUT", image: "/partners/but.png", alt: "Logo BUT, enseigne de mobilier et électroménager" }
 ];
 
-// Memoized Components
-const LogoCard = memo(({ logo, index }: { logo: Logo; index: number }) => (
-  <div
-    className="aspect-[3/2] rounded-2xl p-8 flex items-center justify-center bg-black/5 animate-fade-in-up"
-    style={{ animationDelay: `${index * 50}ms` }}
-  >
-    <img
-      src={logo.image}
-      alt={logo.alt}
-      className="w-full h-full object-contain brightness-0"
-      loading="lazy"
-      decoding="async"
-    />
-  </div>
-));
-
-LogoCard.displayName = 'LogoCard';
-
-function LogoGrid() {
+const LogoGrid = memo(function LogoGrid() {
   return (
-    <div className="w-full py-0 md:py-0 relative overflow-hidden">
+    <section className="w-full py-0 md:py-0 pb-16 md:pb-24 relative overflow-hidden">
       <div className="max-w-[1250px] mx-auto px-4">
-        {/* Titre */}
         <h2 className="text-2xl md:text-4xl font-normal text-center mb-8 text-black animate-fade-in-up">
-          Nos partenaires de{' '}
-          <UnderlinedText text="confiance" className="text-black" />
+          Nos partenaires de confiance
+          <span className="sr-only"> - Découvrez les entreprises qui nous font confiance</span>
         </h2>
 
-        {/* Grille de logos */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6" role="list">
           {logos.map((logo, index) => (
-            <LogoCard
+            <div
               key={logo.name}
-              logo={logo}
-              index={index}
-            />
+              className="aspect-[3/2] rounded-2xl p-8 flex items-center justify-center bg-black/5 animate-fade-in-up"
+              style={{ animationDelay: `${index * 50}ms` }}
+              role="listitem"
+            >
+              <img
+                src={logo.image}
+                alt={logo.alt}
+                className="w-full h-full object-contain brightness-0"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
-}
+});
 
-export default memo(LogoGrid); 
+export default LogoGrid; 

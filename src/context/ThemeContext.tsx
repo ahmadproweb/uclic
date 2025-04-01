@@ -13,14 +13,16 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
-  const [theme, setTheme] = useState<Theme>('dark'); // Always start with dark theme for SSR
+  const [theme, setTheme] = useState<Theme>('dark');
 
   useEffect(() => {
-    // Only run on client, after mount
     setMounted(true);
     const savedTheme = localStorage.getItem('theme') as Theme;
-    if (savedTheme) {
-      setTheme(savedTheme);
+    // Only allow switching to light if explicitly set
+    if (savedTheme === 'light') {
+      setTheme('light');
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
     }
   }, []);
 
@@ -37,7 +39,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     setTheme(prevTheme => prevTheme === 'dark' ? 'light' : 'dark');
   };
 
-  // Render with SSR theme until client-side theme is available
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       <div suppressHydrationWarning>

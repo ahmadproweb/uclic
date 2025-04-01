@@ -65,17 +65,15 @@ const TeamMemberCard = memo(({
   
   return (
     <article 
-      className="group/card"
+      className="group/card relative"
       onMouseEnter={() => onHover(member.slug)}
       onMouseLeave={() => onHover(null)}
     >
-      <Link
-        href={`/equipe/${member.slug}`}
+      <div
         className={cn(
           "relative rounded-2xl md:rounded-[32px] p-4 md:p-8",
           "transition-colors duration-300 flex flex-row items-start gap-4 md:gap-6",
-          "backdrop-blur-sm h-[220px] md:h-[280px]",
-          "focus:outline-none focus:ring-2 focus:ring-primary/50"
+          "backdrop-blur-sm h-[220px] md:h-[280px]"
         )}
         style={{
           backgroundColor: isHovered
@@ -162,7 +160,15 @@ const TeamMemberCard = memo(({
             {member.equipeFields.extrait}
           </p>
         </div>
-      </Link>
+      </div>
+      <Link
+        href={`/equipe/${member.slug}`}
+        className={cn(
+          "absolute inset-0 rounded-2xl md:rounded-[32px]",
+          "focus:outline-none focus:ring-2 focus:ring-primary/50"
+        )}
+        aria-label={`En savoir plus sur ${member.title}`}
+      />
     </article>
   );
 });
