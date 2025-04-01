@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, memo } from 'react';
+import { useState, useEffect, memo, useCallback, useMemo } from 'react';
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 import { colors } from '@/config/theme';
@@ -17,35 +17,35 @@ interface ThemeColors {
   };
 }
 
-// Memoized SocialIcon component
-const SocialIcon = memo(({ href, children, backgroundColor, label }: { 
+// Memoized SocialIcon component with optimized props
+const SocialIcon = memo(function SocialIcon({ href, children, backgroundColor, label }: { 
   href: string, 
   children: React.ReactNode,
   backgroundColor: string,
   label: string
-}) => (
-  <a 
-    href={href}
-    target="_blank"
-    rel="noopener noreferrer"
-    className={cn(
-      "w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center",
-      "bg-primary hover:bg-primary/80 transition-colors duration-300"
-    )}
-    style={{
-      backgroundColor,
-      '--tw-bg-opacity': '1'
-    } as React.CSSProperties}
-    aria-label={label}
-  >
-    {children}
-  </a>
-));
+}) {
+  return (
+    <a 
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={cn(
+        "w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center",
+        "bg-primary hover:bg-primary/80 transition-colors duration-300"
+      )}
+      style={{
+        backgroundColor,
+        '--tw-bg-opacity': '1'
+      } as React.CSSProperties}
+      aria-label={label}
+    >
+      {children}
+    </a>
+  );
+});
 
-SocialIcon.displayName = 'SocialIcon';
-
-// Memoized TeamMemberCard component
-const TeamMemberCard = memo(({ 
+// Memoized TeamMemberCard component with optimized props
+const TeamMemberCard = memo(function TeamMemberCard({ 
   member, 
   hoveredId, 
   onHover,
@@ -57,17 +57,37 @@ const TeamMemberCard = memo(({
   onHover: (id: string | null) => void,
   themeColors: ThemeColors,
   isDark: boolean
-}) => {
+}) {
   const isHovered = hoveredId === member.slug;
   const fullName = member.title;
-  const [firstName, ...lastNameParts] = fullName.split(' ');
-  const lastName = lastNameParts.join(' ');
+  const [firstName, ...lastNameParts] = useMemo(() => fullName.split(' '), [fullName]);
+  const lastName = useMemo(() => lastNameParts.join(' '), [lastNameParts]);
   
+  const handleMouseEnter = useCallback(() => onHover(member.slug), [member.slug, onHover]);
+  const handleMouseLeave = useCallback(() => onHover(null), [onHover]);
+  
+  // Fonction pour ajouter .webp à l'URL de l'image en gardant l'extension originale
+  const getWebpUrl = useCallback((url: string | undefined) => {
+    if (!url) return '';
+    // Si l'URL se termine déjà par .webp, on la retourne telle quelle
+    if (url.endsWith('.webp')) return url;
+    // On ajoute simplement .webp à la fin, en gardant l'extension originale
+    return `${url}.webp`;
+  }, []);
+
+  const imageUrl = useMemo(() => {
+    const miniImageUrl = member.equipeFields.miniImage?.node.sourceUrl;
+    const mainImageUrl = member.equipeFields.image?.node.sourceUrl;
+    const fallbackUrl = "https://media.istockphoto.com/id/1919265357/fr/photo/portrait-en-gros-plan-dun-homme-daffaires-confiant-debout-dans-son-bureau.jpg";
+    
+    return getWebpUrl(miniImageUrl || mainImageUrl || fallbackUrl);
+  }, [member.equipeFields.miniImage?.node.sourceUrl, member.equipeFields.image?.node.sourceUrl, getWebpUrl]);
+
   return (
     <article 
       className="group/card relative"
-      onMouseEnter={() => onHover(member.slug)}
-      onMouseLeave={() => onHover(null)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <div
         className={cn(
@@ -84,20 +104,36 @@ const TeamMemberCard = memo(({
         }}
       >
         <figure className="relative w-16 md:w-24 h-16 md:h-24 flex-shrink-0">
-          <img
-            src={member.equipeFields.miniImage?.node.sourceUrl || member.equipeFields.image?.node.sourceUrl || "https://media.istockphoto.com/id/1919265357/fr/photo/portrait-en-gros-plan-dun-homme-daffaires-confiant-debout-dans-son-bureau.jpg?s=612x612&w=0&k=20&c=u_cAYkuDe1e8oeBrKBNLbPiBrZ_fflqLhwxIXXlgsOg="}
-            alt={member.equipeFields.miniImage?.node.altText || member.equipeFields.image?.node.altText || `Photo de ${member.title}`}
-            className={cn(
-              "w-full h-full object-cover object-top rounded-xl md:rounded-2xl",
-              "grayscale group-hover/card:grayscale-0 transition-[filter] duration-300"
-            )}
-            loading="eager"
-            width={96}
-            height={96}
-          />
+          <div className="relative w-full h-full">
+            <img
+              src={imageUrl}
+              alt={member.equipeFields.miniImage?.node.altText || member.equipeFields.image?.node.altText || `Photo de ${member.title}`}
+              className={cn(
+                "w-full h-full object-cover object-top rounded-xl md:rounded-2xl relative z-10",
+                "grayscale group-hover/card:grayscale-0 transition-[filter] duration-300"
+              )}
+              loading="eager"
+              width={96}
+              height={96}
+            />
+            <div 
+              className={cn(
+                "absolute inset-0 z-20 rounded-xl md:rounded-2xl",
+                "bg-[linear-gradient(to_right,#00000011,transparent_2px),linear-gradient(to_bottom,#00000011,transparent_2px)]",
+                "[background-size:3px_3px]",
+                "mix-blend-overlay opacity-30",
+                "group-hover/card:opacity-0 transition-opacity duration-300"
+              )}
+              style={{
+                backgroundColor: isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.03)'
+              }}
+              aria-hidden="true"
+            />
+          </div>
           <div className={cn(
             "absolute -right-2 md:-right-4 top-0 flex flex-col gap-2 md:gap-3",
-            "opacity-0 group-hover/card:opacity-100 transition-opacity duration-300"
+            "opacity-0 group-hover/card:opacity-100 transition-opacity duration-300",
+            "z-30"
           )}>
             {member.equipeFields.linkedin && (
               <SocialIcon 
@@ -173,16 +209,14 @@ const TeamMemberCard = memo(({
   );
 });
 
-TeamMemberCard.displayName = 'TeamMemberCard';
-
-const ClientTeam = ({ initialData }: { initialData: TeamMember[] }) => {
+const ClientTeam = memo(function ClientTeam({ initialData }: { initialData: TeamMember[] }) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>(initialData);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { theme: currentTheme } = useTheme();
   const isDark = currentTheme === 'dark';
-  const themeColors = colors.colors;
+  const themeColors = useMemo(() => colors.colors, []);
 
   useEffect(() => {
     if (initialData.length === 0) {
@@ -204,48 +238,12 @@ const ClientTeam = ({ initialData }: { initialData: TeamMember[] }) => {
     }
   }, [initialData]);
 
-  if (error) {
-    return (
-      <section 
-        id="team" 
-        className="w-full rounded-2xl md:rounded-[32px] p-6 md:p-16 relative bg-primary/20"
-        style={{
-          '--tw-bg-opacity': isDark ? '0.2' : '0.1',
-          backgroundColor: themeColors.primary.main
-        } as React.CSSProperties}
-      >
-        <div className="flex items-center justify-center min-h-[400px]">
-          <div className="text-center" role="alert">
-            <p className="text-red-500 mb-4">{error}</p>
-            <button 
-              onClick={() => window.location.reload()}
-              className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/80 transition-colors"
-            >
-              Réessayer
-            </button>
-          </div>
-        </div>
-      </section>
-    );
-  }
+  const handleHover = useCallback((id: string | null) => {
+    setHoveredId(id);
+  }, []);
 
-  if (isLoading) {
-    return (
-      <section 
-        id="team" 
-        className="w-full rounded-2xl md:rounded-[32px] p-6 md:p-16 relative bg-primary/20"
-        style={{
-          '--tw-bg-opacity': isDark ? '0.2' : '0.1',
-          backgroundColor: themeColors.primary.main
-        } as React.CSSProperties}
-      >
-        <div className="flex items-center justify-center min-h-[400px]" role="status">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary">
-            <span className="sr-only">Chargement...</span>
-          </div>
-        </div>
-      </section>
-    );
+  if (error || isLoading) {
+    return null; // Early return for loading and error states
   }
 
   return (
@@ -304,7 +302,7 @@ const ClientTeam = ({ initialData }: { initialData: TeamMember[] }) => {
               key={member.slug}
               member={member}
               hoveredId={hoveredId}
-              onHover={setHoveredId}
+              onHover={handleHover}
               themeColors={themeColors}
               isDark={isDark}
             />
@@ -313,6 +311,6 @@ const ClientTeam = ({ initialData }: { initialData: TeamMember[] }) => {
       </div>
     </section>
   );
-};
+});
 
-export default memo(ClientTeam); 
+export default ClientTeam; 
