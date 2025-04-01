@@ -59,7 +59,7 @@ MarqueeItem.displayName = 'MarqueeItem';
 
 const MarqueeRow = memo(function MarqueeRow({ words, isReverse = false }: { words: ServiceLink[], isReverse?: boolean }) {
   return (
-    <div className="marquee-container" aria-hidden="true">
+    <div className="marquee-container">
       <div className={`marquee-scroll ${isReverse ? 'reverse' : ''}`}>
         {words.map((word, idx) => (
           <MarqueeItem key={`${isReverse ? 'reverse' : 'forward'}-${idx}`} word={word} />

@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import { MarqueeClient } from './MarqueeClient';
+import Link from 'next/link';
 
 interface ServiceLink {
   text: string;
@@ -29,16 +30,18 @@ const services: ServiceLink[] = [
 
 const ServicesList = memo(function ServicesList() {
   return (
-    <div className="sr-only">
+    <nav className="sr-only" aria-label="Services navigation">
       <h2>Nos services marketing</h2>
-      <ul>
+      <ul role="list">
         {services.map((service) => (
-          <li key={service.href}>
-            <a href={service.href}>{service.text} - {service.description}</a>
+          <li key={service.href} role="listitem">
+            <Link href={service.href} aria-label={`${service.text} - ${service.description}`}>
+              {service.text}
+            </Link>
           </li>
         ))}
       </ul>
-    </div>
+    </nav>
   );
 });
 
