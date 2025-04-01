@@ -43,14 +43,14 @@ l'impact est `}
 // Memoized description component
 const Description = memo(function Description() {
   return (
-    <p 
+    <p
       className={cn(
         "text-base md:text-lg mt-6 mb-8 md:mb-12 max-w-xl pr-4",
-        "text-[#000] dark:text-[#F5F5F1]",
         "leading-relaxed tracking-[-0.01em]",
         "font-absans font-normal",
         "text-rendering-optimizeLegibility",
-        "subpixel-antialiased"
+        "subpixel-antialiased",
+        "text-[#000] dark:text-[#F5F5F1]"
       )}
     >
       Nous convertissons vos défis en leviers de croissance avec des stratégies data-driven, des outils IA avancés et les meilleurs freelances sélectionnés pour vos besoins.
