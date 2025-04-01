@@ -4,8 +4,6 @@ import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 import { colors as theme } from '@/config/theme';
 import { useEffect, useRef, useState, memo, useCallback } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { getPortfolios } from '@/services/wordpress';
 import { CTAButton } from '@/components/ui/cta-button';
 import Link from 'next/link';
@@ -46,19 +44,24 @@ interface CaseStudyProps {
 const DecorativeMouse = memo(({ 
   ref, 
   position, 
-  isDark 
+  isDark,
+  isVisible
 }: { 
   ref: React.RefObject<HTMLDivElement>;
   position: 'left' | 'right';
   isDark: boolean;
+  isVisible: boolean;
 }) => (
   <div 
     ref={ref} 
     className={cn(
-      "absolute w-[46px] h-[45px] transform hidden md:block",
+      "absolute w-[46px] h-[45px] transform hidden md:block transition-transform duration-1000 ease-out",
       position === 'left' 
         ? "top-20 left-[10%] rotate-[-15deg]" 
-        : "bottom-20 right-[10%] rotate-[25deg] w-[92px] h-[90px]"
+        : "bottom-20 right-[10%] rotate-[25deg] w-[92px] h-[90px]",
+      isVisible && (position === 'left' 
+        ? "translate-x-[100px] translate-y-[60px] -rotate-[35deg]" 
+        : "translate-x-[-80px] translate-y-[90px] rotate-[60deg]")
     )} 
     style={{ zIndex: 1 }}
   >
@@ -144,40 +147,30 @@ function CaseStudy({ portfolios: initialPortfolios }: CaseStudyProps) {
   const isDark = currentTheme === 'dark';
   const [portfolios, setPortfolios] = useState(initialPortfolios || []);
   const [isLoading, setIsLoading] = useState(!initialPortfolios);
+  const [isVisible, setIsVisible] = useState(false);
 
+  const sectionRef = useRef<HTMLElement>(null);
   const mouse1Ref = useRef<HTMLDivElement>(null);
   const mouse2Ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
-    const mouse1Animation = gsap.to(mouse1Ref.current, {
-      x: 100,
-      y: 60,
-      rotation: -35,
-      scrollTrigger: {
-        trigger: "#casestudy",
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 0.3,
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.1
       }
-    });
+    );
 
-    const mouse2Animation = gsap.to(mouse2Ref.current, {
-      x: -80,
-      y: 90,
-      rotation: 60,
-      scrollTrigger: {
-        trigger: "#casestudy",
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 0.4
-      }
-    });
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
 
     return () => {
-      mouse1Animation.kill();
-      mouse2Animation.kill();
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
     };
   }, []);
 
@@ -209,12 +202,16 @@ function CaseStudy({ portfolios: initialPortfolios }: CaseStudyProps) {
   }
 
   return (
-    <section id="casestudy" className={cn(
-      "w-full py-12 md:py-16 relative transition-colors duration-300",
-      isDark ? "bg-black/90" : "bg-[#F5F5F5]"
-    )}>
-      <DecorativeMouse ref={mouse1Ref} position="left" isDark={isDark} />
-      <DecorativeMouse ref={mouse2Ref} position="right" isDark={isDark} />
+    <section 
+      ref={sectionRef}
+      id="casestudy" 
+      className={cn(
+        "w-full py-12 md:py-16 relative transition-colors duration-300",
+        isDark ? "bg-black/90" : "bg-[#F5F5F5]"
+      )}
+    >
+      <DecorativeMouse ref={mouse1Ref} position="left" isDark={isDark} isVisible={isVisible} />
+      <DecorativeMouse ref={mouse2Ref} position="right" isDark={isDark} isVisible={isVisible} />
 
       <div className="max-w-[1250px] mx-auto px-4">
         <h2 className={cn(

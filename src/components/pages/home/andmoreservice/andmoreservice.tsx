@@ -4,8 +4,6 @@ import { useState, useEffect, useRef, ReactNode } from 'react';
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 import { colors } from '@/config/theme';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Link from 'next/link';
 import { CTAButton } from "@/components/ui/cta-button";
 
@@ -126,55 +124,35 @@ const createSlug = (title: string) => {
 
 export default function AndMoreService({ children }: AndMoreServiceProps) {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
   const { theme: currentTheme } = useTheme();
   const isDark = currentTheme === 'dark';
   const themeColors = colors.colors;
   
+  const sectionRef = useRef<HTMLElement>(null);
   const mouse1Ref = useRef(null);
   const mouse2Ref = useRef(null);
   const mouse3Ref = useRef(null);
 
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Animation pour le premier mouse (petit)
-    gsap.to(mouse1Ref.current, {
-      x: 100,
-      y: 80,
-      rotation: -45,
-      scrollTrigger: {
-        trigger: "#plus-de-service",
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 10
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.1
       }
-    });
+    );
 
-    // Animation pour le deuxième mouse (grand)
-    gsap.to(mouse2Ref.current, {
-      x: -80,
-      y: 120,
-      rotation: 65,
-      scrollTrigger: {
-        trigger: "#plus-de-service",
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1.2
-      }
-    });
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
 
-    // Animation pour le troisième mouse (moyen)
-    gsap.to(mouse3Ref.current, {
-      x: 90,
-      y: -100,
-      rotation: 85,
-      scrollTrigger: {
-        trigger: "#plus-de-service",
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 0.8
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
       }
-    });
+    };
   }, []);
 
   // Fonction pour obtenir l'opacité de la carte basée sur sa position
@@ -220,19 +198,40 @@ export default function AndMoreService({ children }: AndMoreServiceProps) {
   }, []);
 
   return (
-    <section id="plus-de-service" className="w-full relative py-12 md:py-10 overflow-hidden">
+    <section ref={sectionRef} id="plus-de-service" className="w-full relative py-12 md:py-10 overflow-hidden">
       {/* Decorative Mouse Elements */}
-      <div ref={mouse1Ref} className="absolute top-20 left-[10%] w-[46px] h-[45px] transform rotate-[-15deg] hidden md:block" style={{ zIndex: 1 }}>
+      <div 
+        ref={mouse1Ref} 
+        className={cn(
+          "absolute top-20 left-[10%] w-[46px] h-[45px] transform rotate-[-15deg] hidden md:block transition-transform duration-1000 ease-out",
+          isVisible && "translate-x-[100px] translate-y-[80px] -rotate-[45deg]"
+        )} 
+        style={{ zIndex: 1 }}
+      >
         <svg width="46" height="45" viewBox="0 0 46 45" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M45.0146 35.3088C46.9298 40.5262 41.8604 45.5956 36.643 43.6804L3.84584 31.6409C-0.995415 29.8637 -0.872338 22.9743 4.0293 21.3712L14.5981 17.9146C17.6999 16.9001 20.0918 14.406 20.9756 11.2644L23.0275 3.9706C24.4554 -1.10461 31.5466 -1.3798 33.3634 3.5695L45.0146 35.3088Z" fill={`${themeColors.primary.main}93`}/>
         </svg>
       </div>
-      <div ref={mouse2Ref} className="absolute top-[20%] right-[10%] w-[92px] h-[90px] transform rotate-[25deg] hidden md:block" style={{ zIndex: 1 }}>
+      <div 
+        ref={mouse2Ref} 
+        className={cn(
+          "absolute top-[20%] right-[10%] w-[92px] h-[90px] transform rotate-[25deg] hidden md:block transition-transform duration-1000 ease-out",
+          isVisible && "translate-x-[-80px] translate-y-[120px] rotate-[65deg]"
+        )} 
+        style={{ zIndex: 1 }}
+      >
         <svg width="92" height="90" viewBox="0 0 46 45" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M45.0146 35.3088C46.9298 40.5262 41.8604 45.5956 36.643 43.6804L3.84584 31.6409C-0.995415 29.8637 -0.872338 22.9743 4.0293 21.3712L14.5981 17.9146C17.6999 16.9001 20.0918 14.406 20.9756 11.2644L23.0275 3.9706C24.4554 -1.10461 31.5466 -1.3798 33.3634 3.5695L45.0146 35.3088Z" fill={`${themeColors.primary.main}73`}/>
         </svg>
       </div>
-      <div ref={mouse3Ref} className="absolute bottom-200 left-[15%] w-[69px] h-[67.5px] transform rotate-[45deg] hidden md:block" style={{ zIndex: 1 }}>
+      <div 
+        ref={mouse3Ref} 
+        className={cn(
+          "absolute bottom-200 left-[15%] w-[69px] h-[67.5px] transform rotate-[45deg] hidden md:block transition-transform duration-1000 ease-out",
+          isVisible && "translate-x-[90px] translate-y-[-100px] rotate-[85deg]"
+        )} 
+        style={{ zIndex: 1 }}
+      >
         <svg width="69" height="67.5" viewBox="0 0 46 45" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M45.0146 35.3088C46.9298 40.5262 41.8604 45.5956 36.643 43.6804L3.84584 31.6409C-0.995415 29.8637 -0.872338 22.9743 4.0293 21.3712L14.5981 17.9146C17.6999 16.9001 20.0918 14.406 20.9756 11.2644L23.0275 3.9706C24.4554 -1.10461 31.5466 -1.3798 33.3634 3.5695L45.0146 35.3088Z" fill={`${themeColors.primary.main}83`}/>
         </svg>

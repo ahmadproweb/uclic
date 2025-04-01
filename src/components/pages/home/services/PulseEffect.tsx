@@ -1,38 +1,15 @@
 "use client";
 
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
+import { useRef } from 'react';
 import { colors as theme } from '@/config/theme';
 
 export function PulseEffect() {
   const pulseRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!pulseRef.current) return;
-
-    const tl = gsap.timeline({
-      repeat: -1,
-      defaults: { ease: "power1.inOut" }
-    });
-
-    tl.to(pulseRef.current, {
-      scale: 1.2,
-      opacity: 0.9,
-      duration: 2
-    })
-    .to(pulseRef.current, {
-      scale: 1,
-      opacity: 0.5,
-      duration: 2
-    });
-
-    return () => tl.kill();
-  }, []);
-
   return (
     <>
       <div ref={pulseRef} 
-        className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[1200px] h-[600px]" 
+        className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[1200px] h-[600px] animate-pulse" 
         style={{ 
           background: `radial-gradient(ellipse at 50% 100%, 
             ${theme.colors.primary.main}80 0%,
@@ -41,12 +18,23 @@ export function PulseEffect() {
             transparent 70%
           )`,
           filter: 'blur(60px)',
-          transform: 'scale(1)',
           opacity: 0.6,
-          transformOrigin: 'bottom center'
+          transformOrigin: 'bottom center',
+          animation: 'pulse 4s ease-in-out infinite'
         }}
       />
-      {/* Additional background layers */}
+      <style jsx>{`
+        @keyframes pulse {
+          0%, 100% {
+            transform: translateX(-50%) scale(1);
+            opacity: 0.6;
+          }
+          50% {
+            transform: translateX(-50%) scale(1.2);
+            opacity: 0.9;
+          }
+        }
+      `}</style>
     </>
   );
 } 
