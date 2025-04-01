@@ -71,7 +71,7 @@ const TeamMemberCard = memo(function TeamMemberCard({
     if (!url) return '';
     // Si l'URL se termine déjà par .webp, on la retourne telle quelle
     if (url.endsWith('.webp')) return url;
-    // On ajoute simplement .webp à la fin, en gardant l'extension originale
+    // On ajoute simplement .webp à la fin, en gardant lextension originale
     return `${url}.webp`;
   }, []);
 
