@@ -1,7 +1,9 @@
 "use client";
 
+import { memo } from 'react';
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
+import './partner.css';
 
 interface Partner {
   name: string;
@@ -15,7 +17,79 @@ interface PartnerClientProps {
   forceBlackLogos?: boolean;
 }
 
-export function PartnerClient({ row1, row2, forceBlackLogos = false }: PartnerClientProps) {
+const PartnerLogo = memo(function PartnerLogo({ 
+  partner, 
+  index, 
+  totalLogos,
+  filter 
+}: { 
+  partner: Partner;
+  index: number;
+  totalLogos: number;
+  filter: string;
+}) {
+  return (
+    <div 
+      className="partner-item"
+      role="img"
+      aria-label={partner.name}
+    >
+      <img
+        src={partner.image}
+        alt={partner.alt}
+        width={100}
+        height={30}
+        loading={index < totalLogos ? "eager" : "lazy"}
+        className={cn(
+          "object-contain transition-all duration-300",
+          filter,
+          "hover:opacity-90"
+        )}
+      />
+    </div>
+  );
+});
+
+PartnerLogo.displayName = 'PartnerLogo';
+
+const PartnerRow = memo(function PartnerRow({ 
+  partners, 
+  isReverse = false,
+  filter
+}: { 
+  partners: Partner[];
+  isReverse?: boolean;
+  filter: string;
+}) {
+  return (
+    <div className="partner-container">
+      <div 
+        className={cn(
+          "partner-scroll",
+          isReverse ? "animate-marquee-right" : "animate-marquee-left"
+        )}
+      >
+        {[...partners, ...partners].map((partner, idx) => (
+          <PartnerLogo 
+            key={`${isReverse ? 'reverse' : 'forward'}-${idx}`}
+            partner={partner}
+            index={idx}
+            totalLogos={partners.length}
+            filter={filter}
+          />
+        ))}
+      </div>
+    </div>
+  );
+});
+
+PartnerRow.displayName = 'PartnerRow';
+
+export const PartnerClient = memo(function PartnerClient({ 
+  row1, 
+  row2, 
+  forceBlackLogos = false 
+}: PartnerClientProps) {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
@@ -25,90 +99,9 @@ export function PartnerClient({ row1, row2, forceBlackLogos = false }: PartnerCl
   };
 
   return (
-    <div className="flex flex-col space-y-12 group/logos">
-      {/* Première ligne */}
-      <div className="logo-container">
-        <div className="logo-scroll group-hover/logos:pause">
-          <div className="logo-scroll__wrapper">
-            {[...row1, ...row1].map((partner, idx) => (
-              <div key={idx} className="logo-item group">
-                <img
-                  src={partner.image}
-                  alt={partner.alt}
-                  width={40}
-                  height={12}
-                  loading={idx < row1.length ? "eager" : "lazy"}
-                  className={cn(
-                    "object-contain transition-all duration-300",
-                    getLogoFilter(),
-                    "hover:opacity-80"
-                  )}
-                />
-              </div>
-            ))}
-          </div>
-          <div className="logo-scroll__wrapper">
-            {[...row1, ...row1].map((partner, idx) => (
-              <div key={`dup1-${idx}`} className="logo-item group">
-                <img
-                  src={partner.image}
-                  alt={partner.alt}
-                  width={40}
-                  height={12}
-                  loading="lazy"
-                  className={cn(
-                    "object-contain transition-all duration-300",
-                    getLogoFilter(),
-                    "hover:opacity-80"
-                  )}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Deuxième ligne */}
-      <div className="logo-container">
-        <div className="logo-scroll group-hover/logos:pause">
-          <div className="logo-scroll__wrapper">
-            {[...row2, ...row2].map((partner, idx) => (
-              <div key={idx} className="logo-item group">
-                <img
-                  src={partner.image}
-                  alt={partner.alt}
-                  width={40}
-                  height={12}
-                  loading={idx < row2.length ? "eager" : "lazy"}
-                  className={cn(
-                    "object-contain transition-all duration-300",
-                    getLogoFilter(),
-                    "hover:opacity-80"
-                  )}
-                />
-              </div>
-            ))}
-          </div>
-          <div className="logo-scroll__wrapper">
-            {[...row2, ...row2].map((partner, idx) => (
-              <div key={`dup2-${idx}`} className="logo-item group">
-                <img
-                  src={partner.image}
-                  alt={partner.alt}
-                  width={40}
-                  height={12}
-                  loading="lazy"
-                  className={cn(
-                    "object-contain transition-all duration-300",
-                    getLogoFilter(),
-                    "hover:opacity-80"
-                  )}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+    <div className="flex flex-col space-y-12">
+      <PartnerRow partners={row1} filter={getLogoFilter()} />
+      <PartnerRow partners={row2} isReverse filter={getLogoFilter()} />
     </div>
   );
-} 
+}); 
