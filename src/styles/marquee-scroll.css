@@ -1,27 +1,60 @@
 /* Container to limit the scroll width */
 .marquee-container {
   --gap: 2rem;
-  --duration: 120s;
-  --scroll-start: 0;
-  --scroll-end: calc(-100% - var(--gap));
   display: flex;
   overflow: hidden;
   user-select: none;
   gap: var(--gap);
+  mask: linear-gradient(
+    to right,
+    transparent,
+    black 5%,
+    black 95%,
+    transparent
+  );
+  -webkit-mask: linear-gradient(
+    to right,
+    transparent,
+    black 5%,
+    black 95%,
+    transparent
+  );
 }
 
 /* Enable smooth animation */
 .marquee-scroll {
   flex-shrink: 0;
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
   gap: var(--gap);
   min-width: 100%;
-  animation: scroll-x var(--duration) linear infinite;
+  padding: 0;
 }
 
-.marquee-scroll.reverse {
-  animation-direction: reverse;
+.animate-marquee-left {
+  animation: scroll-left 40s linear infinite;
+}
+
+.animate-marquee-right {
+  animation: scroll-right 40s linear infinite;
+}
+
+@keyframes scroll-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scroll-right {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
 /* Pause on hover */
@@ -29,11 +62,11 @@
   animation-play-state: paused;
 }
 
-@keyframes scroll-x {
-  from {
-    transform: translateX(var(--scroll-start));
-  }
-  to {
-    transform: translateX(var(--scroll-end));
+/* Respect user preferences */
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee-left,
+  .animate-marquee-right {
+    animation: none;
+    transform: translateX(0);
   }
 } 
