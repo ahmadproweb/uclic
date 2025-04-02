@@ -4,6 +4,7 @@ import { memo } from 'react';
 import Link from 'next/link';
 import '@/styles/marquee-scroll.css';
 import { cn } from '@/lib/utils';
+import { ArrowIcon } from '@/components/ui/icons/ArrowIcon';
 
 interface ServiceLink {
   text: string;
@@ -31,23 +32,7 @@ const MarqueeItem = memo(function MarqueeItem({ word }: { word: ServiceLink }) {
           aria-hidden="true"
         />
       </div>
-      <svg 
-        width="36" 
-        height="36" 
-        viewBox="0 0 36 36" 
-        className="relative z-10 ml-2 group-hover:-translate-y-1 group-hover:translate-x-0.5 transition-all duration-300 transform-gpu"
-        aria-hidden="true"
-      >
-        <circle cx="18" cy="18" r="18" fill="#E0FF5C"/>
-        <path 
-          d="M13 18H23M23 18L16 11M23 18L16 25" 
-          stroke="black" 
-          strokeWidth="2" 
-          strokeLinecap="round" 
-          strokeLinejoin="round"
-          className="transition-transform duration-300 group-hover:-rotate-45 origin-center"
-        />
-      </svg>
+      <ArrowIcon className="relative z-10 ml-2 group-hover:-translate-y-1 group-hover:translate-x-0.5 transition-all duration-300 transform-gpu" />
     </Link>
   );
 });

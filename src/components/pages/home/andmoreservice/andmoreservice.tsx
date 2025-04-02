@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { colors } from '@/config/theme';
 import Link from 'next/link';
 import { CTAButton } from "@/components/ui/cta-button";
+import { ArrowIcon } from "@/components/ui/icons/ArrowIcon";
 
 const services = [
   {
@@ -213,46 +214,17 @@ const ServiceCard = memo(({
                           {service.description}
                         </p>
                       </div>
-                      <div className={cn(
-                        "w-8 h-8 md:w-10 md:h-10 rounded-full border flex items-center justify-center flex-shrink-0",
-                        "transition-all duration-300"
-                      )}
-                      style={{
-                        borderColor: hoveredId === service.id 
-                          ? themeColors.common.black
-                          : isDark 
-                            ? `${themeColors.common.white}4D`
-                            : `${themeColors.common.black}4D`,
-                        backgroundColor: hoveredId === service.id 
-                          ? themeColors.common.black
-                          : 'transparent'
-                      }}>
-                        <svg 
-                          width="16" 
-                          height="16" 
-                          viewBox="0 0 24 24" 
-                          fill="none" 
-                          xmlns="http://www.w3.org/2000/svg"
-                          className={cn(
-                            "w-4 h-4 md:w-5 md:h-5 transition-all duration-300",
-                            hoveredId === service.id ? "rotate-[-45deg]" : ""
-                          )}
-                          style={{
-                            stroke: hoveredId === service.id 
-                              ? themeColors.primary.main
-                              : isDark 
-                                ? themeColors.common.white
-                                : themeColors.common.black
-                          }}
-                        >
-                          <path 
-                            d="M5 12H19M19 12L12 5M19 12L12 19" 
-                            strokeWidth="2" 
-                            strokeLinecap="round" 
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </div>
+                      <ArrowIcon 
+                        className={cn(
+                          "w-8 h-8 md:w-10 md:h-10 flex-shrink-0 transition-all duration-300",
+                          hoveredId === service.id ? "rotate-[-45deg]" : "",
+                          hoveredId === service.id 
+                            ? "[&_circle]:fill-black [&_path]:stroke-white"
+                            : isDark 
+                              ? "[&_circle]:fill-transparent [&_path]:stroke-white"
+                              : "[&_circle]:fill-transparent [&_path]:stroke-black"
+                        )}
+                      />
                     </div>
                   </div>
                 </Link>
