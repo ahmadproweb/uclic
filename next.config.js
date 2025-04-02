@@ -5,7 +5,6 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
-  swcMinify: true,
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
@@ -32,17 +31,7 @@ const nextConfig = {
     optimisticClientCache: true,
     serverActions: {
       bodySizeLimit: '2mb'
-    },
-    critters: {
-      preload: 'media',
-      preloadFonts: true,
-      inlineFonts: true,
-      pruneSource: true,
-      reduceInlineStyles: true,
-      mergeStylesheets: true,
-      fonts: true,
-      keyframes: true,
-    },
+    }
   },
   images: {
     formats: ['image/avif', 'image/webp'],
@@ -71,133 +60,7 @@ const nextConfig = {
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
-  webpack: (config, { dev, isServer }) => {
-    // Optimisations Webpack pour la production
-    if (!dev && !isServer) {
-      config.optimization = {
-        ...config.optimization,
-        mergeDuplicateChunks: true,
-        minimize: true,
-        moduleIds: 'deterministic',
-        runtimeChunk: 'single',
-        splitChunks: {
-          chunks: 'all',
-          minSize: 10000,
-          minRemainingSize: 0,
-          minChunks: 1,
-          maxAsyncRequests: 30,
-          maxInitialRequests: 30,
-          enforceSizeThreshold: 50000,
-          cacheGroups: {
-            framework: {
-              chunks: 'all',
-              name: 'framework',
-              test: /(?<!node_modules.*)[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
-              priority: 40,
-              enforce: true,
-            },
-            lib: {
-              test: /[\\/]node_modules[\\/]/,
-              name(module) {
-                const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)?.[1] || 'lib.unknown';
-                return `lib.${packageName.replace('@', '')}`;
-              },
-              priority: 30,
-              minChunks: 1,
-              reuseExistingChunk: true,
-            },
-            commons: {
-              name: 'commons',
-              minChunks: 2,
-              priority: 20,
-              reuseExistingChunk: true,
-            },
-            styles: {
-              name: 'styles',
-              test: /\.(css|scss|sass)$/,
-              chunks: 'all',
-              enforce: true,
-              priority: 50,
-            },
-            images: {
-              name: 'images',
-              test: /\.(png|jpg|jpeg|gif|svg|webp|avif)$/,
-              chunks: 'all',
-              priority: 45,
-            },
-          },
-        },
-      };
-
-      // Ajout de l'optimisation des images
-      config.module.rules.push({
-        test: /\.(png|jpg|jpeg|gif|webp|avif)$/i,
-        use: [
-          {
-            loader: 'image-webpack-loader',
-            options: {
-              mozjpeg: {
-                progressive: true,
-                quality: 65,
-              },
-              optipng: {
-                enabled: true,
-                optimizationLevel: 7,
-              },
-              pngquant: {
-                quality: [0.65, 0.90],
-                speed: 4,
-              },
-              gifsicle: {
-                interlaced: false,
-              },
-              webp: {
-                quality: 75,
-                method: 6,
-              },
-            },
-          },
-        ],
-      });
-
-      // Configuration de la compression
-      const CompressionPlugin = require('compression-webpack-plugin');
-      
-      config.optimization.minimizer = [
-        ...config.optimization.minimizer,
-        // Compression Brotli
-        new CompressionPlugin({
-          filename: '[path][base].br',
-          algorithm: 'brotliCompress',
-          test: /\.(js|css|html|svg|xml|json|woff|woff2)$/,
-          compressionOptions: { 
-            level: 11,
-            quality: 11
-          },
-          threshold: 8192,
-          minRatio: 0.8,
-          deleteOriginalAssets: false,
-        }),
-        // Compression Gzip
-        new CompressionPlugin({
-          filename: '[path][base].gz',
-          algorithm: 'gzip',
-          test: /\.(js|css|html|svg|xml|json|woff|woff2)$/,
-          compressionOptions: { 
-            level: 9,
-            memLevel: 9,
-            windowBits: 15,
-          },
-          threshold: 8192,
-          minRatio: 0.8,
-          deleteOriginalAssets: false,
-        })
-      ];
-    }
-
-    return config;
-  },
-  async headers() {
+  headers() {
     return [
       {
         source: '/:path*',
@@ -239,10 +102,6 @@ const nextConfig = {
           {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable'
-          },
-          {
-            key: 'Expires',
-            value: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toUTCString()
           }
         ]
       },
@@ -253,10 +112,6 @@ const nextConfig = {
           {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable'
-          },
-          {
-            key: 'Expires',
-            value: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toUTCString()
           }
         ]
       },
@@ -269,20 +124,7 @@ const nextConfig = {
             value: 'public, max-age=0, must-revalidate'
           }
         ]
-      },
-      {
-        source: '/graphql',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=0, must-revalidate',
-          },
-          {
-            key: 'Content-Encoding',
-            value: 'gzip',
-          },
-        ],
-      },
+      }
     ];
   },
   typescript: {
@@ -290,7 +132,7 @@ const nextConfig = {
   },
   eslint: {
     ignoreDuringBuilds: true
-  },
+  }
 };
 
 module.exports = nextConfig; 
