@@ -54,11 +54,11 @@ FooterLinks.displayName = 'FooterLinks';
 
 const FooterBottom = memo(({ isDark, legalPages }: { isDark: boolean; legalPages: FooterUIProps['legalPages'] }) => {
   const socialLinks = [
-    { name: 'Facebook', href: '#' },
-    { name: 'LinkedIn', href: '#' },
-    { name: 'Twitter', href: '#' },
-    { name: 'Instagram', href: '#' },
-    { name: 'YouTube', href: '#' }
+    { name: 'Facebook', href: '#', icon: 'ri-facebook-fill' },
+    { name: 'LinkedIn', href: '#', icon: 'ri-linkedin-fill' },
+    { name: 'Twitter', href: '#', icon: 'ri-twitter-x-fill' },
+    { name: 'Instagram', href: '#', icon: 'ri-instagram-fill' },
+    { name: 'YouTube', href: '#', icon: 'ri-youtube-fill' }
   ];
 
   return (
@@ -83,7 +83,7 @@ const FooterBottom = memo(({ isDark, legalPages }: { isDark: boolean; legalPages
       </nav>
       
       <nav className="flex justify-center gap-4" aria-label="Réseaux sociaux">
-        {socialLinks.map(({ name, href }) => (
+        {socialLinks.map(({ name, href, icon }) => (
           <Link 
             key={name}
             href={href} 
@@ -93,7 +93,9 @@ const FooterBottom = memo(({ isDark, legalPages }: { isDark: boolean; legalPages
                 : 'text-gray-700 hover:text-[#9FB832]'
             } rounded-full transition-colors`}
             aria-label={name}
-          />
+          >
+            <i className={`${icon} text-lg md:text-xl`} aria-hidden="true" />
+          </Link>
         ))}
       </nav>
     </div>
