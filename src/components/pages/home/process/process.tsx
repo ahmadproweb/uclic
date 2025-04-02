@@ -2,6 +2,7 @@
 import { useState, useEffect, memo } from 'react';
 import { cn } from "@/lib/utils";
 import { CTAButton } from "@/components/ui/cta-button";
+import { ArrowIcon } from "@/components/ui/icons/ArrowIcon";
 import { useTheme } from "@/context/ThemeContext";
 
 // Types
@@ -71,21 +72,15 @@ const NavigationButton = memo(({
     )}
   >
     {direction === 'prev' && (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" 
-        className="mr-2 w-4 h-4 md:w-5 md:h-5 group-hover:-translate-x-1 transition-transform duration-300"
-        aria-hidden="true"
-      >
-        <path d="M20 12H4M4 12L10 6M4 12L10 18" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
+      <ArrowIcon 
+        className="mr-2 w-4 h-4 md:w-5 md:h-5 group-hover:-translate-x-1 transition-transform duration-300 rotate-180"
+      />
     )}
     {children}
     {direction === 'next' && (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" 
+      <ArrowIcon 
         className="ml-2 w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform duration-300"
-        aria-hidden="true"
-      >
-        <path d="M4 12H20M20 12L14 6M20 12L14 18" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
+      />
     )}
   </button>
 ));
@@ -163,17 +158,9 @@ const StepContent = memo(({
             aria-label="En savoir plus sur le Bullseye Framework"
           >
             Le Bullseye Framework expliqué
-            <svg 
-              width="16" 
-              height="16" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              xmlns="http://www.w3.org/2000/svg" 
+            <ArrowIcon 
               className="ml-2 w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform duration-300"
-              aria-hidden="true"
-            >
-              <path d="M4 12H20M20 12L14 6M20 12L14 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+            />
           </button>
         )}
         {!isLast && (

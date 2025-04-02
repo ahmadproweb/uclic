@@ -2,6 +2,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { ServiceItem } from "./types";
 import { useTheme } from "@/context/ThemeContext";
+import { ArrowIcon } from "@/components/ui/icons/ArrowIcon";
 
 interface ServiceCardProps {
   service: ServiceItem;
@@ -89,22 +90,16 @@ export function ServiceCard({ service, isMobile, onSelect }: ServiceCardProps) {
               )}
               aria-hidden="true"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path 
-                  d="M5 12H19M19 12L12 5M19 12L12 19" 
-                  className={cn(
-                    "transition-colors duration-300",
-                    isSEOCard 
-                      ? "stroke-black" 
-                      : isDark 
-                        ? "stroke-white group-hover:stroke-black" 
-                        : "stroke-black"
-                  )}
-                  strokeWidth="2" 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <ArrowIcon 
+                className={cn(
+                  "w-[18px] h-[18px] transition-colors duration-300",
+                  isSEOCard 
+                    ? "text-black" 
+                    : isDark 
+                      ? "text-white group-hover:text-black" 
+                      : "text-black"
+                )}
+              />
             </div>
           </div>
         </div>

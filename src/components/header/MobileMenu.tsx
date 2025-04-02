@@ -7,6 +7,7 @@ import { colors as theme } from '@/config/theme';
 import ThemeSwitcher from "./ThemeSwitcher";
 import { useTheme } from "@/context/ThemeContext";
 import { CTAButton } from "@/components/ui/cta-button";
+import { ArrowIcon } from "@/components/ui/icons/ArrowIcon";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -85,17 +86,9 @@ const ServiceMenu = memo(({
           isDark ? "text-white hover:text-[#00E6A7]" : "text-black/90 hover:text-[#00E6A7]"
         )}
       >
-        <svg 
-          width="24" 
-          height="24" 
-          viewBox="0 0 24 24" 
-          fill="none" 
-          xmlns="http://www.w3.org/2000/svg" 
-          className="mr-2"
-          aria-hidden="true"
-        >
-          <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
+        <ArrowIcon 
+          className="mr-2 w-6 h-6 rotate-180"
+        />
         <span className="text-lg font-medium">Nos services</span>
       </button>
       
@@ -140,22 +133,12 @@ const MainMenu = memo(({
               onClick={onServiceMenuOpen}
             >
               <span className="text-base font-medium">{item.label}</span>
-              <svg 
-                width="18" 
-                height="18" 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-              >
-                <path 
-                  d="M9 18L15 12L9 6" 
-                  stroke={isDark ? "white" : "currentColor"} 
-                  strokeWidth="2" 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <ArrowIcon 
+                className={cn(
+                  "w-[18px] h-[18px] -rotate-90",
+                  isDark ? "text-white" : "text-black"
+                )}
+              />
             </button>
           ) : (
             <Link 
