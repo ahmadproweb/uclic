@@ -1,7 +1,6 @@
 'use client';
 
 import { cn } from "@/lib/utils";
-import HeroClient from './HeroClient';
 import HeroAnimation from './HeroAnimation';
 import { CTAButton } from "@/components/ui/cta-button";
 import HeroBackground from './HeroBackground';
