@@ -138,18 +138,6 @@ export default function RootLayout({
           `}
         </Script>
 
-        <link
-          rel="preload"
-          href="/_next/static/css/app.css"
-          as="style"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/_next/static/css/pages.css"
-          as="style"
-          crossOrigin="anonymous"
-        />
       </head>
       <body suppressHydrationWarning>
         <ThemeProvider>
