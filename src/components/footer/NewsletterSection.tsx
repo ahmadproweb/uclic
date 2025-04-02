@@ -11,21 +11,7 @@ const SubmitButton = memo(() => (
     className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full transition-colors hover:bg-white/10"
     aria-label="S'abonner à la newsletter"
   >
-    <svg 
-      width="20" 
-      height="20" 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      stroke="currentColor" 
-      strokeWidth="2" 
-      className="w-3 h-3 md:w-4 md:h-4"
-    >
-      <path 
-        d="M4 12h16m0 0l-6-6m6 6l-6 6" 
-        strokeLinecap="round" 
-        strokeLinejoin="round"
-      />
-    </svg>
+    <i className="ri-arrow-right-line text-lg md:text-xl" aria-hidden="true" />
   </button>
 ));
 

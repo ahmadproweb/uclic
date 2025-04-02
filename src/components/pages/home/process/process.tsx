@@ -2,7 +2,6 @@
 import { useState, useEffect, memo } from 'react';
 import { cn } from "@/lib/utils";
 import { CTAButton } from "@/components/ui/cta-button";
-import { ArrowIcon } from "@/components/ui/icons/ArrowIcon";
 import { useTheme } from "@/context/ThemeContext";
 
 // Types
@@ -72,15 +71,11 @@ const NavigationButton = memo(({
     )}
   >
     {direction === 'prev' && (
-      <ArrowIcon 
-        className="mr-2 w-4 h-4 md:w-5 md:h-5 group-hover:-translate-x-1 transition-transform duration-300 rotate-180"
-      />
+      <i className="ri-arrow-left-s-line text-xl mr-2 group-hover:-translate-x-1 transition-transform duration-300" />
     )}
     {children}
     {direction === 'next' && (
-      <ArrowIcon 
-        className="ml-2 w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform duration-300"
-      />
+      <i className="ri-arrow-right-s-line text-xl ml-2 group-hover:translate-x-1 transition-transform duration-300" />
     )}
   </button>
 ));
@@ -158,9 +153,7 @@ const StepContent = memo(({
             aria-label="En savoir plus sur le Bullseye Framework"
           >
             Le Bullseye Framework expliqué
-            <ArrowIcon 
-              className="ml-2 w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform duration-300"
-            />
+            <i className="ri-arrow-right-s-line text-xl ml-2 group-hover:translate-x-1 transition-transform duration-300" />
           </button>
         )}
         {!isLast && (
