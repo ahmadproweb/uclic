@@ -27,6 +27,11 @@ export interface LeveePost {
 
 // Internal LeveeCard component for this page
 function LeveeCard({ post }: { post: LeveePost }) {
+  const imageUrl = post.featuredImage?.node.sourceUrl;
+  const optimizedImageUrl = imageUrl 
+    ? `${imageUrl.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1')}${imageUrl.endsWith('.webp') ? '' : '.webp'}`
+    : '/images/default-post.jpg';
+
   return (
     <Link
       href={`/levee-de-fonds/${post.slug}`}
@@ -42,7 +47,7 @@ function LeveeCard({ post }: { post: LeveePost }) {
       {/* Featured Image */}
       <div className="relative w-full h-48 overflow-hidden">
         <img
-          src={post.featuredImage?.node.sourceUrl || '/images/default-post.jpg'}
+          src={optimizedImageUrl}
           alt={post.featuredImage?.node.altText || post.title}
           className="object-cover transition-transform duration-500 group-hover:scale-105 w-full h-full"
           loading="lazy"

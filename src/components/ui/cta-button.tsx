@@ -61,6 +61,7 @@ interface CTAButtonProps {
   simpleVariant?: SimpleVariant;
   size?: Size;
   ariaLabel?: string;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 // Memoized Components
@@ -121,6 +122,7 @@ export const CTAButton = memo(({
   simpleVariant = 'primary',
   size = 'l',
   ariaLabel,
+  type = 'button'
 }: CTAButtonProps) => {
   const { theme: currentTheme } = useTheme();
   const isDark = currentTheme === 'dark';
@@ -166,6 +168,7 @@ export const CTAButton = memo(({
     <button 
       className={commonClasses}
       aria-label={ariaLabel}
+      type={type}
     >
       {content}
     </button>

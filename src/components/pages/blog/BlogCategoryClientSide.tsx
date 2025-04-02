@@ -183,9 +183,9 @@ export default function BlogCategoryClientSide({
               className="group rounded-3xl overflow-hidden shadow-lg bg-[#E0FF5C]"
             >
               {/* Image */}
-              <div className="relative w-full h-48 overflow-hidden">
+              <div className="relative w-full h-[250px] overflow-hidden">
                 <img
-                  src={post.featured_image_url}
+                  src={`${post.featured_image_url.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1')}.webp`}
                   alt={post.title}
                   className="object-cover w-full h-full"
                   loading="lazy"

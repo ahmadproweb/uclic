@@ -31,13 +31,15 @@ const SocialIcon = memo(function SocialIcon({ href, children, backgroundColor, l
       rel="noopener noreferrer"
       className={cn(
         "w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center",
-        "bg-primary hover:bg-primary/80 transition-colors duration-300"
+        "bg-primary hover:bg-primary/80 transition-colors duration-300",
+        "relative z-50"
       )}
       style={{
         backgroundColor,
         '--tw-bg-opacity': '1'
       } as React.CSSProperties}
       aria-label={label}
+      onClick={(e) => e.stopPropagation()}
     >
       {children}
     </a>
@@ -89,6 +91,15 @@ const TeamMemberCard = memo(function TeamMemberCard({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
+      <Link
+        href={`/equipe/${member.slug}`}
+        className={cn(
+          "absolute inset-0 rounded-2xl md:rounded-[32px]",
+          "focus:outline-none focus:ring-2 focus:ring-primary/50",
+          "pointer-events-none group-hover/card:pointer-events-auto"
+        )}
+        aria-label={`En savoir plus sur ${member.title}`}
+      />
       <div
         className={cn(
           "relative rounded-2xl md:rounded-[32px] p-4 md:p-8",
@@ -133,7 +144,7 @@ const TeamMemberCard = memo(function TeamMemberCard({
           <div className={cn(
             "absolute -right-2 md:-right-4 top-0 flex flex-col gap-2 md:gap-3",
             "opacity-0 group-hover/card:opacity-100 transition-opacity duration-300",
-            "z-30"
+            "z-[60]"
           )}>
             {member.equipeFields.linkedin && (
               <SocialIcon 
@@ -187,14 +198,6 @@ const TeamMemberCard = memo(function TeamMemberCard({
           </p>
         </div>
       </div>
-      <Link
-        href={`/equipe/${member.slug}`}
-        className={cn(
-          "absolute inset-0 rounded-2xl md:rounded-[32px]",
-          "focus:outline-none focus:ring-2 focus:ring-primary/50"
-        )}
-        aria-label={`En savoir plus sur ${member.title}`}
-      />
     </article>
   );
 });

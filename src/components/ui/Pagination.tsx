@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { useTheme } from "@/context/ThemeContext";
 
 interface PaginationProps {
   currentPage: number;
@@ -18,6 +19,9 @@ export default function Pagination({
   className,
   basePath = '/blog'
 }: PaginationProps) {
+  const { theme: currentTheme } = useTheme();
+  const isDark = currentTheme === 'dark';
+
   // Generate page numbers to display with ellipsis for large page counts
   const getPageNumbers = () => {
     const pageNumbers = [];
@@ -68,7 +72,10 @@ export default function Pagination({
       return (
         <span 
           key={`ellipsis-${index}`}
-          className="w-10 h-10 flex items-center justify-center text-black"
+          className={cn(
+            "w-10 h-10 flex items-center justify-center",
+            isDark ? "text-white" : "text-black"
+          )}
         >
           ...
         </span>
@@ -83,7 +90,9 @@ export default function Pagination({
           "w-10 h-10 rounded-full flex items-center justify-center transition-all",
           Number(pageNumber) === currentPage 
             ? "bg-[#E0FF5C] text-black font-medium" 
-            : "text-black hover:bg-black/10"
+            : isDark
+              ? "text-white hover:bg-white/10"
+              : "text-black hover:bg-black/10"
         )}
         aria-label={`Page ${pageNumber}`}
         aria-current={Number(pageNumber) === currentPage ? "page" : undefined}
@@ -99,7 +108,12 @@ export default function Pagination({
       {currentPage > 1 ? (
         <button
           onClick={() => handlePageClick(currentPage - 1)}
-          className="w-10 h-10 rounded-full flex items-center justify-center transition-all text-black hover:bg-black/10"
+          className={cn(
+            "w-10 h-10 rounded-full flex items-center justify-center transition-all",
+            isDark
+              ? "text-white hover:bg-white/10"
+              : "text-black hover:bg-black/10"
+          )}
           aria-label="Page précédente"
         >
           <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -108,7 +122,10 @@ export default function Pagination({
         </button>
       ) : (
         <span
-          className="w-10 h-10 rounded-full flex items-center justify-center text-black opacity-50"
+          className={cn(
+            "w-10 h-10 rounded-full flex items-center justify-center opacity-50",
+            isDark ? "text-white" : "text-black"
+          )}
           aria-disabled="true"
         >
           <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -126,7 +143,12 @@ export default function Pagination({
       {currentPage < totalPages ? (
         <button
           onClick={() => handlePageClick(currentPage + 1)}
-          className="w-10 h-10 rounded-full flex items-center justify-center transition-all text-black hover:bg-black/10"
+          className={cn(
+            "w-10 h-10 rounded-full flex items-center justify-center transition-all",
+            isDark
+              ? "text-white hover:bg-white/10"
+              : "text-black hover:bg-black/10"
+          )}
           aria-label="Page suivante"
         >
           <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -135,7 +157,10 @@ export default function Pagination({
         </button>
       ) : (
         <span
-          className="w-10 h-10 rounded-full flex items-center justify-center text-black opacity-50"
+          className={cn(
+            "w-10 h-10 rounded-full flex items-center justify-center opacity-50",
+            isDark ? "text-white" : "text-black"
+          )}
           aria-disabled="true"
         >
           <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

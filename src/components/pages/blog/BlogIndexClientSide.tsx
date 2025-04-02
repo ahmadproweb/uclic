@@ -189,6 +189,8 @@ export default function BlogIndexClientSide({
               src={featuredPost.featured_image_url}
               alt={featuredPost.title}
               className="absolute inset-0 w-full h-full object-cover rounded-3xl"
+              width="1200"
+              height="800"
               loading="eager"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />

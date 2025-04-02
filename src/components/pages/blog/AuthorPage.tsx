@@ -25,7 +25,7 @@ function BlogCard({ post }: { post: any }) {
     >
       <div className="relative w-full h-48 overflow-hidden">
         <img
-          src={post._embedded?.['wp:featuredmedia']?.[0]?.source_url || '/images/default-post.jpg'}
+          src={`${(post._embedded?.['wp:featuredmedia']?.[0]?.source_url || '/images/default-post.jpg').replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1')}.webp`}
           alt={post._embedded?.['wp:featuredmedia']?.[0]?.alt_text || post.title.rendered}
           className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
