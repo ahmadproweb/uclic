@@ -9,7 +9,7 @@ export const navItems: NavItem[] = [
   },
   { 
     label: "Nos expertises", 
-    href: "/expertises",
+    href: "/expertise",
     className: "transition-colors duration-300 hover:text-[#E0FF5C]"
   },
   { 
