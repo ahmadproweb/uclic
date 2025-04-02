@@ -78,21 +78,19 @@ const Hero = () => {
   return (
     <section className="relative min-h-[calc(100vh-var(--header-height))] flex items-center pt-16 md:pt-24">
       <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="max-w-2xl">
+        <div className="text-center lg:text-left">
           <MainHeading />
           <VisionText />
           <Description />
           <CTAButtons isDark={isDark} />
         </div>
 
-        <div className="relative flex items-center justify-center w-full h-full">
-          <div className="w-full max-w-[600px] mx-auto">
-            <Suspense fallback={
-              <div className="w-full aspect-square bg-black/5 dark:bg-white/5 rounded-3xl animate-pulse" />
-            }>
-              <HeroAnimation />
-            </Suspense>
-          </div>
+        <div className="relative w-full max-w-[600px] mx-auto">
+          <Suspense fallback={
+            <div className="w-full aspect-square bg-black/5 dark:bg-white/5 rounded-3xl animate-pulse" />
+          }>
+            <HeroAnimation />
+          </Suspense>
         </div>
       </div>
       

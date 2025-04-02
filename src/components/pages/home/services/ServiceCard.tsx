@@ -27,17 +27,14 @@ export const ServiceCard = memo(function ServiceCard({
       )}
       style={style}
     >
-      <div 
-        className="absolute top-8 left-8 w-10 h-10 rounded-full flex items-center justify-center bg-black/10 transform-gpu transition-transform duration-500 group-hover:scale-110"
+      <i 
+        className={cn(
+          icon,
+          "absolute top-8 left-8 w-10 h-10 rounded-full flex items-center justify-center bg-black/10 text-2xl text-black",
+          "transform-gpu transition-all duration-500 group-hover:scale-110 group-hover:rotate-12"
+        )}
         aria-hidden="true"
-      >
-        <i 
-          className={cn(
-            icon,
-            "text-2xl text-black transform-gpu transition-transform duration-500 group-hover:rotate-12"
-          )}
-        />
-      </div>
+      />
       <h3 className="text-2xl font-bold mb-6 mt-16 text-black">
         {title}
       </h3>
