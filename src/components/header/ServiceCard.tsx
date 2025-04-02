@@ -78,29 +78,16 @@ export function ServiceCard({ service, isMobile, onSelect }: ServiceCardProps) {
           </div>
           
           <div className="mt-auto pt-4">
-            <div 
+            <ArrowIcon 
               className={cn(
-                "flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300",
-                isSEOCard
-                  ? "border-black hover:border-black/70" 
+                "transition-colors duration-300",
+                isSEOCard 
+                  ? "text-black" 
                   : isDark 
-                    ? "border-white/60 group-hover:border-black" 
-                    : "border-black/60 group-hover:border-black",
-                "border"
+                    ? "text-white group-hover:text-black" 
+                    : "text-black"
               )}
-              aria-hidden="true"
-            >
-              <ArrowIcon 
-                className={cn(
-                  "w-[18px] h-[18px] transition-colors duration-300",
-                  isSEOCard 
-                    ? "text-black" 
-                    : isDark 
-                      ? "text-white group-hover:text-black" 
-                      : "text-black"
-                )}
-              />
-            </div>
+            />
           </div>
         </div>
       </Link>
