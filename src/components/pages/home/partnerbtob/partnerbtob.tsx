@@ -35,23 +35,21 @@ const partners: Partner[] = [
 
 // Memoized Partner Card Component
 const PartnerCard = memo(({ partner, isDark }: { partner: Partner; isDark: boolean }) => (
-  <div className="aspect-square flex items-center justify-center relative">
-    <div className={cn(
-      "w-full h-full rounded-[24px] md:rounded-[32px] flex items-center justify-center",
+  <div 
+    className={cn(
+      "aspect-square rounded-[24px] md:rounded-[32px] flex items-center justify-center",
       "transition-colors duration-300 ease-in-out",
       isDark 
         ? "bg-black border border-white/10 hover:border-white/20" 
         : "bg-black border border-white/5 hover:border-white/10"
-    )}>
-      <div className="relative w-[50px] h-[20px] sm:w-[65px] sm:h-[25px] md:w-[80px] md:h-[30px]">
-        <img 
-          src={partner.logo}
-          alt={`${partner.name} logo`}
-          className="absolute inset-0 w-full h-full object-contain opacity-100 [filter:brightness(0)_invert(1)]"
-          loading="lazy"
-        />
-      </div>
-    </div>
+    )}
+  >
+    <img 
+      src={partner.logo}
+      alt={`${partner.name} logo`}
+      className="w-[50px] h-[20px] sm:w-[65px] sm:h-[25px] md:w-[80px] md:h-[30px] object-contain [filter:brightness(0)_invert(1)]"
+      loading="lazy"
+    />
     <span className="sr-only">{partner.name} - {partner.description}</span>
   </div>
 ));

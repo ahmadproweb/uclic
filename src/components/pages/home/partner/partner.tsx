@@ -1,9 +1,7 @@
 "use client";
 
 import { PartnerClient } from './PartnerClient';
-import { cn } from "@/lib/utils";
 import { useTheme } from "@/context/ThemeContext";
-import { UnderlinedText } from '@/components/ui/underlined-text';
 
 // Données statiques avec descriptions SEO
 const row1 = [

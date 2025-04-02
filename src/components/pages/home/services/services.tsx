@@ -29,52 +29,48 @@ export default function Services() {
     >
       <PlusIcon />
       <ClientPulseEffect />
-      <div 
-        className="fixed inset-0 w-full h-full opacity-20 mix-blend-overlay pointer-events-none bg-noise"
-        aria-hidden="true"
-        style={{ willChange: 'transform' }}
-      />
       
-      <div className="max-w-[1250px] mx-auto px-4 relative z-10">
-        <h2 
-          id="services-title"
-          className={cn(
-            "max-w-5xl mx-auto text-center mb-16 pt-8 md:pt-0",
-            "text-3xl sm:text-4xl md:text-5xl lg:text-[50px]",
-            "font-medium tracking-[-1px]",
-            "text-black/90 dark:text-white/90",
-            "leading-[1.1]"
-          )}
-        >
-          Rapide, flexible
-          <span className="block">
-            et incroyablement{' '}
-            <UnderlinedText text="efficace" />
-          </span>
-        </h2>
-        
-        <div 
-          className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6"
-          role="list"
-        >
-          {serviceData.map((service, index) => (
-            <ServiceCard 
-              key={service.title}
-              {...service}
-              theme={theme}
-              priority={index < 3}
-              className="transform-gpu"
-              style={{ willChange: 'transform' }}
-            />
-          ))}
-        </div>
+      <h2 
+        id="services-title"
+        className={cn(
+          "max-w-5xl mx-auto text-center mb-16 pt-8 md:pt-0",
+          "text-3xl sm:text-4xl md:text-5xl lg:text-[50px]",
+          "font-medium tracking-[-1px]",
+          "text-black/90 dark:text-white/90",
+          "leading-[1.1]"
+        )}
+      >
+        Rapide, flexible
+        <span className="block">
+          et incroyablement{' '}
+          <UnderlinedText text="efficace" />
+        </span>
+      </h2>
+      
+      <div 
+        className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6"
+        role="list"
+      >
+        {serviceData.map((service, index) => (
+          <ServiceCard 
+            key={service.title}
+            {...service}
+            theme={theme}
+            priority={index < 3}
+            className="transform-gpu"
+            style={{ willChange: 'transform' }}
+          />
+        ))}
       </div>
 
-      <style jsx>{`
-        .bg-noise {
-          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.80' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        }
-      `}</style>
+      <div 
+        className="fixed inset-0 w-full h-full opacity-20 mix-blend-overlay pointer-events-none"
+        aria-hidden="true"
+        style={{ 
+          willChange: 'transform',
+          backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.80' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")"
+        }}
+      />
     </section>
   );
 } 

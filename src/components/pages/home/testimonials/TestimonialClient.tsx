@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import type { Testimonial } from './types';
 import Image from 'next/image';
 import Script from 'next/script';
+import 'remixicon/fonts/remixicon.css';
 
 // Types
 interface TestimonialClientProps {
@@ -74,6 +75,17 @@ const TestimonialCard = memo(({ testimonial, isDark, index }: {
             className="w-full h-full object-cover"
             itemProp="image"
           />
+<<<<<<< HEAD
+=======
+        ) : (
+          <i 
+            className={cn(
+              "ri-user-line text-lg md:text-xl",
+              isDark ? "text-white" : "text-black"
+            )}
+            aria-hidden="true"
+          />
+>>>>>>> f3f1c0d4208333f10b7ae27ae76074776bf0e289
         )}
         <i 
           className={cn(
@@ -165,23 +177,16 @@ function TestimonialClient({ testimonials }: TestimonialClientProps) {
         {JSON.stringify(testimonialSchema)}
       </Script>
 
-      <div className="max-w-[1250px] mx-auto px-4 relative z-10">
-        <TestimonialHeader isDark={isDark} />
-        
-        <div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4"
-          role="feed"
-          aria-label="Liste des témoignages"
-        >
-          {testimonials.map((testimonial, index) => (
-            <TestimonialCard
-              key={testimonial.id}
-              testimonial={testimonial}
-              isDark={isDark}
-              index={index}
-            />
-          ))}
-        </div>
+      <TestimonialHeader isDark={isDark} />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 max-w-[1250px] mx-auto px-4 relative z-10">
+        {testimonials.map((testimonial, index) => (
+          <TestimonialCard
+            key={testimonial.id}
+            testimonial={testimonial}
+            isDark={isDark}
+            index={index}
+          />
+        ))}
       </div>
     </section>
   );
