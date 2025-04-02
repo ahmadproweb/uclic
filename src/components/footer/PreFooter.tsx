@@ -87,7 +87,7 @@ function PreFooter({ noBgGradient = false }: PreFooterProps) {
   const isDark = currentTheme === 'dark';
 
   return (
-    <section className="w-full bg-black">
+    <section className="w-full bg-black rounded-[32px]">
       <div className="max-w-[1250px] mx-auto grid grid-cols-1 md:grid-cols-2 items-center">
         <LeftContent isDark={isDark} />
         <RightContent />

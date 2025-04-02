@@ -4,7 +4,6 @@ import { memo } from 'react';
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 import type { Testimonial } from './types';
-import Image from 'next/image';
 import Script from 'next/script';
 
 // Types
@@ -66,12 +65,11 @@ const TestimonialCard = memo(({ testimonial, isDark, index }: {
         isDark ? "bg-white/10" : "bg-black/10"
       )}>
         {testimonial.imageTesti && (
-          <Image 
+          <img 
             src={testimonial.imageTesti} 
             alt={`Photo de ${testimonial.title}`}
-            width={40}
-            height={40}
             className="w-full h-full object-cover"
+            loading="lazy"
             itemProp="image"
           />
         )}

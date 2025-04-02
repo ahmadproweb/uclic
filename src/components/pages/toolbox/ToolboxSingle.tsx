@@ -1,7 +1,6 @@
 'use client';
 
 import { Metadata } from 'next';
-import Image from 'next/image';
 import { ProductHunt } from '@/lib/wordpress';
 import { formatDate } from '@/lib/utils';
 import { ExternalLink, Twitter } from 'lucide-react';
@@ -163,19 +162,18 @@ function DynamicToolboxContent({ tool }: ToolboxSingleProps) {
               }}>
               <div className="space-y-6">
                 {/* Logo */}
-        {productHuntFields?.logo && (
+                {productHuntFields?.logo && (
                   <div className="flex justify-center">
                     <div className="w-24 h-24 rounded-xl overflow-hidden bg-white/50 p-4">
-            <Image
-              src={productHuntFields.logo}
-              alt={title}
-                        width={96}
-                        height={96}
+                      <img
+                        src={productHuntFields.logo}
+                        alt={title}
                         className="w-full h-full object-contain"
+                        loading="eager"
                       />
                     </div>
-          </div>
-        )}
+                  </div>
+                )}
         
                 {/* Title and Tagline */}
                 <div className="text-center space-y-4">
@@ -260,11 +258,11 @@ function DynamicToolboxContent({ tool }: ToolboxSingleProps) {
             {/* Screenshot */}
       {productHuntFields?.screenshotUrl && (
               <figure className="mb-8 relative h-[300px] md:h-[500px] w-full rounded-2xl overflow-hidden shadow-xl">
-            <Image
+            <img
               src={productHuntFields.screenshotUrl}
               alt={`Capture d'écran de ${title}`}
-              fill
-              className="object-cover"
+              className="object-cover w-full h-full"
+              loading="lazy"
             />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none"></div>
               </figure>
@@ -320,12 +318,11 @@ function DynamicToolboxContent({ tool }: ToolboxSingleProps) {
                           <div className="flex items-center gap-3">
                             {comment.userAvatar && (
                               <div className="w-8 h-8 rounded-full overflow-hidden bg-black/5">
-                                <Image
+                                <img
                                   src={comment.userAvatar}
                                   alt={comment.userName || "User avatar"}
-                                  width={32}
-                                  height={32}
                                   className="w-full h-full object-cover"
+                                  loading="lazy"
                                 />
                               </div>
                             )}
@@ -633,11 +630,11 @@ function DynamicToolboxContent({ tool }: ToolboxSingleProps) {
                   <div className="grid grid-cols-2 gap-4">
                     {productHuntFields.mediaGallery.split(',').map((imageUrl, index) => (
                       <div key={index} className="relative aspect-video rounded-lg overflow-hidden">
-                        <Image
+                        <img
                           src={imageUrl.trim()}
                           alt={`${title} gallery image ${index + 1}`}
-                          fill
-                          className="object-cover"
+                          className="object-cover w-full h-full"
+                          loading="lazy"
                         />
                       </div>
                     ))}
@@ -763,12 +760,13 @@ function DynamicToolboxContent({ tool }: ToolboxSingleProps) {
                     <div className="flex items-center gap-4 mb-4">
                       {relatedTool.productHuntFields?.logo && (
                         <div className="w-12 h-12 rounded-lg overflow-hidden bg-white/50 p-2 shrink-0">
-                          <Image
+                          <img
                             src={relatedTool.productHuntFields.logo}
                             alt={relatedTool.title}
                             width={48}
                             height={48}
                             className="w-full h-full object-contain"
+                            loading="lazy"
                           />
                         </div>
                       )}

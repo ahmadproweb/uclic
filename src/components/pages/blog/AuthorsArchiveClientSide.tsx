@@ -3,7 +3,6 @@
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 import { colors as theme } from '@/config/theme';
-import Image from 'next/image';
 import Link from 'next/link';
 import { Author } from '@/lib/wordpress';
 import PreFooter from '@/components/footer/PreFooter';
@@ -79,11 +78,11 @@ export default function AuthorsArchiveClientSide({ authors }: AuthorsArchiveClie
               <div className="flex items-start gap-4">
                 {/* Author Avatar */}
                 <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-[#E0FF5C]">
-                  <Image
+                  <img
                     src={author.avatar_urls?.['96'] || '/images/default-avatar.png'}
                     alt={author.name}
-                    fill
-                    className="object-cover"
+                    className="absolute inset-0 w-full h-full object-cover"
+                    loading="lazy"
                   />
                 </div>
 

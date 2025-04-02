@@ -1,6 +1,5 @@
 import React from 'react';
 import { ProductHunt } from '@/lib/wordpress';
-import Image from 'next/image';
 import { formatDate } from '@/lib/utils';
 import { FaTwitter } from 'react-icons/fa';
 import { CgWebsite } from 'react-icons/cg';
@@ -38,12 +37,13 @@ export default function ToolboxSinglePage({ item }: ToolboxSinglePageProps) {
         <div className="flex flex-col md:flex-row items-center gap-8">
           {/* Logo */}
           <div className="w-32 h-32 relative flex-shrink-0">
-            <Image
+            <img
               src={item.productHuntFields?.logo || '/placeholder.png'}
               alt={item.title}
-              width={128}
-              height={128}
-              className="rounded-lg object-contain"
+              width="128"
+              height="128"
+              className="rounded-lg object-contain w-full h-full"
+              loading="lazy"
             />
           </div>
 
@@ -67,11 +67,11 @@ export default function ToolboxSinglePage({ item }: ToolboxSinglePageProps) {
       <div className="grid md:grid-cols-2 gap-8 mb-8">
         {/* Screenshot */}
         <div className="relative h-[300px] rounded-lg overflow-hidden">
-          <Image
+          <img
             src={item.productHuntFields?.screenshotUrl || '/placeholder.png'}
             alt={`${item.title} screenshot`}
-            fill
-            className="object-cover"
+            className="absolute inset-0 w-full h-full object-cover"
+            loading="lazy"
           />
         </div>
 

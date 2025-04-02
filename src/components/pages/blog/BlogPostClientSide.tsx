@@ -4,7 +4,6 @@ import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 import { colors as theme } from '@/config/theme';
 import Link from 'next/link';
-import Image from 'next/image';
 import PreFooter from '@/components/footer/PreFooter';
 import ScrollToTop from '@/components/ui/ScrollToTop';
 import StickyShareButtons from '@/components/ui/StickyShareButtons';

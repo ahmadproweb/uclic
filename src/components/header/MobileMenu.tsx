@@ -23,33 +23,41 @@ const MenuHeader = memo(({
 }: { 
   isDark: boolean; 
   onClose: () => void;
-}) => (
-  <div className={cn(
-    "fixed top-0 left-0 right-0 flex items-center justify-between px-6 py-4 z-50 backdrop-blur-md border-b",
-    isDark ? "border-white/10" : "border-black/5 bg-white/80"
-  )}>
+}) => {
+  const { theme, toggleTheme } = useTheme();
+  
+  const handleThemeClick = () => {
+    // On change d'abord le thème
+    toggleTheme();
+    // Puis on ferme le menu après un court délai
+    setTimeout(onClose, 200);
+  };
+
+  return (
     <div className={cn(
-      "flex items-center gap-2 p-1.5 rounded-lg",
-      isDark ? "bg-white/5" : "bg-black/[0.03]"
+      "fixed top-0 left-0 right-0 flex items-center justify-between px-6 py-4 z-50 backdrop-blur-md border-b",
+      "border-white/20 bg-black/90"
     )}>
-      <ThemeSwitcher />
-      <span className={cn(
-        "text-sm font-medium",
-        isDark ? "text-white/70" : "text-black/60"
-      )}>Thème</span>
+      <div 
+        className={cn(
+          "flex items-center gap-2 p-1.5 px-4 rounded-lg cursor-pointer",
+          "bg-white/20"
+        )}
+        onClick={handleThemeClick}
+      >
+        <ThemeSwitcher />
+        <span className="text-sm font-medium text-white truncate">Thème</span>
+      </div>
+      <button
+        onClick={onClose}
+        className="p-2 transition-colors text-white hover:text-[#00E6A7]"
+        aria-label="Fermer le menu"
+      >
+        <i className="ri-close-line text-2xl" aria-hidden="true" />
+      </button>
     </div>
-    <button
-      onClick={onClose}
-      className={cn(
-        "p-2 transition-colors",
-        isDark ? "text-white hover:text-[#00E6A7]" : "text-black/80 hover:text-[#00E6A7]"
-      )}
-      aria-label="Fermer le menu"
-    >
-      <i className="ri-close-line text-2xl" aria-hidden="true" />
-    </button>
-  </div>
-));
+  );
+});
 
 MenuHeader.displayName = 'MenuHeader';
 
@@ -62,22 +70,19 @@ const ServiceMenu = memo(({
   onBack: () => void;
   onServiceSelect: () => void;
 }) => (
-  <div className="pt-20 flex-1 flex flex-col justify-start px-6 overflow-y-auto">
+  <div className="pt-28 flex-1 flex flex-col px-6 overflow-y-auto">
     <div className="max-w-sm mx-auto w-full">
       <button
         onClick={onBack}
-        className={cn(
-          "flex items-center mb-6 transition-colors",
-          isDark ? "text-white hover:text-[#00E6A7]" : "text-black/90 hover:text-[#00E6A7]"
-        )}
+        className="flex items-center mb-6 transition-colors text-white hover:text-[#00E6A7]"
       >
         <ArrowIcon 
-          className="mr-2 w-6 h-6 rotate-180"
+          className="mr-2 w-6 h-6 rotate-180 text-white"
         />
         <span className="text-lg font-medium">Nos services</span>
       </button>
       
-      <div className="flex flex-col space-y-3">
+      <div className="flex flex-col space-y-3 pb-6">
         {serviceItems.map((service) => (
           <ServiceCard 
             key={service.slug} 
@@ -102,8 +107,8 @@ const MainMenu = memo(({
   onServiceMenuOpen: () => void;
   onClose: () => void;
 }) => (
-  <div className="pt-20 flex-1 flex flex-col justify-start px-6">
-    <div className="max-w-sm mx-auto w-full">
+  <div className="pt-20 flex-1 flex flex-col justify-center px-6">
+    <div className="max-w-sm mx-auto w-full -mt-20">
       <nav className="flex flex-col space-y-3">
         {navItems.map((item) => (
           item.hasMegaMenu ? (
@@ -111,18 +116,13 @@ const MainMenu = memo(({
               key={item.href}
               className={cn(
                 "backdrop-blur-sm rounded-lg py-4 px-5 flex items-center justify-between w-full text-left transition-colors",
-                isDark 
-                  ? "bg-white/10 text-white hover:bg-[#00E6A7]/20" 
-                  : "bg-black/[0.03] text-black/90 hover:bg-[#00E6A7]/10"
+                "bg-white/20 text-white hover:bg-[#00E6A7]/30"
               )}
               onClick={onServiceMenuOpen}
             >
               <span className="text-base font-medium">{item.label}</span>
               <ArrowIcon 
-                className={cn(
-                  "w-[18px] h-[18px] -rotate-90",
-                  isDark ? "text-white" : "text-black"
-                )}
+                className="w-[18px] h-[18px] text-white"
               />
             </button>
           ) : (
@@ -131,11 +131,12 @@ const MainMenu = memo(({
               href={item.href}
               className={cn(
                 "backdrop-blur-sm rounded-lg py-4 px-5 flex items-center justify-between transition-colors",
-                isDark 
-                  ? "bg-white/10 text-white hover:bg-[#00E6A7]/20" 
-                  : "bg-black/[0.03] text-black/90 hover:bg-[#00E6A7]/10"
+                "bg-white/20 text-white hover:bg-[#00E6A7]/30"
               )}
-              onClick={onClose}
+              onClick={(e) => {
+                // On attend que la navigation commence avant de fermer
+                setTimeout(onClose, 150);
+              }}
             >
               <span className="text-base font-medium">{item.label}</span>
             </Link>
@@ -145,7 +146,10 @@ const MainMenu = memo(({
         <CTAButton 
           href="/audit" 
           className="w-auto mx-auto"
-          onClick={onClose}
+          onClick={(e) => {
+            // On attend que la navigation commence avant de fermer
+            setTimeout(onClose, 150);
+          }}
           variant={isDark ? "mainCTA" : "shiny"}
           ariaLabel="Demander un audit gratuit"
         >
@@ -187,14 +191,13 @@ export const MobileMenu = memo(({
   return (
     <div 
       className={cn(
-        "fixed inset-0 z-40 transition-all duration-300 md:hidden flex flex-col",
+        "fixed inset-0 z-40 transition-all duration-300 md:hidden flex flex-col min-h-screen overflow-y-auto",
         isOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
       )}
       style={{
-        background: isDark 
-          ? theme.colors.gradients.dark 
-          : "linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.98) 100%)",
-        backdropFilter: `blur(${theme.effects.blur.default})`
+        background: 'rgba(0, 0, 0, 0.95)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)'
       }}
     >
       <MenuHeader isDark={isDark} onClose={handleClose} />

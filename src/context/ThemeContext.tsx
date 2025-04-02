@@ -15,34 +15,40 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
   const [theme, setTheme] = useState<Theme>('dark');
 
+  // Initialisation du thème
   useEffect(() => {
     setMounted(true);
-    const savedTheme = localStorage.getItem('theme') as Theme;
-    // Only allow switching to light if explicitly set
-    if (savedTheme === 'light') {
-      setTheme('light');
-      document.documentElement.classList.remove('dark');
-      document.documentElement.classList.add('light');
-    }
+    const savedTheme = localStorage.getItem('theme') as Theme || 'dark';
+    setTheme(savedTheme);
+    applyTheme(savedTheme);
   }, []);
 
+  // Application du thème
+  const applyTheme = (newTheme: Theme) => {
+    document.documentElement.classList.remove('light', 'dark');
+    document.documentElement.classList.add(newTheme);
+    localStorage.setItem('theme', newTheme);
+  };
+
+  // Mise à jour du thème
   useEffect(() => {
     if (mounted) {
-      document.documentElement.classList.remove('light', 'dark');
-      document.documentElement.classList.add(theme);
-      localStorage.setItem('theme', theme);
+      applyTheme(theme);
       window.dispatchEvent(new CustomEvent('themeChange', { detail: theme }));
     }
   }, [theme, mounted]);
 
+  // Basculement du thème
   const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'dark' ? 'light' : 'dark');
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    applyTheme(newTheme);
   };
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       <div suppressHydrationWarning>
-        {children}
+        {mounted ? children : null}
       </div>
     </ThemeContext.Provider>
   );

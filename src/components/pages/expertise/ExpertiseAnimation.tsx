@@ -71,8 +71,8 @@ export default function ExpertiseAnimation() {
 
         @media (max-width: 480px) {
           .wrapper {
-            transform: scale(1);
-            margin-left: 0px !important;
+            transform: scale(0.7);
+            margin-left: 20px !important;
           }
         }
 

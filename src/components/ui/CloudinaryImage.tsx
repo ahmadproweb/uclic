@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -34,7 +33,7 @@ export default function CloudinaryImage({
         <div className="absolute inset-0 bg-gray-200 dark:bg-gray-800 animate-pulse" />
       )}
       
-      <Image
+      <img
         src={cloudinarySrc}
         alt={alt}
         width={width}
@@ -43,9 +42,8 @@ export default function CloudinaryImage({
           "w-full h-full object-cover transition-opacity duration-300 ease-in-out",
           isLoading ? "opacity-0" : "opacity-100"
         )}
-        onLoadingComplete={() => setIsLoading(false)}
-        priority={priority}
-        quality={90}
+        onLoad={() => setIsLoading(false)}
+        loading={priority ? "eager" : "lazy"}
       />
     </div>
   );

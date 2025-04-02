@@ -3,7 +3,6 @@
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 import { colors as theme } from '@/config/theme';
-import Image from 'next/image';
 import Link from 'next/link';
 import { Author } from '@/lib/wordpress';
 import { formatDate, estimateReadingTime } from '@/services/wordpress';
@@ -25,12 +24,11 @@ function BlogCard({ post }: { post: any }) {
       }}
     >
       <div className="relative w-full h-48 overflow-hidden">
-        <Image
+        <img
           src={post._embedded?.['wp:featuredmedia']?.[0]?.source_url || '/images/default-post.jpg'}
           alt={post._embedded?.['wp:featuredmedia']?.[0]?.alt_text || post.title.rendered}
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
         {post._embedded?.['wp:term']?.[0]?.[0] && (
@@ -115,13 +113,11 @@ export default function AuthorPage({ author }: AuthorPageProps) {
         <div className="text-center mb-12 md:mb-16">
           <div className="flex flex-col items-center justify-center mb-6">
             <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-[#E0FF5C] mb-6">
-              <Image
+              <img
                 src={author.avatar_urls?.['96'] || '/images/default-avatar.png'}
                 alt={author.name}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 96px, 128px"
-                priority
+                className="object-cover w-full h-full"
+                loading="eager"
               />
             </div>
             <h1 className={cn(
@@ -182,13 +178,11 @@ export default function AuthorPage({ author }: AuthorPageProps) {
         {/* Featured Post */}
         {featuredPost && (
           <div className="relative w-full h-[40vh] md:h-[50vh] mb-16 rounded-3xl overflow-hidden shadow-xl">
-            <Image
+            <img
               src={featuredPost._embedded?.['wp:featuredmedia']?.[0]?.source_url || '/images/default-post.jpg'}
               alt={featuredPost._embedded?.['wp:featuredmedia']?.[0]?.alt_text || featuredPost.title.rendered}
-              className="object-cover rounded-3xl"
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, 1250px"
+              className="object-cover w-full h-full rounded-3xl"
+              loading="eager"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
             <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-14">

@@ -1,10 +1,9 @@
 'use client';
 
-import { useTheme } from "@/context/ThemeContext";
+import { useTheme } from 'next-themes';
 import { cn } from "@/lib/utils";
 import { colors as theme } from '@/config/theme';
 import Link from 'next/link';
-import Image from 'next/image';
 import PreFooter from '@/components/footer/PreFooter';
 import ScrollToTop from '@/components/ui/ScrollToTop';
 import StickyShareButtons from '@/components/ui/StickyShareButtons';
@@ -44,7 +43,7 @@ function RelatedLeveeCard({ post }: { post: LeveePost }) {
       }}
     >
       <div className="relative w-full h-48 overflow-hidden">
-        <Image
+        <img
           src={post.featuredImage?.node.sourceUrl || '/images/default-post.jpg'}
           alt={post.featuredImage?.node.altText || post.title}
           className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -170,7 +169,7 @@ function RelatedPosts({
                 }}
               >
                 <div className="relative w-full h-48 overflow-hidden">
-                  <Image
+                  <img
                     src={post.featuredImage?.node.sourceUrl || '/images/default-post.jpg'}
                     alt={post.featuredImage?.node.altText || post.title}
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -491,13 +490,11 @@ export default function LeveePage({ post, relatedPosts, latestPosts }: LeveePage
         <div className="mb-6 md:mb-8 lg:mb-12 relative">
           {/* Featured image */}
           <div className="w-full h-[45vh] sm:h-[50vh] md:h-[60vh] relative rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden">
-          <Image
-            src={post.featuredImage?.node.sourceUrl || '/images/default-post.jpg'}
-            alt={post.featuredImage?.node.altText || post.title}
-              className="object-cover"
-            fill
-            priority
-              sizes="(max-width: 768px) 100vw, 1200px"
+            <img
+              src={post.featuredImage?.node.sourceUrl || '/images/default-post.jpg'}
+              alt={post.featuredImage?.node.altText || post.title}
+              className="object-cover w-full h-full"
+              loading="eager"
             />
             {/* Gradient overlay plus fort en bas pour le texte */}
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30"></div>
