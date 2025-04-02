@@ -47,14 +47,10 @@ const MenuHeader = memo(({
       )}
       aria-label="Fermer le menu"
     >
-<<<<<<< HEAD
-      <i className="ri-close-line text-2xl" aria-hidden="true" />
-=======
       <i 
         className="ri-close-line text-2xl"
         aria-hidden="true"
       />
->>>>>>> f3f1c0d4208333f10b7ae27ae76074776bf0e289
     </button>
   </div>
 ));

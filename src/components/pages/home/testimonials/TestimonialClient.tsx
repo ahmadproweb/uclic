@@ -75,17 +75,6 @@ const TestimonialCard = memo(({ testimonial, isDark, index }: {
             className="w-full h-full object-cover"
             itemProp="image"
           />
-<<<<<<< HEAD
-=======
-        ) : (
-          <i 
-            className={cn(
-              "ri-user-line text-lg md:text-xl",
-              isDark ? "text-white" : "text-black"
-            )}
-            aria-hidden="true"
-          />
->>>>>>> f3f1c0d4208333f10b7ae27ae76074776bf0e289
         )}
         <i 
           className={cn(

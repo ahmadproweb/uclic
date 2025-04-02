@@ -7,12 +7,9 @@ import { colors } from '@/config/theme';
 import Link from 'next/link';
 import { CTAButton } from "@/components/ui/cta-button";
 import { ArrowIcon } from "@/components/ui/icons/ArrowIcon";
-<<<<<<< HEAD
-=======
 import { CheckmarksIcon } from "@/components/ui/icons/CheckmarksIcon";
 import React from 'react';
 import 'remixicon/fonts/remixicon.css';
->>>>>>> f3f1c0d4208333f10b7ae27ae76074776bf0e289
 
 const services = [
   {
@@ -84,17 +81,11 @@ const createSlug = (title: string) => {
     .replace(/--+/g, '-'); // Replace multiple - with single -
 };
 
-<<<<<<< HEAD
-// Memoized decorative icon component
-const DecorativeIcon = memo(({ className }: { className: string }) => (
-  <i className={cn("ri-navigation-fill", className)} />
-=======
 // Memoized decorative mouse SVG component
 const DecorativeMouse = memo(({ fill }: { fill: string }) => (
   <svg width="46" height="45" viewBox="0 0 46 45" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M45.0146 35.3088C46.9298 40.5262 41.8604 45.5956 36.643 43.6804L3.84584 31.6409C-0.995415 29.8637 -0.872338 22.9743 4.0293 21.3712L14.5981 17.9146C17.6999 16.9001 20.0918 14.406 20.9756 11.2644L23.0275 3.9706C24.4554 -1.10461 31.5466 -1.3798 33.3634 3.5695L45.0146 35.3088Z" fill={fill}/>
   </svg>
->>>>>>> f3f1c0d4208333f10b7ae27ae76074776bf0e289
 ));
 
 DecorativeMouse.displayName = 'DecorativeMouse';
@@ -299,11 +290,7 @@ export default function AndMoreService({ children }: AndMoreServiceProps) {
         style={{ zIndex: 1 }}
         aria-hidden="true"
       >
-<<<<<<< HEAD
-        <DecorativeIcon className={cn("text-4xl", isDark ? "text-white/20" : "text-black/20")} />
-=======
         <DecorativeMouse fill={`${themeColors.primary.main}93`} />
->>>>>>> f3f1c0d4208333f10b7ae27ae76074776bf0e289
       </div>
       <div 
         ref={mouse2Ref} 
@@ -313,13 +300,9 @@ export default function AndMoreService({ children }: AndMoreServiceProps) {
         )} 
         style={{ zIndex: 1 }}
       >
-<<<<<<< HEAD
-        <DecorativeIcon className={cn("text-4xl", isDark ? "text-white/20" : "text-black/20")} />
-=======
         <svg width="92" height="90" viewBox="0 0 46 45" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M45.0146 35.3088C46.9298 40.5262 41.8604 45.5956 36.643 43.6804L3.84584 31.6409C-0.995415 29.8637 -0.872338 22.9743 4.0293 21.3712L14.5981 17.9146C17.6999 16.9001 20.0918 14.406 20.9756 11.2644L23.0275 3.9706C24.4554 -1.10461 31.5466 -1.3798 33.3634 3.5695L45.0146 35.3088Z" fill={`${themeColors.primary.main}73`}/>
         </svg>
->>>>>>> f3f1c0d4208333f10b7ae27ae76074776bf0e289
       </div>
       <div 
         ref={mouse3Ref} 
@@ -329,13 +312,9 @@ export default function AndMoreService({ children }: AndMoreServiceProps) {
         )} 
         style={{ zIndex: 1 }}
       >
-<<<<<<< HEAD
-        <DecorativeIcon className={cn("text-4xl", isDark ? "text-white/20" : "text-black/20")} />
-=======
         <svg width="69" height="67.5" viewBox="0 0 46 45" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M45.0146 35.3088C46.9298 40.5262 41.8604 45.5956 36.643 43.6804L3.84584 31.6409C-0.995415 29.8637 -0.872338 22.9743 4.0293 21.3712L14.5981 17.9146C17.6999 16.9001 20.0918 14.406 20.9756 11.2644L23.0275 3.9706C24.4554 -1.10461 31.5466 -1.3798 33.3634 3.5695L45.0146 35.3088Z" fill={`${themeColors.primary.main}83`}/>
         </svg>
->>>>>>> f3f1c0d4208333f10b7ae27ae76074776bf0e289
       </div>
 
       {/* Gradient background with memoized style */}
