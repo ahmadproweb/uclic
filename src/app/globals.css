@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import '../styles/logo-scroll.css';
+@import '../styles/custom-remixicon.css';
 
 @plugin "tailwindcss-animate";
 

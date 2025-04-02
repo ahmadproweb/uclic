@@ -2,7 +2,6 @@
 
 import { useTheme } from '@/context/ThemeContext';
 import { cn } from '@/lib/utils';
-import 'remixicon/fonts/remixicon.css';
 
 export default function ThemeSwitcher() {
   const { theme, toggleTheme } = useTheme();

@@ -38,32 +38,20 @@ const MobileMenuButton = memo(({
 }) => (
   <button 
     className={cn(
-      "md:hidden relative z-50 p-2 transition-transform duration-300",
-      isMobileMenuOpen && "fixed right-6 top-6"
+      "md:hidden relative z-50 p-2 transition-colors",
+      isMobileMenuOpen && "fixed right-6 top-6",
+      isDark ? "text-white hover:text-[#00E6A7]" : "text-black/80 hover:text-[#00E6A7]"
     )}
     onClick={onClick}
     aria-label="Toggle menu"
   >
-    <div className={cn(
-      "flex flex-col gap-1.5 w-6 transition-all duration-300",
-      isMobileMenuOpen && "transform rotate-180"
-    )}>
-      <span className={cn(
-        "block h-0.5 transition-all duration-300 transform",
-        isDark ? "bg-white" : "bg-black",
-        isMobileMenuOpen && "rotate-45 translate-y-2"
-      )} style={{ width: isMobileMenuOpen ? '24px' : '24px' }}/>
-      <span className={cn(
-        "block h-0.5 transition-all duration-300",
-        isDark ? "bg-white" : "bg-black",
-        isMobileMenuOpen && "opacity-0"
-      )} style={{ width: '16px' }}/>
-      <span className={cn(
-        "block h-0.5 transition-all duration-300 transform",
-        isDark ? "bg-white" : "bg-black",
-        isMobileMenuOpen && "-rotate-45 -translate-y-2"
-      )} style={{ width: isMobileMenuOpen ? '24px' : '20px' }}/>
-    </div>
+    <i 
+      className={cn(
+        "text-2xl transition-transform duration-300",
+        isMobileMenuOpen ? "ri-close-line" : "ri-menu-line"
+      )}
+      aria-hidden="true"
+    />
   </button>
 ));
 

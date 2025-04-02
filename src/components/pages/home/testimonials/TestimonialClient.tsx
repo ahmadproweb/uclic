@@ -41,7 +41,7 @@ const TestimonialCard = memo(({ testimonial, isDark, index }: {
     className={cn(
       "rounded-2xl md:rounded-[32px] p-5 md:p-6",
       "hover:-translate-y-1 hover:shadow-xl backdrop-blur-sm",
-      "animate-fade-in-up",
+      "animate-fade-in-up group",
       isDark ? "bg-white/5 border border-white/10" : "bg-white border border-black/5",
       "hover:bg-white/10"
     )}
@@ -61,11 +61,11 @@ const TestimonialCard = memo(({ testimonial, isDark, index }: {
     </blockquote>
     <footer className="flex items-center gap-2 md:gap-3">
       <figure className={cn(
-        "w-9 h-9 md:w-10 md:h-10 rounded-full overflow-hidden",
+        "w-9 h-9 md:w-10 md:h-10 rounded-full overflow-hidden relative",
         "flex items-center justify-center",
         isDark ? "bg-white/10" : "bg-black/10"
       )}>
-        {testimonial.imageTesti ? (
+        {testimonial.imageTesti && (
           <Image 
             src={testimonial.imageTesti} 
             alt={`Photo de ${testimonial.title}`}
@@ -74,15 +74,15 @@ const TestimonialCard = memo(({ testimonial, isDark, index }: {
             className="w-full h-full object-cover"
             itemProp="image"
           />
-        ) : (
-          <i 
-            className={cn(
-              "ri-user-fill text-xl md:text-2xl",
-              isDark ? "text-white" : "text-black"
-            )}
-            aria-hidden="true"
-          />
         )}
+        <i 
+          className={cn(
+            "ri-user-line text-xl md:text-2xl absolute inset-0 flex items-center justify-center",
+            isDark ? "text-white/80" : "text-black/80",
+            testimonial.imageTesti ? "opacity-0 group-hover:opacity-100 transition-opacity duration-300" : ""
+          )}
+          aria-hidden="true"
+        />
       </figure>
       <div itemProp="author" itemScope itemType="https://schema.org/Person">
         <cite 

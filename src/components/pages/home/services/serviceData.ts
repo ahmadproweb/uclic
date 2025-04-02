@@ -8,14 +8,14 @@ interface Service {
 
 export const serviceData: Service[] = [
   {
-    icon: "ri-team-line",
+    icon: "ri-group-line",
     title: "Des talents d'élite à chaque mission",
     text: "Nous ne laissons rien au hasard. Chaque expert, freelance ou équipe est rigoureusement sélectionné(e) et validé(e) pour répondre à vos besoins précis. Nous combinons notre expertise avec une technologie qui assemble l'équipe parfaite pour chaque mission.",
     description: "Sélection rigoureuse d'experts et d'équipes pour vos projets. Expertise technique et méthodologique garantie.",
     keywords: ["expert", "freelance", "équipe", "sélection", "expertise", "technologie"]
   },
   {
-    icon: "ri-focus-3-line",
+    icon: "ri-crosshair-line",
     title: "Des solutions sur mesure, zéro compromis",
     text: "Nos experts prennent le temps d'écouter votre vision, d'analyser vos objectifs et de comprendre votre équipe existante. Ensuite, nous élaborons un plan stratégique personnalisé et choisissons les talents adéquats pour exécuter avec précision, efficacité et résultats.",
     description: "Solutions personnalisées adaptées à vos besoins spécifiques. Stratégie sur mesure et exécution précise.",

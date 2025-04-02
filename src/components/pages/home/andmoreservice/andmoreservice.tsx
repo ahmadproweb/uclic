@@ -7,7 +7,6 @@ import { colors } from '@/config/theme';
 import Link from 'next/link';
 import { CTAButton } from "@/components/ui/cta-button";
 import { ArrowIcon } from "@/components/ui/icons/ArrowIcon";
-import 'remixicon/fonts/remixicon.css';
 
 const services = [
   {
@@ -81,7 +80,7 @@ const createSlug = (title: string) => {
 
 // Memoized decorative icon component
 const DecorativeIcon = memo(({ className }: { className: string }) => (
-  <i className={cn("ri-arrow-right-up-line", className)} />
+  <i className={cn("ri-navigation-fill", className)} />
 ));
 
 DecorativeIcon.displayName = 'DecorativeIcon';
@@ -286,7 +285,7 @@ export default function AndMoreService({ children }: AndMoreServiceProps) {
         style={{ zIndex: 1 }}
         aria-hidden="true"
       >
-        <DecorativeIcon className={cn("text-4xl")} />
+        <DecorativeIcon className={cn("text-4xl", isDark ? "text-white/20" : "text-black/20")} />
       </div>
       <div 
         ref={mouse2Ref} 
@@ -296,7 +295,7 @@ export default function AndMoreService({ children }: AndMoreServiceProps) {
         )} 
         style={{ zIndex: 1 }}
       >
-        <DecorativeIcon className={cn("text-4xl")} />
+        <DecorativeIcon className={cn("text-4xl", isDark ? "text-white/20" : "text-black/20")} />
       </div>
       <div 
         ref={mouse3Ref} 
@@ -306,7 +305,7 @@ export default function AndMoreService({ children }: AndMoreServiceProps) {
         )} 
         style={{ zIndex: 1 }}
       >
-        <DecorativeIcon className={cn("text-4xl")} />
+        <DecorativeIcon className={cn("text-4xl", isDark ? "text-white/20" : "text-black/20")} />
       </div>
 
       {/* Gradient background with memoized style */}

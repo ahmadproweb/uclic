@@ -8,7 +8,7 @@ export const inter = Inter({
 });
 
 export const absans = localFont({
-  src: '../../public/absans-regular.otf',
+  src: '../../public/absans-regular.woff',
   display: 'block',
   variable: '--font-absans',
   preload: true,

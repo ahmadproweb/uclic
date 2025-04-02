@@ -32,7 +32,17 @@ const nextConfig = {
     optimisticClientCache: true,
     serverActions: {
       bodySizeLimit: '2mb'
-    }
+    },
+    critters: {
+      preload: 'media',
+      preloadFonts: true,
+      inlineFonts: true,
+      pruneSource: true,
+      reduceInlineStyles: true,
+      mergeStylesheets: true,
+      fonts: true,
+      keyframes: true,
+    },
   },
   images: {
     formats: ['image/avif', 'image/webp'],

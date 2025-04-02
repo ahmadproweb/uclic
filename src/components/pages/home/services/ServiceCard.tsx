@@ -1,6 +1,5 @@
 import { memo } from 'react';
 import { cn } from "@/lib/utils";
-import 'remixicon/fonts/remixicon.css';
 
 interface ServiceCardProps {
   title: string;

@@ -7,7 +7,6 @@ import { ClientPulseEffect } from './ClientPulseEffect';
 import { UnderlinedText } from '@/components/ui/underlined-text';
 import { cn } from "@/lib/utils";
 import { memo } from 'react';
-import 'remixicon/fonts/remixicon.css';
 
 const PlusIcon = memo(function PlusIcon() {
   return (

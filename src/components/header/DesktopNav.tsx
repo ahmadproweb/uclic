@@ -3,7 +3,6 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { navItems } from "./NavItems";
 import { HeaderThemeProps } from "./types";
-import 'remixicon/fonts/remixicon.css';
 
 interface DesktopNavProps extends HeaderThemeProps {
   isMegaMenuOpen: boolean;

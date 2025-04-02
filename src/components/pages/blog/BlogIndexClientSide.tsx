@@ -71,9 +71,7 @@ function BlogCard({ post }: { post: BlogPost }) {
 
         <div className="flex items-center gap-2 text-sm text-black/70">
           <div className="w-6 h-6 rounded-full bg-black/10 flex items-center justify-center">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+            <i className="ri-time-line text-sm" aria-hidden="true" />
           </div>
           {post.reading_time} min de lecture
         </div>

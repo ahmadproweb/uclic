@@ -1,0 +1,103 @@
+/*
+* https://remixicon.com
+* https://github.com/Remix-Design/RemixIcon
+* Copyright RemixIcon.com
+* Released under the Apache License Version 2.0
+*/
+
+@font-face {
+  font-family: 'remixicon';
+  src: url('/remixicon.woff') format('woff');
+  font-display: swap;
+}
+
+[class^="ri-"],
+[class*=" ri-"] {
+  font-family: 'remixicon' !important;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Classes de taille */
+.ri-lg { font-size: 1.3333em; line-height: 0.75em; vertical-align: -.0667em; }
+.ri-xl { font-size: 1.5em; line-height: 0.6666em; vertical-align: -.075em; }
+.ri-xxs { font-size: .5em; }
+.ri-xs { font-size: .75em; }
+.ri-sm { font-size: .875em }
+.ri-1x { font-size: 1em; }
+.ri-2x { font-size: 2em; }
+.ri-3x { font-size: 3em; }
+.ri-4x { font-size: 4em; }
+.ri-5x { font-size: 5em; }
+.ri-6x { font-size: 6em; }
+.ri-7x { font-size: 7em; }
+.ri-8x { font-size: 8em; }
+.ri-9x { font-size: 9em; }
+.ri-10x { font-size: 10em; }
+.ri-fw { text-align: center; width: 1.25em; }
+
+/* Icônes de réseaux sociaux */
+.ri-linkedin-line:before { content: "\eeb6"; }
+.ri-twitter-x-line:before { content: "\f3e7"; }
+.ri-facebook-line:before { content: "\ecbd"; }
+.ri-youtube-line:before { content: "\f2d5"; }
+.ri-instagram-line:before { content: "\ee66"; }
+.ri-youtube-fill:before { content: "\f2d4"; }
+.ri-spotify-line:before { content: "\f17d"; }
+
+/* Icônes de navigation */
+.ri-arrow-left-line:before { content: "\ea60"; }
+.ri-arrow-down-line:before { content: "\ea4c"; }
+.ri-arrow-right-line:before { content: "\ea6c"; }
+.ri-arrow-up-line:before { content: "\ea76"; }
+.ri-arrow-up-s-line:before { content: "\ea78"; }
+.ri-arrow-right-s-line:before { content: "\ea6e"; }
+.ri-arrow-down-s-line:before { content: "\ea4e"; }
+.ri-arrow-left-s-line:before { content: "\ea64"; }
+.ri-arrow-go-back-fill:before { content: "\ea57"; }
+.ri-menu-line:before { content: "\ef3e"; }
+.ri-menu-4-line:before { content: "\ef36"; }
+.ri-close-line:before { content: "\eb99"; }
+.ri-navigation-fill:before { content: "\ef88"; }
+.ri-navigation-line:before { content: "\ef89"; }
+.ri-map-pin-2-line:before { content: "\ef0a"; }
+
+/* Icônes de thème et UI */
+.ri-sun-line:before { content: "\f1bf"; }
+.ri-moon-line:before { content: "\ef75"; }
+.ri-lightbulb-line:before { content: "\eea9"; }
+.ri-user-line:before { content: "\f264"; }
+.ri-home-line:before { content: "\ee2b"; }
+.ri-star-fill:before { content: "\f186"; }
+.ri-cursor-fill:before { content: "\ec09"; }
+.ri-check-line:before { content: "\eb7b"; }
+.ri-shield-check-line:before { content: "\f100"; }
+.ri-checkbox-circle-line:before { content: "\eb81"; }
+.ri-more-2-line:before { content: "\ef77"; }
+
+/* Icônes de communication */
+.ri-mail-line:before { content: "\eef6"; }
+.ri-send-plane-line:before { content: "\f0da"; }
+.ri-chat-1-line:before { content: "\eb4d"; }
+.ri-customer-service-2-line:before { content: "\ec0c"; }
+.ri-rss-line:before { content: "\f09f"; }
+
+/* Icônes diverses */
+.ri-time-line:before { content: "\f20f"; }
+.ri-flashlight-line:before { content: "\ed3d"; }
+.ri-flashlight-fill:before { content: "\ed3c"; }
+.ri-crosshair-line:before { content: "\f3b5"; }
+.ri-group-line:before { content: "\ede3"; }
+.ri-heart-line:before { content: "\ee0f"; }
+.ri-pulse-line:before { content: "\f035"; }
+.ri-gemini-fill:before { content: "\f53f"; }
+
+/* Icônes de services */
+.ri-team-line:before { content: "\f13f"; }
+.ri-focus-3-line:before { content: "\ed4c"; }
+.ri-global-line:before { content: "\ee26"; }
+
+/* Icônes de décoration */
+.ri-add-line:before { content: "\ea12"; }
+.ri-scissors-line:before { content: "\f0c4"; } 

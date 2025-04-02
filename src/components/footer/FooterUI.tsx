@@ -54,11 +54,11 @@ FooterLinks.displayName = 'FooterLinks';
 
 const FooterBottom = memo(({ isDark, legalPages }: { isDark: boolean; legalPages: FooterUIProps['legalPages'] }) => {
   const socialLinks = [
-    { name: 'Facebook', href: '#', icon: 'ri-facebook-fill' },
-    { name: 'LinkedIn', href: '#', icon: 'ri-linkedin-fill' },
-    { name: 'Twitter', href: '#', icon: 'ri-twitter-x-fill' },
-    { name: 'Instagram', href: '#', icon: 'ri-instagram-fill' },
-    { name: 'YouTube', href: '#', icon: 'ri-youtube-fill' }
+    { name: 'Facebook', href: '#', icon: 'ri-facebook-line' },
+    { name: 'LinkedIn', href: '#', icon: 'ri-linkedin-line' },
+    { name: 'Twitter', href: '#', icon: 'ri-twitter-x-line' },
+    { name: 'Instagram', href: '#', icon: 'ri-instagram-line' },
+    { name: 'YouTube', href: '#', icon: 'ri-youtube-line' }
   ];
 
   return (

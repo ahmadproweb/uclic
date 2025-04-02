@@ -55,7 +55,7 @@ const DecorativeMouse = memo(({
   >
     <i 
       className={cn(
-        "ri-cursor-fill",
+        "ri-navigation-fill",
         position === 'left' ? "text-4xl" : "text-6xl"
       )}
       style={{ color: theme.colors.primary.main }}
@@ -64,6 +64,34 @@ const DecorativeMouse = memo(({
 ));
 
 DecorativeMouse.displayName = 'DecorativeMouse';
+
+const DecorativeNavigation = memo(({ position, isDark, isVisible }: { 
+  position: 'topleft' | 'bottomright'; 
+  isDark: boolean;
+  isVisible: boolean;
+}) => (
+  <div 
+    className={cn(
+      "absolute hidden md:block transition-all duration-1000 ease-out",
+      position === 'topleft' 
+        ? "top-[25%] left-[15%] rotate-[-45deg] opacity-0" 
+        : "bottom-[25%] right-[15%] rotate-[45deg] opacity-0",
+      isVisible && (position === 'topleft'
+        ? "translate-x-[100px] translate-y-[100px] rotate-[15deg] opacity-100"
+        : "translate-x-[-100px] translate-y-[-100px] rotate-[-15deg] opacity-100")
+    )}
+    aria-hidden="true"
+  >
+    <i 
+      className={cn(
+        "ri-navigation-fill text-4xl md:text-5xl",
+        isDark ? "text-white/20" : "text-black/20"
+      )}
+    />
+  </div>
+));
+
+DecorativeNavigation.displayName = 'DecorativeNavigation';
 
 const PortfolioCard = memo(({ portfolio, isDark }: { portfolio: Portfolio; isDark: boolean }) => {
   const imageUrl = portfolio.featuredImage?.node.sourceUrl;
@@ -198,11 +226,14 @@ function CaseStudy({ portfolios: initialPortfolios }: CaseStudyProps) {
       id="casestudy" 
       className={cn(
         "w-full py-12 md:py-16 relative",
-        isDark ? "bg-black/90" : "bg-[#F5F5F5]"
+        isDark ? "bg-black/95" : "bg-white"
       )}
+      aria-label="Études de cas"
     >
       <DecorativeMouse ref={mouse1Ref} position="left" isDark={isDark} isVisible={isVisible} />
       <DecorativeMouse ref={mouse2Ref} position="right" isDark={isDark} isVisible={isVisible} />
+      <DecorativeNavigation position="topleft" isDark={isDark} isVisible={isVisible} />
+      <DecorativeNavigation position="bottomright" isDark={isDark} isVisible={isVisible} />
 
       <div className="max-w-[1250px] mx-auto px-4">
         <header className="text-center mb-8 md:mb-16">

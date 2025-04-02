@@ -87,32 +87,18 @@ const BlogPostCard = memo(({ post, index }: { post: BlogPost; index: number }) =
         </figcaption>
       </figure>
       
-      <div className="p-6 space-y-4">
+      <div className="p-6">
         <h3 className="text-xl font-semibold text-black">
           {post.title}
         </h3>
         
-        <p className="text-black/80">
+        <p className="text-black/80 mt-4">
           {post.description}
         </p>
 
-        <time className="flex items-center text-xs text-black/60">
+        <time className="flex items-center text-xs text-black/60 mt-4">
           <span className="w-6 h-6 rounded-full bg-black/10 flex items-center justify-center mr-2">
-            <svg 
-              className="w-3 h-3" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-            >
-              <path 
-                d="M12 8v4l3 3M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z" 
-                stroke="currentColor" 
-                strokeWidth="2" 
-                strokeLinecap="round" 
-                strokeLinejoin="round"
-              />
-            </svg>
+            <i className="ri-time-line text-sm" aria-hidden="true" />
           </span>
           {post.readTime} min de lecture
         </time>

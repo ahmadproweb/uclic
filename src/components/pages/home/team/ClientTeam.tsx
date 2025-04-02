@@ -141,7 +141,7 @@ const TeamMemberCard = memo(function TeamMemberCard({
                 backgroundColor={themeColors.primary.main}
                 label={`Voir le profil LinkedIn de ${member.title}`}
               >
-                <i className="ri-linkedin-fill text-base md:text-lg" style={{ color: themeColors.common.black }} />
+                <i className="ri-linkedin-line text-base md:text-lg" style={{ color: themeColors.common.black }} />
               </SocialIcon>
             )}
             {member.equipeFields.twitter && (
@@ -150,7 +150,7 @@ const TeamMemberCard = memo(function TeamMemberCard({
                 backgroundColor={themeColors.primary.main}
                 label={`Voir le profil Twitter de ${member.title}`}
               >
-                <i className="ri-twitter-x-fill text-base md:text-lg" style={{ color: themeColors.common.black }} />
+                <i className="ri-twitter-x-line text-base md:text-lg" style={{ color: themeColors.common.black }} />
               </SocialIcon>
             )}
             {member.equipeFields.autre && (
