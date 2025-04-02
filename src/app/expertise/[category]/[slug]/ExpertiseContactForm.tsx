@@ -3,10 +3,22 @@
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 import { colors as theme } from '@/config/theme';
+import { SubmitButton } from "@/components/ui/submit-button";
+import { useState } from 'react';
 
 export default function ExpertiseContactForm() {
   const { theme: currentTheme } = useTheme();
   const isDark = currentTheme === 'dark';
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    // TODO: Ajouter la logique de soumission du formulaire ici
+    setTimeout(() => {
+      setIsSubmitting(false);
+    }, 2000);
+  };
 
   return (
     <div className="w-full h-full max-w-md mx-auto">
@@ -15,7 +27,7 @@ export default function ExpertiseContactForm() {
         "border backdrop-blur-sm",
         isDark ? "border-white/10 bg-white/5" : "border-black/5 bg-black/5"
       )}>
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
             <label 
               htmlFor="name" 
@@ -120,18 +132,13 @@ export default function ExpertiseContactForm() {
             />
           </div>
 
-          <button
-            type="submit"
-            className={cn(
-              "w-full px-6 py-3 text-base font-medium rounded-full",
-              "transition-all duration-200",
-              isDark 
-                ? "bg-white text-black hover:bg-[#E0FF5C]"
-                : "bg-[#E0FF5C] text-black hover:bg-black hover:text-white"
-            )}
+          <SubmitButton 
+            variant={isDark ? "mainCTA" : "shiny"} 
+            className="w-full"
+            disabled={isSubmitting}
           >
-            Envoyer
-          </button>
+            {isSubmitting ? 'Envoi en cours...' : 'Envoyer'}
+          </SubmitButton>
         </form>
       </div>
     </div>

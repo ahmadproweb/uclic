@@ -4,20 +4,9 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import PreFooter from '@/components/footer/PreFooter';
 import ExpertiseContactForm from './ExpertiseContactForm';
-import Partners from "@/components/pages/home/partner/partner";
-import Service from "@/components/pages/home/services/services";
-import MarqueeText from '@/components/pages/home/MarqueeText/marquee';
-import AndMoreService from '@/components/pages/home/andmoreservice/andmoreservice';
-import TeamSection from '@/components/pages/home/team/team-section';
-import PartnerBtoB from '@/components/pages/home/partnerbtob/partnerbtob';
-import ProcessSteps from "@/components/pages/home/process/process";
-import CaseStudyWrapper from "@/components/pages/home/casestudy";
-import Testimonials from "@/components/pages/home/testimonials/testimonials";
-import FAQ from "@/components/pages/home/faq/faq";
-import Blog from '@/components/pages/home/blog/blog';
-import { Suspense } from 'react';
-
-
+import { CTAButton } from "@/components/ui/cta-button";
+import { cn } from "@/lib/utils";
+import ExpertiseFAQ from './ExpertiseFAQ';
 
 
 interface ExpertisePageProps {
@@ -26,6 +15,8 @@ interface ExpertisePageProps {
     slug: string;
   };
 }
+
+
 
 export async function generateMetadata(
   { params }: ExpertisePageProps,
@@ -66,6 +57,7 @@ export async function generateMetadata(
 }
 
 export default async function ExpertisePage({ params }: ExpertisePageProps) {
+  
   // Validate params
   const category = await Promise.resolve(params?.category);
   const slug = await Promise.resolve(params?.slug);
@@ -178,15 +170,12 @@ export default async function ExpertisePage({ params }: ExpertisePageProps) {
                 {subtitle}
               </p>
             )}
-
-            <div className="flex flex-row gap-3">
-              <Link 
-                href="/contact" 
-                className="inline-flex items-center justify-center px-6 py-3 text-base sm:text-lg font-medium rounded-full transition-all duration-200 bg-[#E0FF5C] text-black hover:bg-black hover:text-white dark:bg-white dark:text-black dark:hover:bg-[#E0FF5C]/90"
-              >
-                Nous Contacter
-              </Link>
-            </div>
+           
+              <div className="flex flex-row gap-3">
+                <CTAButton href="/contact" variant="simple">
+                  Nous Contacter
+                </CTAButton>
+              </div>
           </div>
 
           {/* Right Column - Contact Form */}
@@ -198,15 +187,15 @@ export default async function ExpertisePage({ params }: ExpertisePageProps) {
         </div>
       </div>
 
-        {/* Main Content */}
-        <div className="max-w-[1250px] mx-auto px-4 md:px-6 relative z-10">
+      {/* Main Content */}
+      <div className="max-w-[1250px] mx-auto px-4 md:px-6 relative z-10">
         {/* Benefits Section */}
         {h21 && (
           <div className="mb-16">
-            <h2 className="text-3xl md:text-4xl font-normal mb-8 text-gray-900 dark:text-white">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[50px] font-medium tracking-[-1px] text-center mb-16 text-black/90 dark:text-white/90 leading-[1.1]">
               {h21}
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
                 {
                   title: titrebox1,
@@ -221,16 +210,24 @@ export default async function ExpertisePage({ params }: ExpertisePageProps) {
                   description: description3
                 }
               ].map((benefit, index) => (
-                <div key={index} className="p-6 rounded-2xl backdrop-blur-md border transition-all duration-300
-                  dark:bg-black/40 dark:border-white/10 dark:shadow-[0_0_0_1px_rgba(255,255,255,0.05)]
-                  bg-white/40 border-black/5 shadow-[0_0_0_1px_rgba(0,0,0,0.03)]">
-                  <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
+                <article 
+                  key={index} 
+                  className="rounded-[32px] p-10 relative overflow-hidden h-full bg-[#E0FF5C] backdrop-blur-md shadow-service transform-gpu transition-all duration-500 ease-out hover:-translate-y-4 group"
+                >
+                  <i 
+                    className={cn(
+                      "absolute top-8 left-8 w-10 h-10 rounded-full flex items-center justify-center bg-black/10 text-2xl text-black transform-gpu transition-all duration-500 group-hover:scale-110 group-hover:rotate-12",
+                      "ri-checkbox-circle-line"
+                    )}
+                    aria-hidden="true"
+                  />
+                  <h3 className="text-2xl font-bold mb-6 mt-16 text-black">
                     {benefit.title}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-400">
+                  <p className="text-base leading-relaxed text-black/80">
                     {benefit.description}
                   </p>
-                </div>
+                </article>
               ))}
             </div>
           </div>
@@ -256,13 +253,14 @@ export default async function ExpertisePage({ params }: ExpertisePageProps) {
         {processTitle && (
           <div className="mb-16">
             <div className="text-center mb-12">
-              <span className="text-[#E0FF5C] text-sm font-medium mb-2 block">
+              <span className="text-base mb-4 block font-semibold text-[#E0FF5C]">
                 {processLittleTitle}
               </span>
-              <h2 className="text-3xl md:text-4xl font-normal text-gray-900 dark:text-white">
+              <h2 className="text-3xl md:text-5xl font-normal mb-4 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
                 {processTitle}
               </h2>
-              <p className="mt-4 text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              <div className="w-12 h-0.5 mx-auto mb-4 bg-[#E0FF5C]"></div>
+              <p className="text-base md:text-lg max-w-md mx-auto text-center transition-colors duration-300 text-white">
                 {processDescription}
               </p>
             </div>
@@ -281,19 +279,23 @@ export default async function ExpertisePage({ params }: ExpertisePageProps) {
                   description: descriptionTitre3
                 }
               ].map((step, index) => (
-                <div key={index} className="p-6 rounded-2xl backdrop-blur-md border transition-all duration-300
-                  dark:bg-black/40 dark:border-white/10 dark:shadow-[0_0_0_1px_rgba(255,255,255,0.05)]
-                  bg-white/40 border-black/5 shadow-[0_0_0_1px_rgba(0,0,0,0.03)]">
-                  <div className="w-12 h-12 rounded-full bg-[#E0FF5C] flex items-center justify-center text-gray-900 font-bold mb-4">
+                <article 
+                  key={index} 
+                  className="rounded-[32px] p-10 relative overflow-hidden h-full bg-[#E0FF5C] backdrop-blur-md shadow-service transform-gpu transition-all duration-500 ease-out hover:-translate-y-4 group"
+                >
+                  <i 
+                    className="absolute top-8 left-8 w-10 h-10 rounded-full flex items-center justify-center bg-black/10 text-2xl text-black transform-gpu transition-all duration-500 group-hover:scale-110 group-hover:rotate-12"
+                    aria-hidden="true"
+                  >
                     {index + 1}
-                  </div>
-                  <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
+                  </i>
+                  <h3 className="text-2xl font-bold mb-6 mt-16 text-black">
                     {step.title}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-400">
+                  <p className="text-base leading-relaxed text-black/80">
                     {step.description}
                   </p>
-                </div>
+                </article>
               ))}
             </div>
           </div>
@@ -301,55 +303,17 @@ export default async function ExpertisePage({ params }: ExpertisePageProps) {
 
         {/* FAQ Section */}
         {faqTitle1 && (
-          <div className="mb-16">
-            <div className="text-center mb-12">
-              <span className="text-[#E0FF5C] text-sm font-medium mb-2 block">
-                {faqSubtitle}
-              </span>
-              <h2 className="text-3xl md:text-4xl font-normal text-gray-900 dark:text-white">
-                Questions fréquentes
-              </h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {[
-                {
-                  question: faqTitle1,
-                  answer: faqDesc1
-                },
-                {
-                  question: faqTitle2,
-                  answer: faqDesc2
-                },
-                {
-                  question: faqTitle3,
-                  answer: faqDesc3
-                },
-                {
-                  question: faqTitle4,
-                  answer: faqDesc4
-                },
-                {
-                  question: faqTitle5,
-                  answer: faqDesc5
-                },
-                {
-                  question: faqTitle6,
-                  answer: faqDesc6
-                }
-              ].map((faq, index) => (
-                <div key={index} className="p-6 rounded-2xl backdrop-blur-md border transition-all duration-300
-                  dark:bg-black/40 dark:border-white/10 dark:shadow-[0_0_0_1px_rgba(255,255,255,0.05)]
-                  bg-white/40 border-black/5 shadow-[0_0_0_1px_rgba(0,0,0,0.03)]">
-                  <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
-                    {faq.question}
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-400">
-                    {faq.answer}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
+          <ExpertiseFAQ 
+            subtitle={faqSubtitle}
+            items={[
+              { id: 1, question: faqTitle1, answer: faqDesc1 },
+              { id: 2, question: faqTitle2, answer: faqDesc2 },
+              { id: 3, question: faqTitle3, answer: faqDesc3 },
+              { id: 4, question: faqTitle4, answer: faqDesc4 },
+              { id: 5, question: faqTitle5, answer: faqDesc5 },
+              { id: 6, question: faqTitle6, answer: faqDesc6 }
+            ].filter(item => item.question && item.answer)}
+          />
         )}
       </div>
 
@@ -366,25 +330,8 @@ export default async function ExpertisePage({ params }: ExpertisePageProps) {
         </Link>
       </div>
 
-      <Partners />
-      <Service />
-      <MarqueeText />
-      <AndMoreService>
-        <Suspense fallback={<div className="w-full h-[400px] flex items-center justify-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-        </div>}>
-          <TeamSection />
-        </Suspense>
-      </AndMoreService>
-      <PartnerBtoB />
-      <ProcessSteps />
-      <CaseStudyWrapper />
-      <Testimonials />
-      <FAQ />
-      <Blog />
-
-    
-
+      {/* PreFooter */}
+      <PreFooter noBgGradient />
     </section>
   );
 } 
