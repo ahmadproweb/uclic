@@ -1,4 +1,6 @@
 import { memo } from 'react';
+import { cn } from "@/lib/utils";
+import 'remixicon/fonts/remixicon.css';
 
 interface ArrowIconProps {
   className?: string;
@@ -6,12 +8,18 @@ interface ArrowIconProps {
 
 export const ArrowIcon = memo(function ArrowIcon({ className = "" }: ArrowIconProps) {
   return (
-    <img 
-      src="/icon-right.png"
-      alt=""
-      width={36}
-      height={36}
-      className={className}
-    />
+    <div 
+      className={cn(
+        "flex items-center justify-center",
+        "w-8 h-8 rounded-full border border-current",
+        "transition-all duration-300",
+        className
+      )}
+    >
+      <i 
+        className="ri-arrow-right-line text-lg"
+        aria-hidden="true"
+      />
+    </div>
   );
 }); 
