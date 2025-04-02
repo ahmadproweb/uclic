@@ -17,6 +17,7 @@ export default function SpotifyPlayer({
 }: SpotifyPlayerProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isMinimized, setIsMinimized] = useState(true);
+  const [iframeLoaded, setIframeLoaded] = useState(false);
   const playerRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const { theme: currentTheme } = useTheme();
@@ -24,7 +25,10 @@ export default function SpotifyPlayer({
 
   // Fonction pour contrôler la lecture
   const togglePlay = () => {
-    if (iframeRef.current) {
+    if (!iframeLoaded) {
+      setIframeLoaded(true);
+      setIsMinimized(false);
+    } else if (iframeRef.current) {
       const iframe = iframeRef.current;
       const message = isPlaying ? 'pause' : 'play';
       iframe.contentWindow?.postMessage({ command: message }, '*');
@@ -34,20 +38,15 @@ export default function SpotifyPlayer({
 
   // Écouter les messages de l'iframe pour synchroniser l'état de lecture
   useEffect(() => {
+    if (!iframeLoaded) return;
+
     const handleMessage = (event: MessageEvent) => {
       try {
-        // Vérifier que l'événement vient de Spotify
         if (!event.origin.includes('spotify.com')) return;
-        
-        // Vérifier la structure des données
         const data = event.data;
         if (typeof data === 'object' && data !== null) {
-          // Gérer les différents types de messages Spotify
           if (data.type === 'playback_update' && typeof data.data?.isPlaying === 'boolean') {
             setIsPlaying(data.data.isPlaying);
-          } else if (data.type === 'ready' || data.type === 'initialized') {
-            // L'iframe est prêt
-            console.debug('Spotify player ready');
           }
         }
       } catch (error) {
@@ -57,7 +56,7 @@ export default function SpotifyPlayer({
 
     window.addEventListener('message', handleMessage);
     return () => window.removeEventListener('message', handleMessage);
-  }, [setIsPlaying]);
+  }, [setIsPlaying, iframeLoaded]);
 
   // Détecter le scroll pour afficher le player
   useEffect(() => {
@@ -71,15 +70,20 @@ export default function SpotifyPlayer({
     };
 
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Vérifier la position initiale
+    handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Le player doit être visible si :
-  // - soit on a scrollé plus de 20% de la page
-  // - soit il est en cours de lecture
   const shouldBeVisible = isVisible || isPlaying;
+
+  // Charger l'iframe uniquement quand nécessaire
+  const handleExpandClick = () => {
+    if (!iframeLoaded) {
+      setIframeLoaded(true);
+    }
+    setIsMinimized(false);
+  };
 
   return (
     <div 
@@ -94,10 +98,9 @@ export default function SpotifyPlayer({
       )}
     >
       <div className="max-w-[1250px] mx-auto px-4 py-2 relative">
-        {/* Bouton de minimisation */}
         {shouldBeVisible && (
           <button 
-            onClick={() => setIsMinimized(!isMinimized)}
+            onClick={handleExpandClick}
             className={cn(
               "absolute -top-[21px] right-4 bg-[#E0FF5C] text-black px-3 py-0.5 rounded-t-lg",
               "hover:bg-[#E0FF5C]/90 transition-colors duration-200",
@@ -122,23 +125,23 @@ export default function SpotifyPlayer({
           </button>
         )}
 
-        {/* Player */}
         <div className={cn(
           "transition-all duration-500",
           isMinimized ? "h-0 opacity-0 invisible" : "h-[80px] opacity-100 visible"
         )}>
-          <iframe
-            ref={iframeRef}
-            src={`https://open.spotify.com/embed/episode/${episodeId}?utm_source=generator&theme=${isDark ? '0' : '1'}`}
-            width="100%"
-            height="80"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-            className="rounded-lg border border-[#E0FF5C]/20"
-          />
+          {iframeLoaded && (
+            <iframe
+              ref={iframeRef}
+              src={`https://open.spotify.com/embed/episode/${episodeId}?utm_source=generator&theme=${isDark ? '0' : '1'}`}
+              width="100%"
+              height="80"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+              className="rounded-lg border border-[#E0FF5C]/20"
+            />
+          )}
         </div>
 
-        {/* Version minimisée */}
         {isMinimized && (
           <div className="flex items-center justify-between h-8">
             <div className="flex items-center gap-3 flex-1">
