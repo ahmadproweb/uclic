@@ -5,7 +5,9 @@ import Header from "@/components/header/Header";
 import Footer from "@/components/footer/Footer";
 import { ThemeProvider } from "@/context/ThemeContext";
 import Script from "next/script";
-import { headers } from 'next/headers';
+import { SpotifyPlayerProvider } from '@/components/providers/SpotifyPlayerProvider';
+import { VideoPopupProvider } from '@/context/VideoPopupContext';
+import VideoPopup from '@/components/ui/VideoPopup';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -141,11 +143,16 @@ export default function RootLayout({
       </head>
       <body suppressHydrationWarning>
         <ThemeProvider>
-          <div suppressHydrationWarning>
-            <Header />
-            {children}
-            <Footer />
-          </div>
+          <VideoPopupProvider>
+            <SpotifyPlayerProvider>
+              <div suppressHydrationWarning>
+                <Header />
+                {children}
+                <Footer />
+                <VideoPopup />
+              </div>
+            </SpotifyPlayerProvider>
+          </VideoPopupProvider>
         </ThemeProvider>
       </body>
     </html>

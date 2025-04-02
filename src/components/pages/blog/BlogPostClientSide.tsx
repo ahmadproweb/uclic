@@ -4,7 +4,6 @@ import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 import { colors as theme } from '@/config/theme';
 import Link from 'next/link';
-import Image from 'next/image';
 import PreFooter from '@/components/footer/PreFooter';
 import ScrollToTop from '@/components/ui/ScrollToTop';
 import StickyShareButtons from '@/components/ui/StickyShareButtons';
@@ -855,13 +854,13 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
         <div className="mb-6 md:mb-8 lg:mb-12 relative">
           {/* Featured image */}
           <div className="w-full h-[45vh] sm:h-[50vh] md:h-[60vh] relative rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden">
-            <Image
+            <img
               src={post.featured_image_url}
               alt={post.title}
-              className="object-cover"
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, 1200px"
+              className="absolute inset-0 w-full h-full object-cover"
+              width="1200"
+              height="800"
+              loading="eager"
             />
             {/* Gradient overlay plus fort en bas pour le texte */}
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30"></div>

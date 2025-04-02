@@ -59,13 +59,13 @@ export default function HeroAnimation() {
 
         @media (max-width: 1600px) {
           .wrapper {
-            transform: scale(0.9);
+            transform: scale(0.8);
           }
         }
 
         @media (max-width: 768px) {
           .wrapper {
-            transform: scale(0.9);
+            transform: scale(0.8);
           }
         }
 
