@@ -258,34 +258,32 @@ const ClientTeam = memo(function ClientTeam({ initialData }: { initialData: Team
         aria-hidden="true"
       />
 
-      <div className="max-w-7xl mx-auto">
-        <header className="text-center mb-8 md:mb-16">
-          <p 
-            className="text-base md:text-lg mb-2 md:mb-4 transition-colors duration-300 tracking-[-0.5px]"
-            style={{ color: themeColors.common.black }}
-          >
-            Faites-nous entrer en jeu
-          </p>
-          <h2 
-            className="tracking-[-1px] text-3xl md:text-4xl lg:text-5xl font-light transition-colors duration-300"
-            style={{ color: themeColors.common.black }}
-          >
-            Une équipe sur-mesure à<br className="hidden md:block" />vos côtés
-          </h2>
-        </header>
+      <header className="text-center mb-8 md:mb-16 max-w-7xl mx-auto">
+        <p 
+          className="text-base md:text-lg mb-2 md:mb-4 transition-colors duration-300 tracking-[-0.5px]"
+          style={{ color: themeColors.common.black }}
+        >
+          Faites-nous entrer en jeu
+        </p>
+        <h2 
+          className="tracking-[-1px] text-3xl md:text-4xl lg:text-5xl font-light transition-colors duration-300"
+          style={{ color: themeColors.common.black }}
+        >
+          Une équipe sur-mesure à<br className="hidden md:block" />vos côtés
+        </h2>
+      </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-          {teamMembers.map((member) => (
-            <TeamMemberCard
-              key={member.slug}
-              member={member}
-              hoveredId={hoveredId}
-              onHover={handleHover}
-              themeColors={themeColors}
-              isDark={isDark}
-            />
-          ))}
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-7xl mx-auto">
+        {teamMembers.map((member) => (
+          <TeamMemberCard
+            key={member.slug}
+            member={member}
+            hoveredId={hoveredId}
+            onHover={handleHover}
+            themeColors={themeColors}
+            isDark={isDark}
+          />
+        ))}
       </div>
     </section>
   );

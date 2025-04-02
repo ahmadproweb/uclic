@@ -166,23 +166,16 @@ function TestimonialClient({ testimonials }: TestimonialClientProps) {
         {JSON.stringify(testimonialSchema)}
       </Script>
 
-      <div className="max-w-[1250px] mx-auto px-4 relative z-10">
-        <TestimonialHeader isDark={isDark} />
-        
-        <div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4"
-          role="feed"
-          aria-label="Liste des témoignages"
-        >
-          {testimonials.map((testimonial, index) => (
-            <TestimonialCard
-              key={testimonial.id}
-              testimonial={testimonial}
-              isDark={isDark}
-              index={index}
-            />
-          ))}
-        </div>
+      <TestimonialHeader isDark={isDark} />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 max-w-[1250px] mx-auto px-4 relative z-10">
+        {testimonials.map((testimonial, index) => (
+          <TestimonialCard
+            key={testimonial.id}
+            testimonial={testimonial}
+            isDark={isDark}
+            index={index}
+          />
+        ))}
       </div>
     </section>
   );
