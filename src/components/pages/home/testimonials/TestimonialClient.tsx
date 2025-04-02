@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import type { Testimonial } from './types';
 import Image from 'next/image';
 import Script from 'next/script';
+import 'remixicon/fonts/remixicon.css';
 
 // Types
 interface TestimonialClientProps {
@@ -16,21 +17,16 @@ interface TestimonialClientProps {
 const StarRating = memo(({ rating }: { rating: number }) => (
   <div className="flex gap-1 mb-4" role="img" aria-label={`Note de ${rating} sur 5 étoiles`}>
     {[...Array(5)].map((_, i) => (
-      <svg 
+      <i 
         key={i} 
-        width="20" 
-        height="20" 
-        viewBox="0 0 20 20" 
         className={cn(
-          "transition-transform duration-300",
+          "ri-star-fill text-xl transition-transform duration-300",
           "animate-fade-in-up hover:scale-110",
-          i < rating ? 'fill-[#E0FF5C]' : 'fill-gray-300'
+          i < rating ? 'text-[#E0FF5C]' : 'text-gray-300'
         )}
         style={{ animationDelay: `${i * 100}ms` }}
         aria-hidden="true"
-      >
-        <path d="M10 0L12.2451 6.90983H19.5106L13.6327 11.1803L15.8779 18.0902L10 13.8197L4.12215 18.0902L6.36729 11.1803L0.489435 6.90983H7.75486L10 0Z"/>
-      </svg>
+      />
     ))}
   </div>
 ));
@@ -80,16 +76,13 @@ const TestimonialCard = memo(({ testimonial, isDark, index }: {
             itemProp="image"
           />
         ) : (
-          <svg 
-            viewBox="0 0 24 24" 
+          <i 
             className={cn(
-              "w-4 h-4 md:w-5 md:h-5",
-              isDark ? "fill-white" : "fill-black"
+              "ri-user-line text-lg md:text-xl",
+              isDark ? "text-white" : "text-black"
             )}
             aria-hidden="true"
-          >
-            <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"/>
-          </svg>
+          />
         )}
       </figure>
       <div itemProp="author" itemScope itemType="https://schema.org/Person">
