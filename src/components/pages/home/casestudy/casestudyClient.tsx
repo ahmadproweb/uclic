@@ -6,7 +6,6 @@ import { colors as theme } from '@/config/theme';
 import { useEffect, useRef, useState, memo } from 'react';
 import { getPortfolios } from '@/services/wordpress';
 import { CTAButton } from '@/components/ui/cta-button';
-import { ArrowIcon } from '@/components/ui/icons/ArrowIcon';
 import Link from 'next/link';
 import type { Portfolio } from './types';
 
@@ -46,19 +45,21 @@ const DecorativeMouse = memo(({
     className={cn(
       "absolute hidden md:block transition-transform duration-1000 ease-out",
       position === 'left' 
-        ? "top-20 left-[10%] rotate-[-15deg] w-[46px] h-[45px]" 
-        : "bottom-20 right-[10%] rotate-[25deg] w-[92px] h-[90px]",
+        ? "top-20 left-[10%] rotate-[-15deg]" 
+        : "bottom-20 right-[10%] rotate-[25deg]",
       isVisible && (position === 'left' 
         ? "translate-x-[100px] translate-y-[60px] -rotate-[35deg]" 
         : "translate-x-[-80px] translate-y-[90px] rotate-[60deg]")
     )} 
     aria-hidden="true"
   >
-    <svg width="100%" height="100%" viewBox="0 0 46 45" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M45.0146 35.3088C46.9298 40.5262 41.8604 45.5956 36.643 43.6804L3.84584 31.6409C-0.995415 29.8637 -0.872338 22.9743 4.0293 21.3712L14.5981 17.9146C17.6999 16.9001 20.0918 14.406 20.9756 11.2644L23.0275 3.9706C24.4554 -1.10461 31.5466 -1.3798 33.3634 3.5695L45.0146 35.3088Z" 
-        fill={theme.colors.primary.main}
-      />
-    </svg>
+    <i 
+      className={cn(
+        "ri-cursor-fill",
+        position === 'left' ? "text-4xl" : "text-6xl"
+      )}
+      style={{ color: theme.colors.primary.main }}
+    />
   </div>
 ));
 
@@ -123,9 +124,11 @@ const PortfolioCard = memo(({ portfolio, isDark }: { portfolio: Portfolio; isDar
             : "text-[#9FB832] group-hover:text-black"
         )}>
           Découvrir
-          <ArrowIcon 
-            className="ml-2 group-hover:translate-x-1 w-4 h-4 md:w-5 md:h-5"
-          />
+          <i className={cn(
+            "ri-arrow-right-s-line ml-2 transition-transform duration-300",
+            "text-lg md:text-xl",
+            "group-hover:translate-x-1"
+          )} />
         </span>
       </Link>
     </article>
