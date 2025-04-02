@@ -7,47 +7,15 @@ import { ClientPulseEffect } from './ClientPulseEffect';
 import { UnderlinedText } from '@/components/ui/underlined-text';
 import { cn } from "@/lib/utils";
 import { memo } from 'react';
-
-const GrainEffect = memo(function GrainEffect() {
-  return (
-    <svg 
-      className="fixed inset-0 w-full h-full opacity-20 mix-blend-overlay pointer-events-none" 
-      aria-hidden="true"
-      style={{ willChange: 'transform' }}
-    >
-      <defs>
-        <filter id="grain">
-          <feTurbulence type="fractalNoise" baseFrequency="0.80" numOctaves="3" stitchTiles="stitch" />
-          <feColorMatrix type="saturate" values="0" />
-        </filter>
-      </defs>
-      <rect width="100%" height="100%" filter="url(#grain)" />
-    </svg>
-  );
-});
-
-GrainEffect.displayName = 'GrainEffect';
+import 'remixicon/fonts/remixicon.css';
 
 const PlusIcon = memo(function PlusIcon() {
   return (
-    <svg 
-      width="40" 
-      height="40" 
-      viewBox="0 0 40 40" 
-      fill="none" 
-      xmlns="http://www.w3.org/2000/svg"
-      className="absolute top-20 left-20 hidden md:block text-primary transform-gpu"
-      role="presentation"
+    <i 
+      className="ri-add-line absolute top-20 left-20 hidden md:block text-primary transform-gpu text-4xl"
       aria-hidden="true"
       style={{ willChange: 'transform' }}
-    >
-      <path 
-        d="M20 2V38M2 20H38" 
-        stroke="currentColor"
-        strokeWidth="3" 
-        strokeLinecap="round"
-      />
-    </svg>
+    />
   );
 });
 
@@ -62,7 +30,11 @@ export default function Services() {
     >
       <PlusIcon />
       <ClientPulseEffect />
-      <GrainEffect />
+      <div 
+        className="fixed inset-0 w-full h-full opacity-20 mix-blend-overlay pointer-events-none bg-noise"
+        aria-hidden="true"
+        style={{ willChange: 'transform' }}
+      />
       
       <div className="max-w-[1250px] mx-auto px-4 relative z-10">
         <h2 
@@ -98,6 +70,12 @@ export default function Services() {
           ))}
         </div>
       </div>
+
+      <style jsx>{`
+        .bg-noise {
+          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.80' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+      `}</style>
     </section>
   );
 } 
