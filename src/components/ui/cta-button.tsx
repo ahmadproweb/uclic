@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/context/ThemeContext";
 import { memo } from 'react';
+import { ArrowIcon as ArrowIconComponent } from './icons/ArrowIcon';
 
 // Constants
 const VARIANTS = {
@@ -31,17 +32,17 @@ const SIZE_CONFIG = {
   s: {
     padding: "px-4 py-2",
     text: "text-sm",
-    icon: { size: 14, containerClass: "w-6 h-3" }
+    icon: { size: 24 }
   },
   m: {
     padding: "px-5 py-2.5",
     text: "text-base",
-    icon: { size: 15, containerClass: "w-7 h-7" }
+    icon: { size: 28 }
   },
   l: {
     padding: "px-6 py-3",
     text: "text-base",
-    icon: { size: 16, containerClass: "w-8 h-8" }
+    icon: { size: 32 }
   },
 } as const;
 
@@ -63,35 +64,13 @@ interface CTAButtonProps {
 }
 
 // Memoized Components
-const ArrowIcon = memo(({ size, variant, simpleVariant, isDark }: { 
-  size: Size; 
-  variant: Variant; 
-  simpleVariant: SimpleVariant;
-  isDark: boolean;
-}) => (
-  <svg 
-    width={SIZE_CONFIG[size].icon.size}
-    height={SIZE_CONFIG[size].icon.size}
-    viewBox="0 0 24 24" 
-    fill="none" 
-    xmlns="http://www.w3.org/2000/svg" 
+const ArrowIcon = memo(({ size }: { size: Size }) => (
+  <ArrowIconComponent 
     className={cn(
-      "transition-transform duration-200 group-hover:-rotate-45",
-      variant === 'mainCTA' && isDark 
-        ? "stroke-black" 
-        : variant === 'simple' && simpleVariant === 'secondary' && isDark
-          ? "stroke-white"
-          : "stroke-black group-hover:stroke-white"
+      "transition-all duration-200",
+      "group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:-rotate-45"
     )}
-    aria-hidden="true"
-  >
-    <path 
-      d="M5 12H19M19 12L12 5M19 12L12 19" 
-      strokeWidth="2" 
-      strokeLinecap="round" 
-      strokeLinejoin="round"
-    />
-  </svg>
+  />
 ));
 
 ArrowIcon.displayName = 'ArrowIcon';
@@ -121,35 +100,14 @@ CTAText.displayName = 'CTAText';
 
 const ButtonContent = memo(({ 
   children, 
-  size, 
-  variant, 
-  simpleVariant, 
-  isDark 
+  size
 }: { 
   children: React.ReactNode; 
-  size: Size; 
-  variant: Variant; 
-  simpleVariant: SimpleVariant;
-  isDark: boolean;
+  size: Size;
 }) => (
   <>
     {children}
-    <span className={cn(
-      "rounded-full border flex items-center justify-center",
-      "transition-all duration-200",
-      "group-hover:translate-x-1 group-hover:-translate-y-1",
-      variant === 'mainCTA' && isDark 
-        ? "border-black" 
-        : "border-black group-hover:border-white",
-      SIZE_CONFIG[size].icon.containerClass
-    )}>
-      <ArrowIcon 
-        size={size} 
-        variant={variant} 
-        simpleVariant={simpleVariant} 
-        isDark={isDark} 
-      />
-    </span>
+    <ArrowIcon size={size} />
   </>
 ));
 
@@ -187,12 +145,7 @@ export const CTAButton = memo(({
   );
 
   const content = (
-    <ButtonContent 
-      size={size} 
-      variant={variant} 
-      simpleVariant={simpleVariant} 
-      isDark={isDark}
-    >
+    <ButtonContent size={size}>
       {children}
     </ButtonContent>
   );
