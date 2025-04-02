@@ -3,6 +3,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { navItems } from "./NavItems";
 import { HeaderThemeProps } from "./types";
+import 'remixicon/fonts/remixicon.css';
 
 interface DesktopNavProps extends HeaderThemeProps {
   isMegaMenuOpen: boolean;
@@ -48,26 +49,13 @@ const NavItem = memo(({
     >
       {item.label}
       {item.hasMegaMenu && (
-        <svg 
-          width="16" 
-          height="16" 
-          viewBox="0 0 24 24" 
-          fill="none" 
-          xmlns="http://www.w3.org/2000/svg"
+        <i 
           className={cn(
-            "ml-1 transition-transform", 
+            "ri-arrow-down-s-line ml-1 transition-transform",
             isMegaMenuOpen && "rotate-180"
           )}
           aria-hidden="true"
-        >
-          <path 
-            d="M19 9L12 16L5 9" 
-            stroke="currentColor" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
-            strokeLinejoin="round"
-          />
-        </svg>
+        />
       )}
     </div>
     
