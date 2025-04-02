@@ -7,107 +7,63 @@ import { colors } from '@/config/theme';
 import Link from 'next/link';
 import { CTAButton } from "@/components/ui/cta-button";
 import { ArrowIcon } from "@/components/ui/icons/ArrowIcon";
+import 'remixicon/fonts/remixicon.css';
 
 const services = [
   {
     id: 1,
     title: "Lorem ipsum dolor sit",
     description: "Lorem ipsum dolor sit amet consectetur adipiscing elit...",
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" 
-          stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
+    icon: "ri-checkbox-circle-line"
   },
   {
     id: 2,
     title: "Lorem ipsum dolor sit",
     description: "Lorem ipsum dolor sit amet consectetur adipiscing elit...",
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" 
-          stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
+    icon: "ri-checkbox-circle-line"
   },
   {
     id: 3,
     title: "Lorem ipsum dolor sit",
     description: "Lorem ipsum dolor sit amet consectetur adipiscing elit...",
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" 
-          stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
+    icon: "ri-checkbox-circle-line"
   },
   {
     id: 4,
     title: "Lorem ipsum dolor sit",
     description: "Lorem ipsum dolor sit amet consectetur adipiscing elit...",
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" 
-          stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
+    icon: "ri-checkbox-circle-line"
   },
   {
     id: 5,
     title: "Lorem ipsum dolor sit",
     description: "Lorem ipsum dolor sit amet consectetur adipiscing elit...",
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" 
-          stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
+    icon: "ri-checkbox-circle-line"
   },
   {
     id: 6,
     title: "Lorem ipsum dolor sit",
     description: "Lorem ipsum dolor sit amet consectetur adipiscing elit...",
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" 
-          stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
+    icon: "ri-checkbox-circle-line"
   },
   {
     id: 7,
     title: "Lorem ipsum dolor sit",
     description: "Lorem ipsum dolor sit amet consectetur adipiscing elit...",
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" 
-          stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
+    icon: "ri-checkbox-circle-line"
   },
   {
     id: 8,
     title: "Lorem ipsum dolor sit",
     description: "Lorem ipsum dolor sit amet consectetur adipiscing elit...",
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" 
-          stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
+    icon: "ri-checkbox-circle-line"
   },
   {
     id: 9,
     title: "Lorem ipsum dolor sit",
     description: "Lorem ipsum dolor sit amet consectetur adipiscing elit...",
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" 
-          stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
-    ),
-  },
+    icon: "ri-checkbox-circle-line"
+  }
 ];
 
 interface AndMoreServiceProps {
@@ -123,14 +79,12 @@ const createSlug = (title: string) => {
     .replace(/--+/g, '-'); // Replace multiple - with single -
 };
 
-// Memoized decorative mouse SVG component
-const DecorativeMouse = memo(({ fill }: { fill: string }) => (
-  <svg width="46" height="45" viewBox="0 0 46 45" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M45.0146 35.3088C46.9298 40.5262 41.8604 45.5956 36.643 43.6804L3.84584 31.6409C-0.995415 29.8637 -0.872338 22.9743 4.0293 21.3712L14.5981 17.9146C17.6999 16.9001 20.0918 14.406 20.9756 11.2644L23.0275 3.9706C24.4554 -1.10461 31.5466 -1.3798 33.3634 3.5695L45.0146 35.3088Z" fill={fill}/>
-  </svg>
+// Memoized decorative icon component
+const DecorativeIcon = memo(({ className }: { className: string }) => (
+  <i className={cn("ri-arrow-right-up-line", className)} />
 ));
 
-DecorativeMouse.displayName = 'DecorativeMouse';
+DecorativeIcon.displayName = 'DecorativeIcon';
 
 // Memoized service card component
 const ServiceCard = memo(({ 
@@ -168,67 +122,67 @@ const ServiceCard = memo(({
 
   const slug = useMemo(() => createSlug(service.title), [service.title]);
 
-              return (
-                <Link
-                  key={service.id}
-                  href={`/services/${slug}`}
-                  className="block group/link"
+  return (
+    <Link
+      key={service.id}
+      href={`/services/${slug}`}
+      className="block group/link"
       aria-label={`En savoir plus sur ${service.title}`}
-                >
-                  <div
-                    className={cn(
-                      "relative p-4 md:p-6 rounded-2xl md:rounded-3xl cursor-pointer",
-                      "transition-all duration-300 backdrop-blur-sm",
-                      "group"
-                    )}
-                    style={{
-                      ...cardStyle,
-                      border: isDark ? 'none' : '1px solid rgba(0, 0, 0, 0.1)'
-                    }}
+    >
+      <div
+        className={cn(
+          "relative p-4 md:p-6 rounded-2xl md:rounded-3xl cursor-pointer",
+          "transition-all duration-300 backdrop-blur-sm",
+          "group"
+        )}
+        style={{
+          ...cardStyle,
+          border: isDark ? 'none' : '1px solid rgba(0, 0, 0, 0.1)'
+        }}
         onMouseEnter={() => onHover(service.id)}
         onMouseLeave={() => onHover(null)}
         role="article"
-                  >
-                    <div className="flex items-start gap-3 md:gap-4">
-                      <div className={cn(
-                        "w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl",
-                        "flex items-center justify-center flex-shrink-0 transition-all duration-300"
-                      )}
-                      style={{
-                        backgroundColor: hoveredId === service.id ? themeColors.common.black : themeColors.primary.main,
-                        color: hoveredId === service.id ? themeColors.primary.main : themeColors.common.black
-                      }}>
-                        {service.icon}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-lg md:text-xl font-medium mb-2 line-clamp-1 transition-colors duration-300"
-                          style={{
-                            color: hoveredId === service.id ? themeColors.common.black : (isDark ? themeColors.common.white : themeColors.common.black)
-                          }}>
-                          {service.title}
-                        </h3>
-                        <p className="text-sm line-clamp-3 md:line-clamp-none transition-colors duration-300"
-                          style={{
-                            color: hoveredId === service.id ? `${themeColors.common.black}B3` : (isDark ? `${themeColors.common.white}B3` : `${themeColors.common.black}B3`)
-                          }}>
-                          {service.description}
-                        </p>
-                      </div>
-                      <ArrowIcon 
-                        className={cn(
-                          "w-8 h-8 md:w-10 md:h-10 flex-shrink-0 transition-all duration-300",
-                          hoveredId === service.id ? "rotate-[-45deg]" : "",
-                          hoveredId === service.id 
-                            ? "[&_circle]:fill-black [&_path]:stroke-white"
-                            : isDark 
-                              ? "[&_circle]:fill-transparent [&_path]:stroke-white"
-                              : "[&_circle]:fill-transparent [&_path]:stroke-black"
-                        )}
-                      />
-                    </div>
-                  </div>
-                </Link>
-              );
+      >
+        <div className="flex items-start gap-3 md:gap-4">
+          <div className={cn(
+            "w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl",
+            "flex items-center justify-center flex-shrink-0 transition-all duration-300"
+          )}
+          style={{
+            backgroundColor: hoveredId === service.id ? themeColors.common.black : themeColors.primary.main,
+            color: hoveredId === service.id ? themeColors.primary.main : themeColors.common.black
+          }}>
+            <i className={cn(service.icon, "text-2xl")} />
+          </div>
+          <div className="flex-1 min-w-0">
+            <h3 className="text-lg md:text-xl font-medium mb-2 line-clamp-1 transition-colors duration-300"
+              style={{
+                color: hoveredId === service.id ? themeColors.common.black : (isDark ? themeColors.common.white : themeColors.common.black)
+              }}>
+              {service.title}
+            </h3>
+            <p className="text-sm line-clamp-3 md:line-clamp-none transition-colors duration-300"
+              style={{
+                color: hoveredId === service.id ? `${themeColors.common.black}B3` : (isDark ? `${themeColors.common.white}B3` : `${themeColors.common.black}B3`)
+              }}>
+              {service.description}
+            </p>
+          </div>
+          <ArrowIcon 
+            className={cn(
+              "w-8 h-8 md:w-10 md:h-10 flex-shrink-0 transition-all duration-300",
+              hoveredId === service.id ? "rotate-[-45deg]" : "",
+              hoveredId === service.id 
+                ? "[&_circle]:fill-black [&_path]:stroke-white"
+                : isDark 
+                  ? "[&_circle]:fill-transparent [&_path]:stroke-white"
+                  : "[&_circle]:fill-transparent [&_path]:stroke-black"
+            )}
+          />
+        </div>
+      </div>
+    </Link>
+  );
 });
 
 ServiceCard.displayName = 'ServiceCard';
@@ -332,7 +286,7 @@ export default function AndMoreService({ children }: AndMoreServiceProps) {
         style={{ zIndex: 1 }}
         aria-hidden="true"
       >
-        <DecorativeMouse fill={`${themeColors.primary.main}93`} />
+        <DecorativeIcon className={cn("text-4xl")} />
       </div>
       <div 
         ref={mouse2Ref} 
@@ -342,9 +296,7 @@ export default function AndMoreService({ children }: AndMoreServiceProps) {
         )} 
         style={{ zIndex: 1 }}
       >
-        <svg width="92" height="90" viewBox="0 0 46 45" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M45.0146 35.3088C46.9298 40.5262 41.8604 45.5956 36.643 43.6804L3.84584 31.6409C-0.995415 29.8637 -0.872338 22.9743 4.0293 21.3712L14.5981 17.9146C17.6999 16.9001 20.0918 14.406 20.9756 11.2644L23.0275 3.9706C24.4554 -1.10461 31.5466 -1.3798 33.3634 3.5695L45.0146 35.3088Z" fill={`${themeColors.primary.main}73`}/>
-        </svg>
+        <DecorativeIcon className={cn("text-4xl")} />
       </div>
       <div 
         ref={mouse3Ref} 
@@ -354,9 +306,7 @@ export default function AndMoreService({ children }: AndMoreServiceProps) {
         )} 
         style={{ zIndex: 1 }}
       >
-        <svg width="69" height="67.5" viewBox="0 0 46 45" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M45.0146 35.3088C46.9298 40.5262 41.8604 45.5956 36.643 43.6804L3.84584 31.6409C-0.995415 29.8637 -0.872338 22.9743 4.0293 21.3712L14.5981 17.9146C17.6999 16.9001 20.0918 14.406 20.9756 11.2644L23.0275 3.9706C24.4554 -1.10461 31.5466 -1.3798 33.3634 3.5695L45.0146 35.3088Z" fill={`${themeColors.primary.main}83`}/>
-        </svg>
+        <DecorativeIcon className={cn("text-4xl")} />
       </div>
 
       {/* Gradient background with memoized style */}
