@@ -4,6 +4,21 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import PreFooter from '@/components/footer/PreFooter';
 import ExpertiseContactForm from './ExpertiseContactForm';
+import Partners from "@/components/pages/home/partner/partner";
+import Service from "@/components/pages/home/services/services";
+import MarqueeText from '@/components/pages/home/MarqueeText/marquee';
+import AndMoreService from '@/components/pages/home/andmoreservice/andmoreservice';
+import TeamSection from '@/components/pages/home/team/team-section';
+import PartnerBtoB from '@/components/pages/home/partnerbtob/partnerbtob';
+import ProcessSteps from "@/components/pages/home/process/process";
+import CaseStudyWrapper from "@/components/pages/home/casestudy";
+import Testimonials from "@/components/pages/home/testimonials/testimonials";
+import FAQ from "@/components/pages/home/faq/faq";
+import Blog from '@/components/pages/home/blog/blog';
+import { Suspense } from 'react';
+
+
+
 
 interface ExpertisePageProps {
   params: {
@@ -183,8 +198,8 @@ export default async function ExpertisePage({ params }: ExpertisePageProps) {
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="max-w-[1250px] mx-auto px-4 md:px-6 relative z-10">
+        {/* Main Content */}
+        <div className="max-w-[1250px] mx-auto px-4 md:px-6 relative z-10">
         {/* Benefits Section */}
         {h21 && (
           <div className="mb-16">
@@ -351,8 +366,25 @@ export default async function ExpertisePage({ params }: ExpertisePageProps) {
         </Link>
       </div>
 
-      {/* PreFooter */}
-      <PreFooter noBgGradient />
+      <Partners />
+      <Service />
+      <MarqueeText />
+      <AndMoreService>
+        <Suspense fallback={<div className="w-full h-[400px] flex items-center justify-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        </div>}>
+          <TeamSection />
+        </Suspense>
+      </AndMoreService>
+      <PartnerBtoB />
+      <ProcessSteps />
+      <CaseStudyWrapper />
+      <Testimonials />
+      <FAQ />
+      <Blog />
+
+    
+
     </section>
   );
 } 
