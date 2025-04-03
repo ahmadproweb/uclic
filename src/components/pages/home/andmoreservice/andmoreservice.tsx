@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 import { colors } from '@/config/theme';
 import Link from 'next/link';
 import { CTAButton } from "@/components/ui/cta-button";
-import { ArrowIcon } from "@/components/ui/icons/ArrowIcon";
 import { CheckmarksIcon } from "@/components/ui/icons/CheckmarksIcon";
 import React from 'react';
 import 'remixicon/fonts/remixicon.css';
@@ -83,9 +82,10 @@ const createSlug = (title: string) => {
 
 // Memoized decorative mouse SVG component
 const DecorativeMouse = memo(({ fill }: { fill: string }) => (
-  <svg width="46" height="45" viewBox="0 0 46 45" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M45.0146 35.3088C46.9298 40.5262 41.8604 45.5956 36.643 43.6804L3.84584 31.6409C-0.995415 29.8637 -0.872338 22.9743 4.0293 21.3712L14.5981 17.9146C17.6999 16.9001 20.0918 14.406 20.9756 11.2644L23.0275 3.9706C24.4554 -1.10461 31.5466 -1.3798 33.3634 3.5695L45.0146 35.3088Z" fill={fill}/>
-  </svg>
+  <i 
+    className="ri-navigation-fill text-4xl md:text-5xl"
+    style={{ color: fill }}
+  />
 ));
 
 DecorativeMouse.displayName = 'DecorativeMouse';
@@ -172,16 +172,19 @@ const ServiceCard = memo(({
                           {service.description}
                         </p>
                       </div>
-                      <ArrowIcon 
+                      <i 
                         className={cn(
-                          "w-8 h-8 md:w-10 md:h-10 flex-shrink-0 transition-all duration-300",
-                          hoveredId === service.id ? "rotate-[-45deg]" : "",
-                          hoveredId === service.id 
-                            ? "[&_circle]:fill-black [&_path]:stroke-white"
-                            : isDark 
-                              ? "[&_circle]:fill-transparent [&_path]:stroke-white"
-                              : "[&_circle]:fill-transparent [&_path]:stroke-black"
+                          "ri-arrow-right-s-line text-2xl md:text-3xl transition-all duration-300",
+                          hoveredId === service.id ? "-rotate-45" : "",
                         )}
+                        style={{
+                          color: hoveredId === service.id 
+                            ? themeColors.common.black
+                            : isDark 
+                              ? themeColors.common.white
+                              : themeColors.common.black
+                        }}
+                        aria-hidden="true"
                       />
                     </div>
                   </div>
@@ -224,48 +227,6 @@ export default function AndMoreService({ children }: AndMoreServiceProps) {
     };
   }, []);
 
-  // Fonction pour obtenir l'opacité de la carte basée sur sa position
-  const getCardStyle = (id: number) => {
-    const baseOpacity = isDark ? '1A' : '33';
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-    
-    const baseStyle = {
-      backgroundColor: hoveredId === id 
-        ? themeColors.primary.main 
-        : `${themeColors.primary.main}${id === 5 ? (isDark ? '40' : '60') : baseOpacity}`,
-    };
-
-    if (isMobile) {
-      return baseStyle;
-    }
-
-    // Carte du milieu en surbrillance (id 5)
-    if (id === 5) {
-      return {
-        ...baseStyle,
-        transform: 'translateX(50px)',
-        zIndex: 2
-      };
-    }
-
-    return {
-      ...baseStyle,
-      transform: id >= 4 && id <= 6 ? 'translateX(50px)' : 'none',
-      zIndex: 1
-    };
-  };
-
-  // Ajout d'un effet pour détecter le changement de taille d'écran
-  useEffect(() => {
-    const handleResize = () => {
-      // Force un re-render quand la taille de l'écran change
-      setHoveredId(null);
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
   // Memoize background gradient style
   const backgroundStyle = useMemo(() => ({
     background: isDark 
@@ -284,37 +245,35 @@ export default function AndMoreService({ children }: AndMoreServiceProps) {
       <div 
         ref={mouse1Ref} 
         className={cn(
-          "absolute top-20 left-[10%] w-[46px] h-[45px] transform rotate-[-15deg] hidden md:block transition-transform duration-1000 ease-out",
+          "absolute top-20 left-[10%] transform rotate-[-15deg] hidden md:block transition-transform duration-1000 ease-out",
           isVisible && "translate-x-[100px] translate-y-[80px] -rotate-[45deg]"
         )} 
         style={{ zIndex: 1 }}
         aria-hidden="true"
       >
-        <DecorativeMouse fill={`${themeColors.primary.main}93`} />
+        <i className="ri-navigation-fill text-4xl" style={{ color: `${themeColors.primary.main}93` }} />
       </div>
       <div 
         ref={mouse2Ref} 
         className={cn(
-          "absolute top-[20%] right-[10%] w-[92px] h-[90px] transform rotate-[25deg] hidden md:block transition-transform duration-1000 ease-out",
+          "absolute top-[20%] right-[10%] transform rotate-[25deg] hidden md:block transition-transform duration-1000 ease-out",
           isVisible && "translate-x-[-80px] translate-y-[120px] rotate-[65deg]"
         )} 
         style={{ zIndex: 1 }}
+        aria-hidden="true"
       >
-        <svg width="92" height="90" viewBox="0 0 46 45" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M45.0146 35.3088C46.9298 40.5262 41.8604 45.5956 36.643 43.6804L3.84584 31.6409C-0.995415 29.8637 -0.872338 22.9743 4.0293 21.3712L14.5981 17.9146C17.6999 16.9001 20.0918 14.406 20.9756 11.2644L23.0275 3.9706C24.4554 -1.10461 31.5466 -1.3798 33.3634 3.5695L45.0146 35.3088Z" fill={`${themeColors.primary.main}73`}/>
-        </svg>
+        <i className="ri-navigation-fill text-6xl" style={{ color: `${themeColors.primary.main}73` }} />
       </div>
       <div 
         ref={mouse3Ref} 
         className={cn(
-          "absolute bottom-200 left-[15%] w-[69px] h-[67.5px] transform rotate-[45deg] hidden md:block transition-transform duration-1000 ease-out",
+          "absolute bottom-200 left-[15%] transform rotate-[45deg] hidden md:block transition-transform duration-1000 ease-out",
           isVisible && "translate-x-[90px] translate-y-[-100px] rotate-[85deg]"
         )} 
         style={{ zIndex: 1 }}
+        aria-hidden="true"
       >
-        <svg width="69" height="67.5" viewBox="0 0 46 45" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M45.0146 35.3088C46.9298 40.5262 41.8604 45.5956 36.643 43.6804L3.84584 31.6409C-0.995415 29.8637 -0.872338 22.9743 4.0293 21.3712L14.5981 17.9146C17.6999 16.9001 20.0918 14.406 20.9756 11.2644L23.0275 3.9706C24.4554 -1.10461 31.5466 -1.3798 33.3634 3.5695L45.0146 35.3088Z" fill={`${themeColors.primary.main}83`}/>
-        </svg>
+        <i className="ri-navigation-fill text-5xl" style={{ color: `${themeColors.primary.main}83` }} />
       </div>
 
       {/* Gradient background with memoized style */}

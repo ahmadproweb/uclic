@@ -37,8 +37,8 @@ const PartnerLogo = memo(function PartnerLogo({
       <img
         src={partner.image}
         alt={partner.alt}
-        width={100}
-        height={30}
+        width={120}
+        height={36}
         loading={index < totalLogos ? "eager" : "lazy"}
         className={cn(
           "object-contain transition-all duration-300",
