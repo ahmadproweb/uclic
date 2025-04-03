@@ -311,17 +311,16 @@ export default function AuditContent() {
 
                   {/* Submit Button */}
                   <div>
-                    <button type="submit">
-                      <CTAButton 
-                        variant="mainCTA"
-                        className={cn(
-                          "w-full justify-center",
-                          !isDark && "!bg-[#E0FF5C] hover:!bg-black hover:!text-white"
-                        )}
-                      >
-                        Obtenir mon audit gratuit
-                      </CTAButton>
-                    </button>
+                    <CTAButton 
+                      variant="mainCTA"
+                      className={cn(
+                        "w-full justify-center",
+                        !isDark && "!bg-[#E0FF5C] hover:!bg-black hover:!text-white"
+                      )}
+                      type="submit"
+                    >
+                      Obtenir mon audit gratuit
+                    </CTAButton>
                   </div>
 
                   <p className={cn(

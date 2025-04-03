@@ -6,10 +6,77 @@ import { UnderlinedText } from '@/components/ui/underlined-text';
 import { colors as theme } from '@/config/theme';
 import Partners from '@/components/pages/home/partner/partner';
 import { CTAButton } from '@/components/ui/cta-button';
+import { useState } from 'react';
+import emailjs from '@emailjs/browser';
 
 export default function ContactForm() {
   const { theme: currentTheme } = useTheme();
   const isDark = currentTheme === 'dark';
+  const [errors, setErrors] = useState<{[key: string]: string}>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const validateForm = (formData: FormData) => {
+    const newErrors: {[key: string]: string} = {};
+    const name = formData.get('name') as string;
+    const email = formData.get('email') as string;
+    const message = formData.get('message') as string;
+
+    if (!name || name.trim().length < 2) {
+      newErrors.name = 'Le nom doit contenir au moins 2 caractères';
+    }
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      newErrors.email = 'Veuillez entrer une adresse email valide';
+    }
+
+    const trimmedMessage = message?.trim() || '';
+    if (!trimmedMessage || trimmedMessage.length < 10) {
+      newErrors.message = 'Le message doit contenir au moins 10 caractères';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+    
+    const formData = new FormData(e.currentTarget);
+    
+    if (!validateForm(formData)) {
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      const result = await emailjs.send(
+        'service_ggfkz62',
+        'template_contact',
+        {
+          from_name: formData.get('name'),
+          from_email: formData.get('email'),
+          message: formData.get('message'),
+          to_email: 'wladimir@uclic.fr',
+        },
+        'sNJezWZbNlGM1x_Pe'
+      );
+
+      if (result.status === 200) {
+        setSubmitStatus('success');
+        e.currentTarget.reset();
+      } else {
+        throw new Error('Erreur lors de l\'envoi');
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+      console.error('Erreur:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <>
@@ -207,7 +274,7 @@ export default function ContactForm() {
               style={{
                 borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
               }}>
-                <form className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   {/* Nom */}
                   <div>
                     <label 
@@ -228,10 +295,14 @@ export default function ContactForm() {
                         "focus:outline-none focus:ring-2 transition-all",
                         isDark 
                           ? "border-white/10 focus:border-white/20 focus:ring-[#E0FF5C]/20 text-white bg-white/5" 
-                          : "border-black/10 focus:border-black/20 focus:ring-[#E0FF5C]/40 text-black bg-black/5"
+                          : "border-black/10 focus:border-black/20 focus:ring-[#E0FF5C]/40 text-black bg-black/5",
+                        errors.name && "border-red-500 focus:border-red-500 focus:ring-red-500/20"
                       )}
                       placeholder="John Doe"
                     />
+                    {errors.name && (
+                      <p className="mt-1 text-sm text-red-500">{errors.name}</p>
+                    )}
                   </div>
 
                   {/* Email */}
@@ -254,10 +325,14 @@ export default function ContactForm() {
                         "focus:outline-none focus:ring-2 transition-all",
                         isDark 
                           ? "border-white/10 focus:border-white/20 focus:ring-[#E0FF5C]/20 text-white bg-white/5" 
-                          : "border-black/10 focus:border-black/20 focus:ring-[#E0FF5C]/40 text-black bg-black/5"
+                          : "border-black/10 focus:border-black/20 focus:ring-[#E0FF5C]/40 text-black bg-black/5",
+                        errors.email && "border-red-500 focus:border-red-500 focus:ring-red-500/20"
                       )}
                       placeholder="john@example.com"
                     />
+                    {errors.email && (
+                      <p className="mt-1 text-sm text-red-500">{errors.email}</p>
+                    )}
                   </div>
 
                   {/* Message */}
@@ -280,26 +355,43 @@ export default function ContactForm() {
                         "focus:outline-none focus:ring-2 transition-all",
                         isDark 
                           ? "border-white/10 focus:border-white/20 focus:ring-[#E0FF5C]/20 text-white bg-white/5 placeholder:text-white/50" 
-                          : "border-black/10 focus:border-black/20 focus:ring-[#E0FF5C]/40 text-black bg-black/5 placeholder:text-black/50"
+                          : "border-black/10 focus:border-black/20 focus:ring-[#E0FF5C]/40 text-black bg-black/5 placeholder:text-black/50",
+                        errors.message && "border-red-500 focus:border-red-500 focus:ring-red-500/20"
                       )}
                       placeholder="Décrivez votre projet en quelques mots..."
                     />
+                    {errors.message && (
+                      <p className="mt-1 text-sm text-red-500">{errors.message}</p>
+                    )}
                   </div>
 
                   {/* Submit Button */}
                   <div>
-                    <button type="submit">
-                      <CTAButton 
-                        variant="mainCTA"
-                        className={cn(
-                          "w-full justify-center",
-                          !isDark && "!bg-[#E0FF5C] hover:!bg-black hover:!text-white"
-                        )}
-                      >
-                        Envoyer le message
-                      </CTAButton>
-                    </button>
+                    <CTAButton 
+                      variant="mainCTA"
+                      className={cn(
+                        "w-full justify-center",
+                        !isDark && "!bg-[#E0FF5C] hover:!bg-black hover:!text-white",
+                        isSubmitting && "opacity-50 cursor-not-allowed"
+                      )}
+                      type="submit"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? 'Envoi en cours...' : 'Envoyer le message'}
+                    </CTAButton>
                   </div>
+
+                  {submitStatus === 'success' && (
+                    <p className="text-sm text-center text-green-500">
+                      Votre message a été envoyé avec succès !
+                    </p>
+                  )}
+
+                  {submitStatus === 'error' && (
+                    <p className="text-sm text-center text-red-500">
+                      Une erreur est survenue lors de l'envoi. Veuillez réessayer.
+                    </p>
+                  )}
 
                   <p className={cn(
                     "text-sm text-center",

@@ -4,7 +4,6 @@ import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 import { colors as theme } from '@/config/theme';
 import Link from 'next/link';
-import Image from 'next/image';
 import PreFooter from '@/components/footer/PreFooter';
 import ScrollToTop from '@/components/ui/ScrollToTop';
 import StickyShareButtons from '@/components/ui/StickyShareButtons';
@@ -209,13 +208,14 @@ function RelatedPosts({
                 return (
                   <div key={post.id} className="group">
                     <Link href={`/blog/${post.slug}`}>
-                      <div className="rounded-xl overflow-hidden h-[280px] relative mb-4">
-                        <Image
-                          src={image.url}
+                      <div className="rounded-xl overflow-hidden h-[250px] relative mb-4">
+                        <img
+                          src={`${image.url.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1')}.webp`}
                           alt={image.alt}
-                          className="object-cover transition-transform duration-500 group-hover:scale-105"
-                          fill
-                          sizes="(max-width: 768px) 100vw, 384px"
+                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          width="400"
+                          height="250"
+                          loading="lazy"
                         />
                         <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors"></div>
                         {category && (
@@ -332,13 +332,14 @@ function RelatedPosts({
               return (
                 <div key={post.id} className="group">
                   <Link href={`/blog/${post.slug}`}>
-                    <div className="rounded-xl overflow-hidden h-[200px] relative mb-4">
-                      <Image
-                        src={image.url}
+                    <div className="rounded-xl overflow-hidden h-[250px] relative mb-4">
+                      <img
+                        src={`${image.url.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1')}.webp`}
                         alt={image.alt}
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                        fill
-                        sizes="(max-width: 768px) 100vw, 384px"
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        width="400"
+                        height="250"
+                        loading="lazy"
                       />
                       <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors"></div>
                       {category && (
@@ -445,41 +446,46 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
 
   // Traiter le contenu HTML pour ajouter les IDs aux titres
   useEffect(() => {
-    if (!mounted) return;
+    if (!mounted || typeof window === 'undefined') return;
 
     const processContent = (content: string) => {
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = content;
-      
-      const headings = tempDiv.querySelectorAll('h2.wp-block-heading');
-      const items: TocItem[] = [];
-      const usedIds = new Set<string>();
-
-      headings.forEach((heading) => {
-        const text = heading.textContent || '';
-        const id = slugify(text);
+      try {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(content, 'text/html');
         
-        // S'assurer que l'ID est unique
-        let counter = 1;
-        let uniqueId = id;
-        while (usedIds.has(uniqueId)) {
-          uniqueId = `${id}-${counter}`;
-          counter++;
-        }
-        usedIds.add(uniqueId);
-        
-        // Ajouter l'ID à l'élément heading
-        heading.id = uniqueId;
+        const headings = doc.querySelectorAll('h2.wp-block-heading');
+        const items: TocItem[] = [];
+        const usedIds = new Set<string>();
 
-        items.push({
-          id: uniqueId,
-          text,
-          level: 2,
+        headings.forEach((heading) => {
+          const text = heading.textContent || '';
+          const id = slugify(text);
+          
+          // S'assurer que l'ID est unique
+          let counter = 1;
+          let uniqueId = id;
+          while (usedIds.has(uniqueId)) {
+            uniqueId = `${id}-${counter}`;
+            counter++;
+          }
+          usedIds.add(uniqueId);
+          
+          // Ajouter l'ID à l'élément heading
+          heading.id = uniqueId;
+
+          items.push({
+            id: uniqueId,
+            text,
+            level: 2,
+          });
         });
-      });
 
-      setTocItems(items);
-      return tempDiv.innerHTML;
+        setTocItems(items);
+        return doc.body.innerHTML;
+      } catch (error) {
+        console.error('Error processing content:', error);
+        return content;
+      }
     };
 
     const newContent = processContent(post.content);
@@ -529,7 +535,7 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
 
   // Observer pour suivre les sections visibles
   useEffect(() => {
-    if (!mounted || !articleRef.current || tocItems.length === 0) return;
+    if (!mounted || !articleRef.current || tocItems.length === 0 || typeof window === 'undefined') return;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -607,11 +613,16 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
 
   // Fonction pour nettoyer et améliorer le contenu WordPress après le rendu
   useEffect(() => {
-    if (!mounted) return;
-    
-    if (!articleRef.current) return;
+    if (!mounted || typeof window === 'undefined' || !articleRef.current) return;
     
     const articleContent = articleRef.current;
+
+    // Fonction utilitaire pour ajouter plusieurs classes
+    const addClasses = (element: Element, classes: string) => {
+      classes.split(' ').forEach(className => {
+        if (className) element.classList.add(className);
+      });
+    };
 
     // Force le style des strong dans les cellules de tableau EN BREF
     const tables = articleContent.querySelectorAll('table');
@@ -629,13 +640,6 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
         });
       }
     });
-
-    // Fonction utilitaire pour ajouter plusieurs classes
-    const addClasses = (element: Element, classes: string) => {
-      classes.split(' ').forEach(className => {
-        if (className) element.classList.add(className);
-      });
-    };
 
     // Améliorer les tableaux WordPress (sauf EN BREF)
     const allTables = articleContent.querySelectorAll('table');
@@ -804,7 +808,7 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
       }
     });
 
-  }, [post.content, isDark, mounted]); // Ajout de 'mounted' aux dépendances
+  }, [post.content, isDark, mounted]);
 
   return (
     <article className={cn(
@@ -850,13 +854,13 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
         <div className="mb-6 md:mb-8 lg:mb-12 relative">
           {/* Featured image */}
           <div className="w-full h-[45vh] sm:h-[50vh] md:h-[60vh] relative rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden">
-            <Image
+            <img
               src={post.featured_image_url}
               alt={post.title}
-              className="object-cover"
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, 1200px"
+              className="absolute inset-0 w-full h-full object-cover"
+              width="1200"
+              height="800"
+              loading="eager"
             />
             {/* Gradient overlay plus fort en bas pour le texte */}
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30"></div>

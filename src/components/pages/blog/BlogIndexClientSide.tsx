@@ -5,7 +5,6 @@ import { useTheme } from '@/context/ThemeContext';
 import { cn } from '@/lib/utils';
 import { colors as theme } from '@/config/theme';
 import Link from 'next/link';
-import Image from 'next/image';
 import PreFooter from '@/components/footer/PreFooter';
 import Pagination from '@/components/ui/Pagination';
 import ScrollToTop from '@/components/ui/ScrollToTop';
@@ -43,14 +42,13 @@ function BlogCard({ post }: { post: BlogPost }) {
     >
       {/* Featured Image */}
       <div className="relative w-full h-48 overflow-hidden">
-        <Image
+        <img
           src={`${post.featured_image_url.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1')}.webp`}
           alt={post.title}
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-          width={400}
-          height={250}
+          className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+          width="400"
+          height="250"
           loading="lazy"
-          sizes="(max-width: 768px) 100vw, 400px"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
         <span className="absolute bottom-4 left-4 inline-block px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-sm z-20">
@@ -187,13 +185,13 @@ export default function BlogIndexClientSide({
         {/* Hero section with featured image */}
         {featuredPost && (
           <div className="relative w-full h-[40vh] md:h-[50vh] mb-16 rounded-3xl overflow-hidden shadow-xl">
-            <Image
+            <img
               src={featuredPost.featured_image_url}
               alt={featuredPost.title}
-              className="object-cover rounded-3xl"
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, 1250px"
+              className="absolute inset-0 w-full h-full object-cover rounded-3xl"
+              width="1200"
+              height="800"
+              loading="eager"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
             <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-14">

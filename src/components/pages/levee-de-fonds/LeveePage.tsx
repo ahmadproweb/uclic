@@ -1,10 +1,9 @@
 'use client';
 
-import { useTheme } from "@/context/ThemeContext";
+import { useTheme } from '@/context/ThemeContext';
 import { cn } from "@/lib/utils";
 import { colors as theme } from '@/config/theme';
 import Link from 'next/link';
-import Image from 'next/image';
 import PreFooter from '@/components/footer/PreFooter';
 import ScrollToTop from '@/components/ui/ScrollToTop';
 import StickyShareButtons from '@/components/ui/StickyShareButtons';
@@ -44,7 +43,7 @@ function RelatedLeveeCard({ post }: { post: LeveePost }) {
       }}
     >
       <div className="relative w-full h-48 overflow-hidden">
-        <Image
+        <img
           src={post.featuredImage?.node.sourceUrl || '/images/default-post.jpg'}
           alt={post.featuredImage?.node.altText || post.title}
           className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -162,40 +161,47 @@ function RelatedPosts({
         <div className="col-span-2 relative">
           {/* Articles visibles */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
-            {visiblePosts.map((post) => (
-              <Link href={`/levee-de-fonds/${post.slug}`} key={post.id} className="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl backdrop-blur-sm"
-                style={{
-                  background: `linear-gradient(145deg, #E0FF5C, #E0FF5C)`,
-                  boxShadow: `0 8px 32px -4px rgba(224, 255, 92, 0.25)`
-                }}
-              >
-                <div className="relative w-full h-48 overflow-hidden">
-                  <Image
-                    src={post.featuredImage?.node.sourceUrl || '/images/default-post.jpg'}
-                    alt={post.featuredImage?.node.altText || post.title}
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    width={400}
-                    height={250}
-                    loading="lazy"
-                    sizes="(max-width: 768px) 100vw, 400px"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
-                  <span className="absolute bottom-4 left-4 inline-block px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-sm z-20">
-                    Levée de fonds
-                  </span>
-                </div>
-                
-                <div className="p-6 space-y-4">
-                  <h3 className="text-xl font-semibold text-black">
-                    {post.title}
-                  </h3>
+            {visiblePosts.map((post) => {
+              const imageUrl = post.featuredImage?.node.sourceUrl;
+              const optimizedImageUrl = imageUrl 
+                ? `${imageUrl.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1')}${imageUrl.endsWith('.webp') ? '' : '.webp'}`
+                : '/images/default-post.jpg';
 
-                  <div className="flex items-center gap-2 text-sm text-black/70">
-                    {formatDate(post.date)}
+              return (
+                <Link href={`/levee-de-fonds/${post.slug}`} key={post.id} className="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl backdrop-blur-sm"
+                  style={{
+                    background: `linear-gradient(145deg, #E0FF5C, #E0FF5C)`,
+                    boxShadow: `0 8px 32px -4px rgba(224, 255, 92, 0.25)`
+                  }}
+                >
+                  <div className="relative w-full h-48 overflow-hidden">
+                    <img
+                      src={optimizedImageUrl}
+                      alt={post.featuredImage?.node.altText || post.title}
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      width={400}
+                      height={250}
+                      loading="lazy"
+                      sizes="(max-width: 768px) 100vw, 400px"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
+                    <span className="absolute bottom-4 left-4 inline-block px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-sm z-20">
+                      Levée de fonds
+                    </span>
                   </div>
-                </div>
-              </Link>
-            ))}
+                  
+                  <div className="p-6 space-y-4">
+                    <h3 className="text-xl font-semibold text-black">
+                      {post.title}
+                    </h3>
+
+                    <div className="flex items-center gap-2 text-sm text-black/70">
+                      {formatDate(post.date)}
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
 
           {/* Navigation buttons */}
@@ -258,15 +264,42 @@ export default function LeveePage({ post, relatedPosts, latestPosts }: LeveePage
   const articleRef = useRef<HTMLDivElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const mainRef = useRef<HTMLElement>(null);
+  const lastScrollY = useRef(0);
+  const ticking = useRef(false);
   const [tocItems, setTocItems] = useState<TocItem[]>([]);
   const [activeId, setActiveId] = useState<string>("");
   const [processedContent, setProcessedContent] = useState(post.content);
   const [sidebarStyle, setSidebarStyle] = useState<React.CSSProperties>({});
-  const mainRef = useRef<HTMLElement>(null);
-  const [activeHeading, setActiveHeading] = useState<string>('');
+  const [activeHeading, setActiveHeading] = useState<string | null>(null);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
-  const lastScrollY = useRef(0);
-  const ticking = useRef(false);
+  const router = useRouter();
+
+  // Déterminer les classes de thème de manière cohérente
+  const themeClasses = useMemo(() => {
+    // Par défaut, on utilise le thème clair pour le SSR
+    if (!mounted) {
+      return {
+        wrapper: "wp-content-wrapper flex-1 order-1 lg:order-2 overflow-hidden light",
+        content: "[&>h2]:text-black [&>h3]:text-black [&>h4]:text-black [&>p]:text-black/80 [&>ul]:text-black/80 [&>ol]:text-black/80 [&_strong]:text-black [&_td]:text-black [&_td]:p-0 [&_td]:align-top [&_td]:space-y-1 [&_td_p]:m-0 [&_td_p]:p-0 [&_td_p]:text-base [&_td_strong]:m-0 [&_td_strong]:p-0 [&_td_p]:first-of-type:mb-1 [&_table_td_strong]:first-of-type:mb-1 [&_td_ul]:m-0 [&_td_ul]:p-0 [&_td_ul]:space-y-1 [&_td_li]:m-0 [&_td_li]:p-0 [&_td_li]:pl-0 [&_td_li]:text-base"
+      };
+    }
+    
+    return {
+      wrapper: cn(
+        "wp-content-wrapper flex-1 order-1 lg:order-2 overflow-hidden",
+        isDark ? "dark" : "light"
+      ),
+      content: isDark 
+        ? "[&>h2]:text-white [&>h3]:text-white [&>h4]:text-white [&>p]:text-white/100 [&>ul]:text-white/100 [&>ol]:text-white/100 [&_strong]:text-white [&_td]:text-white [&_td]:p-0 [&_td]:align-top [&_td]:space-y-1 [&_td_p]:m-0 [&_td_p]:p-0 [&_td_p]:text-base [&_td_strong]:m-0 [&_td_strong]:p-0 [&_td_p]:first-of-type:mb-1 [&_table_td_strong]:first-of-type:mb-1 [&_td_ul]:m-0 [&_td_ul]:p-0 [&_td_ul]:space-y-1 [&_td_li]:m-0 [&_td_li]:p-0 [&_td_li]:pl-0 [&_td_li]:text-base"
+        : "[&>h2]:text-black [&>h3]:text-black [&>h4]:text-black [&>p]:text-black/80 [&>ul]:text-black/80 [&>ol]:text-black/80 [&_strong]:text-black [&_td]:text-black [&_td]:p-0 [&_td]:align-top [&_td]:space-y-1 [&_td_p]:m-0 [&_td_p]:p-0 [&_td_p]:text-base [&_td_strong]:m-0 [&_td_strong]:p-0 [&_td_p]:first-of-type:mb-1 [&_table_td_strong]:first-of-type:mb-1 [&_td_ul]:m-0 [&_td_ul]:p-0 [&_td_ul]:space-y-1 [&_td_li]:m-0 [&_td_li]:p-0 [&_td_li]:pl-0 [&_td_li]:text-base"
+    };
+  }, [isDark, mounted]);
+
+  // S'assurer que le thème est appliqué au montage
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Gestionnaire du comportement sticky
   useEffect(() => {
@@ -421,31 +454,9 @@ export default function LeveePage({ post, relatedPosts, latestPosts }: LeveePage
     return () => observer.disconnect();
   }, [mounted, tocItems, post.content]);
 
-  // S'assurer que le thème est appliqué au montage
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // Déterminer les classes de thème de manière cohérente
-  const themeClasses = useMemo(() => {
-    // Par défaut, on utilise le thème clair pour le SSR
-    if (!mounted) {
-      return {
-        wrapper: "wp-content-wrapper flex-1 order-1 lg:order-2 overflow-hidden light",
-        content: "[&>h2]:text-black [&>h3]:text-black [&>h4]:text-black [&>p]:text-black/80 [&>ul]:text-black/80 [&>ol]:text-black/80 [&_strong]:text-black [&_td]:text-black [&_td]:p-0 [&_td]:align-top [&_td]:space-y-1 [&_td_p]:m-0 [&_td_p]:p-0 [&_td_p]:text-base [&_td_strong]:m-0 [&_td_strong]:p-0 [&_td_p]:first-of-type:mb-1 [&_table_td_strong]:first-of-type:mb-1 [&_td_ul]:m-0 [&_td_ul]:p-0 [&_td_ul]:space-y-1 [&_td_li]:m-0 [&_td_li]:p-0 [&_td_li]:pl-0 [&_td_li]:text-base"
-      };
-    }
-    
-    return {
-      wrapper: cn(
-        "wp-content-wrapper flex-1 order-1 lg:order-2 overflow-hidden",
-        isDark ? "dark" : "light"
-      ),
-      content: isDark 
-        ? "[&>h2]:text-white [&>h3]:text-white [&>h4]:text-white [&>p]:text-white/100 [&>ul]:text-white/100 [&>ol]:text-white/100 [&_strong]:text-white [&_td]:text-white [&_td]:p-0 [&_td]:align-top [&_td]:space-y-1 [&_td_p]:m-0 [&_td_p]:p-0 [&_td_p]:text-base [&_td_strong]:m-0 [&_td_strong]:p-0 [&_td_p]:first-of-type:mb-1 [&_table_td_strong]:first-of-type:mb-1 [&_td_ul]:m-0 [&_td_ul]:p-0 [&_td_ul]:space-y-1 [&_td_li]:m-0 [&_td_li]:p-0 [&_td_li]:pl-0 [&_td_li]:text-base"
-        : "[&>h2]:text-black [&>h3]:text-black [&>h4]:text-black [&>p]:text-black/80 [&>ul]:text-black/80 [&>ol]:text-black/80 [&_strong]:text-black [&_td]:text-black [&_td]:p-0 [&_td]:align-top [&_td]:space-y-1 [&_td_p]:m-0 [&_td_p]:p-0 [&_td_p]:text-base [&_td_strong]:m-0 [&_td_strong]:p-0 [&_td_p]:first-of-type:mb-1 [&_table_td_strong]:first-of-type:mb-1 [&_td_ul]:m-0 [&_td_ul]:p-0 [&_td_ul]:space-y-1 [&_td_li]:m-0 [&_td_li]:p-0 [&_td_li]:pl-0 [&_td_li]:text-base"
-    };
-  }, [isDark, mounted]);
+  if (!mounted) {
+    return null; // Ou un loader si vous préférez
+  }
 
   return (
     <article className={cn(
@@ -491,13 +502,11 @@ export default function LeveePage({ post, relatedPosts, latestPosts }: LeveePage
         <div className="mb-6 md:mb-8 lg:mb-12 relative">
           {/* Featured image */}
           <div className="w-full h-[45vh] sm:h-[50vh] md:h-[60vh] relative rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden">
-          <Image
-            src={post.featuredImage?.node.sourceUrl || '/images/default-post.jpg'}
-            alt={post.featuredImage?.node.altText || post.title}
-              className="object-cover"
-            fill
-            priority
-              sizes="(max-width: 768px) 100vw, 1200px"
+            <img
+              src={post.featuredImage?.node.sourceUrl || '/images/default-post.jpg'}
+              alt={post.featuredImage?.node.altText || post.title}
+              className="object-cover w-full h-full"
+              loading="eager"
             />
             {/* Gradient overlay plus fort en bas pour le texte */}
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30"></div>

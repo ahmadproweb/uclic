@@ -9,7 +9,6 @@ import ScrollToTop from '@/components/ui/ScrollToTop';
 import StickyShareButtons from '@/components/ui/StickyShareButtons';
 import { useEffect, useRef, useState } from 'react';
 import { formatDate, getPortfolios } from '@/services/wordpress';
-import Image from 'next/image';
 
 interface PortfolioPostProps {
   portfolio: {
@@ -137,11 +136,11 @@ function RelatedPortfolios({ currentPortfolio }: { currentPortfolio: PortfolioPo
                 >
                   <div className="rounded-xl overflow-hidden h-[160px] relative mb-4">
                     {portfolio.featuredImage?.node.sourceUrl ? (
-                      <Image
+                      <img
                         src={portfolio.featuredImage.node.sourceUrl}
                         alt={portfolio.title}
-                        fill
-                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy"
                       />
                     ) : (
                       <div className={cn(
@@ -402,7 +401,8 @@ export default function PortfolioPostClientSide({ portfolio }: PortfolioPostProp
               <img
                 src={portfolio.featuredImage.node.sourceUrl}
                 alt={portfolio.title}
-                className="object-cover"
+                className="object-cover w-full h-full"
+                loading="eager"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none"></div>
             </figure>

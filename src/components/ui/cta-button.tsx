@@ -1,5 +1,3 @@
-'use client';
-
 import Link from 'next/link';
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/context/ThemeContext";
@@ -63,7 +61,8 @@ interface CTAButtonProps {
   simpleVariant?: SimpleVariant;
   size?: Size;
   ariaLabel?: string;
-  showArrow?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+  onClick?: () => void;
 }
 
 // Memoized Components
@@ -103,16 +102,14 @@ CTAText.displayName = 'CTAText';
 
 const ButtonContent = memo(({ 
   children, 
-  size,
-  showArrow = true
+  size
 }: { 
   children: React.ReactNode; 
   size: Size;
-  showArrow?: boolean;
 }) => (
   <>
     {children}
-    {showArrow && <ArrowIcon size={size} />}
+    <ArrowIcon size={size} />
   </>
 ));
 
@@ -126,7 +123,8 @@ export const CTAButton = memo(({
   simpleVariant = 'primary',
   size = 'l',
   ariaLabel,
-  showArrow = true,
+  type = 'button',
+  onClick
 }: CTAButtonProps) => {
   const { theme: currentTheme } = useTheme();
   const isDark = currentTheme === 'dark';
@@ -151,7 +149,7 @@ export const CTAButton = memo(({
   );
 
   const content = (
-    <ButtonContent size={size} showArrow={showArrow}>
+    <ButtonContent size={size}>
       {children}
     </ButtonContent>
   );
@@ -172,6 +170,8 @@ export const CTAButton = memo(({
     <button 
       className={commonClasses}
       aria-label={ariaLabel}
+      type={type}
+      onClick={onClick}
     >
       {content}
     </button>

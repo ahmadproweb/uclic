@@ -5,7 +5,6 @@ import { useTheme } from '@/context/ThemeContext';
 import { cn } from '@/lib/utils';
 import { colors as theme } from '@/config/theme';
 import Link from 'next/link';
-import Image from 'next/image';
 import PreFooter from '@/components/footer/PreFooter';
 import Pagination from '@/components/ui/Pagination';
 import ScrollToTop from '@/components/ui/ScrollToTop';
@@ -28,6 +27,11 @@ export interface LeveePost {
 
 // Internal LeveeCard component for this page
 function LeveeCard({ post }: { post: LeveePost }) {
+  const imageUrl = post.featuredImage?.node.sourceUrl;
+  const optimizedImageUrl = imageUrl 
+    ? `${imageUrl.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1')}${imageUrl.endsWith('.webp') ? '' : '.webp'}`
+    : '/images/default-post.jpg';
+
   return (
     <Link
       href={`/levee-de-fonds/${post.slug}`}
@@ -42,14 +46,11 @@ function LeveeCard({ post }: { post: LeveePost }) {
     >
       {/* Featured Image */}
       <div className="relative w-full h-48 overflow-hidden">
-        <Image
-          src={post.featuredImage?.node.sourceUrl || '/images/default-post.jpg'}
+        <img
+          src={optimizedImageUrl}
           alt={post.featuredImage?.node.altText || post.title}
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-          width={400}
-          height={250}
+          className="object-cover transition-transform duration-500 group-hover:scale-105 w-full h-full"
           loading="lazy"
-          sizes="(max-width: 768px) 100vw, 400px"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
         <span className="absolute bottom-4 left-4 inline-block px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-sm z-20">
@@ -175,13 +176,11 @@ export default function LeveesPage({
         {/* Hero section with featured post */}
         {featuredPost && (
           <div className="relative w-full h-[40vh] md:h-[50vh] mb-16 rounded-3xl overflow-hidden shadow-xl">
-            <Image
+            <img
               src={featuredPost.featuredImage?.node.sourceUrl || '/images/default-post.jpg'}
               alt={featuredPost.featuredImage?.node.altText || featuredPost.title}
-              className="object-cover rounded-3xl"
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, 1250px"
+              className="object-cover rounded-3xl w-full h-full"
+              loading="eager"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
             <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-14">

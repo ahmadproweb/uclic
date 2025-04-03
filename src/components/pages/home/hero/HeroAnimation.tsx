@@ -54,25 +54,25 @@ export default function HeroAnimation() {
           margin-left: 130px;
           z-index: 1;
           padding-top: 3rem;
-          transform: scale(0.5);
+          transform: scale(0.66);
         }
 
         @media (max-width: 1600px) {
           .wrapper {
-            transform: scale(0.7);
+            transform: scale(0.8);
           }
         }
 
         @media (max-width: 768px) {
           .wrapper {
-            transform: scale(0.5);
+            transform: scale(0.8);
           }
         }
 
         @media (max-width: 480px) {
           .wrapper {
-            transform: scale(1);
-                      margin-left: 0px !important;
+            transform: scale(0.75);
+                      margin-left: 20px !important;
 
           }
         }

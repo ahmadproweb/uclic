@@ -32,7 +32,7 @@ const MarqueeItem = memo(function MarqueeItem({ word }: { word: ServiceLink }) {
           aria-hidden="true"
         />
       </div>
-      <ArrowIcon className="relative z-10 ml-2 group-hover:-translate-y-1 group-hover:translate-x-0.5 transition-all duration-300 transform-gpu" />
+      <ArrowIcon className="relative z-10 ml-2 text-black dark:text-white dark:group-hover:text-[#E0FF5C] group-hover:-translate-y-1 group-hover:translate-x-0.5 transition-all duration-300 transform-gpu" />
     </Link>
   );
 });

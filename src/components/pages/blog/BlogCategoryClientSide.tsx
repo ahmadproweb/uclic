@@ -8,7 +8,6 @@ import PreFooter from '@/components/footer/PreFooter';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { BlogPost } from '@/types/blog';
 import Link from 'next/link';
-import Image from 'next/image';
 import Pagination from '@/components/ui/Pagination';
 import ScrollToTop from '@/components/ui/ScrollToTop';
 import StickyShareButtons from '@/components/ui/StickyShareButtons';
@@ -136,13 +135,11 @@ export default function BlogCategoryClientSide({
         {/* Featured Post */}
         {featuredPost && (
           <div className="relative w-full h-[40vh] md:h-[50vh] mb-16 rounded-3xl overflow-hidden shadow-xl">
-            <Image
+            <img
               src={featuredPost.featured_image_url}
               alt={featuredPost.title}
-              className="object-cover rounded-3xl"
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, 1250px"
+              className="object-cover w-full h-full rounded-3xl"
+              loading="eager"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
             <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-14">
@@ -186,13 +183,12 @@ export default function BlogCategoryClientSide({
               className="group rounded-3xl overflow-hidden shadow-lg bg-[#E0FF5C]"
             >
               {/* Image */}
-              <div className="relative w-full h-48 overflow-hidden">
-                <Image
-                  src={post.featured_image_url}
+              <div className="relative w-full h-[250px] overflow-hidden">
+                <img
+                  src={`${post.featured_image_url.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1')}.webp`}
                   alt={post.title}
-                  className="object-cover"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 400px"
+                  className="object-cover w-full h-full"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 {post.category && (
