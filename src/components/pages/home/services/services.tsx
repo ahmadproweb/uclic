@@ -83,21 +83,21 @@ export default function Services() {
         </span>
       </h2>
       
-      <div 
-        className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6"
-        role="list"
+      <ul 
+        className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 list-none"
       >
         {serviceData.map((service, index) => (
-          <ServiceCard 
-            key={service.title}
-            {...service}
-            theme={theme}
-            priority={index < 3}
-            className="transform-gpu"
-            style={{ willChange: 'transform' }}
-          />
+          <li key={service.title}>
+            <ServiceCard 
+              {...service}
+              theme={theme}
+              priority={index < 3}
+              className="transform-gpu"
+              style={{ willChange: 'transform' }}
+            />
+          </li>
         ))}
-      </div>
+      </ul>
 
       <div 
         className="fixed inset-0 w-full h-full opacity-20 mix-blend-overlay pointer-events-none"

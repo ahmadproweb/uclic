@@ -7,7 +7,6 @@ import { colors } from '@/config/theme';
 import Link from 'next/link';
 import { CTAButton } from "@/components/ui/cta-button";
 import React from 'react';
-import 'remixicon/fonts/remixicon.css';
 
 const services = [
   {

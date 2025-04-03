@@ -25,7 +25,6 @@ export const ServiceCard = memo(function ServiceCard({
         className
       )}
       style={style}
-      role="listitem"
     >
       <i 
         className={cn(

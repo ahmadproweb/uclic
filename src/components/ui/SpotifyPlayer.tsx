@@ -201,7 +201,7 @@ export default function SpotifyPlayer({
               target="_blank"
               rel="noopener noreferrer"
               className={cn(
-                "ml-4 p-1.5 rounded-full",
+                "ml-4 p-1.5 rounded-full flex items-center gap-1.5",
                 isDark 
                   ? "text-white/70 hover:bg-[#E0FF5C]/10 hover:text-[#E0FF5C]" 
                   : "text-black/50 hover:bg-black/5 hover:text-black"
@@ -212,6 +212,7 @@ export default function SpotifyPlayer({
                 <polyline points="15 3 21 3 21 9"/>
                 <line x1="10" y1="14" x2="21" y2="3"/>
               </svg>
+              <span className="sr-only">Ouvrir cet épisode sur Spotify</span>
             </a>
           </div>
         )}
