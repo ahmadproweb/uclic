@@ -1,8 +1,8 @@
 import { Metadata, ResolvingMetadata } from 'next';
-import { getExpertise } from '@/lib/wordpress';
+import { getExpertise, getExpertisePostsByCategory } from '@/lib/wordpress';
 import { notFound } from 'next/navigation';
 import Partners from "@/components/pages/home/partner/partner";
-import MarqueeText from '@/components/pages/home/MarqueeText/marquee';
+import ExpertiseMarquee from './ExpertiseMarquee';
 import AndMoreService from '@/components/pages/home/andmoreservice/andmoreservice';
 import CaseStudyWrapper from "@/components/pages/home/casestudy";
 import Testimonials from "@/components/pages/home/testimonials/testimonials";
@@ -66,12 +66,24 @@ export default async function ExpertisePage({ params }: ExpertisePageProps) {
   const expertiseCategory = expertise.expertiseGrowthCategories?.nodes?.[0]?.slug;
   if (expertiseCategory !== category) return notFound();
 
+  // Récupérer les expertises de la même catégorie
+  const relatedExpertises = await getExpertisePostsByCategory(category);
+  
+  // Transformer les expertises en format pour le marquee
+  const marqueeItems = relatedExpertises
+    .filter(exp => exp.slug !== slug) // Exclure l'expertise actuelle
+    .map(exp => ({
+      text: exp.title,
+      href: `/expertise/${category}/${exp.slug}`,
+      description: exp.expertiseFields.subtitle
+    }));
+
   return (
     <main className="flex flex-col">
       <HeroExpertise expertise={expertise} />
       <Partners />
       <ExpertiseBenefits {...expertise.expertiseFields} />
-      <MarqueeText />
+      <ExpertiseMarquee words={marqueeItems} />
       
       <AndMoreService>
         <Suspense fallback={<div className="w-full h-[400px] flex items-center justify-center">
