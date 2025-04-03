@@ -6,24 +6,24 @@ import { cn } from '@/lib/utils';
 
 const teamAvatars = [
   {
-    src: "https://cdn.prod.website-files.com/5c6ab1fe3ca6bd217e37aea8/5f7a39a419656d9ce7eca9c4_Brice-Maurin.jpeg",
+    src: "/hero/brice-maurin.webp",
     alt: "Brice Maurin"
   },
   {
-    src: "https://socialsellingforum.com/wp-content/uploads/2021/01/Denis-Cohen.jpg",
+    src: "/hero/denis.webp",
     alt: "Denis Cohen"
   },
   {
-    src: "https://pbs.twimg.com/profile_images/1380604432526741505/ZoxckFlA_400x400.jpg",
-    alt: "Professional 3"
+    src: "/hero/jean.webp",
+    alt: "Jean"
   },
   {
-    src: "https://media.licdn.com/dms/image/v2/D4D03AQF1Tp_cka4CJw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1695053204498?e=2147483647&v=beta&t=gYor-eUxVISVwWqXZDHdmjdfQeW8m_X7PIFCthGiUp8",
-    alt: "Professional 4"
+    src: "/hero/benoit.webp",
+    alt: "Benoit"
   },
   {
-    src: "https://media.licdn.com/dms/image/v2/C4E03AQFJfjmIIQBvxw/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1605084585589?e=1749081600&v=beta&t=Tr-iALGgev4KN6ljWS8J6b7xt2B8Je1vD1AS-3MKnpc",
-    alt: "Professional 5"
+    src: "/hero/cabane.webp",
+    alt: "Cabane"
   }
 ];
 

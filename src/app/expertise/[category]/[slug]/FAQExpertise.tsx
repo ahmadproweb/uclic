@@ -82,64 +82,56 @@ const FAQItem = memo(({
   item, 
   isOpen, 
   onToggle, 
-  isDark,
-  index 
+  isDark
 }: { 
   item: FAQItem;
   isOpen: boolean;
   onToggle: () => void;
   isDark: boolean;
-  index: number;
 }) => (
   <div 
     className={cn(
-      "animate-fade-in-up rounded-2xl overflow-hidden",
-      "backdrop-blur-2xl hover:-translate-y-1 hover:shadow-xl"
+      "border-b border-black/10 dark:border-white/10 pb-4",
+      isOpen && "pb-6"
     )}
-    style={{
-      background: 'rgba(255, 255, 255, 0.05)',
-      backdropFilter: 'blur(16px) saturate(180%)',
-      border: isDark ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)',
-      animationDelay: `${index * 100}ms`
-    }}
+    role="listitem"
   >
-    <button
-      className={cn(
-        "w-full py-4 md:py-5 px-5 md:px-6",
-        "flex items-center justify-between group",
-        isDark ? "text-white" : "text-black"
-      )}
-      onClick={onToggle}
-      aria-expanded={isOpen}
-      aria-controls={`faq-answer-${item.id}`}
-    >
-      <span className="text-lg md:text-xl font-medium pr-4">{item.question}</span>
-      <span 
+    <h3>
+      <button
+        id={`faq-question-${item.id}`}
+        aria-expanded={isOpen}
+        aria-controls={`faq-answer-${item.id}`}
+        onClick={onToggle}
         className={cn(
-          "w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0",
-          "transition-transform duration-300",
-          isOpen ? "rotate-45" : "rotate-0",
-          isDark 
-            ? "bg-[#E0FF5C] text-black" 
-            : "bg-black text-white group-hover:bg-[#E0FF5C] group-hover:text-black"
+          "group flex w-full items-center justify-between py-6 text-left",
+          isDark ? "text-white" : "text-black"
         )}
-        aria-hidden="true"
       >
-        +
-      </span>
-    </button>
-    <div 
+        <span className="text-xl font-medium pr-6">{item.question}</span>
+        <span className={cn(
+          "ml-6 flex h-7 w-7 shrink-0 items-center justify-center rounded-full",
+          isDark ? "bg-white/10" : "bg-black/10",
+          "transform transition-transform duration-200",
+          isOpen && "rotate-45"
+        )}>
+          +
+        </span>
+      </button>
+    </h3>
+    <div
       id={`faq-answer-${item.id}`}
+      role="region"
+      aria-labelledby={`faq-question-${item.id}`}
       className={cn(
         "overflow-hidden transition-all duration-300",
         isOpen ? "max-h-96" : "max-h-0"
       )}
-      role="region"
-      aria-labelledby={`faq-question-${item.id}`}
     >
       <div className={cn(
-        "p-5 md:p-6 pt-0 whitespace-pre-line text-base",
-        isDark ? "text-white" : "text-black"
+        "prose max-w-none pt-0",
+        isDark ? "prose-invert" : "",
+        "text-base leading-relaxed",
+        isDark ? "text-white/70" : "text-black/70"
       )}>
         {item.answer}
       </div>
@@ -225,14 +217,13 @@ function FAQExpertise({ expertiseFields }: FAQExpertiseProps) {
               role="list"
               aria-label="Questions fréquemment posées"
             >
-              {faqItems.map((item, index) => (
+              {faqItems.map((item) => (
                 <FAQItem
                   key={item.id}
                   item={item}
                   isOpen={openItem === item.id}
                   onToggle={() => setOpenItem(openItem === item.id ? null : item.id)}
                   isDark={isDark}
-                  index={index}
                 />
               ))}
             </div>

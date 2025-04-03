@@ -311,14 +311,15 @@ export default function AndMoreService({ children }: AndMoreServiceProps) {
             role="list"
           >
             {services.map((service) => (
-              <ServiceCard
-                key={service.id}
-                service={service}
-                hoveredId={hoveredId}
-                onHover={setHoveredId}
-                isDark={isDark}
-                themeColors={themeColors}
-              />
+              <div key={service.id} role="listitem">
+                <ServiceCard
+                  service={service}
+                  hoveredId={hoveredId}
+                  onHover={setHoveredId}
+                  isDark={isDark}
+                  themeColors={themeColors}
+                />
+              </div>
             ))}
           </div>
         </div>
