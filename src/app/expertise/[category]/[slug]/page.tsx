@@ -239,10 +239,10 @@ export default async function ExpertisePage({ params }: ExpertisePageProps) {
             <h2 className="text-3xl md:text-4xl font-normal mb-8 text-gray-900 dark:text-white">
               {h22}
             </h2>
-            <div className="p-6 rounded-2xl backdrop-blur-md border transition-all duration-300
+            <div className="p-6 rounded-2xl backdrop-blur-md  transition-all duration-300
               dark:bg-black/40 dark:border-white/10 dark:shadow-[0_0_0_1px_rgba(255,255,255,0.05)]
-              bg-white/40 border-black/5 shadow-[0_0_0_1px_rgba(0,0,0,0.03)]">
-              <p className="text-lg text-gray-600 dark:text-gray-400">
+              bg-white/40 border-black/5 shadow-[0_0_0_1px_rgba(0,0,0,0.03)] border-1  ">
+              <p className="text-lg text-gray-600 dark:text-white">
                 {content2}
               </p>
             </div>

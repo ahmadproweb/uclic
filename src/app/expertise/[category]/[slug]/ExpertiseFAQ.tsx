@@ -36,7 +36,7 @@ export default function ExpertiseFAQ({ subtitle, items }: FAQProps) {
   const [openItem, setOpenItem] = useState<number | null>(1);
 
   return (
-    <section className="w-full pt-16 md:pt-24 pb-8 md:pb-12 relative overflow-hidden bg-[#f4f4f0] dark:bg-black/95">
+    <section className="w-full pt-16 md:pt-24 pb-8 md:pb-12 relative overflow-hidden bg-[#f4f4f0] dark:bg-black/95 rounded-3xl">
       <BackgroundSpiral />
       <div className="max-w-[1250px] mx-auto px-4 md:px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
