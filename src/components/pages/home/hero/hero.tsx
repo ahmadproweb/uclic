@@ -91,7 +91,7 @@ const Hero = () => {
   const isDark = currentTheme === 'dark';
 
   return (
-    <section className="relative min-h-[calc(100vh-var(--header-height))] flex items-center pt-28 sm:pt-32 md:pt-36">
+    <section className="relative min-h-[calc(70vh-var(--header-height))] flex items-center pt-28 sm:pt-32 md:pt-36">
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <div className="max-w-2xl">

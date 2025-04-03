@@ -110,29 +110,40 @@ const BlogPostCard = memo(({ post, index }: { post: BlogPost; index: number }) =
 BlogPostCard.displayName = 'BlogPostCard';
 
 const BackgroundEffects = memo(({ isDark }: { isDark: boolean }) => (
-  <div 
-    className={cn(
-      "absolute inset-0 z-0",
-      "after:absolute after:inset-0 after:z-[1] after:mix-blend-soft-light",
-      "after:bg-[url('data:image/svg+xml,%3Csvg viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.7\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\' opacity=\'0.8\'/%3E%3C/svg%3E')]",
-      "after:bg-repeat after:bg-[length:100px_100px]",
-      isDark ? "after:opacity-90" : "after:opacity-50"
-    )}
-    style={{
-      background: isDark 
-        ? 'linear-gradient(180deg, #000000 0%, #88954e 30%, #acbf59 50%, rgb(143 157 81) 80%, #000000 100%)'
-        : 'linear-gradient(180deg, #ffffff 0%, #E3FC76 30%, #E3FC76 50%, rgb(230 255 119) 80%, #ffffff 100%)'
-    }}
-  >
+  <>
+    {/* Base Background gradient */}
+    <div 
+      className="absolute inset-0 z-0"
+      style={{
+        background: isDark 
+          ? 'linear-gradient(180deg, #000000 0%, #88954e 30%, #acbf59 50%, rgb(143 157 81) 80%, #000000 100%)'
+          : 'linear-gradient(180deg, #ffffff 0%, #E3FC76 30%, #E3FC76 50%, rgb(230 255 119) 80%, #ffffff 100%)'
+      }}
+    />
+
+    {/* Grain effect overlay */}
+    <div 
+      className={cn(
+        "absolute inset-0 z-0 mix-blend-soft-light",
+        isDark ? "opacity-90" : "opacity-50"
+      )}
+      style={{
+        backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.7\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\' opacity=\'0.8\'/%3E%3C/svg%3E")',
+        backgroundRepeat: 'repeat',
+        backgroundSize: '100px 100px'
+      }}
+    />
+
+    {/* New overlay gradient - black to transparent */}
     <div 
       className="absolute bottom-0 left-0 right-0 h-[25%] z-[2]"
       style={{
         background: isDark
-          ? 'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgb(0, 0, 0) 100%)'
-          : 'linear-gradient(180deg, rgba(243, 244, 246, 0) 0%, rgb(243, 244, 246) 100%)'
+          ? 'linear-gradient(to top, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 0) 100%)'
+          : 'linear-gradient(to top, rgb(243, 244, 246) 0%, rgba(243, 244, 246, 1) 40%, rgba(243, 244, 246, 0) 100%)'
       }}
     />
-  </div>
+  </>
 ));
 
 BackgroundEffects.displayName = 'BackgroundEffects';

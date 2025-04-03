@@ -134,7 +134,7 @@ function FooterUI({ legalPages }: FooterUIProps) {
   ];
 
   return (
-    <footer className={`${isDark ? 'bg-black' : 'bg-gray-100'} ${isDark ? 'text-white' : 'text-gray-900'} pt-6 md:pt-12 pb-6 md:pb-8`}>
+    <footer className={`${isDark ? 'bg-black' : 'bg-gray-100'} ${isDark ? 'text-white' : 'text-gray-900'} pt-6 md:pt-12 pb-[100px] md:pb-[100px]`}>
       <div className="max-w-[1250px] mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-8 mb-8 md:mb-16">
           <FooterLogo isDark={isDark} />

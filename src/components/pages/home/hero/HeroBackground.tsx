@@ -16,7 +16,7 @@ export default function HeroBackground() {
         style={{
           background: isDark 
             ? `linear-gradient(180deg, ${theme.colors.common.black} 0%, ${theme.colors.common.black} 30%, ${theme.colors.primary.main}80)`
-            : `linear-gradient(180deg, ${theme.colors.common.white}, ${theme.colors.primary.main})`
+            : `linear-gradient(180deg, ${theme.colors.common.white}, ${theme.colors.primary.main}41)`
         }}
       />
 
