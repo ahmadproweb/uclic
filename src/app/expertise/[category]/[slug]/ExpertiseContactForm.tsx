@@ -123,11 +123,7 @@ export default function ExpertiseContactForm() {
           <button
             type="submit"
             className={cn(
-              "w-full px-6 py-3 text-base font-medium rounded-full",
-              "transition-all duration-200",
-              isDark 
-                ? "bg-white text-black hover:bg-[#E0FF5C]"
-                : "bg-[#E0FF5C] text-black hover:bg-black hover:text-white"
+              "w-full py-3 px-4 bg-[#E0FF5C] text-black hover:bg-black hover:text-white dark:bg-white dark:text-black dark:hover:bg-[#E0FF5C]/90 rounded-full font-bold transition-all duration-200"
             )}
           >
             Envoyer
