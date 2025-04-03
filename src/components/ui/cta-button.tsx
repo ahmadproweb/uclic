@@ -68,10 +68,7 @@ interface CTAButtonProps {
 // Memoized Components
 const ArrowIcon = memo(({ size }: { size: Size }) => (
   <ArrowIconComponent 
-    className={cn(
-      "transition-all duration-200",
-      "group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:-rotate-45"
-    )}
+    className="!transition-none"
   />
 ));
 
@@ -133,7 +130,7 @@ export const CTAButton = memo(({
     // Base styles
     "group inline-flex items-center gap-2",
     "font-bold rounded-full",
-    "transition-all duration-200",
+    "!transition-none",
     "w-fit whitespace-nowrap",
     // Variant styles
     variant === 'mainCTA' && isDark 

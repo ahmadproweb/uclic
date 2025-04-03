@@ -7,6 +7,7 @@ import { ClientPulseEffect } from './ClientPulseEffect';
 import { UnderlinedText } from '@/components/ui/underlined-text';
 import { cn } from "@/lib/utils";
 import { memo } from 'react';
+import { GradientPulse } from './GradientPulse';
 
 const PlusIcon = memo(function PlusIcon() {
   return (
@@ -24,11 +25,46 @@ export default function Services() {
   return (
     <section 
       id="services" 
-      className="w-full py-0 pb-16 md:py-20 md:pb-16 relative overflow-hidden bg-[#f4f4f0] dark:bg-black/95"
+      className="w-full py-0 pb-16 md:py-20 md:pb-16 relative overflow-hidden bg-[#f4f4f0] dark:bg-black/95 animate-pulse-bg"
       aria-labelledby="services-title"
     >
+      <style jsx>{`
+        @keyframes pulse-light {
+          0% {
+            background-color: rgb(244, 244, 240);
+          }
+          50% {
+            background-color: rgb(240, 240, 236);
+          }
+          100% {
+            background-color: rgb(244, 244, 240);
+          }
+        }
+        
+        :global(.dark) section {
+          animation-name: pulse-light-dark;
+        }
+        
+        @keyframes pulse-light-dark {
+          0% {
+            background-color: rgba(0, 0, 0, 0.95);
+          }
+          50% {
+            background-color: rgba(0, 0, 0, 0.97);
+          }
+          100% {
+            background-color: rgba(0, 0, 0, 0.95);
+          }
+        }
+        
+        section {
+          animation: pulse-light 4s ease-in-out infinite;
+        }
+      `}</style>
+
       <PlusIcon />
       <ClientPulseEffect />
+      <GradientPulse />
       
       <h2 
         id="services-title"

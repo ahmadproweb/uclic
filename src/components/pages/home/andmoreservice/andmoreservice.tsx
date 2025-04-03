@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 import { colors } from '@/config/theme';
 import Link from 'next/link';
 import { CTAButton } from "@/components/ui/cta-button";
-import { CheckmarksIcon } from "@/components/ui/icons/CheckmarksIcon";
 import React from 'react';
 import 'remixicon/fonts/remixicon.css';
 
@@ -15,55 +14,55 @@ const services = [
     id: 1,
     title: "Lorem ipsum dolor sit",
     description: "Lorem ipsum dolor sit amet consectetur adipiscing elit...",
-    icon: <CheckmarksIcon />,
+    icon: "ri-gemini-fill",
   },
   {
     id: 2,
     title: "Lorem ipsum dolor sit",
     description: "Lorem ipsum dolor sit amet consectetur adipiscing elit...",
-    icon: <CheckmarksIcon />,
+    icon: "ri-gemini-fill",
   },
   {
     id: 3,
     title: "Lorem ipsum dolor sit",
     description: "Lorem ipsum dolor sit amet consectetur adipiscing elit...",
-    icon: <CheckmarksIcon />,
+    icon: "ri-gemini-fill",
   },
   {
     id: 4,
     title: "Lorem ipsum dolor sit",
     description: "Lorem ipsum dolor sit amet consectetur adipiscing elit...",
-    icon: <CheckmarksIcon />,
+    icon: "ri-gemini-fill",
   },
   {
     id: 5,
     title: "Lorem ipsum dolor sit",
     description: "Lorem ipsum dolor sit amet consectetur adipiscing elit...",
-    icon: <CheckmarksIcon />,
+    icon: "ri-gemini-fill",
   },
   {
     id: 6,
     title: "Lorem ipsum dolor sit",
     description: "Lorem ipsum dolor sit amet consectetur adipiscing elit...",
-    icon: <CheckmarksIcon />,
+    icon: "ri-gemini-fill",
   },
   {
     id: 7,
     title: "Lorem ipsum dolor sit",
     description: "Lorem ipsum dolor sit amet consectetur adipiscing elit...",
-    icon: <CheckmarksIcon />,
+    icon: "ri-gemini-fill",
   },
   {
     id: 8,
     title: "Lorem ipsum dolor sit",
     description: "Lorem ipsum dolor sit amet consectetur adipiscing elit...",
-    icon: <CheckmarksIcon />,
+    icon: "ri-gemini-fill",
   },
   {
     id: 9,
     title: "Lorem ipsum dolor sit",
     description: "Lorem ipsum dolor sit amet consectetur adipiscing elit...",
-    icon: <CheckmarksIcon />,
+    icon: "ri-gemini-fill",
   },
 ];
 
@@ -156,7 +155,7 @@ const ServiceCard = memo(({
                         backgroundColor: hoveredId === service.id ? themeColors.common.black : themeColors.primary.main,
                         color: hoveredId === service.id ? themeColors.primary.main : themeColors.common.black
                       }}>
-                        {service.icon}
+                        <i className={`${service.icon} text-xl md:text-2xl`} aria-hidden="true" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <h3 className="text-lg md:text-xl font-medium mb-2 line-clamp-1 transition-colors duration-300"
@@ -172,20 +171,19 @@ const ServiceCard = memo(({
                           {service.description}
                         </p>
                       </div>
-                      <i 
-                        className={cn(
-                          "ri-arrow-right-s-line text-2xl md:text-3xl transition-all duration-300",
-                          hoveredId === service.id ? "-rotate-45" : "",
-                        )}
-                        style={{
-                          color: hoveredId === service.id 
-                            ? themeColors.common.black
-                            : isDark 
-                              ? themeColors.common.white
-                              : themeColors.common.black
-                        }}
-                        aria-hidden="true"
-                      />
+                      <div className={cn(
+                        "flex items-center justify-center",
+                        "w-8 h-8 md:w-10 md:h-10 rounded-full border",
+                        "transition-all duration-300",
+                        isDark 
+                          ? "text-white border-white group-hover/link:text-white group-hover/link:bg-black group-hover/link:border-black"
+                          : "text-black border-black group-hover/link:text-white group-hover/link:bg-black group-hover/link:border-black"
+                      )}>
+                        <i className={cn(
+                          "ri-arrow-right-line text-lg md:text-xl",
+                          "-rotate-45 group-hover/link:rotate-0 transition-all duration-300"
+                        )} aria-hidden="true" />
+                      </div>
                     </div>
                   </div>
                 </Link>

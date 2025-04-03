@@ -27,7 +27,13 @@ export default function SpotifyPlayer({
   const togglePlay = () => {
     if (!iframeLoaded) {
       setIframeLoaded(true);
-      setIsMinimized(false);
+      // On attend que l'iframe soit chargée pour lancer la lecture
+      setTimeout(() => {
+        if (iframeRef.current) {
+          iframeRef.current.contentWindow?.postMessage({ command: 'play' }, '*');
+          setIsPlaying(true);
+        }
+      }, 1000); // Délai pour s'assurer que l'iframe est bien chargée
     } else if (iframeRef.current) {
       const iframe = iframeRef.current;
       const message = isPlaying ? 'pause' : 'play';
@@ -79,20 +85,19 @@ export default function SpotifyPlayer({
 
   // Charger l'iframe uniquement quand nécessaire
   const handleExpandClick = () => {
-    if (!iframeLoaded) {
+    if (!iframeLoaded && !isMinimized) {
       setIframeLoaded(true);
     }
-    setIsMinimized(false);
+    setIsMinimized(!isMinimized);
   };
 
   return (
     <div 
       ref={playerRef}
       className={cn(
-        "fixed bottom-0 left-0 w-full transition-all duration-500 z-50",
-        isDark ? "bg-black/95" : "bg-white/95",
-        "border-t border-[#E0FF5C]/20",
-        "backdrop-blur-xl shadow-2xl",
+        "fixed bottom-0 left-0 w-full z-50",
+        isDark ? "bg-black/95" : "bg-white shadow-[0_-1px_0_0_rgba(0,0,0,0.1)]",
+        "backdrop-blur-xl",
         shouldBeVisible ? "translate-y-0" : "translate-y-full",
         isMinimized ? "h-12" : "h-auto"
       )}
@@ -102,10 +107,13 @@ export default function SpotifyPlayer({
           <button 
             onClick={handleExpandClick}
             className={cn(
-              "absolute -top-[21px] right-4 bg-[#E0FF5C] text-black px-3 py-0.5 rounded-t-lg",
-              "hover:bg-[#E0FF5C]/90 transition-colors duration-200",
-              "text-xs font-medium flex items-center gap-0.5"
+              "absolute -top-[21px] right-4 px-3 py-0.5 rounded-t-lg",
+              "text-xs font-medium flex items-center gap-0.5",
+              isDark 
+                ? "bg-[#E0FF5C] text-black hover:bg-[#E0FF5C]/90"
+                : "bg-black text-white hover:bg-black/90"
             )}
+            aria-label={isMinimized ? "Agrandir le lecteur Spotify" : "Réduire le lecteur Spotify"}
           >
             {isMinimized ? (
               <>
@@ -126,18 +134,24 @@ export default function SpotifyPlayer({
         )}
 
         <div className={cn(
-          "transition-all duration-500",
+          "transition-[height,opacity] duration-200",
           isMinimized ? "h-0 opacity-0 invisible" : "h-[80px] opacity-100 visible"
         )}>
           {iframeLoaded && (
             <iframe
               ref={iframeRef}
-              src={`https://open.spotify.com/embed/episode/${episodeId}?utm_source=generator&theme=${isDark ? '0' : '1'}`}
+              src={`https://open.spotify.com/embed/episode/${episodeId}?utm_source=generator`}
               width="100%"
               height="80"
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
               loading="lazy"
-              className="rounded-lg border border-[#E0FF5C]/20"
+              className={cn(
+                "rounded-lg",
+                isDark ? "border border-[#E0FF5C]/20" : "border border-black/10"
+              )}
+              style={{
+                colorScheme: isDark ? 'dark' : 'light'
+              }}
             />
           )}
         </div>
@@ -147,36 +161,36 @@ export default function SpotifyPlayer({
             <div className="flex items-center gap-3 flex-1">
               <button 
                 onClick={togglePlay}
-                className="hover:scale-105 transition-transform p-1.5 hover:bg-[#E0FF5C]/10 rounded-full"
+                className={cn(
+                  "hover:scale-105 p-1.5 rounded-full",
+                  isDark ? "hover:bg-[#E0FF5C]/10" : "hover:bg-black/5"
+                )}
               >
                 {isPlaying ? (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#E0FF5C]">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={isDark ? "text-[#E0FF5C]" : "text-[#1DB954]"}>
                     <circle cx="12" cy="12" r="10"/>
                     <path d="M10 15V9M14 15V9"/>
                   </svg>
                 ) : (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#E0FF5C]">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={isDark ? "text-[#E0FF5C]" : "text-[#1DB954]"}>
                     <circle cx="12" cy="12" r="10"/>
                     <polygon points="10 8 16 12 10 16 10 8"/>
                   </svg>
                 )}
               </button>
               <div className="flex items-center gap-3 min-w-0 flex-1">
-                <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-[#1DB954]/90 text-white inline-flex items-center gap-1.5 whitespace-nowrap">
+                <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-[#1DB954] text-white inline-flex items-center gap-1.5 whitespace-nowrap">
                   <i className="ri-spotify-line"></i>
                   Podcast chez Wild Marketer
                 </span>
                 <div className="flex items-center gap-2 min-w-0 flex-1">
                   <span className={cn(
                     "font-medium text-sm truncate flex-1",
-                    isDark ? "text-white" : "text-black"
+                    isDark ? "text-white" : "text-black/90"
                   )}>
                     #1 Wladimir Delcros - CodinGame : Automatiser à 100% sa Lead Generation B2B avec des Outils No-Code
                   </span>
-                  <span className={cn(
-                    "text-xs whitespace-nowrap",
-                    isDark ? "text-[#E0FF5C]/90" : "text-[#1DB954]"
-                  )}>
+                  <span className="text-xs whitespace-nowrap text-[#1DB954] font-medium">
                     Wladimir Fondateur de Uclic
                   </span>
                 </div>
@@ -187,9 +201,10 @@ export default function SpotifyPlayer({
               target="_blank"
               rel="noopener noreferrer"
               className={cn(
-                "ml-4 p-1.5 rounded-full hover:bg-[#E0FF5C]/10 transition-colors",
-                "hover:text-[#E0FF5C] transition-colors duration-200",
-                isDark ? "text-white/70" : "text-black/70"
+                "ml-4 p-1.5 rounded-full",
+                isDark 
+                  ? "text-white/70 hover:bg-[#E0FF5C]/10 hover:text-[#E0FF5C]" 
+                  : "text-black/50 hover:bg-black/5 hover:text-black"
               )}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

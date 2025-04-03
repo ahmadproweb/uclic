@@ -73,6 +73,10 @@ const CTAButtons = memo(function CTAButtons({ isDark }: { isDark: boolean }) {
       <div className="flex items-center gap-6">
         <CTAButton 
           variant="simple" 
+          simpleVariant="secondary"
+          className={cn(
+            !isDark && "!text-black [&_svg]:!stroke-black"
+          )}
           onClick={() => openVideoPopup(
             "GRlZO8KtB7A",
             "Wladimir Delcros Founder de Uclic invité Podcast avec Benoit Dubos de Scalezia"

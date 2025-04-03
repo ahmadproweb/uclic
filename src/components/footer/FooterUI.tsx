@@ -5,6 +5,7 @@ import { useTheme } from "@/context/ThemeContext";
 import { Logo } from "@/components/header/Logo";
 import Link from "next/link";
 import NewsletterSection from './NewsletterSection';
+import { ExpertiseGrowthCategory } from '@/lib/wordpress';
 
 interface FooterUIProps {
   legalPages: Array<{
@@ -12,6 +13,7 @@ interface FooterUIProps {
     title: string;
     slug: string;
   }>;
+  categories: ExpertiseGrowthCategory[];
 }
 
 // Memoized Components
@@ -20,8 +22,8 @@ const FooterLogo = memo(({ isDark }: { isDark: boolean }) => (
     <div className="mb-4 md:mb-6">
       <Logo />
     </div>
-    <p className={`${isDark ? 'text-white/80' : 'text-gray-700'} text-xs md:text-sm leading-relaxed`}>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Pellentesque sit amet hendrerit.
+    <p className={`${isDark ? 'text-white/80' : 'text-gray-700'} text-xs md:text-sm leading-relaxed max-w-[90%]`}>
+      Uclic est une agence digitale spécialisée dans la croissance des entreprises. Notre expertise en IA, SEO, et marketing digital permet d'accélérer votre développement de manière durable et mesurable.
     </p>
   </div>
 ));
@@ -29,7 +31,7 @@ const FooterLogo = memo(({ isDark }: { isDark: boolean }) => (
 FooterLogo.displayName = 'FooterLogo';
 
 const FooterLinks = memo(({ isDark, title, links }: { isDark: boolean; title: string; links: Array<{ href: string; text: string }> }) => (
-  <div className="col-span-1 md:col-span-2 mb-8 md:mb-0">
+  <div className="col-span-1 md:col-span-3 mb-8 md:mb-0">
     <h3 className={`text-xs md:text-sm font-medium mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>{title}</h3>
     <ul className="space-y-2 md:space-y-4">
       {links.map(({ href, text }) => (
@@ -104,25 +106,16 @@ const FooterBottom = memo(({ isDark, legalPages }: { isDark: boolean; legalPages
 
 FooterBottom.displayName = 'FooterBottom';
 
-function FooterUI({ legalPages }: FooterUIProps) {
+function FooterUI({ legalPages, categories }: FooterUIProps) {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
-  const servicesLinks = [
-    { href: '/services/seo', text: 'Agence SEO' },
-    { href: '/services/sea', text: 'Agence SEA' },
-    { href: '/services/data', text: 'Agence Data' },
-    { href: '/services/automation', text: 'Agence Automation' },
-    { href: '/services/crm', text: 'Agence CRM' }
-  ];
-
-  const expertiseLinks = [
-    { href: '/expertise/seo', text: 'SEO' },
-    { href: '/expertise/sea', text: 'SEA' },
-    { href: '/expertise/sma', text: 'SMA' },
-    { href: '/expertise/r8n', text: 'r8n' },
-    { href: '/expertise/meta', text: 'Meta' }
-  ];
+  const servicesLinks = categories.map(category => ({
+    href: `/expertise/${category.slug}`,
+    text: category.name
+      .replace(/Agence Intelligence Artificielle/i, 'Agence IA')
+      .replace(/CRM & gestion de la relation client/i, 'CRM')
+  }));
 
   const siteMapLinks = [
     { href: '/a-propos', text: 'À propos' },
@@ -136,10 +129,9 @@ function FooterUI({ legalPages }: FooterUIProps) {
   return (
     <footer className={`${isDark ? 'bg-black' : 'bg-gray-100'} ${isDark ? 'text-white' : 'text-gray-900'} pt-6 md:pt-12 pb-[100px] md:pb-[100px]`}>
       <div className="max-w-[1250px] mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-8 mb-8 md:mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 mb-8 md:mb-16">
           <FooterLogo isDark={isDark} />
           <FooterLinks isDark={isDark} title="Nos services" links={servicesLinks} />
-          <FooterLinks isDark={isDark} title="Notre expertise" links={expertiseLinks} />
           <FooterLinks isDark={isDark} title="Plan du site" links={siteMapLinks} />
           <div className="col-span-1 md:col-span-3">
             <NewsletterSection />

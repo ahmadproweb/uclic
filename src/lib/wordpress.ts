@@ -1379,4 +1379,90 @@ export async function getLatestPortfolios(first: number = 3, excludeIds: string[
     console.error('Error fetching latest portfolios:', error);
     return [];
   }
+}
+
+export interface ExpertiseGrowthCategory {
+  id: string;
+  name: string;
+  slug: string;
+  count?: number;
+}
+
+export interface ExpertiseByCategory {
+  id: string;
+  title: string;
+  slug: string;
+  date: string;
+  content: string;
+  expertiseGrowthCategories: {
+    nodes: ExpertiseGrowthCategory[];
+  };
+}
+
+export async function getAllExpertiseGrowthCategoriesForMenu(): Promise<ExpertiseGrowthCategory[]> {
+  const query = `
+    query GetAllExpertiseGrowthCategories {
+      expertiseGrowthCategories(first: 100) {
+        nodes {
+          id
+          name
+          slug
+          count
+        }
+      }
+    }
+  `;
+
+  try {
+    const response = await fetchAPI(query);
+    return response.expertiseGrowthCategories.nodes;
+  } catch (error) {
+    console.error('Error fetching expertise growth categories for menu:', error);
+    return [];
+  }
+}
+
+export async function getExpertisesByCategory(categorySlug: string): Promise<ExpertiseByCategory[]> {
+  const query = `
+    query GetExpertiseByCategory($categorySlug: String!) {
+      expertises(
+        where: {
+          taxQuery: {
+            taxArray: [
+              {
+                taxonomy: EXPERTISEGROWTHCATEGORY
+                terms: [$categorySlug]
+                field: SLUG
+                operator: IN
+              }
+            ]
+          }
+        }
+        first: 100
+      ) {
+        nodes {
+          id
+          title
+          slug
+          date
+          content
+          expertiseGrowthCategories {
+            nodes {
+              id
+              name
+              slug
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  try {
+    const response = await fetchAPI(query, { variables: { categorySlug } });
+    return response.expertises.nodes;
+  } catch (error) {
+    console.error(`Error fetching expertises for category ${categorySlug}:`, error);
+    return [];
+  }
 } 

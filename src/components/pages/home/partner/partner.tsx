@@ -44,7 +44,7 @@ export default function Partners({ forceBlackLogos = false }: PartnersProps) {
 
   return (
     <div 
-      className="w-full flex flex-col gap-0 py-8 md:py-12 bg-[#F3F4F6] dark:bg-black/100 overflow-hidden"
+      className="w-full flex flex-col gap-0 pt-8 md:pt-12 bg-[#F3F4F6] dark:bg-black/100 overflow-hidden"
       aria-label="Nos partenaires de confiance"
     >
       <PartnerClient row1={row1} row2={row2} forceBlackLogos={forceBlackLogos} />

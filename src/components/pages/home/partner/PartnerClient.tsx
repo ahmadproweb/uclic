@@ -99,7 +99,7 @@ export const PartnerClient = memo(function PartnerClient({
   };
 
   return (
-    <div className="flex flex-col space-y-12">
+    <div className="flex flex-col space-y-6">
       <PartnerRow partners={row1} filter={getLogoFilter()} />
       <PartnerRow partners={row2} isReverse filter={getLogoFilter()} />
     </div>

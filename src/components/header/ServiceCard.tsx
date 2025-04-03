@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { ServiceItem } from "./types";
 import { useTheme } from "@/context/ThemeContext";
@@ -11,67 +12,84 @@ interface ServiceCardProps {
 }
 
 export function ServiceCard({ service, isMobile, onSelect }: ServiceCardProps) {
+  const router = useRouter();
   const { theme } = useTheme();
   const isDark = theme === 'dark';
-  const isSEOCard = service.title.toLowerCase().includes('seo') && !service.title.toLowerCase().includes('sea');
+  const isAICard = service.title.toLowerCase().includes('intelligence artificielle');
   
+  // Logique de renommage des titres
+  const displayTitle = service.title
+    .replace(/Agence Intelligence Artificielle/i, 'Agence IA')
+    .replace(/CRM & gestion de la relation client/i, 'CRM');
+  
+  const handleNavigation = (e: React.MouseEvent, href: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onSelect?.();
+    router.push(href);
+  };
+
   return (
     <div 
-      className={cn(
-        "group",
-        isMobile ? "w-full" : "w-[19%]",
-        "px-4 py-5 min-h-[400px] relative rounded-xl transition-all duration-300",
-        isSEOCard 
-          ? "bg-[#E0FF5C] hover:bg-[#E2FF47]" 
-          : isDark 
-            ? "bg-white/5 hover:bg-[#E0FF5C]/100" 
-            : "bg-black/5 hover:bg-[#E0FF5C]/100"
-      )}
+      onClick={(e) => handleNavigation(e, `/expertise/${service.slug}`)}
+      className="block h-full cursor-pointer"
     >
-      <Link 
-        href={`/services/${service.slug}`}
-        className="block h-full"
-        onClick={onSelect}
-        aria-label={`En savoir plus sur ${service.title}`}
+      <div 
+        className={cn(
+          "group h-full",
+          isMobile ? "w-full" : "w-full",
+          "px-6 py-6 relative rounded-xl transition-all duration-300 hover:transform hover:scale-[1.02]",
+          isAICard
+            ? "bg-[#E0FF5C] hover:bg-[#E2FF47]"
+            : isDark 
+              ? "bg-white/5 hover:bg-[#E0FF5C]/100" 
+              : "bg-black/5 hover:bg-[#E0FF5C]/100"
+        )}
       >
         <div className="flex flex-col h-full">
           <h3 className={cn(
-            "text-lg font-bold mb-3 transition-colors duration-300",
-            isSEOCard 
-              ? "text-black" 
+            "text-xl font-bold mb-4",
+            isAICard
+              ? "text-black"
               : isDark 
                 ? "text-white group-hover:text-black" 
                 : "text-black group-hover:text-black"
           )}>
-            {service.title}
+            {displayTitle}
           </h3>
           
-          <p className={cn(
-            "text-base mb-4 transition-colors duration-300",
-            isSEOCard 
-              ? "text-black/80" 
-              : isDark 
-                ? "text-white/80 group-hover:text-black/80" 
-                : "text-black/80 group-hover:text-black/80"
-          )}>
-            {service.description}
-          </p>
+          {service.description && (
+            <p className={cn(
+              "text-base mb-4",
+              isAICard
+                ? "text-black/80"
+                : isDark 
+                  ? "text-white/80 group-hover:text-black/80" 
+                  : "text-black/80 group-hover:text-black/80"
+            )}>
+              {service.description}
+            </p>
+          )}
           
           <div className="flex-1">
-            <ul className="space-y-2" aria-label={`Services inclus dans ${service.title}`}>
+            <ul className="space-y-1.5" aria-label={`Services inclus dans ${service.title}`}>
               {service.items.map((item, i) => (
-                <li 
-                  key={i} 
-                  className={cn(
-                    "text-sm transition-colors duration-300",
-                    isSEOCard 
-                      ? "text-black/70" 
-                      : isDark 
-                        ? "text-white/70 group-hover:text-black/70" 
-                        : "text-black/70 group-hover:text-black/70"
-                  )}
-                >
-                  {item}
+                <li key={i}>
+                  <a
+                    href={`/expertise/${service.slug}/${item.href.split('/').pop()}`}
+                    onClick={(e) => handleNavigation(e, `/expertise/${service.slug}/${item.href.split('/').pop()}`)}
+                    className={cn(
+                      "text-sm block hover:underline transition-colors duration-200 truncate",
+                      isAICard
+                        ? "text-black/70 hover:text-black"
+                        : isDark 
+                          ? "text-white/70 group-hover:text-black/70 hover:text-black" 
+                          : "text-black/70 group-hover:text-black/70 hover:text-black"
+                    )}
+                    title={item.title}
+                  >
+                    {item.title}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -80,9 +98,9 @@ export function ServiceCard({ service, isMobile, onSelect }: ServiceCardProps) {
           <div className="mt-auto pt-4">
             <ArrowIcon 
               className={cn(
-                "transition-colors duration-300",
-                isSEOCard 
-                  ? "text-black" 
+                "w-6 h-6 transition-transform duration-300 group-hover:translate-x-1",
+                isAICard
+                  ? "text-black"
                   : isDark 
                     ? "text-white group-hover:text-black" 
                     : "text-black"
@@ -90,7 +108,7 @@ export function ServiceCard({ service, isMobile, onSelect }: ServiceCardProps) {
             />
           </div>
         </div>
-      </Link>
+      </div>
     </div>
   );
 } 

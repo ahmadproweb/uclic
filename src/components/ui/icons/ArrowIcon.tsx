@@ -9,14 +9,14 @@ export const ArrowIcon = memo(function ArrowIcon({ className = "" }: ArrowIconPr
   return (
     <div 
       className={cn(
-        "flex items-center justify-center",
+        "flex items-center justify-center relative",
         "w-8 h-8 rounded-full border border-current",
-        "transition-all duration-300",
+        "transition-colors duration-300",
         className
       )}
     >
       <i 
-        className="ri-arrow-right-line text-lg"
+        className="ri-arrow-right-line text-lg transition-transform duration-300 group-hover:-rotate-45"
         aria-hidden="true"
       />
     </div>

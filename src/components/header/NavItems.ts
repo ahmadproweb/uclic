@@ -2,31 +2,31 @@ import { NavItem, ServiceItem } from './types';
 
 export const navItems: NavItem[] = [
   { 
-    label: "Nos services", 
-    href: "/services", 
-    hasMegaMenu: true,
-    className: "transition-colors duration-300 hover:text-[#E0FF5C]" 
+    label: "À propos", 
+    href: "/a-propos",
+    className: "text-base font-medium cursor-pointer flex items-center text-gray-900 hover:text-[#E0FF5C] dark:text-white dark:hover:text-[#E0FF5C]"
   },
   { 
     label: "Nos expertises", 
-    href: "/expertise",
-    className: "transition-colors duration-300 hover:text-[#E0FF5C]"
+    href: "/services", 
+    hasMegaMenu: true,
+    className: "text-base font-medium cursor-pointer flex items-center text-gray-900 hover:text-[#9FB832] dark:text-white dark:hover:text-[#E0FF5C]" 
   },
   { 
     label: "Cas clients", 
     href: "/cas-clients",
-    className: "transition-colors duration-300 hover:text-[#E0FF5C]"
+    className: "text-base font-medium cursor-pointer flex items-center text-gray-900 hover:text-[#E0FF5C] dark:text-white dark:hover:text-[#E0FF5C]"
   },
   { 
     label: "Blog", 
     href: "/blog",
-    className: "transition-colors duration-300 hover:text-[#E0FF5C]"
+    className: "text-base font-medium cursor-pointer flex items-center text-gray-900 hover:text-[#E0FF5C] dark:text-white dark:hover:text-[#E0FF5C]"
   },
   { 
-    label: "À propos", 
-    href: "/a-propos",
-    className: "transition-colors duration-300 hover:text-[#E0FF5C]"
-  },
+    label: "Contact", 
+    href: "/contact",
+    className: "text-base font-medium cursor-pointer flex items-center text-gray-900 hover:text-[#E0FF5C] dark:text-white dark:hover:text-[#E0FF5C]"
+  }
 ];
 
 export const serviceItems: ServiceItem[] = [
