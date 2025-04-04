@@ -75,11 +75,10 @@ export default function ExpertiseContactForm() {
         'service_gxm9sft',
         'template_jkryos1',
         {
-          from_name: formData.get('name'),
-          from_email: formData.get('email'),
-          phone: formData.get('phone'),
+          name: formData.get('name'),
+          email: formData.get('email'),
           message: formData.get('message'),
-          to_email: 'wladimir@uclic.fr',
+          phone: formData.get('phone'),
         },
       );
 
