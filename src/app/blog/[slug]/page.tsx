@@ -102,7 +102,7 @@ export async function generateStaticParams() {
 async function getPostBySlug(slug: string): Promise<WordPressPost | null> {
   try {
     const response = await fetch(
-      `https://uclic.fr/wp-json/wp/v2/posts?slug=${slug}&_embed`,
+      `https://apiuclic.fr/wp-json/wp/v2/posts?slug=${slug}&_embed`,
       { next: { revalidate: 3600 } }
     );
     

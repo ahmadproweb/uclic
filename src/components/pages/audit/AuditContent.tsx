@@ -196,7 +196,7 @@ export default function AuditContent() {
 
             {/* Right Column - Calendly Integration */}
             <div className={cn(
-              "w-full rounded-[32px] overflow-hidden border p-8",
+              "w-full rounded-[32px] overflow-hidden border",
               isDark ? "bg-[#161616]" : "bg-white",
               isDark ? "shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1)]" : ""
             )}
@@ -206,11 +206,11 @@ export default function AuditContent() {
               <iframe
                 src="https://calendly.com/hello-uclic"
                 width="100%"
-                height="630"
+                height="650"
                 frameBorder="0"
-                className="rounded-xl"
+                className="rounded-none"
                 style={{
-                  minHeight: '630px',
+                  minHeight: '650px',
                   backgroundColor: isDark ? '#161616' : 'white'
                 }}
               />

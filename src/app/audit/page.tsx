@@ -2,14 +2,25 @@ import { Metadata } from 'next';
 import AuditContent from '@/components/pages/audit/AuditContent';
 
 export const metadata: Metadata = {
-  title: 'Audit Stratégique Gratuit - Uclic | Optimisez votre présence digitale',
-  description: 'Obtenez un audit gratuit de votre présence en ligne. Nos experts analysent votre site et vous proposent des recommandations concrètes pour maximiser votre impact digital.',
-  openGraph: {
-    title: 'Audit Stratégique Gratuit - Uclic | Optimisez votre présence digitale',
-    description: 'Obtenez un audit gratuit de votre présence en ligne. Nos experts analysent votre site et vous proposent des recommandations concrètes pour maximiser votre impact digital.',
-    type: 'website',
-    locale: 'fr_FR',
+  title: "Audit Growth & Sales | Diagnostic Performance Marketing | Uclic",
+  description: "Audit complet de votre stratégie Growth Marketing et Sales. Analysez vos processus commerciaux, CRM et marketing pour identifier les leviers de croissance.",
+  alternates: {
+    canonical: 'https://uclic.fr/audit'
   },
+  openGraph: {
+    title: "Audit Growth & Sales | Diagnostic Performance Marketing | Uclic",
+    description: "Audit complet de votre stratégie Growth Marketing et Sales. Analysez vos processus commerciaux, CRM et marketing pour identifier les leviers de croissance.",
+    url: 'https://uclic.fr/audit',
+    type: "website",
+    locale: "fr_FR",
+    siteName: "Uclic",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Audit Growth & Sales | Diagnostic Performance Marketing | Uclic",
+    description: "Audit complet de votre stratégie Growth Marketing et Sales. Analysez vos processus commerciaux, CRM et marketing pour identifier les leviers de croissance.",
+    site: "@uclic_fr"
+  }
 };
 
 export default function AuditPage() {

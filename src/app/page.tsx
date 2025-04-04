@@ -37,17 +37,23 @@ export default function Home() {
 }
 
 export const metadata = {
-  title: "Uclic - Une vision 360°, des actions là où l'impact est maximal",
-  description: "Nous convertissons vos défis en leviers de croissance avec des stratégies data-driven, l'IA et les meilleurs freelances.",
+  title: "Freelance Growth Marketing / Hacking : Sales, Ops, Produit | Uclic",
+  description: "Uclic conçoit et optimise vos opérations commerciales pour maximiser chaque interaction. Avec des workflows CRM avancés et des processus de vente automatisés.",
+  alternates: {
+    canonical: 'https://uclic.fr'
+  },
   openGraph: {
-    title: "Uclic - Une vision 360°, des actions là où l'impact est maximal",
-    description: "Nous convertissons vos défis en leviers de croissance avec des stratégies data-driven, l'IA et les meilleurs freelances.",
+    title: "Freelance Growth Marketing / Hacking : Sales, Ops, Produit | Uclic",
+    description: "Uclic conçoit et optimise vos opérations commerciales pour maximiser chaque interaction. Avec des workflows CRM avancés et des processus de vente automatisés.",
+    url: 'https://uclic.fr',
     type: "website",
     locale: "fr_FR",
+    siteName: "Uclic",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Uclic - Une vision 360°, des actions là où l'impact est maximal",
-    description: "Nous convertissons vos défis en leviers de croissance avec des stratégies data-driven, l'IA et les meilleurs freelances.",
+    title: "Freelance Growth Marketing / Hacking : Sales, Ops, Produit | Uclic",
+    description: "Uclic conçoit et optimise vos opérations commerciales pour maximiser chaque interaction. Avec des workflows CRM avancés et des processus de vente automatisés.",
+    site: "@uclic_fr"
   }
 }; 

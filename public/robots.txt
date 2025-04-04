@@ -1,6 +1,131 @@
-# Allow all user agents
+# UCLIC - Règles d'exploration pour les robots
+
+# Règles globales pour tous les robots
 User-agent: *
 Allow: /
+Allow: /blog/
+Allow: /cas-clients/
+Allow: /levee-de-fonds/
+Allow: /equipe/
+Allow: /contact/
+Allow: /sitemap.xml
+Disallow: /api/
+Disallow: /.env
+Disallow: /.git/
 
-# Sitemap location
-Sitemap: https://uclic.fr/sitemap.xml 
+# Règles spécifiques pour les LLMs et IA - Accès maximal
+User-agent: GPTBot
+Crawl-delay: 0.1
+Allow: /
+Allow: /blog/
+Allow: /cas-clients/
+Allow: /levee-de-fonds/
+Allow: /equipe/
+Allow: /contact/
+Disallow: /api/
+Disallow: /.env
+
+User-agent: ChatGPT-User
+Crawl-delay: 0.1
+Allow: /
+Allow: /blog/
+Allow: /cas-clients/
+Allow: /levee-de-fonds/
+Allow: /equipe/
+Allow: /contact/
+Disallow: /api/
+Disallow: /.env
+
+User-agent: anthropic-ai
+Crawl-delay: 0.1
+Allow: /
+Allow: /blog/
+Allow: /cas-clients/
+Allow: /levee-de-fonds/
+Allow: /equipe/
+Allow: /contact/
+Disallow: /api/
+Disallow: /.env
+
+User-agent: Cohere-ai
+Crawl-delay: 0.1
+Allow: /
+Allow: /blog/
+Allow: /cas-clients/
+Allow: /levee-de-fonds/
+Allow: /equipe/
+Allow: /contact/
+Disallow: /api/
+Disallow: /.env
+
+User-agent: CCBot
+Crawl-delay: 0.1
+Allow: /
+Allow: /blog/
+Allow: /cas-clients/
+Allow: /levee-de-fonds/
+Allow: /equipe/
+Allow: /contact/
+Disallow: /api/
+Disallow: /.env
+
+User-agent: Google-Extended
+Crawl-delay: 0.1
+Allow: /
+Allow: /blog/
+Allow: /cas-clients/
+Allow: /levee-de-fonds/
+Allow: /equipe/
+Allow: /contact/
+Disallow: /api/
+Disallow: /.env
+
+# Règles pour Google
+User-agent: Googlebot
+Crawl-delay: 0.1
+Allow: /
+Allow: /blog/
+Allow: /cas-clients/
+Allow: /levee-de-fonds/
+Allow: /equipe/
+Allow: /contact/
+Disallow: /api/
+
+# Règles pour Bing
+User-agent: bingbot
+Crawl-delay: 0.1
+Allow: /
+Allow: /blog/
+Allow: /cas-clients/
+Allow: /levee-de-fonds/
+Allow: /equipe/
+Allow: /contact/
+Disallow: /api/
+
+# Règles pour les images
+User-agent: Googlebot-Image
+Allow: /
+Allow: /images/
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.gif$
+Allow: /*.png$
+Allow: /*.webp$
+Allow: /*.svg$
+
+# Règles pour les réseaux sociaux - Accès maximal
+User-agent: Twitterbot
+Allow: /
+Allow: /images/
+Allow: /blog/
+
+User-agent: facebookexternalhit
+Allow: /
+Allow: /images/
+Allow: /blog/
+
+# Sitemap
+Sitemap: https://uclic.fr/sitemap.xml
+
+# Host
+Host: https://uclic.fr 

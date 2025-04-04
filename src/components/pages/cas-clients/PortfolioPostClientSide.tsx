@@ -9,6 +9,7 @@ import ScrollToTop from '@/components/ui/ScrollToTop';
 import StickyShareButtons from '@/components/ui/StickyShareButtons';
 import { useEffect, useRef, useState } from 'react';
 import { formatDate, getPortfolios } from '@/services/wordpress';
+import '@/styles/wordpress-content.css';
 
 interface PortfolioPostProps {
   portfolio: {
@@ -188,20 +189,9 @@ export default function PortfolioPostClientSide({ portfolio }: PortfolioPostProp
     
     const articleContent = articleRef.current;
 
-    // Fonction utilitaire pour ajouter plusieurs classes
-    const addClasses = (element: Element, classes: string) => {
-      classes.split(' ').forEach(className => {
-        if (className) element.classList.add(className);
-      });
-    };
-
     // Traitement des images WordPress
     const images = articleContent.querySelectorAll('img');
     images.forEach(img => {
-      if (!img.classList.contains('rounded-xl')) {
-        addClasses(img, 'rounded-xl shadow-lg my-8 max-w-full h-auto');
-      }
-      
       if (img.parentElement?.tagName !== 'FIGURE' && !img.closest('figure')) {
         const parent = img.parentElement;
         const figure = document.createElement('figure');
@@ -222,7 +212,6 @@ export default function PortfolioPostClientSide({ portfolio }: PortfolioPostProp
         const parent = iframe.parentElement;
         if (parent) {
           parent.insertBefore(container, iframe);
-          addClasses(iframe, 'absolute inset-0 w-full h-full');
           container.appendChild(iframe);
         }
       }
@@ -231,7 +220,6 @@ export default function PortfolioPostClientSide({ portfolio }: PortfolioPostProp
     // Améliorer les tableaux
     const tables = articleContent.querySelectorAll('table');
     tables.forEach(table => {
-      addClasses(table, 'my-8 w-full border-collapse');
       if (!table.parentElement?.classList.contains('table-container')) {
         const container = document.createElement('div');
         container.className = 'table-container overflow-x-auto my-10 rounded-lg shadow-md';
@@ -241,94 +229,9 @@ export default function PortfolioPostClientSide({ portfolio }: PortfolioPostProp
           container.appendChild(table);
         }
       }
-
-      const headers = table.querySelectorAll('th');
-      headers.forEach(th => {
-        addClasses(th, 'bg-[#E0FF5C]/20 text-left p-4 font-semibold');
-      });
-
-      const cells = table.querySelectorAll('td');
-      cells.forEach(td => {
-        addClasses(td, 'p-4 border-t');
-        if (isDark) {
-          td.classList.add('border-white/10');
-        } else {
-          td.classList.add('border-black/10');
-        }
-      });
     });
 
-    // Améliorer les listes
-    const lists = articleContent.querySelectorAll('ul, ol');
-    lists.forEach(list => {
-      if (!list.classList.contains('pl-6')) {
-        addClasses(list, 'pl-6 my-8');
-        list.classList.add(list.tagName === 'UL' ? 'list-disc' : 'list-decimal');
-      }
-      
-      const items = list.querySelectorAll('li');
-      items.forEach(item => {
-        if (!item.classList.contains('mb-3')) {
-          addClasses(item, 'mb-3 pl-2');
-        }
-      });
-    });
-
-    // Améliorer les titres
-    const headings = articleContent.querySelectorAll('h2, h3, h4, h5, h6');
-    headings.forEach(heading => {
-      if (heading.tagName === 'H2') {
-        addClasses(heading, 'text-2xl md:text-3xl mt-16 mb-6 pb-2 font-medium');
-        if (isDark) {
-          addClasses(heading, 'border-b border-white/10');
-        } else {
-          addClasses(heading, 'border-b border-black/10');
-        }
-      } else if (heading.tagName === 'H3') {
-        addClasses(heading, 'text-xl md:text-2xl mt-12 mb-4 font-medium');
-      } else if (heading.tagName === 'H4') {
-        addClasses(heading, 'text-lg md:text-xl mt-8 mb-3 font-medium');
-      }
-    });
-
-    // Traiter les paragraphes
-    const paragraphs = articleContent.querySelectorAll('p');
-    paragraphs.forEach(p => {
-      if (!p.closest('li, blockquote, figure')) {
-        addClasses(p, 'mb-6 leading-relaxed text-base md:text-lg');
-        if (isDark) {
-          p.classList.add('text-white/90');
-        } else {
-          p.classList.add('text-black/80');
-        }
-      }
-    });
-
-    // Améliorer les citations
-    const quotes = articleContent.querySelectorAll('blockquote');
-    quotes.forEach(quote => {
-      addClasses(quote, 'border-l-4 pl-6 italic my-10 py-1 text-lg md:text-xl');
-      if (isDark) {
-        addClasses(quote, 'border-[#E0FF5C]/70 text-white/80');
-      } else {
-        addClasses(quote, 'border-[#E0FF5C]/70 text-black/70');
-      }
-    });
-
-    // Améliorer les liens
-    const links = articleContent.querySelectorAll('a');
-    links.forEach(link => {
-      if (!link.closest('figure, nav')) {
-        addClasses(link, 'font-medium transition-colors duration-200 underline decoration-1 underline-offset-2');
-        if (isDark) {
-          addClasses(link, 'text-[#E0FF5C] hover:text-[#E0FF5C]/80 decoration-[#E0FF5C]/30');
-        } else {
-          addClasses(link, 'text-[#E0FF5C] hover:text-[#E0FF5C]/80 decoration-[#E0FF5C]/30');
-        }
-      }
-    });
-
-  }, [portfolio.content, isDark]);
+  }, [portfolio.content]);
 
   return (
     <>
@@ -409,43 +312,19 @@ export default function PortfolioPostClientSide({ portfolio }: PortfolioPostProp
           )}
 
           {/* Content */}
-          <article
-            ref={articleRef}
-            className={cn(
-              "prose prose-lg max-w-none mb-16 mx-auto wp-content",
-              // Headings
-              "prose-headings:font-medium prose-headings:mb-6 prose-headings:leading-tight",
-              "prose-h1:text-3xl prose-h1:md:text-4xl prose-h1:font-bold prose-h1:mb-8 prose-h1:mt-16",
-              "prose-h2:text-2xl prose-h2:md:text-3xl prose-h2:mt-16 prose-h2:mb-6 prose-h2:pb-2",
-              isDark ? "prose-h2:border-b prose-h2:border-white/10" : "prose-h2:border-b prose-h2:border-black/10",
-              "prose-h3:text-xl prose-h3:md:text-2xl prose-h3:mt-12 prose-h3:mb-4",
-              "prose-h4:text-lg prose-h4:md:text-xl prose-h4:mt-8 prose-h4:mb-3 prose-h4:font-medium",
-              
-              // Paragraphs, lists and spacing
-              "prose-p:mb-6 prose-p:leading-relaxed prose-p:text-base md:prose-p:text-lg",
-              "prose-ul:pl-6 prose-ol:pl-6 prose-li:mb-3 prose-li:pl-2",
-              "prose-ul:my-8 prose-ol:my-8 prose-ul:list-disc prose-ol:list-decimal",
-              
-              // Quotes and special elements
-              "prose-blockquote:border-l-4 prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:my-10 prose-blockquote:py-1 prose-blockquote:text-lg md:prose-blockquote:text-xl",
-              
-              // Media
-              "prose-img:rounded-xl prose-img:shadow-lg prose-img:my-10",
-              
-              // Links and inline elements
-              "prose-a:font-medium prose-a:transition-colors prose-a:duration-200 prose-a:underline prose-a:decoration-1 prose-a:underline-offset-2",
-              "prose-pre:rounded-xl prose-pre:p-6 prose-pre:overflow-x-auto prose-pre:my-8 prose-pre:text-sm",
-              "prose-code:text-sm prose-code:rounded prose-code:px-1.5 prose-code:py-0.5",
-              "prose-strong:font-semibold prose-em:italic",
-              "prose-hr:my-16 prose-hr:border-t-2",
-              
-              // Theme specific styles
-              isDark 
-                ? "prose-invert prose-headings:text-white prose-headings:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] prose-p:text-white/90 prose-li:text-white/90 prose-a:text-[#E0FF5C] prose-a:hover:text-[#E0FF5C]/80 prose-a:decoration-[#E0FF5C]/30 prose-blockquote:border-[#E0FF5C]/70 prose-blockquote:text-white/80 prose-code:bg-white/10 prose-pre:bg-black/30 prose-hr:border-white/10" 
-                : "prose-h1:text-[#111] prose-h2:text-[#111] prose-h3:text-[#111] prose-h4:text-[#111] prose-h5:text-[#111] prose-h6:text-[#111] prose-headings:font-semibold prose-p:text-black/80 prose-li:text-black/80 prose-a:text-[#E0FF5C] prose-a:hover:text-[#E0FF5C]/80 prose-a:decoration-[#E0FF5C]/30 prose-blockquote:border-[#E0FF5C]/70 prose-blockquote:text-black/70 prose-code:bg-black/5 prose-pre:bg-black/5 prose-hr:border-black/10"
-            )}
-            dangerouslySetInnerHTML={{ __html: portfolio.content }}
-          />
+          <div className={cn(
+            "wp-content-wrapper overflow-hidden",
+            isDark ? "dark" : "light"
+          )}>
+            <article
+              ref={articleRef}
+              className={cn(
+                "max-w-none wp-content-styles",
+                isDark ? "dark" : "light"
+              )}
+              dangerouslySetInnerHTML={{ __html: portfolio.content }}
+            />
+          </div>
 
           {/* Share & Related Posts */}
           <div className={cn(

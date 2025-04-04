@@ -393,7 +393,7 @@ export async function getPageBySlug(slug: string): Promise<WordPressPage | null>
 
 export async function getLegalPages() {
   try {
-    const response = await fetch(`https://uclic.fr/graphql`, {
+    const response = await fetch(`https://api.uclic.fr/graphql`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -429,10 +429,26 @@ export async function getLegalPages() {
     const json = await response.json();
     console.log('GraphQL Response:', json);
 
+    interface PageType {
+      name: string;
+      slug: string;
+    }
+
+    interface LegalPage {
+      id: string;
+      title: string;
+      slug: string;
+      content: string;
+      status: string;
+      pagetypes?: {
+        nodes: PageType[];
+      };
+    }
+
     // Filtrer les pages qui ont le pagetype "legal"
-    const legalPages = json.data?.pages?.nodes?.filter(page => 
+    const legalPages = json.data?.pages?.nodes?.filter((page: LegalPage) => 
       page.status === 'publish' && 
-      page.pagetypes?.nodes?.some(type => type.slug === 'legal')
+      page.pagetypes?.nodes?.some((type: PageType) => type.slug === 'legal')
     ) || [];
 
     return legalPages;
@@ -445,7 +461,7 @@ export async function getLegalPages() {
 // Ajouter cette fonction pour récupérer les testimonials
 export async function getTestimonials() {
   try {
-    const response = await fetch('https://uclic.fr/graphql', {
+    const response = await fetch('https://api.uclic.fr/graphql', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -494,7 +510,7 @@ export async function getTestimonials() {
 
 export async function getPortfolios() {
   try {
-    const response = await fetch('https://uclic.fr/graphql', {
+    const response = await fetch('https://api.uclic.fr/graphql', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -544,7 +560,7 @@ export async function getPortfolios() {
 
 export async function getPortfolioBySlug(slug: string) {
   try {
-    const response = await fetch('https://uclic.fr/graphql', {
+    const response = await fetch('https://api.uclic.fr/graphql', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

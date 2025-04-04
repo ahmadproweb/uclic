@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import { MarqueeClient } from './MarqueeClient';
 import Link from 'next/link';
+import { getExpertisesByCategory } from '@/lib/wordpress';
 
 interface ServiceLink {
   text: string;
@@ -8,27 +9,7 @@ interface ServiceLink {
   description: string;
 }
 
-// Données structurées pour les services avec descriptions SEO
-const services: ServiceLink[] = [
-  { text: "Growth Hacking", href: "/services/growth-hacking", description: "Stratégies de croissance rapide et acquisition client innovante" },
-  { text: "Marketing Automation", href: "/services/marketing-automation", description: "Automatisation des processus marketing pour plus d'efficacité" },
-  { text: "Lead Generation", href: "/services/lead-generation", description: "Génération de prospects qualifiés et conversion optimisée" },
-  { text: "Social Selling", href: "/services/social-selling", description: "Vente sociale et développement de réseau professionnel" },
-  { text: "Content Marketing", href: "/services/content-marketing", description: "Création de contenu stratégique et marketing de contenu" },
-  { text: "AI Copywriting", href: "/services/ai-copywriting", description: "Rédaction optimisée par l'intelligence artificielle" },
-  { text: "Sales Automation", href: "/services/sales-automation", description: "Automatisation des processus de vente et CRM" },
-  { text: "Outbound & AI", href: "/services/outbound-ai", description: "Prospection assistée par l'IA et outbound marketing" },
-  { text: "Digital Strategy", href: "/services/digital-strategy", description: "Stratégie digitale globale et transformation numérique" },
-  { text: "SEO Optimization", href: "/services/seo", description: "Optimisation pour les moteurs de recherche et visibilité web" },
-  { text: "Email Marketing", href: "/services/email-marketing", description: "Campagnes email personnalisées et automation marketing" },
-  { text: "Conversion Rate", href: "/services/conversion-rate", description: "Optimisation du taux de conversion et UX" },
-  { text: "Data Analytics", href: "/services/data-analytics", description: "Analyse de données et insights business" },
-  { text: "Brand Strategy", href: "/services/brand-strategy", description: "Stratégie de marque et positionnement" },
-  { text: "Marketing AI", href: "/services/marketing-ai", description: "Solutions marketing basées sur l'intelligence artificielle" },
-  { text: "Social Media", href: "/services/social-media", description: "Gestion des réseaux sociaux et stratégie social media" }
-] as const;
-
-const ServicesList = memo(function ServicesList() {
+const ServicesList = memo(function ServicesList({ services }: { services: ServiceLink[] }) {
   return (
     <nav className="sr-only" aria-label="Services navigation">
       <h2>Nos services marketing</h2>
@@ -47,14 +28,50 @@ const ServicesList = memo(function ServicesList() {
 
 ServicesList.displayName = 'ServicesList';
 
-export default memo(function MarqueeText() {
+async function getMarqueeServices() {
+  // Récupérer les expertises pour les deux catégories
+  const [aiServices, growthServices] = await Promise.all([
+    getExpertisesByCategory('agence-intelligence-artificielle'),
+    getExpertisesByCategory('growth-marketing')
+  ]);
+
+  // Transformer les expertises en format ServiceLink
+  const formatExpertise = (expertise: any, category: string): ServiceLink => ({
+    text: expertise.title,
+    href: `/expertise/${category}/${expertise.slug}`,
+    description: expertise.expertiseFields?.subtitle || expertise.title // Utiliser le sous-titre ou le titre si pas de sous-titre
+  });
+
+  // Formater les services
+  const aiServiceLinks = aiServices.map(exp => formatExpertise(exp, 'agence-intelligence-artificielle'));
+  const growthServiceLinks = growthServices.map(exp => formatExpertise(exp, 'growth-marketing'));
+
+  // Log pour debug
+  console.log('AI Services:', aiServices);
+  console.log('Growth Services:', growthServices);
+
+  return {
+    aiServiceLinks,
+    growthServiceLinks
+  };
+}
+
+export default async function MarqueeText() {
+  const { aiServiceLinks, growthServiceLinks } = await getMarqueeServices();
+  
+  // Créer deux lignes de services
+  const firstLineServices = [...aiServiceLinks, ...growthServiceLinks.slice(0, Math.floor(growthServiceLinks.length / 2))];
+  const secondLineServices = [...growthServiceLinks.slice(Math.floor(growthServiceLinks.length / 2))];
+
+  const allServices = [...firstLineServices, ...secondLineServices];
+
   return (
     <section 
       className="w-full bg-white dark:bg-black overflow-hidden py-8 will-change-transform"
       aria-label="Nos services marketing"
     >
-      <ServicesList />
-      <MarqueeClient words={services} />
+      <ServicesList services={allServices} />
+      <MarqueeClient firstLine={firstLineServices} secondLine={secondLineServices} />
     </section>
   );
-}); 
+}; 

@@ -225,7 +225,7 @@ export interface AuthorResponse {
 
 export async function fetchTeamData(): Promise<TeamMember[]> {
   try {
-    const response = await fetch(`https://uclic.fr/graphql`, {
+    const response = await fetch(`https://api.uclic.fr/graphql`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -424,7 +424,7 @@ export async function getTeamMembers(): Promise<TeamMember[]> {
 
 async function fetchAPI(query: string, { variables }: { variables?: { [key: string]: string | number | boolean | null } } = {}) {
   try {
-    const res = await fetch('https://uclic.fr/graphql', {
+    const res = await fetch('https://api.uclic.fr/graphql', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

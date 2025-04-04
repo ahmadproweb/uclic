@@ -10,12 +10,27 @@ import { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic'; // Ensure fresh data on each request
 
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: `Blog - UCLIC`,
-    description: `Découvrez nos dernières actualités et conseils pour améliorer votre présence digitale`,
-  };
-}
+export const metadata = {
+  title: "Blog Growth Marketing & Sales | Conseils d'Experts | Uclic",
+  description: "Articles et conseils d'experts en Growth Marketing, Sales Ops et Product Marketing. Découvrez nos stratégies data-driven pour optimiser votre croissance.",
+  alternates: {
+    canonical: 'https://uclic.fr/blog'
+  },
+  openGraph: {
+    title: "Blog Growth Marketing & Sales | Conseils d'Experts | Uclic",
+    description: "Articles et conseils d'experts en Growth Marketing, Sales Ops et Product Marketing. Découvrez nos stratégies data-driven pour optimiser votre croissance.",
+    url: 'https://uclic.fr/blog',
+    type: "website",
+    locale: "fr_FR",
+    siteName: "Uclic",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog Growth Marketing & Sales | Conseils d'Experts | Uclic",
+    description: "Articles et conseils d'experts en Growth Marketing, Sales Ops et Product Marketing. Découvrez nos stratégies data-driven pour optimiser votre croissance.",
+    site: "@uclic_fr"
+  }
+};
 
 // Définis le paramètre de page pour l'URL
 interface BlogPageProps {

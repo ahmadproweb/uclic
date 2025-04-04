@@ -3,8 +3,25 @@ import { getExpertiseCategories } from '@/lib/wordpress';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Nos Expertises | Uclic',
-  description: 'Découvrez nos expertises en création de site web, branding, et développement digital.',
+  title: "Expertise Growth Marketing & Sales | Freelances Certifiés | Uclic",
+  description: "Découvrez nos expertises en Growth Marketing, Sales Ops et Product Marketing. Une équipe de freelances certifiés pour optimiser votre croissance et vos processus commerciaux.",
+  alternates: {
+    canonical: 'https://uclic.fr/expertise'
+  },
+  openGraph: {
+    title: "Expertise Growth Marketing & Sales | Freelances Certifiés | Uclic",
+    description: "Découvrez nos expertises en Growth Marketing, Sales Ops et Product Marketing. Une équipe de freelances certifiés pour optimiser votre croissance et vos processus commerciaux.",
+    url: 'https://uclic.fr/expertise',
+    type: "website",
+    locale: "fr_FR",
+    siteName: "Uclic",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Expertise Growth Marketing & Sales | Freelances Certifiés | Uclic",
+    description: "Découvrez nos expertises en Growth Marketing, Sales Ops et Product Marketing. Une équipe de freelances certifiés pour optimiser votre croissance et vos processus commerciaux.",
+    site: "@uclic_fr"
+  }
 };
 
 export default async function ExpertisePage() {
@@ -43,6 +60,47 @@ export default async function ExpertisePage() {
           <p className="text-base md:text-lg text-gray-700 dark:text-gray-300">
             Explorez nos solutions innovantes et notre<br/>savoir-faire technologique
           </p>
+        </div>
+
+        {/* Freelance Section */}
+        <div className="mb-16 md:mb-24 bg-white dark:bg-black/40 rounded-3xl p-8 md:p-12">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-gray-900 dark:text-white">
+                Freelances Certifiés en<br/>
+                <span className="text-[#E0FF5C] dark:text-[#E0FF5C]">Growth Marketing & Sales</span>
+              </h2>
+              <p className="text-gray-600 dark:text-gray-400 mb-6">
+                Notre équipe de freelances experts combine expertise technique et vision stratégique pour maximiser votre croissance. Certifiés par les plus grands acteurs du marché, ils maîtrisent les derniers outils et méthodologies du Growth Marketing.
+              </p>
+              <ul className="space-y-3">
+                {[
+                  "Growth Marketing & Automation",
+                  "Sales Operations & CRM",
+                  "Product Marketing & Analytics",
+                  "Performance Marketing & Paid Acquisition",
+                  "Marketing Automation & Lead Generation"
+                ].map((skill, index) => (
+                  <li key={index} className="flex items-center gap-3 text-gray-700 dark:text-gray-300">
+                    <svg className="w-5 h-5 text-[#E0FF5C]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    {skill}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="relative">
+              <div className="aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-[#E0FF5C] to-[#c7e052]">
+                <div className="absolute inset-0 bg-gray-900/10 dark:bg-black/20" />
+                {/* Vous pouvez ajouter une image ici si nécessaire */}
+              </div>
+              <div className="absolute -bottom-6 -right-6 bg-white dark:bg-black/60 rounded-2xl p-6 shadow-xl">
+                <div className="text-4xl font-bold text-[#E0FF5C] mb-2">+50</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Freelances<br/>certifiés</div>
+              </div>
+            </div>
+          </div>
         </div>
       
         {/* Categories Grid */}

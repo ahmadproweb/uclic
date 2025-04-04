@@ -2,14 +2,25 @@ import { Metadata } from 'next';
 import AboutContent from '@/components/pages/about/AboutContent';
 
 export const metadata: Metadata = {
-  title: 'À propos - Uclic | Notre histoire et notre équipe',
-  description: 'Découvrez l\'histoire d\'Uclic, notre mission et notre équipe passionnée. Nous accompagnons les entreprises dans leur transformation numérique avec expertise et innovation.',
-  openGraph: {
-    title: 'À propos - Uclic | Notre histoire et notre équipe',
-    description: 'Découvrez l\'histoire d\'Uclic, notre mission et notre équipe passionnée. Nous accompagnons les entreprises dans leur transformation numérique avec expertise et innovation.',
-    type: 'website',
-    locale: 'fr_FR',
+  title: "À Propos | Freelances Growth & Sales Ops | Uclic",
+  description: "Découvrez l'équipe de freelances experts en Growth Marketing, Sales Ops et Product Marketing. Une approche data-driven pour maximiser votre croissance.",
+  alternates: {
+    canonical: 'https://uclic.fr/about'
   },
+  openGraph: {
+    title: "À Propos | Freelances Growth & Sales Ops | Uclic",
+    description: "Découvrez l'équipe de freelances experts en Growth Marketing, Sales Ops et Product Marketing. Une approche data-driven pour maximiser votre croissance.",
+    url: 'https://uclic.fr/about',
+    type: "website",
+    locale: "fr_FR",
+    siteName: "Uclic",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "À Propos | Freelances Growth & Sales Ops | Uclic",
+    description: "Découvrez l'équipe de freelances experts en Growth Marketing, Sales Ops et Product Marketing. Une approche data-driven pour maximiser votre croissance.",
+    site: "@uclic_fr"
+  }
 };
 
 export default function AboutPage() {
