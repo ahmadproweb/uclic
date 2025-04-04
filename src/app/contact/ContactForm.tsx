@@ -193,7 +193,7 @@ export default function ContactForm() {
                             isDark ? "text-white hover:text-white" : "text-black hover:text-black"
                           )}
                         >
-                          +33 1 23 45 67 89
+                            06 17 12 54 28
                         </a>
                       </div>
                     </div>
