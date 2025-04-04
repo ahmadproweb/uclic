@@ -7,7 +7,6 @@ import { ClientPulseEffect } from './ClientPulseEffect';
 import { UnderlinedText } from '@/components/ui/underlined-text';
 import { cn } from "@/lib/utils";
 import { memo } from 'react';
-import { GradientPulse } from './GradientPulse';
 
 const PlusIcon = memo(function PlusIcon() {
   return (
@@ -25,46 +24,11 @@ export default function Services() {
   return (
     <section 
       id="services" 
-      className="w-full py-0 pb-16 md:py-20 md:pb-16 relative overflow-hidden bg-[#f4f4f0] dark:bg-black/95 animate-pulse-bg"
+      className="w-full py-0 pb-16 md:py-20 md:pb-16 relative overflow-hidden bg-[#f4f4f0] dark:bg-black/95"
       aria-labelledby="services-title"
     >
-      <style jsx>{`
-        @keyframes pulse-light {
-          0% {
-            background-color: rgb(244, 244, 240);
-          }
-          50% {
-            background-color: rgb(240, 240, 236);
-          }
-          100% {
-            background-color: rgb(244, 244, 240);
-          }
-        }
-        
-        :global(.dark) section {
-          animation-name: pulse-light-dark;
-        }
-        
-        @keyframes pulse-light-dark {
-          0% {
-            background-color: rgba(0, 0, 0, 0.95);
-          }
-          50% {
-            background-color: rgba(0, 0, 0, 0.97);
-          }
-          100% {
-            background-color: rgba(0, 0, 0, 0.95);
-          }
-        }
-        
-        section {
-          animation: pulse-light 4s ease-in-out infinite;
-        }
-      `}</style>
-
       <PlusIcon />
       <ClientPulseEffect />
-      <GradientPulse />
       
       <h2 
         id="services-title"
@@ -78,25 +42,26 @@ export default function Services() {
       >
         Rapide, flexible
         <span className="block">
-          et incroyablement{' '}
+          et incroyablement efficace
         </span>
+        
       </h2>
       
-      <ul 
-        className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 list-none"
+      <div 
+        className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6"
+        role="list"
       >
         {serviceData.map((service, index) => (
-          <li key={service.title}>
-            <ServiceCard 
-              {...service}
-              theme={theme}
-              priority={index < 3}
-              className="transform-gpu"
-              style={{ willChange: 'transform' }}
-            />
-          </li>
+          <ServiceCard 
+            key={service.title}
+            {...service}
+            theme={theme}
+            priority={index < 3}
+            className="transform-gpu"
+            style={{ willChange: 'transform' }}
+          />
         ))}
-      </ul>
+      </div>
 
       <div 
         className="fixed inset-0 w-full h-full opacity-20 mix-blend-overlay pointer-events-none"
