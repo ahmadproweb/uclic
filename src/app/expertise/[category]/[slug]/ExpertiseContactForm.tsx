@@ -72,7 +72,7 @@ export default function ExpertiseContactForm() {
 
     try {
       const result = await emailjs.send(
-        'service_gxm9sft',
+        'service_8tp0bod',
         'template_jkryos1',
         {
           name: formData.get('name'),
