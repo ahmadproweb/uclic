@@ -38,7 +38,7 @@ export function ServiceCard({ service, isMobile, onSelect }: ServiceCardProps) {
         className={cn(
           "group h-full",
           isMobile ? "w-full" : "w-full",
-          "px-6 py-6 relative rounded-xl transition-all duration-300 hover:transform hover:scale-[1.02]",
+          "px-6 py-6 relative rounded-xl hover:scale-[1.02]",
           isAICard
             ? "bg-[#E0FF5C] hover:bg-[#E2FF47]"
             : isDark 
@@ -79,12 +79,12 @@ export function ServiceCard({ service, isMobile, onSelect }: ServiceCardProps) {
                     href={`/expertise/${service.slug}/${item.href.split('/').pop()}`}
                     onClick={(e) => handleNavigation(e, `/expertise/${service.slug}/${item.href.split('/').pop()}`)}
                     className={cn(
-                      "text-sm block hover:underline transition-colors duration-200 truncate",
+                      "text-sm block truncate font-normal",
                       isAICard
-                        ? "text-black/70 hover:text-black"
+                        ? "text-black/70 hover:text-black hover:font-semibold"
                         : isDark 
-                          ? "text-white/70 group-hover:text-black/70 hover:text-black" 
-                          : "text-black/70 group-hover:text-black/70 hover:text-black"
+                          ? "text-white group-hover:text-black hover:text-black hover:font-semibold" 
+                          : "text-black group-hover:text-black hover:font-semibold"
                     )}
                     title={item.title}
                   >
@@ -98,7 +98,7 @@ export function ServiceCard({ service, isMobile, onSelect }: ServiceCardProps) {
           <div className="mt-auto pt-4">
             <ArrowIcon 
               className={cn(
-                "w-6 h-6 transition-transform duration-300 group-hover:translate-x-1",
+                "w-6 h-6 group-hover:translate-x-1",
                 isAICard
                   ? "text-black"
                   : isDark 

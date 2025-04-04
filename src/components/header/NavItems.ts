@@ -4,28 +4,28 @@ export const navItems: NavItem[] = [
   { 
     label: "À propos", 
     href: "/a-propos",
-    className: "text-base font-medium cursor-pointer flex items-center text-gray-900 hover:text-[#E0FF5C] dark:text-white dark:hover:text-[#E0FF5C]"
+    className: "text-base font-semibold cursor-pointer flex items-center text-gray-900 hover:text-[#E0FF5C] dark:text-white dark:hover:text-[#E0FF5C]"
   },
   { 
     label: "Nos expertises", 
     href: "/services", 
     hasMegaMenu: true,
-    className: "text-base font-medium cursor-pointer flex items-center text-gray-900 hover:text-[#9FB832] dark:text-white dark:hover:text-[#E0FF5C]" 
+    className: "text-base font-semibold cursor-pointer flex items-center text-gray-900 hover:text-[#9FB832] dark:text-white dark:hover:text-[#E0FF5C]" 
   },
   { 
     label: "Cas clients", 
     href: "/cas-clients",
-    className: "text-base font-medium cursor-pointer flex items-center text-gray-900 hover:text-[#E0FF5C] dark:text-white dark:hover:text-[#E0FF5C]"
+    className: "text-base font-semibold cursor-pointer flex items-center text-gray-900 hover:text-[#E0FF5C] dark:text-white dark:hover:text-[#E0FF5C]"
   },
   { 
     label: "Blog", 
     href: "/blog",
-    className: "text-base font-medium cursor-pointer flex items-center text-gray-900 hover:text-[#E0FF5C] dark:text-white dark:hover:text-[#E0FF5C]"
+    className: "text-base font-semibold cursor-pointer flex items-center text-gray-900 hover:text-[#E0FF5C] dark:text-white dark:hover:text-[#E0FF5C]"
   },
   { 
     label: "Contact", 
     href: "/contact",
-    className: "text-base font-medium cursor-pointer flex items-center text-gray-900 hover:text-[#E0FF5C] dark:text-white dark:hover:text-[#E0FF5C]"
+    className: "text-base font-semibold cursor-pointer flex items-center text-gray-900 hover:text-[#E0FF5C] dark:text-white dark:hover:text-[#E0FF5C]"
   }
 ];
 
@@ -35,12 +35,12 @@ export const serviceItems: ServiceItem[] = [
     slug: "seo",
     description: "Lorem ipsum dolor sit amet consectetur adipiscing elit ut elit",
     items: [
-      "Audit SEO complet",
-      "Optimisation on-page",
-      "Netlinking qualitatif",
-      "SEO local et national",
-      "SEO technique avancé",
-      "Suivi et reporting mensuel"
+      { title: "Audit SEO complet", href: "/expertise/seo/audit-seo" },
+      { title: "Optimisation on-page", href: "/expertise/seo/optimisation-on-page" },
+      { title: "Netlinking qualitatif", href: "/expertise/seo/netlinking" },
+      { title: "SEO local et national", href: "/expertise/seo/seo-local-national" },
+      { title: "SEO technique avancé", href: "/expertise/seo/seo-technique" },
+      { title: "Suivi et reporting mensuel", href: "/expertise/seo/suivi-reporting" }
     ],
     isHighlighted: true
   },
@@ -49,12 +49,12 @@ export const serviceItems: ServiceItem[] = [
     slug: "sea",
     description: "Lorem ipsum dolor sit amet consectetur adipiscing elit ut elit",
     items: [
-      "Google Ads",
-      "Facebook Ads",
-      "LinkedIn Ads",
-      "Remarketing",
-      "Analytics et tracking",
-      "Optimisation ROI"
+      { title: "Google Ads", href: "/expertise/sea/google-ads" },
+      { title: "Facebook Ads", href: "/expertise/sea/facebook-ads" },
+      { title: "LinkedIn Ads", href: "/expertise/sea/linkedin-ads" },
+      { title: "Remarketing", href: "/expertise/sea/remarketing" },
+      { title: "Analytics et tracking", href: "/expertise/sea/analytics" },
+      { title: "Optimisation ROI", href: "/expertise/sea/optimisation-roi" }
     ],
     isHighlighted: false
   },
@@ -63,12 +63,12 @@ export const serviceItems: ServiceItem[] = [
     slug: "data",
     description: "Lorem ipsum dolor sit amet consectetur adipiscing elit ut elit",
     items: [
-      "Analyse de données",
-      "Data visualisation",
-      "Machine Learning",
-      "Prédictions marketing",
-      "Segmentation client",
-      "Reporting automatisé"
+      { title: "Analyse de données", href: "/expertise/data/analyse" },
+      { title: "Data visualisation", href: "/expertise/data/visualisation" },
+      { title: "Machine Learning", href: "/expertise/data/machine-learning" },
+      { title: "Prédictions marketing", href: "/expertise/data/predictions" },
+      { title: "Segmentation client", href: "/expertise/data/segmentation" },
+      { title: "Reporting automatisé", href: "/expertise/data/reporting" }
     ],
     isHighlighted: false
   },
@@ -77,12 +77,12 @@ export const serviceItems: ServiceItem[] = [
     slug: "automation",
     description: "Lorem ipsum dolor sit amet consectetur adipiscing elit ut elit",
     items: [
-      "Marketing automation",
-      "Workflows automatisés",
-      "Intégration CRM",
-      "Email automation",
-      "Scénarios personnalisés",
-      "Optimisation processus"
+      { title: "Marketing automation", href: "/expertise/automation/marketing" },
+      { title: "Workflows automatisés", href: "/expertise/automation/workflows" },
+      { title: "Intégration CRM", href: "/expertise/automation/crm" },
+      { title: "Email automation", href: "/expertise/automation/email" },
+      { title: "Scénarios personnalisés", href: "/expertise/automation/scenarios" },
+      { title: "Optimisation processus", href: "/expertise/automation/optimisation" }
     ],
     isHighlighted: false
   },
@@ -91,12 +91,12 @@ export const serviceItems: ServiceItem[] = [
     slug: "crm",
     description: "Lorem ipsum dolor sit amet consectetur adipiscing elit ut elit",
     items: [
-      "Implémentation CRM",
-      "Formation équipes",
-      "Personnalisation",
-      "Intégration outils",
-      "Support technique",
-      "Maintenance évolutive"
+      { title: "Implémentation CRM", href: "/expertise/crm/implementation" },
+      { title: "Formation équipes", href: "/expertise/crm/formation" },
+      { title: "Personnalisation", href: "/expertise/crm/personnalisation" },
+      { title: "Intégration outils", href: "/expertise/crm/integration" },
+      { title: "Support technique", href: "/expertise/crm/support" },
+      { title: "Maintenance évolutive", href: "/expertise/crm/maintenance" }
     ],
     isHighlighted: false
   }

@@ -40,7 +40,7 @@ const LeftContent = memo(({ isDark }: { isDark: boolean }) => (
 LeftContent.displayName = 'LeftContent';
 
 const RightContent = memo(() => (
-  <div className="relative h-full min-h-[400px] md:min-h-full bg-black rounded-br-[32px] rounded-tr-[32px]">
+  <div className="relative h-full min-h-[400px] md:min-h-full bg-black rounded-br-[32px] rounded-tr-[32px] z-10">
     <svg 
       width="450" 
       height="100%" 
@@ -69,6 +69,8 @@ const RightContent = memo(() => (
       />
     </svg>
     
+    <div className="absolute inset-0 bg-black rounded-br-[32px] rounded-tr-[32px]" />
+    
     <img
       src="/man-516x378.webp"
       alt="Notre équipe"
@@ -88,7 +90,7 @@ function PreFooter({ noBgGradient = false }: PreFooterProps) {
 
   return (
     <section className="w-full bg-black rounded-[32px]">
-      <div className="max-w-[1250px] bg-black mx-auto grid grid-cols-1 md:grid-cols-2 items-center">
+      <div className="max-w-[1250px] mx-auto grid grid-cols-1 md:grid-cols-2 items-center">
         <LeftContent isDark={isDark} />
         <RightContent />
       </div>

@@ -42,7 +42,7 @@ export default function VideoPopup() {
       <div 
         className={cn(
           "fixed inset-0 transition-colors duration-300",
-          isDark ? "bg-black/60" : "bg-white/60"
+          isDark ? "bg-black/90" : "bg-white/90"
         )}
         onClick={closeVideoPopup}
       />
@@ -63,8 +63,8 @@ export default function VideoPopup() {
       
       {/* Content with backdrop blur */}
       <div className={cn(
-        "relative w-full max-w-4xl p-6 md:p-8 rounded-2xl border backdrop-blur-xl transition-all duration-300",
-        isDark ? "bg-black/40 border-white/10" : "bg-white/40 border-black/5",
+        "relative w-full max-w-4xl p-6 md:p-8 rounded-2xl border backdrop-blur-2xl transition-all duration-300",
+        isDark ? "bg-black/80 border-white/10" : "bg-white/80 border-black/5",
         "shadow-[0_0_30px_-15px_rgba(0,0,0,0.3)] dark:shadow-[0_0_30px_-15px_rgba(255,255,255,0.3)]"
       )}>
         {/* Close button */}

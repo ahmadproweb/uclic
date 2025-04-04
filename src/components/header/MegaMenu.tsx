@@ -49,15 +49,30 @@ export function MegaMenu({ isOpen, onMouseLeave }: MegaMenuProps) {
     <div 
       className={cn(
         "fixed top-24 left-0 right-0 w-full z-40",
-        "max-h-[calc(100vh-8rem)] overflow-hidden",
-        isOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"
+        isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
       )}
-      onMouseLeave={onMouseLeave}
+      onMouseEnter={(e) => {
+        e.stopPropagation();
+      }}
     >
-      <div className="max-w-[1400px] mx-auto px-4 h-full">
+      <div className="max-w-[1400px] mx-auto px-4 h-full relative mt-2">
+        {/* Zones de détection latérales et inférieure */}
+        <div 
+          className="absolute -left-4 top-0 w-4 h-full"
+          onMouseEnter={onMouseLeave}
+        />
+        <div 
+          className="absolute -right-4 top-0 w-4 h-full"
+          onMouseEnter={onMouseLeave}
+        />
+        <div 
+          className="absolute -bottom-4 left-0 w-full h-4"
+          onMouseEnter={onMouseLeave}
+        />
+        
         <div 
           className={cn(
-            "backdrop-blur-xl shadow-2xl border rounded-[15px]",
+            "backdrop-blur-2xl shadow-2xl border rounded-[15px]",
             "max-h-[calc(100vh-9rem)] overflow-y-auto",
             "scrollbar-thin scrollbar-track-transparent",
             isDark ? [
