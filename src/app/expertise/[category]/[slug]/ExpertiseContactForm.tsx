@@ -76,7 +76,7 @@ export default function ExpertiseContactForm() {
         'template_jkryos1',
         {
           from_name: formData.get('name'),
-          from_email: '8992d3001@smtp-brevo.com',
+          from_email: formData.get('email'),
           phone: formData.get('phone'),
           message: formData.get('message'),
           to_email: 'wladimir@uclic.fr',
