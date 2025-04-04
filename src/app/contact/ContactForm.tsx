@@ -59,7 +59,7 @@ export default function ContactForm() {
           from_name: formData.get('name'),
           from_email: formData.get('email'),
           message: formData.get('message'),
-          to_email: 'wladimir@uclic.fr',
+          to_email: 'nicolassung01@gmail.com',
         },
         'sNJezWZbNlGM1x_Pe'
       );
