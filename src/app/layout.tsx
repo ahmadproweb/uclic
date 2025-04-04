@@ -8,6 +8,7 @@ import Script from "next/script";
 import { SpotifyPlayerProvider } from '@/components/providers/SpotifyPlayerProvider';
 import { VideoPopupProvider } from '@/context/VideoPopupContext';
 import VideoPopup from '@/components/ui/VideoPopup';
+import HubspotChat from '@/components/ui/HubspotChat';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -150,6 +151,7 @@ export default function RootLayout({
                 {children}
                 <Footer />
                 <VideoPopup />
+                <HubspotChat />
               </div>
             </SpotifyPlayerProvider>
           </VideoPopupProvider>

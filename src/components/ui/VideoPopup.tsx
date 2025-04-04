@@ -38,22 +38,42 @@ export default function VideoPopup() {
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 md:p-8">
-      {/* Overlay with stronger blur and opacity */}
+      {/* Base Background gradient */}
       <div 
-        className="fixed inset-0 bg-black/95 backdrop-blur-xl"
+        className={cn(
+          "fixed inset-0 transition-colors duration-300",
+          isDark ? "bg-black/90" : "bg-white/90"
+        )}
+        onClick={closeVideoPopup}
+      />
+
+      {/* Grain effect overlay */}
+      <div 
+        className={cn(
+          "fixed inset-0 mix-blend-soft-light transition-opacity duration-300",
+          isDark ? "opacity-90" : "opacity-50"
+        )}
+        style={{
+          backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.7\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\' opacity=\'0.8\'/%3E%3C/svg%3E")',
+          backgroundRepeat: 'repeat',
+          backgroundSize: '100px 100px'
+        }}
         onClick={closeVideoPopup}
       />
       
-      {/* Content with stronger contrast */}
-      <div className="relative bg-black rounded-2xl w-full max-w-4xl p-6 md:p-8 shadow-2xl border border-white/10">
+      {/* Content with backdrop blur */}
+      <div className={cn(
+        "relative w-full max-w-4xl p-6 md:p-8 rounded-2xl border backdrop-blur-2xl transition-all duration-300",
+        isDark ? "bg-black/80 border-white/10" : "bg-white/80 border-black/5",
+        "shadow-[0_0_30px_-15px_rgba(0,0,0,0.3)] dark:shadow-[0_0_30px_-15px_rgba(255,255,255,0.3)]"
+      )}>
         {/* Close button */}
         <button 
           onClick={closeVideoPopup}
           className={cn(
-            "absolute -top-4 -right-4 p-2 rounded-full bg-white hover:bg-white/90",
-            "text-black",
-            "transition-colors duration-200",
-            "shadow-xl"
+            "absolute -top-4 -right-4 p-2 rounded-full",
+            "transition-colors duration-200 shadow-xl",
+            isDark ? "bg-white text-black hover:bg-white/90" : "bg-black text-white hover:bg-black/90"
           )}
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -64,13 +84,19 @@ export default function VideoPopup() {
 
         {/* Title with better visibility */}
         <div className="mb-6">
-          <h2 className="text-white text-xl md:text-2xl font-semibold">
+          <h2 className={cn(
+            "text-xl md:text-2xl font-semibold",
+            isDark ? "text-white" : "text-black"
+          )}>
             {title}
           </h2>
         </div>
 
         {/* Video container with better contrast */}
-        <div className="relative rounded-xl overflow-hidden bg-black border border-white/10">
+        <div className={cn(
+          "relative rounded-xl overflow-hidden border",
+          isDark ? "bg-black/60 border-white/10" : "bg-white/60 border-black/5"
+        )}>
           <div className="aspect-video">
             <iframe
               src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}

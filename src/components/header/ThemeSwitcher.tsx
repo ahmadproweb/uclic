@@ -11,7 +11,7 @@ export default function ThemeSwitcher() {
     <button
       onClick={toggleTheme}
       className={cn(
-        "p-2 rounded-full transition-colors",
+        "p-2 rounded-full",
         isDark 
           ? "text-white hover:bg-white/10" 
           : "text-black hover:bg-black/10"

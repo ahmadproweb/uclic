@@ -32,11 +32,11 @@
 }
 
 .animate-marquee-left {
-  animation: scroll-left 40s linear infinite;
+  animation: scroll-left 6000s linear infinite;
 }
 
 .animate-marquee-right {
-  animation: scroll-right 40s linear infinite;
+  animation: scroll-right 6000s linear infinite;
 }
 
 @keyframes scroll-left {
@@ -44,13 +44,13 @@
     transform: translateX(0);
   }
   to {
-    transform: translateX(-50%);
+    transform: translateX(calc(-100% - var(--gap)));
   }
 }
 
 @keyframes scroll-right {
   from {
-    transform: translateX(-50%);
+    transform: translateX(calc(-100% - var(--gap)));
   }
   to {
     transform: translateX(0);

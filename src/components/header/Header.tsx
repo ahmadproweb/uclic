@@ -20,6 +20,7 @@ const HeaderCTA = memo(({ isDark }: { isDark: boolean }) => (
     href="/audit" 
     variant={isDark ? "mainCTA" : "shiny"}
     ariaLabel="Demander un audit gratuit"
+    className="!transition-none"
   >
     Audit Gratuit
   </CTAButton>
@@ -38,7 +39,7 @@ const MobileMenuButton = memo(({
 }) => (
   <button 
     className={cn(
-      "md:hidden relative z-50 p-2 transition-colors",
+      "md:hidden relative z-50 p-2",
       isMobileMenuOpen && "fixed right-6 top-6",
       isDark ? "text-white hover:text-[#00E6A7]" : "text-black/80 hover:text-[#00E6A7]"
     )}
@@ -47,7 +48,7 @@ const MobileMenuButton = memo(({
   >
     <i 
       className={cn(
-        "text-2xl transition-transform duration-300",
+        "text-2xl",
         isMobileMenuOpen ? "ri-close-line" : "ri-menu-line"
       )}
       aria-hidden="true"
@@ -122,14 +123,14 @@ const Header = () => {
     <div 
       className={cn(
         "fixed top-0 left-0 right-0 z-50 px-4 py-4",
-        "transition-transform duration-300 transform",
+        "transform",
         "will-change-transform"
       )} 
       ref={headerRef}
     >
       <header 
         className={cn(
-          "max-w-7xl mx-auto rounded-2xl transition-all duration-300",
+          "max-w-7xl mx-auto rounded-2xl",
           "border backdrop-blur-md",
           "will-change-[background-color,box-shadow]",
           isScrolled ? "py-3 px-6" : "py-4 px-8",

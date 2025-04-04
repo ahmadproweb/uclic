@@ -88,6 +88,7 @@ export default function ExpertiseBenefits({
               "rounded-[32px] p-10 relative overflow-hidden h-full bg-[#E0FF5C] backdrop-blur-md shadow-service transform-gpu transition-all duration-500 ease-out hover:-translate-y-4 group"
             )}
             style={{ willChange: 'transform' }}
+            role="listitem"
           >
             <i 
               className={cn(

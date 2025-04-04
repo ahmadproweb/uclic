@@ -5,7 +5,6 @@ import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 import type { Testimonial } from './types';
 import Script from 'next/script';
-import 'remixicon/fonts/remixicon.css';
 
 // Types
 interface TestimonialClientProps {

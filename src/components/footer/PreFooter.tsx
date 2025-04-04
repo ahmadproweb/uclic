@@ -40,7 +40,7 @@ const LeftContent = memo(({ isDark }: { isDark: boolean }) => (
 LeftContent.displayName = 'LeftContent';
 
 const RightContent = memo(() => (
-  <div className="relative h-full min-h-[400px] md:min-h-full bg-black rounded-br-[32px] rounded-tr-[32px]">
+  <div className="relative h-full min-h-[400px] md:min-h-full bg-black rounded-br-[32px] rounded-tr-[32px] z-10">
     <svg 
       width="450" 
       height="100%" 
@@ -68,6 +68,8 @@ const RightContent = memo(() => (
         fill={theme.colors.primary.main}
       />
     </svg>
+    
+    <div className="absolute inset-0 bg-black rounded-br-[32px] rounded-tr-[32px]" />
     
     <img
       src="/man-516x378.webp"

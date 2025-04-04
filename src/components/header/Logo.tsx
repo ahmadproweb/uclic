@@ -17,7 +17,7 @@ export function Logo() {
           viewBox="0 0 162 44" 
           xmlns="http://www.w3.org/2000/svg"
           className={cn(
-            "h-[45px] w-auto transition-colors duration-200",
+            "h-[45px] w-auto",
             isDark ? "fill-white" : "fill-black"
           )}
           aria-hidden="true"

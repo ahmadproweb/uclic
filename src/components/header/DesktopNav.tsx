@@ -30,42 +30,34 @@ const NavItem = memo(({
     className="relative"
     style={{ whiteSpace: 'nowrap' }}
   >
-    <div 
-      className={cn(
-        "text-base font-medium transition-colors duration-300 cursor-pointer flex items-center",
-        isDirectlyOverHero || isOverHero
-          ? "text-gray-900 dark:text-white hover:text-[#E0FF5C]"
-          : "text-gray-900 dark:text-white hover:text-[#E0FF5C]",
-        "dark:text-white dark:hover:text-[#E0FF5C]",
-        isMegaMenuOpen && item.hasMegaMenu && "text-[#E0FF5C] dark:text-[#E0FF5C]"
-      )}
-      onClick={onClick}
-      onMouseEnter={onMouseEnter}
-      role={item.hasMegaMenu ? "button" : undefined}
-      aria-expanded={item.hasMegaMenu ? isMegaMenuOpen : undefined}
-      aria-haspopup={item.hasMegaMenu ? "true" : undefined}
-      aria-label={item.hasMegaMenu ? `${item.label} - Cliquez pour ${isMegaMenuOpen ? 'fermer' : 'ouvrir'} le menu` : undefined}
-    >
-      {item.label}
-      {item.hasMegaMenu && (
+    {item.hasMegaMenu ? (
+      <button
+        className={cn(
+          item.className,
+          isMegaMenuOpen && "text-[#9FB832] dark:text-[#E0FF5C]"
+        )}
+        onClick={onClick}
+        onMouseEnter={onMouseEnter}
+        role="button"
+        aria-expanded={isMegaMenuOpen}
+        aria-haspopup="true"
+        aria-label={`${item.label} - Cliquez pour ${isMegaMenuOpen ? 'fermer' : 'ouvrir'} le menu`}
+      >
+        {item.label}
         <i 
           className={cn(
-            "ri-arrow-down-s-line ml-1 transition-transform",
+            "ri-arrow-down-s-line ml-1 !transition-none",
             isMegaMenuOpen && "rotate-180"
           )}
           aria-hidden="true"
         />
-      )}
-    </div>
-    
-    {!item.hasMegaMenu && (
+      </button>
+    ) : (
       <Link 
         href={item.href} 
         className={cn(
-          "absolute inset-0",
-          isDirectlyOverHero || isOverHero
-            ? "text-gray-900 dark:text-white"
-            : "text-gray-900 dark:text-white"
+          item.className,
+          "block"
         )}
         aria-label={`Accéder à ${item.label}`}
       >

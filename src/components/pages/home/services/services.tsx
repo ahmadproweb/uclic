@@ -42,9 +42,9 @@ export default function Services() {
       >
         Rapide, flexible
         <span className="block">
-          et incroyablement{' '}
-          <UnderlinedText text="efficace" />
+          et incroyablement efficace
         </span>
+        
       </h2>
       
       <div 

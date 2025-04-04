@@ -47,7 +47,12 @@ const PartnerCard = memo(({ partner, isDark }: { partner: Partner; isDark: boole
     <img 
       src={partner.logo}
       alt={`${partner.name} logo`}
-      className="w-[50px] h-[20px] sm:w-[65px] sm:h-[25px] md:w-[80px] md:h-[30px] object-contain [filter:brightness(0)_invert(1)]"
+      className={cn(
+        "object-contain [filter:brightness(0)_invert(1)]",
+        partner.name === "PostHog" || partner.name === "Semrush"
+          ? "w-[80px] h-[32px] sm:w-[100px] sm:h-[40px] md:w-[155px] md:h-[60px]"
+          : "w-[50px] h-[20px] sm:w-[65px] sm:h-[25px] md:w-[80px] md:h-[30px]"
+      )}
       loading="lazy"
     />
     <span className="sr-only">{partner.name} - {partner.description}</span>
