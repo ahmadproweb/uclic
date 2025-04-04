@@ -117,7 +117,7 @@ export async function getLatestPosts(count: number = 10, page: number = 1): Prom
       
       for (let i = 0; i < totalPages; i++) {
         const response = await fetch(
-          `https://uclic.fr/wp-json/wp/v2/posts?_embed&per_page=${postsToFetch}&page=${page + i}`,
+          `https://api.uclic.fr/wp-json/wp/v2/posts?_embed&per_page=${postsToFetch}&page=${page + i}`,
           { next: { revalidate: 3600 } } // Cache for 1 hour
         );
         
@@ -143,7 +143,7 @@ export async function getLatestPosts(count: number = 10, page: number = 1): Prom
     } else {
       // Default behavior for fewer posts
       const response = await fetch(
-        `https://uclic.fr/wp-json/wp/v2/posts?_embed&per_page=${count}&page=${page}`,
+        `https://api.uclic.fr/wp-json/wp/v2/posts?_embed&per_page=${count}&page=${page}`,
         { next: { revalidate: 3600 } } // Cache for 1 hour
       );
       
@@ -232,7 +232,7 @@ export async function getRelatedPosts(currentPost: WordPressPost, count: number 
     // Alternative approach: fetch more posts and filter client-side
     // This works around potential API limitations
     const response = await fetch(
-      `https://uclic.fr/wp-json/wp/v2/posts?_embed&per_page=10`,
+      `https://api.uclic.fr/wp-json/wp/v2/posts?_embed&per_page=10`,
       { next: { revalidate: 3600 } } // Cache for 1 hour
     );
     
@@ -280,7 +280,7 @@ export async function getRelatedPosts(currentPost: WordPressPost, count: number 
   }
 }
 
-const API_URL = 'https://uclic.fr/wp-json/wp/v2';
+const API_URL = 'https://api.uclic.fr/wp-json/wp/v2';
 
 export async function getPostsByCategory(slug: string): Promise<BlogPost[]> {
   try {
@@ -373,7 +373,7 @@ async function getCategoryIdBySlug(slug: string): Promise<number> {
 export async function getPageBySlug(slug: string): Promise<WordPressPage | null> {
   try {
     const response = await fetch(
-      `https://uclic.fr/wp-json/wp/v2/pages?slug=${slug}`,
+      `https://api.uclic.fr/wp-json/wp/v2/pages?slug=${slug}`,
       { next: { revalidate: 3600 } } // Cache for 1 hour
     );
 
