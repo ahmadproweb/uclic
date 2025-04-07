@@ -132,6 +132,18 @@ const nextConfig = {
   },
   eslint: {
     ignoreDuringBuilds: true
+  },
+  
+  // Configuration des redirections
+  async redirects() {
+    return [
+      {
+        source: '/growth-hacking/:slug',
+        destination: '/blog/:slug',
+        permanent: true, // Utilise une redirection 301 (permanente)
+      },
+      // Vous pouvez ajouter d'autres redirections ici si nécessaire
+    ];
   }
 };
 
