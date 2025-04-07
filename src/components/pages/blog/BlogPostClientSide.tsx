@@ -28,6 +28,12 @@ interface BlogPostProps {
   preloadedLatestPosts?: WordPressPost[];
 }
 
+// Fonction pour capitaliser la première lettre
+const capitalizeTitle = (title: string) => {
+  if (!title) return '';
+  return title.charAt(0).toUpperCase() + title.slice(1);
+};
+
 // Composant pour les articles associés
 function RelatedPosts({ 
   currentPost, 
@@ -109,12 +115,12 @@ function RelatedPosts({
       <div className="mb-16">
         <h3 className="text-xl md:text-2xl font-medium mb-6 transition-colors duration-300"
           style={{ color: isDark ? themeColors.common.white : themeColors.common.black }}>
-          Articles associés
-        </h3>
-        <p style={{ color: isDark ? `${themeColors.common.white}99` : `${themeColors.common.black}99` }}
-           className="transition-colors duration-300">
-          Impossible de charger les articles associés.
-        </p>
+            Articles associés
+          </h3>
+          <p style={{ color: isDark ? `${themeColors.common.white}99` : `${themeColors.common.black}99` }}
+             className="transition-colors duration-300">
+            Impossible de charger les articles associés.
+          </p>
       </div>
     );
   }
@@ -125,14 +131,14 @@ function RelatedPosts({
       <div className="animate-pulse">
         <h3 className="text-xl md:text-2xl font-medium mb-6 transition-colors duration-300"
           style={{ color: isDark ? themeColors.common.white : themeColors.common.black }}>
-          Articles récents
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="h-[320px] rounded-xl transition-colors duration-300"
-              style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }}></div>
-          ))}
-        </div>
+            Articles récents
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-[320px] rounded-xl transition-colors duration-300"
+                style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }}></div>
+            ))}
+          </div>
       </div>
     );
   }
@@ -211,7 +217,7 @@ function RelatedPosts({
                       <div className="rounded-xl overflow-hidden h-[250px] relative mb-4">
                         <img
                           src={`${image.url.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1')}.webp`}
-                          alt={image.alt}
+                          alt={capitalizeTitle(title)}
                           className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                           width="400"
                           height="250"
@@ -227,9 +233,9 @@ function RelatedPosts({
                       <h4 className={cn(
                         "text-base font-semibold line-clamp-2 mb-2 group-hover:underline",
                         isDark ? "text-white" : "text-black"
-                      )}
-                        dangerouslySetInnerHTML={{ __html: title }}
-                      />
+                      )}>
+                        {capitalizeTitle(title)}
+                      </h4>
                     </Link>
                     <div className={cn(
                       "flex items-center text-xs",
@@ -335,7 +341,7 @@ function RelatedPosts({
                     <div className="rounded-xl overflow-hidden h-[250px] relative mb-4">
                       <img
                         src={`${image.url.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1')}.webp`}
-                        alt={image.alt}
+                        alt={capitalizeTitle(title)}
                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                         width="400"
                         height="250"
@@ -351,9 +357,9 @@ function RelatedPosts({
                     <h4 className={cn(
                       "text-lg font-semibold line-clamp-2 mb-2 group-hover:underline",
                       isDark ? "text-white" : "text-black"
-                    )}
-                      dangerouslySetInnerHTML={{ __html: title }}
-                    />
+                    )}>
+                      {capitalizeTitle(title)}
+                    </h4>
                   </Link>
                   <div className={cn(
                     "flex items-center text-xs",

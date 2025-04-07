@@ -1,20 +1,14 @@
-import { memo, useCallback } from "react";
+import { memo, useCallback, useEffect } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { navItems, serviceItems } from "./NavItems";
+import { useNavItems } from "@/hooks/useNavItems";
 import { ServiceCard } from "./ServiceCard";
 import { colors as theme } from '@/config/theme';
 import ThemeSwitcher from "./ThemeSwitcher";
 import { useTheme } from "@/context/ThemeContext";
 import { CTAButton } from "@/components/ui/cta-button";
 import { ArrowIcon } from "@/components/ui/icons/ArrowIcon";
-
-interface MobileMenuProps {
-  isOpen: boolean;
-  isServiceMenuOpen: boolean;
-  setIsServiceMenuOpen: (value: boolean) => void;
-  setIsMobileMenuOpen: (value: boolean) => void;
-}
+import { MobileMenuProps, ServiceMenuProps, MainMenuProps } from "./types";
 
 // Memoized Components
 const MenuHeader = memo(({ 
@@ -64,12 +58,9 @@ MenuHeader.displayName = 'MenuHeader';
 const ServiceMenu = memo(({ 
   isDark, 
   onBack, 
-  onServiceSelect 
-}: { 
-  isDark: boolean; 
-  onBack: () => void;
-  onServiceSelect: () => void;
-}) => (
+  onServiceSelect,
+  serviceItems 
+}: ServiceMenuProps) => (
   <div className="pt-28 flex-1 flex flex-col px-6 overflow-y-auto">
     <div className="max-w-sm mx-auto w-full">
       <button
@@ -101,52 +92,50 @@ ServiceMenu.displayName = 'ServiceMenu';
 const MainMenu = memo(({ 
   isDark, 
   onServiceMenuOpen, 
-  onClose 
-}: { 
-  isDark: boolean; 
-  onServiceMenuOpen: () => void;
-  onClose: () => void;
-}) => (
+  onClose,
+  navItems 
+}: MainMenuProps) => (
   <div className="pt-20 flex-1 flex flex-col justify-center px-6">
     <div className="max-w-sm mx-auto w-full -mt-20">
       <nav className="flex flex-col space-y-3">
-        {navItems.map((item) => (
-          item.hasMegaMenu ? (
+        {navItems.map((item) => {
+          const bgColor = "bg-[#333333]";
+          const textColor = "text-white";
+          
+          return item.hasMegaMenu ? (
             <button
               key={item.href}
-              className={cn(
-                "backdrop-blur-sm rounded-lg py-4 px-5 flex items-center justify-between w-full text-left transition-colors",
-                "bg-white/20 text-white hover:bg-[#00E6A7]/30"
-              )}
+              className={`${bgColor} hover:bg-[#E0FF5C] hover:text-black rounded-lg py-4 px-5 flex items-center justify-between w-full text-left border border-white/20 ${textColor} transition-colors duration-200`}
               onClick={onServiceMenuOpen}
             >
-              <span className="text-base font-medium">{item.label}</span>
-              <ArrowIcon 
-                className="w-[18px] h-[18px] text-white"
-              />
+              <span className="text-base font-medium">
+                {item.label}
+              </span>
+              <ArrowIcon className="w-[18px] h-[18px] text-white hover:text-black" />
             </button>
           ) : (
             <Link 
               key={item.href} 
               href={item.href}
-              className={cn(
-                "backdrop-blur-sm rounded-lg py-4 px-5 flex items-center justify-between transition-colors",
-                "bg-white/20 text-white hover:bg-[#00E6A7]/30"
-              )}
-              onClick={(e) => {
+              className={`${bgColor} hover:bg-[#E0FF5C] hover:text-black rounded-lg py-4 px-5 flex items-center justify-between border border-white/20 ${textColor} transition-colors duration-200`}
+              onClick={() => {
+                // Réinitialiser le style du body avant la navigation
+                document.body.style.overflow = '';
                 // On attend que la navigation commence avant de fermer
                 setTimeout(onClose, 150);
               }}
             >
               <span className="text-base font-medium">{item.label}</span>
             </Link>
-          )
-        ))}
+          );
+        })}
         
         <CTAButton 
           href="/audit" 
-          className="w-auto mx-auto"
-          onClick={(e) => {
+          className="w-auto mx-auto mt-4"
+          onClick={() => {
+            // Réinitialiser le style du body avant la navigation
+            document.body.style.overflow = '';
             // On attend que la navigation commence avant de fermer
             setTimeout(onClose, 150);
           }}
@@ -170,9 +159,24 @@ export const MobileMenu = memo(({
 }: MobileMenuProps) => {
   const { theme: currentTheme } = useTheme();
   const isDark = currentTheme === 'dark';
+  const { navItems, serviceItems, loading } = useNavItems();
+
+  // Effet pour gérer le overflow du body quand le menu est ouvert/fermé
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'; // Désactiver le scroll quand le menu est ouvert
+    } else {
+      // Délai pour permettre l'animation de fermeture
+      const timer = setTimeout(() => {
+        document.body.style.overflow = ''; // Réactiver le scroll quand le menu est fermé
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
 
   const handleClose = useCallback(() => {
     setIsMobileMenuOpen(false);
+    // Le overflow du body sera géré par l'effet ci-dessus
   }, [setIsMobileMenuOpen]);
 
   const handleServiceMenuOpen = useCallback(() => {
@@ -186,7 +190,30 @@ export const MobileMenu = memo(({
   const handleServiceSelect = useCallback(() => {
     setIsServiceMenuOpen(false);
     setIsMobileMenuOpen(false);
+    // Réinitialiser immédiatement le style du body pour permettre le scroll
+    document.body.style.overflow = '';
   }, [setIsServiceMenuOpen, setIsMobileMenuOpen]);
+
+  if (loading) {
+    return (
+      <div 
+        className={cn(
+          "fixed inset-0 z-40 transition-all duration-300 md:hidden flex flex-col min-h-screen overflow-y-auto",
+          isOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
+        )}
+        style={{
+          background: 'rgba(0, 0, 0, 0.95)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)'
+        }}
+      >
+        <MenuHeader isDark={isDark} onClose={handleClose} />
+        <div className="flex items-center justify-center h-full">
+          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div 
@@ -201,18 +228,20 @@ export const MobileMenu = memo(({
       }}
     >
       <MenuHeader isDark={isDark} onClose={handleClose} />
-
+      
       {isServiceMenuOpen ? (
         <ServiceMenu 
-          isDark={isDark}
-          onBack={handleServiceMenuClose}
+          isDark={isDark} 
+          onBack={handleServiceMenuClose} 
           onServiceSelect={handleServiceSelect}
+          serviceItems={serviceItems}
         />
       ) : (
         <MainMenu 
-          isDark={isDark}
-          onServiceMenuOpen={handleServiceMenuOpen}
+          isDark={isDark} 
+          onServiceMenuOpen={handleServiceMenuOpen} 
           onClose={handleClose}
+          navItems={navItems}
         />
       )}
     </div>

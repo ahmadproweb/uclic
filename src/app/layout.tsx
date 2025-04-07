@@ -9,6 +9,7 @@ import { SpotifyPlayerProvider } from '@/components/providers/SpotifyPlayerProvi
 import { VideoPopupProvider } from '@/context/VideoPopupContext';
 import VideoPopup from '@/components/ui/VideoPopup';
 import HubspotChat from '@/components/ui/HubspotChat';
+import Analytics from '@/components/GoogleAnalytics';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -160,6 +161,7 @@ export default function RootLayout({
                 <Footer />
                 <VideoPopup />
                 <HubspotChat />
+                <Analytics />
               </div>
             </SpotifyPlayerProvider>
           </VideoPopupProvider>

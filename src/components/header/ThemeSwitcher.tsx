@@ -11,10 +11,10 @@ export default function ThemeSwitcher() {
     <button
       onClick={toggleTheme}
       className={cn(
-        "p-2 rounded-full",
+        "py-2  rounded-full",
         isDark 
           ? "text-white hover:bg-white/10" 
-          : "text-black hover:bg-black/10"
+          : "text-white hover:bg-white/10"
       )}
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
     >

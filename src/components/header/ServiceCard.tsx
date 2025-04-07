@@ -25,8 +25,21 @@ export function ServiceCard({ service, isMobile, onSelect }: ServiceCardProps) {
   const handleNavigation = (e: React.MouseEvent, href: string) => {
     e.preventDefault();
     e.stopPropagation();
-    onSelect?.();
-    router.push(href);
+    
+    // Réinitialiser le style du body avant la navigation
+    document.body.style.overflow = '';
+    
+    // Appeler le callback onSelect si fourni
+    if (onSelect) {
+      onSelect();
+      
+      // Attendre que les animations se terminent avant de naviguer
+      setTimeout(() => {
+        router.push(href);
+      }, 200);
+    } else {
+      router.push(href);
+    }
   };
 
   return (
@@ -38,12 +51,12 @@ export function ServiceCard({ service, isMobile, onSelect }: ServiceCardProps) {
         className={cn(
           "group h-full",
           isMobile ? "w-full" : "w-full",
-          "px-6 py-6 relative rounded-xl hover:scale-[1.02]",
+          "px-6 py-6 relative rounded-xl hover:scale-[1.02] transition-all duration-200",
           isAICard
             ? "bg-[#E0FF5C] hover:bg-[#E2FF47]"
             : isDark 
               ? "bg-white/5 hover:bg-[#E0FF5C]/100" 
-              : "bg-black/5 hover:bg-[#E0FF5C]/100"
+              : "bg-white hover:bg-[#E0FF5C]/100 border border-black/10"
         )}
       >
         <div className="flex flex-col h-full">
@@ -76,8 +89,8 @@ export function ServiceCard({ service, isMobile, onSelect }: ServiceCardProps) {
               {service.items.map((item, i) => (
                 <li key={i}>
                   <a
-                    href={`/expertise/${service.slug}/${item.href.split('/').pop()}`}
-                    onClick={(e) => handleNavigation(e, `/expertise/${service.slug}/${item.href.split('/').pop()}`)}
+                    href={item.href}
+                    onClick={(e) => handleNavigation(e, item.href)}
                     className={cn(
                       "text-sm block truncate font-normal",
                       isAICard

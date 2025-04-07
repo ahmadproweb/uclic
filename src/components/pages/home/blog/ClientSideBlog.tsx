@@ -58,54 +58,60 @@ const BlogHeader = memo(({ isDark }: { isDark: boolean }) => (
 
 BlogHeader.displayName = 'BlogHeader';
 
-const BlogPostCard = memo(({ post, index }: { post: BlogPost; index: number }) => (
-  <article
-    className={cn(
-      "group rounded-3xl overflow-hidden",
-      "transition-all duration-300",
-      "hover:-translate-y-1 hover:shadow-xl",
-      "bg-[#E0FF5C]",
-      "animate-fade-in-up"
-    )}
-    style={{
-      animationDelay: `${index * 100}ms`
-    }}
-  >
-    <Link href={`/blog/${post.slug}`} className="block">
-      <figure className="relative w-full h-48 overflow-hidden">
-        <img
-          src={`${post.featuredImage.url.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1')}.webp`}
-          alt={post.featuredImage.alt}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-          width={400}
-          height={250}
-          loading="lazy"
-          decoding="async"
-        />
-        <figcaption className="absolute bottom-4 left-4 inline-block px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-sm z-10">
-          {post.category}
-        </figcaption>
-      </figure>
-      
-      <div className="p-6">
-        <h3 className="text-xl font-semibold text-black">
-          {post.title}
-        </h3>
-        
-        <p className="text-black/80 mt-4">
-          {post.description}
-        </p>
+const BlogPostCard = memo(({ post, index }: { post: BlogPost; index: number }) => {
+  const capitalizeTitle = (title: string) => {
+    return title.charAt(0).toUpperCase() + title.slice(1).toLowerCase();
+  };
 
-        <time className="flex items-center text-xs text-black/60 mt-4">
-          <span className="w-6 h-6 rounded-full bg-black/10 flex items-center justify-center mr-2">
-            <i className="ri-time-line text-sm" aria-hidden="true" />
-          </span>
-          {post.readTime} min de lecture
-        </time>
-      </div>
-    </Link>
-  </article>
-));
+  return (
+    <article
+      className={cn(
+        "group rounded-3xl overflow-hidden",
+        "transition-all duration-300",
+        "hover:-translate-y-1 hover:shadow-xl",
+        "bg-[#E0FF5C]",
+        "animate-fade-in-up"
+      )}
+      style={{
+        animationDelay: `${index * 100}ms`
+      }}
+    >
+      <Link href={`/blog/${post.slug}`} className="block">
+        <figure className="relative w-full h-48 overflow-hidden">
+          <img
+            src={`${post.featuredImage.url.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1')}.webp`}
+            alt={post.featuredImage.alt}
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            width={400}
+            height={250}
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption className="absolute bottom-4 left-4 inline-block px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-sm z-10">
+            {post.category}
+          </figcaption>
+        </figure>
+        
+        <div className="p-6">
+          <h3 className="text-xl font-semibold text-black normal-case">
+            {capitalizeTitle(post.title)}
+          </h3>
+          
+          <p className="text-black/80 mt-4 ">
+            {post.description}
+          </p>
+
+          <time className="flex items-center text-xs text-black/60 mt-4">
+            <span className="w-6 h-6 rounded-full bg-black/10 flex items-center justify-center mr-2">
+              <i className="ri-time-line text-sm" aria-hidden="true" />
+            </span>
+            {post.readTime} min de lecture
+          </time>
+        </div>
+      </Link>
+    </article>
+  );
+});
 
 BlogPostCard.displayName = 'BlogPostCard';
 

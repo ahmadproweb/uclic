@@ -109,51 +109,35 @@ export function decodeHtmlEntitiesServer(text: string): string {
 // Function to fetch posts from WordPress REST API
 export async function getLatestPosts(count: number = 10, page: number = 1): Promise<WordPressPost[]> {
   try {
-    if (count > 100) {
-      // If more than 100 posts are requested, make multiple requests
-      let allPosts: WordPressPost[] = [];
-      const totalPages = Math.ceil(count / 100);
-      const postsToFetch = Math.min(count, 100);
-      
-      for (let i = 0; i < totalPages; i++) {
-        const response = await fetch(
-          `https://api.uclic.fr/wp-json/wp/v2/posts?_embed&per_page=${postsToFetch}&page=${page + i}`,
-          { next: { revalidate: 3600 } } // Cache for 1 hour
-        );
-        
-        if (!response.ok) {
-          // If we hit the end of posts, break the loop
-          if (response.status === 400 || response.status === 404) {
-            break;
-          }
-          throw new Error(`Failed to fetch posts: ${response.status}`);
-        }
-        
-        const posts: WordPressPost[] = await response.json();
-        allPosts = [...allPosts, ...posts];
-        
-        // If we didn't get a full page, we've reached the end
-        if (posts.length < postsToFetch) break;
-        
-        // If we have enough posts, stop fetching
-        if (allPosts.length >= count) break;
-      }
-      
-      return allPosts.slice(0, count);
-    } else {
-      // Default behavior for fewer posts
+    const perPage = 100; // Maximum allowed by WordPress API
+    const totalPages = Math.ceil(count / perPage);
+    let allPosts: WordPressPost[] = [];
+    
+    for (let currentPage = 1; currentPage <= totalPages; currentPage++) {
       const response = await fetch(
-        `https://api.uclic.fr/wp-json/wp/v2/posts?_embed&per_page=${count}&page=${page}`,
+        `https://api.uclic.fr/wp-json/wp/v2/posts?_embed&per_page=${perPage}&page=${currentPage}`,
         { next: { revalidate: 3600 } } // Cache for 1 hour
       );
       
       if (!response.ok) {
+        // If we hit the end of posts, break the loop
+        if (response.status === 400 || response.status === 404) {
+          break;
+        }
         throw new Error(`Failed to fetch posts: ${response.status}`);
       }
       
       const posts: WordPressPost[] = await response.json();
-      return posts;
+      allPosts = [...allPosts, ...posts];
+      
+      // If we didn't get a full page, we've reached the end
+      if (posts.length < perPage) break;
+      
+      // If we have enough posts, stop fetching
+      if (allPosts.length >= count) break;
     }
+    
+    return allPosts.slice(0, count);
   } catch (error) {
     console.error('Error fetching WordPress posts:', error);
     return [];

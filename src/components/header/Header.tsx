@@ -111,8 +111,8 @@ const Header = () => {
 
   const toggleMobileMenu = useCallback(() => {
     setIsMobileMenuOpen(prev => !prev);
-    // Prevent body scroll when menu is open
-    document.body.style.overflow = !isMobileMenuOpen ? 'hidden' : '';
+    // Prevent body scroll when menu is open - handled by MobileMenu component now
+    // document.body.style.overflow = !isMobileMenuOpen ? 'hidden' : '';
   }, [isMobileMenuOpen]);
   
   const handleMegaMenuClose = useCallback(() => {

@@ -41,8 +41,8 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
   // Get pagination from URL query params
   const currentPage = searchParams?.page ? parseInt(searchParams.page) : 1;
   
-  // Fetch more posts for pagination (increase from 12 to 30)
-  const posts = await getLatestPosts(30);
+  // Fetch all posts for pagination
+  const posts = await getLatestPosts(1000);
   
   // Transform WordPress posts to our format
   const transformedPosts = posts.map(post => ({

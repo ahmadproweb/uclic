@@ -26,6 +26,12 @@ export interface BlogPost {
   category?: string;
 }
 
+// Fonction pour capitaliser la première lettre
+const capitalizeTitle = (title: string) => {
+  if (!title) return '';
+  return title.charAt(0).toUpperCase() + title.slice(1);
+};
+
 // Internal BlogCard component for this page
 function BlogCard({ post }: { post: BlogPost }) {
   return (
@@ -44,7 +50,7 @@ function BlogCard({ post }: { post: BlogPost }) {
       <div className="relative w-full h-48 overflow-hidden">
         <img
           src={`${post.featured_image_url.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1')}.webp`}
-          alt={post.title}
+          alt={capitalizeTitle(post.title)}
           className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
           width="400"
           height="250"
@@ -58,7 +64,7 @@ function BlogCard({ post }: { post: BlogPost }) {
       
       <div className="p-6 space-y-4">
         <h3 className="text-xl font-semibold text-black">
-          {post.title}
+          {capitalizeTitle(post.title)}
         </h3>
         
         <p 
@@ -159,55 +165,55 @@ export default function BlogIndexClientSide({
       
       <div className="max-w-[1250px] mx-auto px-4 relative z-10">
         {/* Header */}
-        <div className="text-center mb-12 md:mb-16">
+        <div className="text-center mb-8 xs:mb-10 sm:mb-12 md:mb-16">
           <span className={cn(
-            "text-base mb-4 block font-semibold",
+            "text-sm xs:text-base mb-3 xs:mb-4 block font-semibold",
             isDark ? "text-[#E0FF5C]" : "text-black"
           )}>Blog</span>
           <h1 className={cn(
-            "text-3xl md:text-5xl font-normal mb-4",
+            "text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-normal mb-3 xs:mb-4",
             isDark ? "text-white" : "text-black"
           )}>
-            Découvrez nos dernières<br/>actualités
+            Découvrez nos dernières<br className="hidden xs:block"/>actualités
           </h1>
           <div className={cn(
-            "w-12 h-0.5 mx-auto mb-4",
+            "w-10 xs:w-12 h-0.5 mx-auto mb-3 xs:mb-4",
             isDark ? "bg-[#E0FF5C]" : "bg-black"
           )}/>
           <p className={cn(
-            "text-base md:text-lg",
+            "text-sm xs:text-base md:text-lg",
             isDark ? "text-white/100" : "text-black/80"
           )}>
-            Devenez un vrai couteau suisse avec les conseils<br/>des experts Uclic
+            Devenez un vrai couteau suisse avec les conseils<br className="hidden xs:block"/>des experts Uclic
           </p>
         </div>
         
         {/* Hero section with featured image */}
         {featuredPost && (
-          <div className="relative w-full h-[40vh] md:h-[50vh] mb-16 rounded-3xl overflow-hidden shadow-xl">
+          <div className="relative w-full h-[35vh] xs:h-[40vh] sm:h-[45vh] md:h-[50vh] mb-12 xs:mb-14 sm:mb-16 rounded-2xl xs:rounded-3xl overflow-hidden shadow-xl">
             <img
               src={featuredPost.featured_image_url}
-              alt={featuredPost.title}
-              className="absolute inset-0 w-full h-full object-cover rounded-3xl"
+              alt={capitalizeTitle(featuredPost.title)}
+              className="absolute inset-0 w-full h-full object-cover rounded-2xl xs:rounded-3xl"
               width="1200"
               height="800"
               loading="eager"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
-            <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-14">
+            <div className="absolute inset-0 flex flex-col justify-end p-4 xs:p-6 sm:p-8 md:p-14">
               <div className="max-w-5xl mx-auto w-full">
-                <div className="mb-4 flex gap-2">
-                  <span className="inline-block px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-sm">
+                <div className="mb-3 xs:mb-4 flex flex-wrap gap-2">
+                  <span className="inline-block px-2 xs:px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-xs xs:text-sm">
                     {featuredPost.category || 'Blog'}
                   </span>
-                  <span className="text-sm uppercase tracking-wider font-semibold inline-block px-3 py-1 rounded-full bg-[#E0FF5C] text-black">
+                  <span className="text-xs xs:text-sm uppercase tracking-wider font-semibold inline-block px-2 xs:px-3 py-1 rounded-full bg-[#E0FF5C] text-black">
                     À la une
                   </span>
                 </div>
-                <h2 className="text-3xl md:text-5xl font-bold max-w-3xl mb-4 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)]">
-                  {featuredPost.title}
+                <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold max-w-3xl mb-3 xs:mb-4 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)]">
+                  {capitalizeTitle(featuredPost.title)}
                 </h2>
-                <div className="text-white/80 flex flex-wrap items-center text-sm space-x-4 mt-4">
+                <div className="text-white/80 flex flex-wrap items-center text-xs xs:text-sm space-x-2 xs:space-x-4 mt-3 xs:mt-4">
                   <span>{featuredPost.author}</span>
                   <span>•</span>
                   <span>{featuredPost.reading_time} min de lecture</span>
@@ -216,7 +222,7 @@ export default function BlogIndexClientSide({
                 </div>
                 <Link 
                   href={`/blog/${featuredPost.slug}`}
-                  className="px-6 py-2 rounded-full text-sm font-medium mt-8 inline-block transition-all
+                  className="px-4 xs:px-6 py-1.5 xs:py-2 rounded-full text-xs xs:text-sm font-medium mt-4 xs:mt-6 sm:mt-8 inline-block transition-all
                     bg-[#E0FF5C] text-black hover:bg-[#E0FF5C]/90"
                 >
                   Lire l&apos;article
