@@ -164,7 +164,7 @@ self.addEventListener('fetch', event => {
   }
   
   // Pour les ressources WordPress (images, etc.)
-  if (url.hostname === 'uclic.fr' && url.pathname.includes('/wp-content/uploads/')) {
+  if (url.hostname === 'api.uclic.fr' && url.pathname.includes('/wp-content/uploads/')) {
     event.respondWith(
       caches.open(WP_CACHE_NAME).then(cache => {
         return cache.match(event.request).then(response => {

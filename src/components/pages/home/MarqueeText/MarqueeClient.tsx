@@ -13,7 +13,8 @@ interface ServiceLink {
 }
 
 interface MarqueeClientProps {
-  words: ServiceLink[];
+  firstLine?: ServiceLink[];
+  secondLine?: ServiceLink[];
 }
 
 const MarqueeItem = memo(function MarqueeItem({ word }: { word: ServiceLink }) {
@@ -39,8 +40,13 @@ const MarqueeItem = memo(function MarqueeItem({ word }: { word: ServiceLink }) {
 
 MarqueeItem.displayName = 'MarqueeItem';
 
-const MarqueeRow = memo(function MarqueeRow({ words, isReverse = false }: { words: ServiceLink[], isReverse?: boolean }) {
+const MarqueeRow = memo(function MarqueeRow({ words = [], isReverse = false }: { words?: ServiceLink[], isReverse?: boolean }) {
   const copies = 2;
+
+  // Si pas de mots, ne rien afficher
+  if (!words || words.length === 0) {
+    return null;
+  }
 
   return (
     <div className="marquee-container">
@@ -65,13 +71,16 @@ const MarqueeRow = memo(function MarqueeRow({ words, isReverse = false }: { word
 
 MarqueeRow.displayName = 'MarqueeRow';
 
-export const MarqueeClient = memo(function MarqueeClient({ words }: MarqueeClientProps) {
-  const displayedWords = words.slice(0, 8);
-  
+export const MarqueeClient = memo(function MarqueeClient({ firstLine = [], secondLine = [] }: MarqueeClientProps) {
+  // Si aucune ligne n'a de contenu, ne rien afficher
+  if ((!firstLine || firstLine.length === 0) && (!secondLine || secondLine.length === 0)) {
+    return null;
+  }
+
   return (
     <div className="flex flex-col gap-0">
-      <MarqueeRow words={displayedWords} />
-      <MarqueeRow words={displayedWords} isReverse />
+      {firstLine && firstLine.length > 0 && <MarqueeRow words={firstLine} />}
+      {secondLine && secondLine.length > 0 && <MarqueeRow words={secondLine} isReverse />}
     </div>
   );
 }); 

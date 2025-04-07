@@ -194,143 +194,26 @@ export default function AuditContent() {
               </div>
             </div>
 
-            {/* Right Column - Audit Form */}
-            <div className="lg:sticky lg:top-32">
-              <div className={cn(
-                "w-full rounded-[32px] overflow-hidden border p-8",
-                isDark ? "bg-[#161616]" : "bg-white",
-                isDark ? "shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1)]" : ""
-              )}
-              style={{
-                borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
-              }}>
-                <form className="space-y-6">
-                  {/* Nom */}
-                  <div>
-                    <label 
-                      htmlFor="name" 
-                      className={cn(
-                        "block text-sm font-medium mb-2",
-                        isDark ? "text-white/90" : "text-black/90"
-                      )}
-                    >
-                      Nom complet
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      className={cn(
-                        "w-full px-4 py-3 rounded-xl border",
-                        "focus:outline-none focus:ring-2 transition-all",
-                        isDark 
-                          ? "border-white/10 focus:border-white/20 focus:ring-[#E0FF5C]/20 text-white bg-white/5" 
-                          : "border-black/10 focus:border-black/20 focus:ring-[#E0FF5C]/40 text-black bg-black/5"
-                      )}
-                      placeholder="John Doe"
-                    />
-                  </div>
-
-                  {/* Email */}
-                  <div>
-                    <label 
-                      htmlFor="email" 
-                      className={cn(
-                        "block text-sm font-medium mb-2",
-                        isDark ? "text-white/90" : "text-black/90"
-                      )}
-                    >
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      className={cn(
-                        "w-full px-4 py-3 rounded-xl border",
-                        "focus:outline-none focus:ring-2 transition-all",
-                        isDark 
-                          ? "border-white/10 focus:border-white/20 focus:ring-[#E0FF5C]/20 text-white bg-white/5" 
-                          : "border-black/10 focus:border-black/20 focus:ring-[#E0FF5C]/40 text-black bg-black/5"
-                      )}
-                      placeholder="john@example.com"
-                    />
-                  </div>
-
-                  {/* Site web */}
-                  <div>
-                    <label 
-                      htmlFor="website" 
-                      className={cn(
-                        "block text-sm font-medium mb-2",
-                        isDark ? "text-white/90" : "text-black/90"
-                      )}
-                    >
-                      Site web
-                    </label>
-                    <input
-                      type="url"
-                      id="website"
-                      name="website"
-                      className={cn(
-                        "w-full px-4 py-3 rounded-xl border",
-                        "focus:outline-none focus:ring-2 transition-all",
-                        isDark 
-                          ? "border-white/10 focus:border-white/20 focus:ring-[#E0FF5C]/20 text-white bg-white/5" 
-                          : "border-black/10 focus:border-black/20 focus:ring-[#E0FF5C]/40 text-black bg-black/5"
-                      )}
-                      placeholder="https://example.com"
-                    />
-                  </div>
-
-                  {/* Message */}
-                  <div>
-                    <label 
-                      htmlFor="message" 
-                      className={cn(
-                        "block text-sm font-medium mb-2",
-                        isDark ? "text-white/90" : "text-black/90"
-                      )}
-                    >
-                      Objectifs principaux
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      rows={4}
-                      className={cn(
-                        "w-full px-4 py-3 rounded-xl border",
-                        "focus:outline-none focus:ring-2 transition-all",
-                        isDark 
-                          ? "border-white/10 focus:border-white/20 focus:ring-[#E0FF5C]/20 text-white bg-white/5 placeholder:text-white/50" 
-                          : "border-black/10 focus:border-black/20 focus:ring-[#E0FF5C]/40 text-black bg-black/5 placeholder:text-black/50"
-                      )}
-                      placeholder="Quels sont vos objectifs principaux ?"
-                    />
-                  </div>
-
-                  {/* Submit Button */}
-                  <div>
-                    <CTAButton 
-                      variant="mainCTA"
-                      className={cn(
-                        "w-full justify-center",
-                        !isDark && "!bg-[#E0FF5C] hover:!bg-black hover:!text-white"
-                      )}
-                      type="submit"
-                    >
-                      Obtenir mon audit gratuit
-                    </CTAButton>
-                  </div>
-
-                  <p className={cn(
-                    "text-sm text-center",
-                    isDark ? "text-white/60" : "text-black/60"
-                  )}>
-                    En soumettant ce formulaire, vous acceptez notre politique de confidentialité
-                  </p>
-                </form>
-              </div>
+            {/* Right Column - Calendly Integration */}
+            <div className={cn(
+              "w-full rounded-[32px] overflow-hidden border",
+              isDark ? "bg-[#161616]" : "bg-white",
+              isDark ? "shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1)]" : ""
+            )}
+            style={{
+              borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
+            }}>
+              <iframe
+                src="https://calendly.com/hello-uclic"
+                width="100%"
+                height="650"
+                frameBorder="0"
+                className="rounded-none"
+                style={{
+                  minHeight: '650px',
+                  backgroundColor: isDark ? '#161616' : 'white'
+                }}
+              />
             </div>
           </div>
         </div>

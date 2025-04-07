@@ -12,6 +12,7 @@ import { formatDate } from '@/services/wordpress';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { slugify } from '@/utils/string';
+import '@/styles/wordpress-content.css';
 
 interface LeveePost {
   id: string;
@@ -281,7 +282,7 @@ export default function LeveePage({ post, relatedPosts, latestPosts }: LeveePage
     if (!mounted) {
       return {
         wrapper: "wp-content-wrapper flex-1 order-1 lg:order-2 overflow-hidden light",
-        content: "[&>h2]:text-black [&>h3]:text-black [&>h4]:text-black [&>p]:text-black/80 [&>ul]:text-black/80 [&>ol]:text-black/80 [&_strong]:text-black [&_td]:text-black [&_td]:p-0 [&_td]:align-top [&_td]:space-y-1 [&_td_p]:m-0 [&_td_p]:p-0 [&_td_p]:text-base [&_td_strong]:m-0 [&_td_strong]:p-0 [&_td_p]:first-of-type:mb-1 [&_table_td_strong]:first-of-type:mb-1 [&_td_ul]:m-0 [&_td_ul]:p-0 [&_td_ul]:space-y-1 [&_td_li]:m-0 [&_td_li]:p-0 [&_td_li]:pl-0 [&_td_li]:text-base"
+        content: ""
       };
     }
     
@@ -290,9 +291,7 @@ export default function LeveePage({ post, relatedPosts, latestPosts }: LeveePage
         "wp-content-wrapper flex-1 order-1 lg:order-2 overflow-hidden",
         isDark ? "dark" : "light"
       ),
-      content: isDark 
-        ? "[&>h2]:text-white [&>h3]:text-white [&>h4]:text-white [&>p]:text-white/100 [&>ul]:text-white/100 [&>ol]:text-white/100 [&_strong]:text-white [&_td]:text-white [&_td]:p-0 [&_td]:align-top [&_td]:space-y-1 [&_td_p]:m-0 [&_td_p]:p-0 [&_td_p]:text-base [&_td_strong]:m-0 [&_td_strong]:p-0 [&_td_p]:first-of-type:mb-1 [&_table_td_strong]:first-of-type:mb-1 [&_td_ul]:m-0 [&_td_ul]:p-0 [&_td_ul]:space-y-1 [&_td_li]:m-0 [&_td_li]:p-0 [&_td_li]:pl-0 [&_td_li]:text-base"
-        : "[&>h2]:text-black [&>h3]:text-black [&>h4]:text-black [&>p]:text-black/80 [&>ul]:text-black/80 [&>ol]:text-black/80 [&_strong]:text-black [&_td]:text-black [&_td]:p-0 [&_td]:align-top [&_td]:space-y-1 [&_td_p]:m-0 [&_td_p]:p-0 [&_td_p]:text-base [&_td_strong]:m-0 [&_td_strong]:p-0 [&_td_p]:first-of-type:mb-1 [&_table_td_strong]:first-of-type:mb-1 [&_td_ul]:m-0 [&_td_ul]:p-0 [&_td_ul]:space-y-1 [&_td_li]:m-0 [&_td_li]:p-0 [&_td_li]:pl-0 [&_td_li]:text-base"
+      content: ""
     };
   }, [isDark, mounted]);
 
@@ -459,8 +458,8 @@ export default function LeveePage({ post, relatedPosts, latestPosts }: LeveePage
   }
 
   return (
-    <article className={cn(
-      "w-full min-h-screen relative overflow-hidden pt-28 md:pt-36 lg:pt-36 pb-16",
+    <div className={cn(
+      "w-full max-w-[100vw] pt-28 md:pt-32 pb-16 md:pb-24 relative overflow-hidden",
       isDark ? "bg-black" : "bg-white"
     )}>
       {/* Base Background gradient */}
@@ -497,7 +496,7 @@ export default function LeveePage({ post, relatedPosts, latestPosts }: LeveePage
         }}
       />
       
-      <div className="mx-auto px-4 sm:px-6 relative z-10 max-w-[1250px] overflow-hidden">
+      <div className="max-w-[1250px] mx-auto px-4 relative z-10">
         {/* Hero section */}
         <div className="mb-6 md:mb-8 lg:mb-12 relative">
           {/* Featured image */}
@@ -651,35 +650,16 @@ export default function LeveePage({ post, relatedPosts, latestPosts }: LeveePage
 
           {/* Main content */}
           <div className={themeClasses.wrapper}>
-            <article
-              ref={articleRef}
-              className={cn(
-                "max-w-none mb-8 sm:mb-12 overflow-x-hidden",
-                "[&_h1,&_h2,&_h3,&_h4,&_h5,&_h6]:all-unset [&_h1,&_h2,&_h3,&_h4,&_h5,&_h6]:break-words",
-                "[&>h2]:block [&>h2]:text-xl sm:[&>h2]:text-2xl md:[&>h2]:text-3xl [&>h2]:mt-6 sm:[&>h2]:mt-8 [&>h2]:mb-3 sm:[&>h2]:mb-4 [&>h2]:font-medium [&>h2]:break-words",
-                "[&>h3]:block [&>h3]:text-lg sm:[&>h3]:text-xl md:[&>h3]:text-2xl [&>h3]:font-semibold [&>h3]:mb-3 sm:[&>h3]:mb-4 [&>h3]:mt-6 sm:[&>h3]:mt-8 [&>h3]:break-words",
-                "[&>h4]:block [&>h4]:text-base sm:[&>h4]:text-lg md:[&>h4]:text-xl [&>h4]:font-medium [&>h4]:mb-3 sm:[&>h4]:mb-4 [&>h4]:mt-4 sm:[&>h4]:mt-6 [&>h4]:break-words",
-                "[&>p]:mb-4 sm:[&>p]:mb-6 [&>p]:leading-relaxed [&>p]:text-sm sm:[&>p]:text-base md:[&>p]:text-lg [&>p]:break-words",
-                "[&>ul]:list-disc [&>ul]:ml-4 sm:[&>ul]:ml-6 [&>ul]:space-y-1.5 sm:[&>ul]:space-y-2 [&>ul]:mb-4 sm:[&>ul]:mb-6 [&>ul]:break-words",
-                "[&>ol]:list-decimal [&>ol]:ml-4 sm:[&>ol]:ml-6 [&>ol]:space-y-1.5 sm:[&>ol]:space-y-2 [&>ol]:mb-4 sm:[&>ol]:mb-6 [&>ol]:break-words",
-                "[&_strong]:font-semibold [&_strong]:break-words",
-                "[&_a]:underline [&_a]:decoration-1 sm:[&_a]:decoration-2 [&_a]:break-words",
-                "[&_br]:block [&_br]:mb-3 sm:[&_br]:mb-4",
-                "[&_figure]:mb-8 sm:[&_figure]:mb-12",
-                "[&_li]:mb-1.5 sm:[&_li]:mb-2 [&_li]:whitespace-normal [&_li]:flex [&_li]:items-start",
-                "[&_table]:w-full [&_table]:border-collapse",
-                "[&_td]:space-y-0 [&_td]:p-0 [&_td]:align-top",
-                "[&_td_p]:m-0 [&_td_p]:p-0 [&_td_p]:text-base [&_td_p]:leading-normal [&_td_p]:whitespace-pre-wrap [&_td_p]:break-words",
-                "[&_td_strong]:m-0 [&_td_strong]:p-0 [&_td_strong]:text-base [&_td_strong]:leading-normal [&_td_strong]:whitespace-pre-wrap [&_td_strong]:break-words [&_td_strong]:inline-block",
-                "[&_td_p]:first-of-type:mb-0 [&_td_p]:first-of-type:inline-block",
-                "[&_table_td_strong]:first-of-type:mb-0 [&_table_td_strong]:first-of-type:!inline-block [&_table_td_strong]:first-of-type:!contents",
-                "[&_td_ul]:m-0 [&_td_ul]:p-0 [&_td_ul]:space-y-0",
-                "[&_td_li]:m-0 [&_td_li]:p-0 [&_td_li]:pl-0 [&_td_li]:text-base [&_td_li]:leading-normal [&_td_li]:whitespace-pre-wrap [&_td_li]:break-words",
-                themeClasses.content,
-                "[&>figure.wp-block-table]:mb-3 sm:[&>figure.wp-block-table]:mb-4 [&>figure.wp-block-table]:mt-3 sm:[&>figure.wp-block-table]:mt-4 [&>figure]:mb-8 sm:[&>figure]:mb-12"
-              )}
-              dangerouslySetInnerHTML={{ __html: processedContent }}
-            />
+            <div className={cn(
+              "wp-content-wrapper overflow-hidden",
+              isDark ? "dark" : "light"
+            )}>
+              <article
+                ref={articleRef}
+                className="max-w-none wp-content-styles"
+                dangerouslySetInnerHTML={{ __html: processedContent }}
+              />
+            </div>
           </div>
         </div>
 
@@ -771,6 +751,6 @@ export default function LeveePage({ post, relatedPosts, latestPosts }: LeveePage
           <PreFooter noBgGradient />
         </div>
       </div>
-    </article>
+    </div>
   );
 } 

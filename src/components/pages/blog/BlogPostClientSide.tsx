@@ -4,12 +4,12 @@ import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 import { colors as theme } from '@/config/theme';
 import Link from 'next/link';
-import PreFooter from '@/components/footer/PreFooter';
 import ScrollToTop from '@/components/ui/ScrollToTop';
 import StickyShareButtons from '@/components/ui/StickyShareButtons';
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { WordPressPost, getRelatedPosts, getPostCategory, getFeaturedImage, formatDate, estimateReadingTime, getLatestPosts } from '@/services/wordpress';
 import { slugify } from '@/utils/string';
+import '@/styles/wordpress-content.css';
 
 interface BlogPostProps {
   post: {
@@ -617,13 +617,6 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
     
     const articleContent = articleRef.current;
 
-    // Fonction utilitaire pour ajouter plusieurs classes
-    const addClasses = (element: Element, classes: string) => {
-      classes.split(' ').forEach(className => {
-        if (className) element.classList.add(className);
-      });
-    };
-
     // Force le style des strong dans les cellules de tableau EN BREF
     const tables = articleContent.querySelectorAll('table');
     tables.forEach(table => {
@@ -641,170 +634,18 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
       }
     });
 
-    // Améliorer les tableaux WordPress (sauf EN BREF)
-    const allTables = articleContent.querySelectorAll('table');
-    allTables.forEach(table => {
-      const firstStrong = table.querySelector('strong:first-child');
-      // On ignore complètement les tableaux EN BREF
-      if (firstStrong?.textContent?.includes('EN BREF')) {
-        return;
-      }
-
-      // Style pour les autres tableaux qui changent avec le thème
-      addClasses(table, 'my-8 w-full border-collapse');
-      if (!table.parentElement?.classList.contains('table-container')) {
-        const container = document.createElement('div');
-        container.className = 'table-container overflow-x-auto my-10 rounded-lg shadow-md';
-        const parent = table.parentElement;
-        if (parent) {
-          parent.insertBefore(container, table);
-          container.appendChild(table);
-        }
-      }
-
-      // Styliser l'en-tête du tableau
-      const headers = table.querySelectorAll('th');
-      headers.forEach(th => {
-        addClasses(th, 'bg-[#E0FF5C]/20 text-left p-4 font-semibold');
-      });
-
-      // Styliser les cellules du tableau
-      const cells = table.querySelectorAll('td');
-      cells.forEach(td => {
-        addClasses(td, 'p-4 border-t');
-        if (isDark) {
-          td.classList.add('border-white/10');
-          td.classList.add('text-white/100');
-        } else {
-          td.classList.add('border-black/10');
-          td.classList.add('text-black/80');
-        }
-      });
-    });
-
-    // Traitement des images WordPress
+    // Traitement des images WordPress pour le lazy loading
     const images = articleContent.querySelectorAll('img');
     images.forEach(img => {
-      // Ajouter des classes pour les images responsives si elles n'en ont pas
-      if (!img.classList.contains('rounded-xl')) {
-        addClasses(img, 'rounded-xl shadow-lg my-8 max-w-full h-auto');
-      }
-      
-      // S'assurer que les images sont dans un conteneur approprié
-      if (img.parentElement?.tagName !== 'FIGURE' && !img.closest('figure')) {
-        const parent = img.parentElement;
-        const figure = document.createElement('figure');
-        // Ajout du background avec opacité selon le thème
-        figure.className = cn(
-          'my-10 w-full p-4 rounded-xl',
-          isDark ? 'bg-white/5' : 'bg-black/5'
-        );
-        if (parent) {
-          parent.insertBefore(figure, img);
-          figure.appendChild(img);
-        }
-      } else if (img.closest('figure')) {
-        // Si l'image est déjà dans une figure, ajouter le style à la figure existante
-        const figure = img.closest('figure');
-        if (figure) {
-          addClasses(figure, 'p-4 rounded-xl');
-          if (isDark) {
-            addClasses(figure, 'bg-white/5');
-          } else {
-            addClasses(figure, 'bg-black/5');
-          }
-        }
-      }
-    });
-
-    // Traitement des iframes (vidéos YouTube, etc.)
-    const iframes = articleContent.querySelectorAll('iframe');
-    iframes.forEach(iframe => {
-      // Créer un conteneur responsive pour les iframes
-      if (!iframe.parentElement?.classList.contains('video-container')) {
-        const container = document.createElement('div');
-        container.className = 'video-container relative pt-[56.25%] my-10 rounded-xl overflow-hidden shadow-lg';
-        const parent = iframe.parentElement;
-        if (parent) {
-          parent.insertBefore(container, iframe);
-          addClasses(iframe, 'absolute inset-0 w-full h-full');
-          container.appendChild(iframe);
-        }
-      }
-    });
-
-    // Améliorer les listes WordPress
-    const lists = articleContent.querySelectorAll('ul, ol');
-    lists.forEach(list => {
-      if (!list.classList.contains('pl-6')) {
-        addClasses(list, 'pl-6 my-8');
-        list.classList.add(list.tagName === 'UL' ? 'list-disc' : 'list-decimal');
-      }
-      
-      // Styliser les éléments de liste
-      const items = list.querySelectorAll('li');
-      items.forEach(item => {
-        if (!item.classList.contains('mb-3')) {
-          addClasses(item, 'mb-3 pl-2');
-          if (isDark) {
-            item.classList.add('text-white/100');
-          } else {
-            item.classList.add('text-black/80');
-          }
-        }
-      });
-    });
-
-    // Améliorer les titres WordPress
-    const headings = articleContent.querySelectorAll('h2, h3, h4, h5, h6');
-    headings.forEach(heading => {
-      if (heading.tagName === 'H2') {
-        addClasses(heading, 'text-2xl md:text-3xl mt-8 mb-4 font-medium');
-        addClasses(heading, isDark ? 'text-white' : 'text-black');
-      } else if (heading.tagName === 'H3') {
-        addClasses(heading, 'text-xl md:text-2xl mt-12 mb-4 font-medium');
-        addClasses(heading, isDark ? 'text-white' : 'text-black');
-      } else if (heading.tagName === 'H4') {
-        addClasses(heading, 'text-lg md:text-xl mt-8 mb-3 font-medium');
-        addClasses(heading, isDark ? 'text-white' : 'text-black');
-      }
-    });
-
-    // Traiter les paragraphes
-    const paragraphs = articleContent.querySelectorAll('p');
-    paragraphs.forEach(p => {
-      // Ne pas modifier les paragraphes qui sont à l'intérieur d'autres éléments comme les listes
-      if (!p.closest('li, blockquote, figure')) {
-        addClasses(p, 'mb-6 leading-relaxed text-base md:text-lg');
-        if (isDark) {
-          p.classList.add('text-white/100');
-        } else {
-          p.classList.add('text-black/80');
-        }
-      }
-    });
-
-    // Améliorer les citations
-    const quotes = articleContent.querySelectorAll('blockquote');
-    quotes.forEach(quote => {
-      addClasses(quote, 'border-l-4 pl-6 italic my-10 py-1 text-lg md:text-xl');
-      if (isDark) {
-        addClasses(quote, 'border-[#E0FF5C]/70 text-white/80');
-      } else {
-        addClasses(quote, 'border-[#E0FF5C]/70 text-black/70');
-      }
-    });
-
-    // Améliorer les liens
-    const links = articleContent.querySelectorAll('a');
-    links.forEach(link => {
-      if (!link.closest('figure, nav')) {
-        addClasses(link, 'font-medium transition-colors duration-200 underline decoration-1 underline-offset-2');
-        if (isDark) {
-          addClasses(link, 'text-[#E0FF5C] hover:text-[#E0FF5C]/80 decoration-[#E0FF5C]/30');
-        } else {
-          addClasses(link, 'text-[#E0FF5C] hover:text-[#E0FF5C]/80 decoration-[#E0FF5C]/30');
-        }
+      const dataSrc = img.getAttribute('data-src');
+      if (dataSrc) {
+        const newImg = new Image();
+        newImg.onload = () => {
+          img.src = dataSrc;
+          img.classList.remove('bricks-lazy-hidden');
+          img.classList.add('bricks-lazy-loaded');
+        };
+        newImg.src = dataSrc;
       }
     });
 
@@ -1020,31 +861,7 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
           <div className={themeClasses.wrapper}>
             <article
               ref={articleRef}
-              className={cn(
-                "max-w-none mb-8 sm:mb-12 overflow-x-hidden",
-                "[&_h1,&_h2,&_h3,&_h4,&_h5,&_h6]:all-unset [&_h1,&_h2,&_h3,&_h4,&_h5,&_h6]:break-words",
-                "[&>h2]:block [&>h2]:text-xl sm:[&>h2]:text-2xl md:[&>h2]:text-3xl [&>h2]:mt-6 sm:[&>h2]:mt-8 [&>h2]:mb-3 sm:[&>h2]:mb-4 [&>h2]:font-medium [&>h2]:break-words",
-                "[&>h3]:block [&>h3]:text-lg sm:[&>h3]:text-xl md:[&>h3]:text-2xl [&>h3]:font-semibold [&>h3]:mb-3 sm:[&>h3]:mb-4 [&>h3]:mt-6 sm:[&>h3]:mt-8 [&>h3]:break-words",
-                "[&>h4]:block [&>h4]:text-base sm:[&>h4]:text-lg md:[&>h4]:text-xl [&>h4]:font-medium [&>h4]:mb-3 sm:[&>h4]:mb-4 [&>h4]:mt-4 sm:[&>h4]:mt-6 [&>h4]:break-words",
-                "[&>p]:mb-4 sm:[&>p]:mb-6 [&>p]:leading-relaxed [&>p]:text-sm sm:[&>p]:text-base md:[&>p]:text-lg [&>p]:break-words",
-                "[&>ul]:list-disc [&>ul]:ml-4 sm:[&>ul]:ml-6 [&>ul]:space-y-1.5 sm:[&>ul]:space-y-2 [&>ul]:mb-4 sm:[&>ul]:mb-6 [&>ul]:break-words",
-                "[&>ol]:list-decimal [&>ol]:ml-4 sm:[&>ol]:ml-6 [&>ol]:space-y-1.5 sm:[&>ol]:space-y-2 [&>ol]:mb-4 sm:[&>ol]:mb-6 [&>ol]:break-words",
-                "[&_strong]:font-semibold [&_strong]:break-words",
-                "[&_a]:underline [&_a]:decoration-1 sm:[&_a]:decoration-2 [&_a]:break-words",
-                "[&_br]:block [&_br]:mb-3 sm:[&_br]:mb-4",
-                "[&_figure]:mb-8 sm:[&_figure]:mb-12",
-                "[&_li]:mb-1.5 sm:[&_li]:mb-2 [&_li]:whitespace-normal [&_li]:flex [&_li]:items-start",
-                "[&_table]:w-full [&_table]:border-collapse",
-                "[&_td]:space-y-0 [&_td]:p-0 [&_td]:align-top",
-                "[&_td_p]:m-0 [&_td_p]:p-0 [&_td_p]:text-base [&_td_p]:leading-normal [&_td_p]:whitespace-pre-wrap [&_td_p]:break-words",
-                "[&_td_strong]:m-0 [&_td_strong]:p-0 [&_td_strong]:text-base [&_td_strong]:leading-normal [&_td_strong]:whitespace-pre-wrap [&_td_strong]:break-words [&_td_strong]:inline-block",
-                "[&_td_p]:first-of-type:mb-0 [&_td_p]:first-of-type:inline-block",
-                "[&_table_td_strong]:first-of-type:mb-0 [&_table_td_strong]:first-of-type:!inline-block [&_table_td_strong]:first-of-type:!contents",
-                "[&_td_ul]:m-0 [&_td_ul]:p-0 [&_td_ul]:space-y-0",
-                "[&_td_li]:m-0 [&_td_li]:p-0 [&_td_li]:pl-0 [&_td_li]:text-base [&_td_li]:leading-normal [&_td_li]:whitespace-pre-wrap [&_td_li]:break-words",
-                themeClasses.content,
-                "[&>figure.wp-block-table]:mb-3 sm:[&>figure.wp-block-table]:mb-4 [&>figure.wp-block-table]:mt-3 sm:[&>figure.wp-block-table]:mt-4 [&>figure]:mb-8 sm:[&>figure]:mb-12"
-              )}
+              className="max-w-none wp-content-styles"
               dangerouslySetInnerHTML={{ __html: processedContent }}
             />
           </div>
@@ -1120,35 +937,6 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
       {/* Boutons de partage et retour en haut */}
       <StickyShareButtons title={post.title} url={`/blog/${post.slug}`} />
       <ScrollToTop />
-      
-      {/* PreFooter Section */}
-      <div className="w-full relative overflow-hidden pt-32 pb-8">
-        {/* Gradient transparent vers gris en haut */}
-        <div 
-          className="absolute inset-0 z-0"
-          style={{
-            background: isDark 
-              ? `linear-gradient(180deg, ${themeColors.primary.main} 0%, ${themeColors.common.black} 100%)`
-              : `linear-gradient(180deg, transparent 0%, #F3F4F6 100%)`,
-            height: '50%'
-          }}
-        />
-
-        {/* Bande grise en bas */}
-        <div 
-          className="absolute bottom-0 left-0 right-0 z-[1]"
-          style={{
-            background: isDark
-              ? themeColors.common.black
-              : '#F3F4F6',
-            height: '50%'
-          }}
-        />
-        
-        <div className="max-w-[1250px] mx-auto px-4 relative z-10">
-          <PreFooter noBgGradient />
-        </div>
-      </div>
     </article>
   );
 } 

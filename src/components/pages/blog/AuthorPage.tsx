@@ -60,6 +60,11 @@ function BlogCard({ post }: { post: any }) {
   );
 }
 
+// Fonction pour formater le nom de l'auteur
+function formatAuthorName(name: string) {
+  return name === "Wladimir.Delcros.44" ? "Wladimir Delcros" : name;
+}
+
 export default function AuthorPage({ author }: AuthorPageProps) {
   const { theme: currentTheme } = useTheme();
   const isDark = currentTheme === 'dark';
@@ -68,6 +73,9 @@ export default function AuthorPage({ author }: AuthorPageProps) {
   // Get featured post (first post)
   const featuredPost = author.posts && author.posts.length > 0 ? author.posts[0] : null;
   const remainingPosts = author.posts?.slice(1) || [];
+
+  // Format author name
+  const displayName = formatAuthorName(author.name);
 
   return (
     <section className={cn(
@@ -115,7 +123,7 @@ export default function AuthorPage({ author }: AuthorPageProps) {
             <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-[#E0FF5C] mb-6">
               <img
                 src={author.avatar_urls?.['96'] || '/images/default-avatar.png'}
-                alt={author.name}
+                alt={displayName}
                 className="object-cover w-full h-full"
                 loading="eager"
               />
@@ -124,7 +132,7 @@ export default function AuthorPage({ author }: AuthorPageProps) {
               "text-3xl md:text-5xl font-normal mb-4",
               isDark ? "text-white" : "text-black"
             )}>
-              {author.name}
+              {displayName}
             </h1>
             <div className={cn(
               "w-12 h-0.5 mx-auto mb-4",

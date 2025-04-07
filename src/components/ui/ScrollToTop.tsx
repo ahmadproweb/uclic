@@ -35,7 +35,7 @@ export default function ScrollToTop() {
     <button
       onClick={scrollToTop}
       className={cn(
-        'fixed bottom-8 right-8 z-50 p-3 rounded-full shadow-lg transition-all duration-300 ease-in-out',
+        'fixed bottom-[100px] right-8 z-50 p-3 rounded-full shadow-lg transition-all duration-300 ease-in-out',
         isDark
           ? 'bg-[#E0FF5C] hover:bg-[#E0FF5C]/90'
           : 'bg-black hover:bg-black/90',

@@ -22,7 +22,7 @@ export default function OptimizedImage({
   height = 600,
 }: OptimizedImageProps) {
   const [isLoading, setIsLoading] = useState(true);
-  const isWordPressImage = src.includes('uclic.fr/wp-content');
+  const isWordPressImage = src.includes('api.uclic.fr/wp-content');
 
   if (!isWordPressImage) {
     return (

@@ -6,8 +6,10 @@ import { UnderlinedText } from '@/components/ui/underlined-text';
 import { colors as theme } from '@/config/theme';
 import Partners from '@/components/pages/home/partner/partner';
 import { CTAButton } from '@/components/ui/cta-button';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import emailjs from '@emailjs/browser';
+
+emailjs.init('sNJezWZbNlGM1x_Pe');
 
 export default function ContactForm() {
   const { theme: currentTheme } = useTheme();
@@ -15,6 +17,7 @@ export default function ContactForm() {
   const [errors, setErrors] = useState<{[key: string]: string}>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const formRef = useRef<HTMLFormElement>(null);
 
   const validateForm = (formData: FormData) => {
     const newErrors: {[key: string]: string} = {};
@@ -53,26 +56,25 @@ export default function ContactForm() {
 
     try {
       const result = await emailjs.send(
-        'service_ggfkz62',
-        'template_contact',
+        'service_8tp0bod',
+        'template_jkryos1',
         {
           from_name: formData.get('name'),
           from_email: formData.get('email'),
           message: formData.get('message'),
-          to_email: 'wladimir@uclic.fr',
-        },
-        'sNJezWZbNlGM1x_Pe'
+          phone: 'N/A'
+        }
       );
 
-      if (result.status === 200) {
+      if (result.text === 'OK') {
         setSubmitStatus('success');
-        e.currentTarget.reset();
+        formRef.current?.reset();
+        setErrors({});
       } else {
         throw new Error('Erreur lors de l\'envoi');
       }
     } catch (error) {
       setSubmitStatus('error');
-      console.error('Erreur:', error);
     } finally {
       setIsSubmitting(false);
     }
@@ -193,7 +195,7 @@ export default function ContactForm() {
                             isDark ? "text-white hover:text-white" : "text-black hover:text-black"
                           )}
                         >
-                          +33 1 23 45 67 89
+                            06 17 12 54 28
                         </a>
                       </div>
                     </div>
@@ -274,7 +276,7 @@ export default function ContactForm() {
               style={{
                 borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
               }}>
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
                   {/* Nom */}
                   <div>
                     <label 
@@ -372,10 +374,9 @@ export default function ContactForm() {
                       className={cn(
                         "w-full justify-center",
                         !isDark && "!bg-[#E0FF5C] hover:!bg-black hover:!text-white",
-                        isSubmitting && "opacity-50 cursor-not-allowed"
+                        isSubmitting && "opacity-50 pointer-events-none"
                       )}
                       type="submit"
-                      disabled={isSubmitting}
                     >
                       {isSubmitting ? 'Envoi en cours...' : 'Envoyer le message'}
                     </CTAButton>

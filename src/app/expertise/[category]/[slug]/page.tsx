@@ -71,12 +71,67 @@ export default async function ExpertisePage({ params }: ExpertisePageProps) {
   
   // Transformer les expertises en format pour le marquee
   const marqueeItems = relatedExpertises
-    .filter(exp => exp.slug !== slug) // Exclure l'expertise actuelle
+    .filter(exp => exp.slug !== slug && exp.title && exp.expertiseFields?.subtitle) // Exclure l'expertise actuelle et vérifier les champs requis
     .map(exp => ({
       text: exp.title,
       href: `/expertise/${category}/${exp.slug}`,
-      description: exp.expertiseFields.subtitle
+      description: exp.expertiseFields.subtitle || exp.title // Fallback au titre si pas de sous-titre
     }));
+
+  // S'assurer qu'il y a au moins un élément
+  if (marqueeItems.length === 0) {
+    console.log('No related expertises found for marquee');
+    return (
+      <main className="flex flex-col">
+        <HeroExpertise expertise={expertise} />
+        <Partners />
+        <ExpertiseBenefits {...expertise.expertiseFields} />
+        <AndMoreService>
+          <Suspense fallback={<div className="w-full h-[400px] flex items-center justify-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+          </div>}>
+            <TeamSection />
+          </Suspense>
+        </AndMoreService>
+        <section 
+          className={cn(
+            "w-full relative py-8 md:py-16",
+            "bg-[#f4f4f0] dark:bg-black/95"
+          )}
+        >
+          <div className="max-w-[1250px] mx-auto px-4">
+            <div className="text-center">
+              <h2 className={cn(
+                "text-3xl sm:text-4xl md:text-5xl lg:text-[50px]",
+                "font-medium tracking-[-1px]",
+                "text-black/90 dark:text-white/90",
+                "leading-[1.1]",
+                "mb-8 md:mb-16"
+              )}>
+                {expertise.expertiseFields?.h22}
+              </h2>
+              
+              <div className="max-w-[800px] mx-auto">
+                <p className={cn(
+                  "text-base md:text-lg",
+                  "leading-relaxed",
+                  "text-black/70 dark:text-white/70",
+                  "whitespace-pre-line"
+                )}>
+                  {expertise.expertiseFields?.content2}
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <ProcessExpertise expertiseFields={expertise.expertiseFields} />
+        <CaseStudyWrapper />
+        <Testimonials />
+        <FAQExpertise expertiseFields={expertise.expertiseFields} />
+        <Blog />
+      </main>
+    );
+  }
 
   return (
     <main className="flex flex-col">

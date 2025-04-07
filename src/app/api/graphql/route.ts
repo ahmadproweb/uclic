@@ -4,7 +4,7 @@ export async function POST(request: Request) {
   const data = await request.json();
   
   // Faire suivre la requête à l'API WordPress
-  const response = await fetch('https://uclic.fr/graphql', {
+  const response = await fetch('https://api.uclic.fr/graphql', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
