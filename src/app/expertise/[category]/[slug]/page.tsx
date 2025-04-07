@@ -39,7 +39,7 @@ export async function generateMetadata(
 
   return {
     ...previousMetadata,
-    title: expertise.expertiseFields?.metaTitle || expertise.title,
+    title: (expertise.expertiseFields?.metaTitle || expertise.title) + ' | Agence Growth - Uclic',
     description: expertise.expertiseFields?.metaDescription || expertise.expertiseFields?.subtitle || 'Découvrez nos expertises en création de site web, branding, et développement digital.',
     robots: {
       index: true,

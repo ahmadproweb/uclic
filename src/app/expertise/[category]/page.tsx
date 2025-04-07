@@ -31,7 +31,7 @@ export async function generateMetadata(
 
   return {
     ...previousMetadata,
-    title: `${categoryName} | Uclic`,
+    title: `${categoryName} | Agence Growth - Uclic`,
     description: categoryDescription || 'Découvrez nos expertises en création de site web, branding, et développement digital.',
   };
 }
