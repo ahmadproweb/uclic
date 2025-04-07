@@ -142,7 +142,36 @@ const nextConfig = {
         destination: '/blog/:slug',
         permanent: true, // Utilise une redirection 301 (permanente)
       },
-      // Vous pouvez ajouter d'autres redirections ici si nécessaire
+      {
+        source: '/startup/:slug',
+        destination: '/blog/:slug',
+        permanent: true, // Utilise une redirection 301 (permanente)
+      },
+      {
+        source: '/product-led/:slug',
+        destination: '/blog/:slug',
+        permanent: true, // Utilise une redirection 301 (permanente)
+      },
+      {
+        source: '/marketing/:slug',
+        destination: '/blog/:slug',
+        permanent: true,
+      },
+      {
+        source: '/content-marketing/:slug',
+        destination: '/blog/:slug',
+        permanent: true,
+      },
+      {
+        source: '/referencement-naturel/:slug',
+        destination: '/blog/:slug',
+        permanent: true,
+      },
+      {
+        source: '/strategies-de-growth-marketing/:slug',
+        destination: '/blog/:slug',
+        permanent: true,
+      }
     ];
   }
 };
