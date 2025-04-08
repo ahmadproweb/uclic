@@ -7,6 +7,7 @@ import { colors as theme } from '@/config/theme';
 import Link from 'next/link';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Pagination from '@/components/ui/Pagination';
 import ScrollToTop from '@/components/ui/ScrollToTop';
 import StickyShareButtons from '@/components/ui/StickyShareButtons';
@@ -46,10 +47,7 @@ const BlogCard = memo(({ post }: { post: BlogPost }) => {
       href={`/blog/${post.slug}`}
       className="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl backdrop-blur-sm"
       style={{
-        background: `linear-gradient(145deg, 
-          #E0FF5C,
-          #E0FF5C
-        )`,
+        background: `linear-gradient(145deg, #E0FF5C, #E0FF5C)`,
         boxShadow: `0 8px 32px -4px rgba(224, 255, 92, 0.25)`
       }}
     >
@@ -62,8 +60,9 @@ const BlogCard = memo(({ post }: { post: BlogPost }) => {
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           fill
           priority={false}
-          quality={75}
+          quality={65}
           loading="lazy"
+          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRseHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/2wBDAR"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
         <span className="absolute bottom-4 left-4 inline-block px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-sm z-20">
@@ -91,7 +90,7 @@ const BlogCard = memo(({ post }: { post: BlogPost }) => {
       </div>
     </Link>
   );
-});
+}, (prevProps, nextProps) => prevProps.post.id === nextProps.post.id);
 
 BlogCard.displayName = 'BlogCard';
 
@@ -148,73 +147,51 @@ FeaturedPost.displayName = 'FeaturedPost';
 
 export default function BlogIndexClientSide({ 
   posts: initialPosts,
-  initialPage = 1 
+  initialPage = 1,
+  totalPages
 }: { 
   posts: BlogPost[];
   initialPage?: number;
+  totalPages: number;
 }) {
   const { theme: currentTheme } = useTheme();
   const isDark = currentTheme === 'dark';
+  const router = useRouter();
 
   // États pour la gestion des posts et du chargement
-  const [allPosts, setAllPosts] = useState<BlogPost[]>(initialPosts);
   const [currentPage, setCurrentPage] = useState(initialPage);
-  const [displayedPosts, setDisplayedPosts] = useState<BlogPost[]>([]);
+  const [displayedPosts, setDisplayedPosts] = useState<BlogPost[]>(initialPosts);
   const [isLoading, setIsLoading] = useState(false);
   
-  // Constants
-  const POSTS_PER_PAGE = 9;
-  
-  // Featured post est toujours le premier article
+  // Featured post est toujours le premier article de la première page
   const featuredPost = useMemo(() => 
-    initialPosts && initialPosts.length > 0 ? initialPosts[0] : null
-  , [initialPosts]);
-
-  // Calculer le nombre total de pages en excluant l'article à la une
-  const totalPages = useMemo(() => 
-    Math.ceil((initialPosts.length - 1) / POSTS_PER_PAGE)
-  , [initialPosts.length]);
-
-  // Simuler un appel API pour charger les posts d'une page spécifique
-  const fetchPagePosts = useCallback(async (page: number) => {
-    setIsLoading(true);
-    try {
-      // Calculer les indices de début et de fin pour la page demandée
-      const startIndex = 1 + (page - 1) * POSTS_PER_PAGE; // Start at 1 to skip featured post
-      const endIndex = startIndex + POSTS_PER_PAGE;
-      
-      // Retourner les posts pour cette page
-      return initialPosts.slice(startIndex, endIndex);
-    } catch (error) {
-      console.error('Error fetching posts:', error);
-      return [];
-    } finally {
-      setIsLoading(false);
-    }
-  }, [initialPosts]);
+    currentPage === 1 && initialPosts.length > 0 ? initialPosts[0] : null
+  , [currentPage, initialPosts]);
 
   // Gérer le changement de page
   const handlePageChange = useCallback(async (newPage: number) => {
-    // Scroll to top immediately for better UX
+    setIsLoading(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
     
-    setCurrentPage(newPage);
-    const newPosts = await fetchPagePosts(newPage);
-    setDisplayedPosts(newPosts);
-  }, [fetchPagePosts]);
+    try {
+      const searchParams = new URLSearchParams();
+      searchParams.set('page', newPage.toString());
+      router.push(`/blog?${searchParams.toString()}`);
+      setCurrentPage(newPage);
+    } catch (error) {
+      console.error('Error changing page:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [router]);
 
-  // Charger les posts initiaux
+  // Mettre à jour les posts affichés quand initialPosts change
   useEffect(() => {
-    const loadInitialPosts = async () => {
-      const posts = await fetchPagePosts(currentPage);
-      setDisplayedPosts(posts);
-    };
-    
-    loadInitialPosts();
-  }, [currentPage, fetchPagePosts]);
+    setDisplayedPosts(initialPosts);
+  }, [initialPosts]);
 
   if (!initialPosts?.length) {
-    return <div className="text-center py-20 text-black">Aucun article trouvé.</div>;
+    return <div className="text-center py-20 text-black dark:text-white">Aucun article trouvé.</div>;
   }
 
   return (

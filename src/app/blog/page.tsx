@@ -40,9 +40,10 @@ interface BlogPageProps {
 export default async function BlogPage({ searchParams }: BlogPageProps) {
   // Get pagination from URL query params
   const currentPage = searchParams?.page ? parseInt(searchParams.page) : 1;
+  const POSTS_PER_PAGE = 9;
   
-  // Fetch all posts for pagination
-  const posts = await getLatestPosts(1000);
+  // Fetch posts with pagination
+  const { posts, total, totalPages } = await getLatestPosts(POSTS_PER_PAGE, currentPage);
   
   // Transform WordPress posts to our format
   const transformedPosts = posts.map(post => ({
@@ -64,7 +65,8 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
     <Suspense fallback={<div className="p-12 text-center">Chargement des articles...</div>}>
       <BlogIndexClientSide 
         posts={transformedPosts} 
-        initialPage={currentPage} 
+        initialPage={currentPage}
+        totalPages={totalPages}
       />
     </Suspense>
   );

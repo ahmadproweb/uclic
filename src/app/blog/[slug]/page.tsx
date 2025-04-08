@@ -91,7 +91,7 @@ export async function generateMetadata({ params }: BlogPostParams): Promise<Meta
 
 // Generate static params for all blog posts
 export async function generateStaticParams() {
-  const posts = await getLatestPosts(10);
+  const { posts } = await getLatestPosts(10);
   
   return posts.map((post) => ({
     slug: post.slug,
@@ -158,7 +158,7 @@ export default async function BlogPostPage({ params }: BlogPostParams) {
     "@type": "BlogPosting",
     "headline": transformedPost.title,
     "datePublished": transformedPost.date,
-    "dateModified": post.modified || transformedPost.date,
+    "dateModified": transformedPost.date,
     "image": transformedPost.featured_image_url,
     "author": {
       "@type": "Person",
@@ -180,7 +180,7 @@ export default async function BlogPostPage({ params }: BlogPostParams) {
     },
     "wordCount": transformedPost.content.split(/\s+/).length,
     "articleBody": decodeHtmlEntitiesServer(transformedPost.content.replace(/<[^>]*>/g, '')),
-    "articleSection": transformedPost.category?.name
+    "articleSection": transformedPost.category
   };
 
   return (
@@ -190,7 +190,7 @@ export default async function BlogPostPage({ params }: BlogPostParams) {
         <BlogPostClientSide 
           post={transformedPost}
           preloadedRelatedPosts={relatedPosts}
-          preloadedLatestPosts={latestPosts}
+          preloadedLatestPosts={latestPosts.posts}
         />
       </Suspense>
     </>
