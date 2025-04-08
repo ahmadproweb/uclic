@@ -4,7 +4,7 @@ import ClientSideBlog from './ClientSideBlog';
 
 export default async function Blog() {
   // Fetch latest posts from WordPress API
-  const posts = await getLatestPosts(3);
+  const { posts } = await getLatestPosts(3);
   
   // Transform WordPress posts to our format
   const blogPosts = posts.map(post => ({
