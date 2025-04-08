@@ -39,7 +39,7 @@ const MenuHeader = memo(({
         )}
         onClick={handleThemeClick}
       >
-        <ThemeSwitcher />
+        <ThemeSwitcher isMobile={true} />
         <span className="text-sm font-medium text-white truncate">Thème</span>
       </div>
       <button

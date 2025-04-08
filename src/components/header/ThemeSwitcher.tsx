@@ -3,7 +3,11 @@
 import { useTheme } from '@/context/ThemeContext';
 import { cn } from '@/lib/utils';
 
-export default function ThemeSwitcher() {
+interface ThemeSwitcherProps {
+  isMobile?: boolean;
+}
+
+export default function ThemeSwitcher({ isMobile = false }: ThemeSwitcherProps) {
   const { theme, toggleTheme } = useTheme();
   const isDark = theme === 'dark';
 
@@ -11,10 +15,12 @@ export default function ThemeSwitcher() {
     <button
       onClick={toggleTheme}
       className={cn(
-        "py-2  rounded-full",
+        "py-2 rounded-full",
         isDark 
           ? "text-white hover:bg-white/10" 
-          : "text-white hover:bg-white/10"
+          : isMobile
+            ? "text-white hover:bg-white/10"
+            : "text-black hover:bg-black/5"
       )}
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
     >

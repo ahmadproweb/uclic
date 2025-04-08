@@ -60,7 +60,7 @@ MobileMenuButton.displayName = 'MobileMenuButton';
 
 const DesktopActions = memo(({ isDark }: { isDark: boolean }) => (
   <div className="hidden md:flex items-center gap-6">
-    <ThemeSwitcher />
+    <ThemeSwitcher isMobile={false} />
     <HeaderCTA isDark={isDark} />
   </div>
 ));
