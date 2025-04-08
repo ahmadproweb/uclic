@@ -1,14 +1,21 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback, memo } from 'react';
 import { useTheme } from '@/context/ThemeContext';
 import { cn } from '@/lib/utils';
 import { colors as theme } from '@/config/theme';
 import Link from 'next/link';
-import PreFooter from '@/components/footer/PreFooter';
+import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import Pagination from '@/components/ui/Pagination';
 import ScrollToTop from '@/components/ui/ScrollToTop';
 import StickyShareButtons from '@/components/ui/StickyShareButtons';
+
+// Chargement dynamique des composants non-essentiels
+const PreFooter = dynamic(() => import('@/components/footer/PreFooter'), {
+  ssr: false,
+  loading: () => <div className="h-[300px] animate-pulse bg-gray-100 dark:bg-gray-800 rounded-lg" />
+});
 
 // Define the blog post interface
 export interface BlogPost {
@@ -32,8 +39,8 @@ const capitalizeTitle = (title: string) => {
   return title.charAt(0).toUpperCase() + title.slice(1);
 };
 
-// Internal BlogCard component for this page
-function BlogCard({ post }: { post: BlogPost }) {
+// Séparer le BlogCard en composant mémoïsé
+const BlogCard = memo(({ post }: { post: BlogPost }) => {
   return (
     <Link
       href={`/blog/${post.slug}`}
@@ -48,12 +55,14 @@ function BlogCard({ post }: { post: BlogPost }) {
     >
       {/* Featured Image */}
       <div className="relative w-full h-48 overflow-hidden">
-        <img
+        <Image
           src={`${post.featured_image_url.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1')}.webp`}
           alt={capitalizeTitle(post.title)}
-          className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
-          width="400"
-          height="250"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          fill
+          priority={false}
+          quality={75}
           loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
@@ -82,10 +91,63 @@ function BlogCard({ post }: { post: BlogPost }) {
       </div>
     </Link>
   );
-}
+});
+
+BlogCard.displayName = 'BlogCard';
+
+// Séparer le FeaturedPost en composant mémoïsé
+const FeaturedPost = memo(({ post }: { post: BlogPost }) => {
+  if (!post) return null;
+  
+  return (
+    <div className="relative w-full h-[35vh] xs:h-[40vh] sm:h-[45vh] md:h-[50vh] mb-12 xs:mb-14 sm:mb-16 rounded-2xl xs:rounded-3xl overflow-hidden shadow-xl">
+      <Image
+        src={post.featured_image_url}
+        alt={capitalizeTitle(post.title)}
+        className="object-cover rounded-2xl xs:rounded-3xl"
+        fill
+        priority
+        sizes="(max-width: 1250px) 100vw, 1250px"
+        quality={75}
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
+      <div className="absolute inset-0 flex flex-col justify-end p-4 xs:p-6 sm:p-8 md:p-14">
+        <div className="max-w-5xl mx-auto w-full">
+          <div className="mb-3 xs:mb-4 flex flex-wrap gap-2">
+            <span className="inline-block px-2 xs:px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-xs xs:text-sm">
+              {post.category || 'Blog'}
+            </span>
+            <span className="text-xs xs:text-sm uppercase tracking-wider font-semibold inline-block px-2 xs:px-3 py-1 rounded-full bg-[#E0FF5C] text-black">
+              À la une
+            </span>
+          </div>
+          <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold max-w-3xl mb-3 xs:mb-4 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)]">
+            {capitalizeTitle(post.title)}
+          </h2>
+          <div className="text-white/80 flex flex-wrap items-center text-xs xs:text-sm space-x-2 xs:space-x-4 mt-3 xs:mt-4">
+            <span>{post.author}</span>
+            <span>•</span>
+            <span>{post.reading_time} min de lecture</span>
+            <span>•</span>
+            <span>{new Date(post.date).toLocaleDateString('fr-FR')}</span>
+          </div>
+          <Link 
+            href={`/blog/${post.slug}`}
+            className="px-4 xs:px-6 py-1.5 xs:py-2 rounded-full text-xs xs:text-sm font-medium mt-4 xs:mt-6 sm:mt-8 inline-block transition-all
+              bg-[#E0FF5C] text-black hover:bg-[#E0FF5C]/90"
+          >
+            Lire l&apos;article
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+});
+
+FeaturedPost.displayName = 'FeaturedPost';
 
 export default function BlogIndexClientSide({ 
-  posts: blogPosts,
+  posts: initialPosts,
   initialPage = 1 
 }: { 
   posts: BlogPost[];
@@ -94,33 +156,64 @@ export default function BlogIndexClientSide({
   const { theme: currentTheme } = useTheme();
   const isDark = currentTheme === 'dark';
 
-  // Récupérer le premier article pour l'affichage à la une
-  const featuredPost = blogPosts && blogPosts.length > 0 ? blogPosts[0] : null;
-  
-  // Pagination state
+  // États pour la gestion des posts et du chargement
+  const [allPosts, setAllPosts] = useState<BlogPost[]>(initialPosts);
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [displayedPosts, setDisplayedPosts] = useState<BlogPost[]>([]);
-  const postsPerPage = 9;  // Afficher 9 articles par page dans la grille
-  const totalPages = Math.ceil((blogPosts.length - 1) / postsPerPage); // Exclure l'article à la une du calcul
+  const [isLoading, setIsLoading] = useState(false);
   
-  // Initialize default posts to display (for server-side rendering)
-  // This ensures content is visible even without JavaScript
-  useEffect(() => {
-    // Mise à jour des articles affichés quand la page change
-    // On commence toujours à l'index 1 pour exclure l'article à la une
-    const startIndex = 1 + (currentPage - 1) * postsPerPage;
-    const endIndex = startIndex + postsPerPage;
-    setDisplayedPosts(blogPosts.slice(startIndex, endIndex));
-    
-    // Scroll to top when page changes
+  // Constants
+  const POSTS_PER_PAGE = 9;
+  
+  // Featured post est toujours le premier article
+  const featuredPost = useMemo(() => 
+    initialPosts && initialPosts.length > 0 ? initialPosts[0] : null
+  , [initialPosts]);
+
+  // Calculer le nombre total de pages en excluant l'article à la une
+  const totalPages = useMemo(() => 
+    Math.ceil((initialPosts.length - 1) / POSTS_PER_PAGE)
+  , [initialPosts.length]);
+
+  // Simuler un appel API pour charger les posts d'une page spécifique
+  const fetchPagePosts = useCallback(async (page: number) => {
+    setIsLoading(true);
+    try {
+      // Calculer les indices de début et de fin pour la page demandée
+      const startIndex = 1 + (page - 1) * POSTS_PER_PAGE; // Start at 1 to skip featured post
+      const endIndex = startIndex + POSTS_PER_PAGE;
+      
+      // Retourner les posts pour cette page
+      return initialPosts.slice(startIndex, endIndex);
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+      return [];
+    } finally {
+      setIsLoading(false);
+    }
+  }, [initialPosts]);
+
+  // Gérer le changement de page
+  const handlePageChange = useCallback(async (newPage: number) => {
+    // Scroll to top immediately for better UX
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [currentPage, blogPosts]);
+    
+    setCurrentPage(newPage);
+    const newPosts = await fetchPagePosts(newPage);
+    setDisplayedPosts(newPosts);
+  }, [fetchPagePosts]);
 
-  // For server-side rendering initial state
-  const initialPosts = blogPosts.slice(1, 1 + postsPerPage);
-  const postsToRender = displayedPosts.length > 0 ? displayedPosts : initialPosts;
+  // Charger les posts initiaux
+  useEffect(() => {
+    const loadInitialPosts = async () => {
+      const posts = await fetchPagePosts(currentPage);
+      setDisplayedPosts(posts);
+    };
+    
+    loadInitialPosts();
+  }, [currentPage, fetchPagePosts]);
 
-  if (!blogPosts || blogPosts.length === 0) {
+  if (!initialPosts?.length) {
     return <div className="text-center py-20 text-black">Aucun article trouvé.</div>;
   }
 
@@ -142,14 +235,9 @@ export default function BlogIndexClientSide({
       {/* Grain effect overlay */}
       <div 
         className={cn(
-          "absolute inset-0 z-0 mix-blend-soft-light",
+          "absolute inset-0 z-0 mix-blend-soft-light bg-noise",
           isDark ? "opacity-90" : "opacity-50"
         )}
-        style={{
-          backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.7\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\' opacity=\'0.8\'/%3E%3C/svg%3E")',
-          backgroundRepeat: 'repeat',
-          backgroundSize: '100px 100px'
-        }}
       />
 
       {/* New overlay gradient - light to transparent */}
@@ -174,7 +262,7 @@ export default function BlogIndexClientSide({
             "text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-normal mb-3 xs:mb-4",
             isDark ? "text-white" : "text-black"
           )}>
-            Découvrez nos dernières<br className="hidden xs:block"/>actualités
+            Découvrez nos dernières<br className="hidden xs:block"/> actualités
           </h1>
           <div className={cn(
             "w-10 xs:w-12 h-0.5 mx-auto mb-3 xs:mb-4",
@@ -184,20 +272,21 @@ export default function BlogIndexClientSide({
             "text-sm xs:text-base md:text-lg",
             isDark ? "text-white/100" : "text-black/80"
           )}>
-            Devenez un vrai couteau suisse avec les conseils<br className="hidden xs:block"/>des experts Uclic
+            Devenez un vrai couteau suisse avec les conseils<br className="hidden xs:block"/> des experts Uclic
           </p>
         </div>
         
         {/* Hero section with featured image */}
         {featuredPost && (
           <div className="relative w-full h-[35vh] xs:h-[40vh] sm:h-[45vh] md:h-[50vh] mb-12 xs:mb-14 sm:mb-16 rounded-2xl xs:rounded-3xl overflow-hidden shadow-xl">
-            <img
+            <Image
               src={featuredPost.featured_image_url}
               alt={capitalizeTitle(featuredPost.title)}
-              className="absolute inset-0 w-full h-full object-cover rounded-2xl xs:rounded-3xl"
-              width="1200"
-              height="800"
-              loading="eager"
+              className="object-cover rounded-2xl xs:rounded-3xl"
+              fill
+              priority
+              sizes="(max-width: 1250px) 100vw, 1250px"
+              quality={75}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
             <div className="absolute inset-0 flex flex-col justify-end p-4 xs:p-6 sm:p-8 md:p-14">
@@ -232,11 +321,25 @@ export default function BlogIndexClientSide({
           </div>
         )}
       
-        {/* Blog grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 md:mb-16">
-          {postsToRender.map((post) => (
-            <BlogCard key={post.id} post={post} />
-          ))}
+        {/* Blog grid avec état de chargement */}
+        <div className="relative">
+          {isLoading && (
+            <div className="absolute inset-0 bg-black/5 dark:bg-white/5 backdrop-blur-sm z-10 flex items-center justify-center rounded-xl">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-[#E0FF5C] rounded-full animate-bounce" />
+                <div className="w-2 h-2 bg-[#E0FF5C] rounded-full animate-bounce [animation-delay:0.2s]" />
+                <div className="w-2 h-2 bg-[#E0FF5C] rounded-full animate-bounce [animation-delay:0.4s]" />
+              </div>
+            </div>
+          )}
+          <div className={cn(
+            "grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 md:mb-16",
+            isLoading && "opacity-50"
+          )}>
+            {displayedPosts.map((post) => (
+              <BlogCard key={post.id} post={post} />
+            ))}
+          </div>
         </div>
         
         {/* Pagination */}
@@ -244,7 +347,8 @@ export default function BlogIndexClientSide({
           <Pagination 
             currentPage={currentPage} 
             totalPages={totalPages} 
-            onPageChange={setCurrentPage}
+            onPageChange={handlePageChange}
+            disabled={isLoading}
           />
         </div>
       </div>

@@ -10,6 +10,7 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
   className?: string;
   basePath?: string; // For static links when JS is disabled
+  disabled?: boolean; // Pour désactiver les boutons pendant le chargement
 }
 
 export default function Pagination({ 
@@ -17,7 +18,8 @@ export default function Pagination({
   totalPages, 
   onPageChange,
   className,
-  basePath = '/blog'
+  basePath = '/blog',
+  disabled = false
 }: PaginationProps) {
   const { theme: currentTheme } = useTheme();
   const isDark = currentTheme === 'dark';
@@ -61,7 +63,7 @@ export default function Pagination({
   };
 
   const handlePageClick = (pageNumber: number) => {
-    if (pageNumber !== currentPage) {
+    if (pageNumber !== currentPage && !disabled) {
       onPageChange(pageNumber);
     }
   };
@@ -86,13 +88,15 @@ export default function Pagination({
       <button
         key={`page-${pageNumber}`}
         onClick={() => handlePageClick(Number(pageNumber))}
+        disabled={disabled}
         className={cn(
           "w-10 h-10 rounded-full flex items-center justify-center transition-all",
           Number(pageNumber) === currentPage 
             ? "bg-[#E0FF5C] text-black font-medium" 
             : isDark
               ? "text-white hover:bg-white/10"
-              : "text-black hover:bg-black/10"
+              : "text-black hover:bg-black/10",
+          disabled && "opacity-50 cursor-not-allowed"
         )}
         aria-label={`Page ${pageNumber}`}
         aria-current={Number(pageNumber) === currentPage ? "page" : undefined}
@@ -103,16 +107,22 @@ export default function Pagination({
   };
 
   return (
-    <div className={cn("flex justify-center items-center space-x-2", className)}>
+    <div className={cn(
+      "flex justify-center items-center space-x-2",
+      className,
+      disabled && "opacity-50"
+    )}>
       {/* Previous page button */}
       {currentPage > 1 ? (
         <button
           onClick={() => handlePageClick(currentPage - 1)}
+          disabled={disabled}
           className={cn(
             "w-10 h-10 rounded-full flex items-center justify-center transition-all",
             isDark
               ? "text-white hover:bg-white/10"
-              : "text-black hover:bg-black/10"
+              : "text-black hover:bg-black/10",
+            disabled && "cursor-not-allowed"
           )}
           aria-label="Page précédente"
         >
@@ -143,11 +153,13 @@ export default function Pagination({
       {currentPage < totalPages ? (
         <button
           onClick={() => handlePageClick(currentPage + 1)}
+          disabled={disabled}
           className={cn(
             "w-10 h-10 rounded-full flex items-center justify-center transition-all",
             isDark
               ? "text-white hover:bg-white/10"
-              : "text-black hover:bg-black/10"
+              : "text-black hover:bg-black/10",
+            disabled && "cursor-not-allowed"
           )}
           aria-label="Page suivante"
         >

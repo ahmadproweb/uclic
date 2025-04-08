@@ -4,12 +4,22 @@ import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 import { colors as theme } from '@/config/theme';
 import Link from 'next/link';
-import ScrollToTop from '@/components/ui/ScrollToTop';
-import StickyShareButtons from '@/components/ui/StickyShareButtons';
+import dynamic from 'next/dynamic';
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { WordPressPost, getRelatedPosts, getPostCategory, getFeaturedImage, formatDate, estimateReadingTime, getLatestPosts } from '@/services/wordpress';
 import { slugify } from '@/utils/string';
 import '@/styles/wordpress-content.css';
+
+// Chargement dynamique des composants non-critiques
+const ScrollToTop = dynamic(() => import('@/components/ui/ScrollToTop'), {
+  ssr: false,
+  loading: () => null
+});
+
+const StickyShareButtons = dynamic(() => import('@/components/ui/StickyShareButtons'), {
+  ssr: false,
+  loading: () => null
+});
 
 interface BlogPostProps {
   post: {
@@ -53,26 +63,17 @@ function RelatedPosts({
   const isDark = currentTheme === 'dark';
   const themeColors = theme.colors;
 
-  // Calculer les articles à afficher dans le slide actuel
+  // Memoize les posts visibles pour éviter les re-renders inutiles
   const visiblePosts = useMemo(() => {
     const startIdx = currentSlide * 2;
     return latestPosts.slice(startIdx, startIdx + 2);
   }, [latestPosts, currentSlide]);
 
-  // Fonction pour changer de slide
-  const changeSlide = (direction: 'next' | 'prev') => {
-    if (direction === 'next') {
-      setCurrentSlide(currentSlide === Math.ceil(latestPosts.length / 2) - 1 ? 0 : currentSlide + 1);
-    } else {
-      setCurrentSlide(currentSlide === 0 ? Math.ceil(latestPosts.length / 2) - 1 : currentSlide - 1);
-    }
-  };
-
   useEffect(() => {
-    // Si nous avons déjà des données préchargées et pas besoin de charger davantage
+    let isMounted = true;
+
+    // Si nous avons déjà des données préchargées, pas besoin de charger davantage
     if (initialRelatedPosts.length > 0 && initialLatestPosts.length > 0) {
-      console.log("[RelatedPosts] Using preloaded data");
-      setLoading(false);
       return;
     }
 
@@ -80,33 +81,32 @@ function RelatedPosts({
       try {
         setLoading(true);
         
-        // Charger les articles associés seulement si nous n'en avons pas déjà
-        let related = initialRelatedPosts;
-        if (initialRelatedPosts.length === 0) {
-          related = await getRelatedPosts(currentPost, 3);
-          console.log("[RelatedPosts] Related posts fetched:", related.length);
-        }
+        // Charger en parallèle pour de meilleures performances
+        const [related, latest] = await Promise.all([
+          initialRelatedPosts.length === 0 ? getRelatedPosts(currentPost, 3) : Promise.resolve(initialRelatedPosts),
+          initialLatestPosts.length === 0 ? getLatestPosts(6) : Promise.resolve(initialLatestPosts)
+        ]);
+
+        if (!isMounted) return;
+
         setRelatedPosts(related);
-        
-        // Charger les derniers articles seulement si nous n'en avons pas déjà
-        let latest = initialLatestPosts;
-        if (initialLatestPosts.length === 0) {
-          latest = await getLatestPosts(6);
-          console.log("[RelatedPosts] Latest posts fetched:", latest.length);
-          
-          // Filtrer pour exclure l'article en cours
-          latest = latest.filter(post => post.id !== currentPost.id).slice(0, 6);
-        }
-        setLatestPosts(latest);
+        setLatestPosts(latest.filter(post => post.id !== currentPost.id).slice(0, 6));
       } catch (err) {
+        if (!isMounted) return;
         console.error("[RelatedPosts] Error fetching posts:", err);
         setError("Erreur lors du chargement des articles");
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     }
 
     fetchPosts();
+
+    return () => {
+      isMounted = false;
+    };
   }, [currentPost, initialRelatedPosts, initialLatestPosts]);
 
   if (error) {
@@ -287,7 +287,7 @@ function RelatedPosts({
             {/* Boutons de navigation */}
             <div className="flex space-x-2">
               <button
-                onClick={() => changeSlide('prev')}
+                onClick={() => setCurrentSlide(currentSlide === 0 ? Math.ceil(latestPosts.length / 2) - 1 : currentSlide - 1)}
                 className={cn(
                   "w-8 h-8 rounded-full flex items-center justify-center",
                   isDark 
@@ -301,7 +301,7 @@ function RelatedPosts({
                 </svg>
               </button>
               <button
-                onClick={() => changeSlide('next')}
+                onClick={() => setCurrentSlide(currentSlide === Math.ceil(latestPosts.length / 2) - 1 ? 0 : currentSlide + 1)}
                 className={cn(
                   "w-8 h-8 rounded-full flex items-center justify-center",
                   isDark 

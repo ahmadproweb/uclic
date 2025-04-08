@@ -123,11 +123,11 @@ const StepContent = memo(({
       <h4 className="text-xl md:text-3xl text-black mb-4 md:mb-6 font-bold">
         {step.subtitle}
       </h4>
-      <p className="text-sm md:text-lg text-black/70 mb-6 md:mb-8 leading-relaxed">
+      <p className="text-sm md:text-lg text-black/70 mb-4 md:mb-6 leading-relaxed">
         {step.description}
       </p>
       
-      <div className="flex gap-4 justify-center md:justify-start">
+      <div className="flex gap-2 justify-center md:justify-start">
         {!isFirst && (
           <NavigationButton 
             onClick={onPrev} 
@@ -163,7 +163,7 @@ const PreviewStep = memo(({ step, isVisible, stepIndex }: {
     id={`step-${stepIndex}-preview`}
     aria-labelledby={`step-${stepIndex}-tab`}
     className={cn(
-      "hidden md:block absolute top-[350px] left-0 w-full pl-12 pointer-events-none transition-all duration-500",
+      "hidden md:block absolute top-[400px] left-0 w-full pl-12 pointer-events-none transition-all duration-500",
       isVisible ? "opacity-30 translate-y-12" : "opacity-0 translate-y-24"
     )}
     hidden={!isVisible}
