@@ -1,0 +1,90 @@
+'use client';
+
+import React, { memo } from 'react';
+import Link from 'next/link';
+import '@/styles/marquee-scroll.css';
+import { cn } from '@/lib/utils';
+import { ArrowIcon } from '@/components/ui/icons/ArrowIcon';
+
+interface ServiceLink {
+  text: string;
+  href: string;
+  description: string;
+}
+
+interface ExpertiseMarqueeProps {
+  words: ServiceLink[];
+}
+
+const MarqueeItem = memo(function MarqueeItem({ word }: { word: ServiceLink }) {
+  return (
+    <Link 
+      href={word.href}
+      className="flex items-center group mx-2 cursor-pointer will-change-transform"
+      aria-label={`${word.text} - ${word.description}`}
+    >
+      <div className="relative px-4 py-2">
+        <span className="text-[50px] text-black dark:text-white font-normal tracking-[-0.02em] relative z-10 group-hover:text-white dark:group-hover:text-[#E0FF5C] transition-colors duration-300">
+          {word.text}
+        </span>
+        <div 
+          className="absolute inset-0 bg-[#1A2E1A] rounded-[24px] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
+          aria-hidden="true"
+        />
+      </div>
+      <ArrowIcon className="relative z-10 ml-2 text-black dark:text-white group-hover:text-[#1A2E1A] dark:group-hover:text-[#E0FF5C] -rotate-45 group-hover:rotate-0 group-hover:-translate-y-1 group-hover:translate-x-1 transition-all duration-300 transform-gpu" />
+    </Link>
+  );
+});
+
+MarqueeItem.displayName = 'MarqueeItem';
+
+const MarqueeRow = memo(function MarqueeRow({ words, isReverse = false }: { words: ServiceLink[], isReverse?: boolean }) {
+  const copies = 2;
+
+  return (
+    <div className="marquee-container">
+      <div 
+        className={cn(
+          "marquee-scroll",
+          isReverse ? "animate-marquee-right" : "animate-marquee-left"
+        )}
+      >
+        {Array.from({ length: copies }).map((_, copyIndex) => (
+          words.map((word, idx) => (
+            <MarqueeItem 
+              key={`${isReverse ? 'reverse' : 'forward'}-${copyIndex}-${idx}`} 
+              word={word} 
+            />
+          ))
+        ))}
+      </div>
+    </div>
+  );
+});
+
+MarqueeRow.displayName = 'MarqueeRow';
+
+const ExpertiseMarqueeClient = memo(function ExpertiseMarqueeClient({ words }: { words: ServiceLink[] }) {
+  if (!words || words.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="flex flex-col gap-0">
+      <MarqueeRow words={words} />
+      <MarqueeRow words={words} isReverse />
+    </div>
+  );
+});
+
+export default memo(function ExpertiseMarquee({ words }: ExpertiseMarqueeProps) {
+  return (
+    <section 
+      className="w-full bg-white dark:bg-black overflow-hidden py-8 will-change-transform"
+      aria-label="Expertises connexes"
+    >
+      <ExpertiseMarqueeClient words={words} />
+    </section>
+  );
+}); 

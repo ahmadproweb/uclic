@@ -887,27 +887,36 @@ export async function getExpertisePostsByCategory(categorySlug: string): Promise
   console.log('🔍 Fetching expertise posts for category:', categorySlug);
   
   const query = `
-    query GetExpertisesByCategory($categorySlug: ID!) {
-      expertiseGrowthCategory(id: $categorySlug, idType: SLUG) {
-        name
-        slug
-        expertises {
-          nodes {
-            id
-            title
-            slug
-            uri
-            expertiseFields {
-              tag
-              h1
-              subtitle
-            }
-            expertiseGrowthCategories {
-              nodes {
-                name
-                slug
-                description
+    query GetExpertisesByCategory($categorySlug: String!) {
+      expertises(
+        where: {
+          taxQuery: {
+            taxArray: [
+              {
+                taxonomy: EXPERTISEGROWTHCATEGORY
+                terms: [$categorySlug]
+                field: SLUG
+                operator: IN
               }
+            ]
+          }
+        }
+      ) {
+        nodes {
+          id
+          title
+          slug
+          uri
+          expertiseFields {
+            tag
+            h1
+            subtitle
+          }
+          expertiseGrowthCategories {
+            nodes {
+              name
+              slug
+              description
             }
           }
         }
@@ -921,19 +930,19 @@ export async function getExpertisePostsByCategory(categorySlug: string): Promise
     
     console.log('📦 Raw response:', JSON.stringify(response, null, 2));
     
-    if (!response?.expertiseGrowthCategory?.expertises?.nodes) {
+    if (!response?.expertises?.nodes) {
       console.error('❌ No expertises found');
       console.error('Response structure:', response);
       return [];
     }
 
-    const posts = response.expertiseGrowthCategory.expertises.nodes.map(post => ({
+    const posts = response.expertises.nodes.map(post => ({
       ...post,
       categories: {
         nodes: [{
-          name: response.expertiseGrowthCategory.name,
-          slug: response.expertiseGrowthCategory.slug,
-          description: post.expertiseGrowthCategories?.nodes?.[0]?.description
+          name: post.expertiseGrowthCategories?.nodes?.[0]?.name || '',
+          slug: post.expertiseGrowthCategories?.nodes?.[0]?.slug || '',
+          description: post.expertiseGrowthCategories?.nodes?.[0]?.description || ''
         }]
       }
     }));
@@ -944,7 +953,7 @@ export async function getExpertisePostsByCategory(categorySlug: string): Promise
       slug: post.slug,
       uri: post.uri,
       tag: post.expertiseFields?.tag,
-      categoryName: response.expertiseGrowthCategory.name
+      categoryName: post.expertiseGrowthCategories?.nodes?.[0]?.name
     })));
     
     return posts;
@@ -1464,5 +1473,125 @@ export async function getExpertisesByCategory(categorySlug: string): Promise<Exp
   } catch (error) {
     console.error(`Error fetching expertises for category ${categorySlug}:`, error);
     return [];
+  }
+}
+
+export interface ExpertiseCategoryFields {
+  tag: string;
+  h1: string;
+  subtitle: string;
+  h21: string;
+  titrebox1: string;
+  description1: string;
+  titrebox2: string;
+  description2: string;
+  titrebox3: string;
+  description3: string;
+  marqueeRelatedCat: string;
+  moreRelatedCat: string;
+  h22: string;
+  content2: string;
+  processLittleTitle: string;
+  processTitle: string;
+  processDescription: string;
+  processTitre1: string;
+  processTitre2: string;
+  processTitre3: string;
+  descriptionTitre1: string;
+  descriptionTitre2: string;
+  descriptionTitre3: string;
+  faqSubtitle: string;
+  faqTitle1: string;
+  faqDesc1: string;
+  faqTitle2: string;
+  faqDesc2: string;
+  faqTitle3: string;
+  faqDesc3: string;
+  faqTitle4: string;
+  faqDesc4: string;
+  faqTitle5: string;
+  faqDesc5: string;
+  faqTitle6: string;
+  faqDesc6: string;
+  metaTitle: string;
+  metaDescription: string;
+}
+
+export interface ExpertiseCategoryData {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  expertiseFields: ExpertiseCategoryFields;
+}
+
+export async function getExpertiseCategory(categorySlug: string): Promise<ExpertiseCategoryData | null> {
+  console.log('🔍 Fetching expertise category with slug:', categorySlug);
+  
+  const query = `
+    query GetExpertiseCategory($categorySlug: ID!) {
+      expertiseGrowthCategory(id: $categorySlug, idType: SLUG) {
+        id
+        name
+        slug
+        description
+        expertiseFields {
+          tag
+          h1
+          subtitle
+          h21
+          titrebox1
+          description1
+          titrebox2
+          description2
+          titrebox3
+          description3
+          marqueeRelatedCat
+          moreRelatedCat
+          h22
+          content2
+          processLittleTitle
+          processTitle
+          processDescription
+          processTitre1
+          processTitre2
+          processTitre3
+          descriptionTitre1
+          descriptionTitre2
+          descriptionTitre3
+          faqSubtitle
+          faqTitle1
+          faqDesc1
+          faqTitle2
+          faqDesc2
+          faqTitle3
+          faqDesc3
+          faqTitle4
+          faqDesc4
+          faqTitle5
+          faqDesc5
+          faqTitle6
+          faqDesc6
+          metaTitle
+          metaDescription
+        }
+      }
+    }
+  `;
+
+  try {
+    console.log('📡 Sending GraphQL query for expertise category...');
+    const response = await fetchAPI(query, { variables: { categorySlug } });
+    
+    if (!response?.expertiseGrowthCategory) {
+      console.error('❌ No expertise category found in response');
+      return null;
+    }
+
+    console.log('✅ Successfully fetched expertise category:', response.expertiseGrowthCategory.name);
+    return response.expertiseGrowthCategory;
+  } catch (error) {
+    console.error('🚨 Error fetching expertise category:', error);
+    return null;
   }
 } 
