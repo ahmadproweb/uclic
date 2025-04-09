@@ -5,7 +5,6 @@ import { useTheme } from '@/context/ThemeContext';
 import { cn } from '@/lib/utils';
 import { colors as theme } from '@/config/theme';
 import Link from 'next/link';
-import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Pagination from '@/components/ui/Pagination';
@@ -53,16 +52,10 @@ const BlogCard = memo(({ post }: { post: BlogPost }) => {
     >
       {/* Featured Image */}
       <div className="relative w-full h-48 overflow-hidden">
-        <Image
+        <img
           src={`${post.featured_image_url.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1')}.webp`}
           alt={capitalizeTitle(post.title)}
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          fill
-          priority={false}
-          quality={65}
-          loading="lazy"
-          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDABQODxIPDRQSEBIXFRQdHx4eHRseHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/2wBDAR"
+          className="object-cover transition-transform duration-500 group-hover:scale-105 w-full h-full"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
         <span className="absolute bottom-4 left-4 inline-block px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-sm z-20">
@@ -100,14 +93,10 @@ const FeaturedPost = memo(({ post }: { post: BlogPost }) => {
   
   return (
     <div className="relative w-full h-[35vh] xs:h-[40vh] sm:h-[45vh] md:h-[50vh] mb-12 xs:mb-14 sm:mb-16 rounded-2xl xs:rounded-3xl overflow-hidden shadow-xl">
-      <Image
+      <img
         src={post.featured_image_url}
         alt={capitalizeTitle(post.title)}
-        className="object-cover rounded-2xl xs:rounded-3xl"
-        fill
-        priority
-        sizes="(max-width: 1250px) 100vw, 1250px"
-        quality={75}
+        className="object-cover rounded-2xl xs:rounded-3xl w-full h-full"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
       <div className="absolute inset-0 flex flex-col justify-end p-4 xs:p-6 sm:p-8 md:p-14">
@@ -256,14 +245,10 @@ export default function BlogIndexClientSide({
         {/* Hero section with featured image */}
         {featuredPost && (
           <div className="relative w-full h-[35vh] xs:h-[40vh] sm:h-[45vh] md:h-[50vh] mb-12 xs:mb-14 sm:mb-16 rounded-2xl xs:rounded-3xl overflow-hidden shadow-xl">
-            <Image
+            <img
               src={featuredPost.featured_image_url}
               alt={capitalizeTitle(featuredPost.title)}
-              className="object-cover rounded-2xl xs:rounded-3xl"
-              fill
-              priority
-              sizes="(max-width: 1250px) 100vw, 1250px"
-              quality={75}
+              className="object-cover rounded-2xl xs:rounded-3xl w-full h-full"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
             <div className="absolute inset-0 flex flex-col justify-end p-4 xs:p-6 sm:p-8 md:p-14">
