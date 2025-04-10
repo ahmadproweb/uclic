@@ -38,10 +38,7 @@ const HeroExpertise: React.FC<HeroExpertiseProps> = ({
             )}
 
             <h1 className={cn(
-              "text-4xl sm:text-5xl md:text-6xl lg:text-[80px]",
-              "font-medium tracking-[-2px]",
-              "text-black/90 dark:text-white/90",
-              "leading-[1.1]"
+              "text-4xl sm:text-4xl md:text-5xl lg:text-[64px] font-semibold mb-4 sm:mb-6 leading-[1.1] tracking-[-0.04em] text-rendering-optimizeLegibility will-change-transform text-[#000] dark:text-[#F5F5F1] whitespace-pre-line"
             )}>
               {expertiseFields.h1 || categoryName}
             </h1>
@@ -54,7 +51,7 @@ const HeroExpertise: React.FC<HeroExpertiseProps> = ({
               </p>
             )}
 
-            <div className="flex flex-col sm:flex-row gap-4 mt-8">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
               <CTAButton 
                 href={`/contact`}
                 className="bg-[#E0FF5C] text-black hover:bg-black hover:text-white dark:bg-white dark:text-black dark:hover:bg-[#E0FF5C]"
