@@ -1403,6 +1403,9 @@ export interface ExpertiseByCategory {
   slug: string;
   date: string;
   content: string;
+  expertiseFields?: {
+    subtitle?: string;
+  };
   expertiseGrowthCategories: {
     nodes: ExpertiseGrowthCategory[];
   };
