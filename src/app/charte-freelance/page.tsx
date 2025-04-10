@@ -49,7 +49,7 @@ export default function CharteFreelancePage() {
           {/* Letter Content */}
           <div
             className={cn(
-              "vintage-letter font-serif space-y-8 transition-opacity duration-1000 rounded-3xl p-8",
+              "space-y-8 transition-opacity duration-1000 rounded-3xl p-8",
               isVisible ? "opacity-100" : "opacity-0",
               "bg-white/10 dark:bg-black/10 backdrop-blur-sm"
             )}
