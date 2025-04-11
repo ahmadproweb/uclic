@@ -56,11 +56,8 @@ FooterLinks.displayName = 'FooterLinks';
 
 const FooterBottom = memo(({ isDark, legalPages }: { isDark: boolean; legalPages: FooterUIProps['legalPages'] }) => {
   const socialLinks = [
-    { name: 'Facebook', href: '#', icon: 'ri-facebook-line' },
-    { name: 'LinkedIn', href: '#', icon: 'ri-linkedin-line' },
-    { name: 'Twitter', href: '#', icon: 'ri-twitter-x-line' },
-    { name: 'Instagram', href: '#', icon: 'ri-instagram-line' },
-    { name: 'YouTube', href: '#', icon: 'ri-youtube-line' }
+    { name: 'LinkedIn', href: 'https://www.linkedin.com/company/uclic-growth-marketing/', icon: 'ri-linkedin-line' },
+    { name: 'Twitter', href: 'https://x.com/delcros_w', icon: 'ri-twitter-x-line' }
   ];
 
   return (
