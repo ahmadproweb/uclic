@@ -41,6 +41,7 @@ declare global {
       location?: string;
       source?: string;
     }>;
+    __FORCE_LOG__?: typeof console.log;
   }
 }
 
@@ -49,28 +50,32 @@ const SCROLL_THRESHOLD = 20;
 
 // Track Audit button click
 const trackAuditClick = (location: string) => {
-  // Debug logs that won't be removed in production
+  // Create a custom event that will be visible in all environments
+  const customEvent = new CustomEvent('uclic_debug', {
+    detail: {
+      type: 'audit_click',
+      location: location,
+      timestamp: new Date().toISOString()
+    }
+  });
+  
+  // Dispatch the event
+  window.dispatchEvent(customEvent);
+  
+  // GTM tracking
   const debugEvent = {
     event: 'audit_button_click',
     eventCategory: 'engagement',
     eventLabel: `Header - ${location}`,
     buttonLocation: location
   };
-  
-  // Force log in production
-  window.__DEBUG_EVENTS__ = window.__DEBUG_EVENTS__ || [];
-  window.__DEBUG_EVENTS__.push(debugEvent);
-  
-  // GTM tracking
   window.dataLayer?.push(debugEvent);
 
-  // PostHog tracking with debug
+  // PostHog tracking
   const posthogEvent = {
     location: location,
     source: 'header'
   };
-  window.__DEBUG_EVENTS__.push({ type: 'posthog', ...posthogEvent });
-  
   posthog.capture('audit_button_click', posthogEvent);
 };
 
@@ -139,6 +144,23 @@ const Header = () => {
   
   const headerRef = useRef<HTMLDivElement>(null);
   
+  // Initialize debug tools
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Initialize debug array
+      window.__DEBUG_EVENTS__ = window.__DEBUG_EVENTS__ || [];
+      
+      // Save original console.log
+      // @ts-expect-error - Accessing console.log directly
+      window.__FORCE_LOG__ = console.log.bind(console);
+      
+      // Log initialization
+      const timestamp = new Date().toISOString();
+      // @ts-expect-error - Using stored console.log
+      window.__FORCE_LOG__(`[${timestamp}] Debug tools initialized`);
+    }
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
       if (!headerRef.current) return;
@@ -178,6 +200,21 @@ const Header = () => {
   
   const handleMegaMenuClose = useCallback(() => {
     setIsMegaMenuOpen(false);
+  }, []);
+
+  // Add event listener for debug events
+  useEffect(() => {
+    const handleDebugEvent = (e: CustomEvent) => {
+      const debugInfo = e.detail;
+      const message = `[UCLIC DEBUG] ${debugInfo.type} - ${JSON.stringify(debugInfo, null, 2)}`;
+      // This will show in all environments
+      alert(message);
+    };
+
+    window.addEventListener('uclic_debug', handleDebugEvent as EventListener);
+    return () => {
+      window.removeEventListener('uclic_debug', handleDebugEvent as EventListener);
+    };
   }, []);
 
   return (
