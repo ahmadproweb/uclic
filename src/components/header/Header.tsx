@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef, useEffect, memo, useCallback } from "react";
-import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { MobileMenu } from "./MobileMenu";
 import { MegaMenu } from "./MegaMenu";
@@ -10,9 +9,43 @@ import { Logo } from "./Logo";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { useTheme } from "@/context/ThemeContext";
 import { CTAButton } from "@/components/ui/cta-button";
+import posthog from "posthog-js";
+
+// Définir les types pour window.gtag
+declare global {
+  interface Window {
+    gtag?: (
+      command: 'event',
+      eventName: string,
+      eventParams: {
+        event_category?: string;
+        event_label?: string;
+        [key: string]: Record<string, unknown>;
+      }
+    ) => void;
+  }
+}
 
 // Constants
 const SCROLL_THRESHOLD = 20;
+
+// Track Audit button click
+const trackAuditClick = (location: string) => {
+  // Debug logs
+  console.log('🎯 Tracking audit click:', location);
+  
+  window.gtag?.('event', 'audit_button_click', {
+    event_category: 'engagement',
+    event_label: `Header - ${location}`,
+    button_location: location
+  });
+
+  // PostHog tracking
+  posthog.capture('audit_button_click', {
+    location: location,
+    source: 'header'
+  });
+};
 
 // Memoized Components
 const HeaderCTA = memo(({ isDark }: { isDark: boolean }) => (
@@ -21,6 +54,7 @@ const HeaderCTA = memo(({ isDark }: { isDark: boolean }) => (
     variant={isDark ? "mainCTA" : "shiny"}
     ariaLabel="Demander un audit gratuit"
     className="!transition-none"
+    onClick={() => trackAuditClick('Free Audit CTA')}
   >
     Audit Gratuit
   </CTAButton>

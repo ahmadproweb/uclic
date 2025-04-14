@@ -3,6 +3,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { navItems } from "./NavItems";
 import { HeaderThemeProps } from "./types";
+import posthog from "posthog-js";
 
 interface DesktopNavProps extends HeaderThemeProps {
   isMegaMenuOpen: boolean;
@@ -73,7 +74,8 @@ export const DesktopNav = memo(({
   isDirectlyOverHero,
   isOverHero,
   isMegaMenuOpen,
-  setIsMegaMenuOpen
+  setIsMegaMenuOpen,
+  isDark
 }: DesktopNavProps) => {
   const handleItemClick = useCallback((item: typeof navItems[0]) => {
     if (item.hasMegaMenu) {
@@ -86,6 +88,20 @@ export const DesktopNav = memo(({
       setIsMegaMenuOpen(true);
     }
   }, [setIsMegaMenuOpen]);
+
+  const trackAuditClick = (location: string) => {
+    window.gtag?.('event', 'audit_button_click', {
+      event_category: 'engagement',
+      event_label: `Header - ${location}`,
+      button_location: location
+    });
+
+    // PostHog tracking
+    posthog.capture('audit_button_click', {
+      location: location,
+      source: 'desktop_nav'
+    });
+  };
 
   return (
     <div className="hidden md:flex items-center gap-4 absolute left-1/2 -translate-x-1/2">
