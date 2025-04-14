@@ -10,7 +10,7 @@ import { VideoPopupProvider } from '@/context/VideoPopupContext';
 import VideoPopup from '@/components/ui/VideoPopup';
 import HubspotChat from '@/components/ui/HubspotChat';
 import Analytics from '@/components/GoogleAnalytics';
-import { PHProvider } from "@/components/PostHogProvider";
+import { PHProvider } from "@/components/providers/PostHogProvider";
 
 export const viewport: Viewport = {
   width: 'device-width',
