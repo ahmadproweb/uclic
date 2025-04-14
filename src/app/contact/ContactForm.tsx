@@ -10,6 +10,22 @@ import { useState, useRef } from 'react';
 import emailjs from '@emailjs/browser';
 import posthog from 'posthog-js';
 
+// Définir les types pour window.gtag et window.dataLayer
+declare global {
+  interface Window {
+    gtag?: (
+      command: 'event',
+      eventName: string,
+      eventParams: {
+        event_category?: string;
+        event_label?: string;
+        [key: string]: any;
+      }
+    ) => void;
+    dataLayer?: any[];
+  }
+}
+
 emailjs.init('sNJezWZbNlGM1x_Pe');
 
 export default function ContactForm() {
@@ -82,6 +98,14 @@ export default function ContactForm() {
         posthog.capture('contact_form_submitted', {
           name: name,
           email: email
+        });
+
+        // Envoyer l'événement à GA4
+        window.gtag?.('event', 'contact_form_submitted', {
+          event_category: 'engagement',
+          event_label: 'Contact Form',
+          user_email: email,
+          user_name: name
         });
 
         // Pousser l'événement dans le dataLayer pour GTM
