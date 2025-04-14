@@ -21,7 +21,7 @@ declare global {
       buttonLocation?: string;
       virtualPagePath?: string;
       virtualPageTitle?: string;
-      [key: string]: any;
+      [key: string]: string | undefined;
     }>;
     gtag?: (
       command: 'event',
@@ -32,6 +32,15 @@ declare global {
         button_location: string;
       }
     ) => void;
+    __DEBUG_EVENTS__?: Array<{
+      type?: string;
+      event?: string;
+      eventCategory?: string;
+      eventLabel?: string;
+      buttonLocation?: string;
+      location?: string;
+      source?: string;
+    }>;
   }
 }
 
@@ -40,19 +49,29 @@ const SCROLL_THRESHOLD = 20;
 
 // Track Audit button click
 const trackAuditClick = (location: string) => {
-  // GTM tracking
-  window.dataLayer?.push({
+  // Debug logs that won't be removed in production
+  const debugEvent = {
     event: 'audit_button_click',
     eventCategory: 'engagement',
     eventLabel: `Header - ${location}`,
     buttonLocation: location
-  });
+  };
+  
+  // Force log in production
+  window.__DEBUG_EVENTS__ = window.__DEBUG_EVENTS__ || [];
+  window.__DEBUG_EVENTS__.push(debugEvent);
+  
+  // GTM tracking
+  window.dataLayer?.push(debugEvent);
 
-  // PostHog tracking
-  posthog.capture('audit_button_click', {
+  // PostHog tracking with debug
+  const posthogEvent = {
     location: location,
     source: 'header'
-  });
+  };
+  window.__DEBUG_EVENTS__.push({ type: 'posthog', ...posthogEvent });
+  
+  posthog.capture('audit_button_click', posthogEvent);
 };
 
 // Memoized Components
