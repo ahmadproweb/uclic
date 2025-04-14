@@ -10,6 +10,7 @@ import { VideoPopupProvider } from '@/context/VideoPopupContext';
 import VideoPopup from '@/components/ui/VideoPopup';
 import HubspotChat from '@/components/ui/HubspotChat';
 import Analytics from '@/components/GoogleAnalytics';
+import { PHProvider } from "@/components/PostHogProvider";
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -152,17 +153,28 @@ export default function RootLayout({
 
       </head>
       <body suppressHydrationWarning>
+        {/* Google Tag Manager (noscript) */}
+        <noscript>
+          <iframe 
+            src="https://www.googletagmanager.com/ns.html?id=GTM-P6CSQ32"
+            height="0" 
+            width="0" 
+            style={{ display: 'none', visibility: 'hidden' }}
+          />
+        </noscript>
         <ThemeProvider>
           <VideoPopupProvider>
             <SpotifyPlayerProvider>
-              <div suppressHydrationWarning>
-                <Header />
-                {children}
-                <Footer />
-                <VideoPopup />
-                <HubspotChat />
-                <Analytics />
-              </div>
+              <PHProvider>
+                <div suppressHydrationWarning>
+                  <Header />
+                  {children}
+                  <Footer />
+                  <VideoPopup />
+                  <HubspotChat />
+                  <Analytics />
+                </div>
+              </PHProvider>
             </SpotifyPlayerProvider>
           </VideoPopupProvider>
         </ThemeProvider>

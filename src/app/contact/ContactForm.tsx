@@ -8,6 +8,7 @@ import Partners from '@/components/pages/home/partner/partner';
 import { CTAButton } from '@/components/ui/cta-button';
 import { useState, useRef } from 'react';
 import emailjs from '@emailjs/browser';
+import posthog from 'posthog-js';
 
 emailjs.init('sNJezWZbNlGM1x_Pe');
 
@@ -67,13 +68,39 @@ export default function ContactForm() {
       );
 
       if (result.text === 'OK') {
+        // Identifier l'utilisateur dans PostHog
+        const email = formData.get('email') as string;
+        const name = formData.get('name') as string;
+        
+        // PostHog tracking
+        posthog.identify(email, {
+          name: name,
+          email: email,
+          last_contact_date: new Date().toISOString()
+        });
+        
+        posthog.capture('contact_form_submitted', {
+          name: name,
+          email: email
+        });
+
+        // Pousser l'événement dans le dataLayer pour GTM
+        window.dataLayer?.push({
+          event: 'contact_form_submitted',
+          user: {
+            email: email,
+            name: name
+          }
+        });
+
         setSubmitStatus('success');
         formRef.current?.reset();
         setErrors({});
       } else {
         throw new Error('Erreur lors de l\'envoi');
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      console.error('Erreur lors de l\'envoi du formulaire:', error);
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
@@ -390,7 +417,7 @@ export default function ContactForm() {
 
                   {submitStatus === 'error' && (
                     <p className="text-sm text-center text-red-500">
-                      Une erreur est survenue lors de l'envoi. Veuillez réessayer.
+                      Une erreur est survenue lors de l&apos;envoi. Veuillez réessayer.
                     </p>
                   )}
 
