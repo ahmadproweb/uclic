@@ -21,7 +21,7 @@ const LeftContent = memo(({ isDark }: { isDark: boolean }) => (
     </p>
     <div className="flex flex-col md:flex-row gap-4 animate-fade-in-up" style={{ animationDelay: '200ms' }}>
       <CTAButton 
-        href="/services"
+        href="/expertise/"
         className="group !bg-[#E0FF5C] !text-black hover:!bg-[#E0FF5C]/90 [&_span]:!border-black [&_svg]:!stroke-black"
       >
         Nos services

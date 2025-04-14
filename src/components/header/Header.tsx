@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, memo, useCallback } from "react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { MobileMenu } from "./MobileMenu";
 import { MegaMenu } from "./MegaMenu";
@@ -9,75 +10,9 @@ import { Logo } from "./Logo";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { useTheme } from "@/context/ThemeContext";
 import { CTAButton } from "@/components/ui/cta-button";
-import posthog from "posthog-js";
-
-// Définir les types pour window.gtag et dataLayer
-declare global {
-  interface Window {
-    dataLayer?: Array<{
-      event: string;
-      eventCategory?: string;
-      eventLabel?: string;
-      buttonLocation?: string;
-      virtualPagePath?: string;
-      virtualPageTitle?: string;
-      [key: string]: string | undefined;
-    }>;
-    gtag?: (
-      command: 'event',
-      eventName: string,
-      eventParams: {
-        event_category: string;
-        event_label: string;
-        button_location: string;
-      }
-    ) => void;
-    __DEBUG_EVENTS__?: Array<{
-      type?: string;
-      event?: string;
-      eventCategory?: string;
-      eventLabel?: string;
-      buttonLocation?: string;
-      location?: string;
-      source?: string;
-    }>;
-    __FORCE_LOG__?: typeof console.log;
-  }
-}
 
 // Constants
 const SCROLL_THRESHOLD = 20;
-
-// Track Audit button click
-const trackAuditClick = (location: string) => {
-  // Create a custom event that will be visible in all environments
-  const customEvent = new CustomEvent('uclic_debug', {
-    detail: {
-      type: 'audit_click',
-      location: location,
-      timestamp: new Date().toISOString()
-    }
-  });
-  
-  // Dispatch the event
-  window.dispatchEvent(customEvent);
-  
-  // GTM tracking
-  const debugEvent = {
-    event: 'audit_button_click',
-    eventCategory: 'engagement',
-    eventLabel: `Header - ${location}`,
-    buttonLocation: location
-  };
-  window.dataLayer?.push(debugEvent);
-
-  // PostHog tracking
-  const posthogEvent = {
-    location: location,
-    source: 'header'
-  };
-  posthog.capture('audit_button_click', posthogEvent);
-};
 
 // Memoized Components
 const HeaderCTA = memo(({ isDark }: { isDark: boolean }) => (
@@ -86,7 +21,6 @@ const HeaderCTA = memo(({ isDark }: { isDark: boolean }) => (
     variant={isDark ? "mainCTA" : "shiny"}
     ariaLabel="Demander un audit gratuit"
     className="!transition-none"
-    onClick={() => trackAuditClick('Free Audit CTA')}
   >
     Audit Gratuit
   </CTAButton>
@@ -144,23 +78,6 @@ const Header = () => {
   
   const headerRef = useRef<HTMLDivElement>(null);
   
-  // Initialize debug tools
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      // Initialize debug array
-      window.__DEBUG_EVENTS__ = window.__DEBUG_EVENTS__ || [];
-      
-      // Save original console.log
-      // @ts-expect-error - Accessing console.log directly
-      window.__FORCE_LOG__ = console.log.bind(console);
-      
-      // Log initialization
-      const timestamp = new Date().toISOString();
-      // @ts-expect-error - Using stored console.log
-      window.__FORCE_LOG__(`[${timestamp}] Debug tools initialized`);
-    }
-  }, []);
-
   useEffect(() => {
     const handleScroll = () => {
       if (!headerRef.current) return;
@@ -200,21 +117,6 @@ const Header = () => {
   
   const handleMegaMenuClose = useCallback(() => {
     setIsMegaMenuOpen(false);
-  }, []);
-
-  // Add event listener for debug events
-  useEffect(() => {
-    const handleDebugEvent = (e: CustomEvent) => {
-      const debugInfo = e.detail;
-      const message = `[UCLIC DEBUG] ${debugInfo.type} - ${JSON.stringify(debugInfo, null, 2)}`;
-      // This will show in all environments
-      alert(message);
-    };
-
-    window.addEventListener('uclic_debug', handleDebugEvent as EventListener);
-    return () => {
-      window.removeEventListener('uclic_debug', handleDebugEvent as EventListener);
-    };
   }, []);
 
   return (

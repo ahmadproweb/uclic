@@ -13,6 +13,11 @@ export const navItems: NavItem[] = [
     className: "text-base font-semibold cursor-pointer flex items-center text-gray-900 hover:text-[#9FB832] dark:text-white dark:hover:text-[#E0FF5C]" 
   },
   { 
+    label: "Outils gratuits", 
+    href: "/outils-gratuits",
+    className: "text-base font-semibold cursor-pointer flex items-center text-gray-900 hover:text-[#E0FF5C] dark:text-white dark:hover:text-[#E0FF5C]"
+  },
+  { 
     label: "Cas clients", 
     href: "/cas-clients",
     className: "text-base font-semibold cursor-pointer flex items-center text-gray-900 hover:text-[#E0FF5C] dark:text-white dark:hover:text-[#E0FF5C]"

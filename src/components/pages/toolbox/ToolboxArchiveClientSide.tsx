@@ -158,7 +158,20 @@ export default function ToolboxArchiveClientSide({
             Découvrez les meilleurs outils pour développer<br/>votre activité efficacement
           </p>
         </div>
-      
+
+        {/* Growth Hacking Tools Section */}
+        <div className="mb-16">
+          <h2 className={cn(
+            "text-2xl md:text-3xl font-bold mb-8 text-center",
+            isDark ? "text-white" : "text-black"
+          )}>
+            Outils Growth Hacking
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Autres outils de Growth Hacking à ajouter ici */}
+          </div>
+        </div>
+
         {/* Tools grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 md:mb-16">
           {tools.map((tool) => (
