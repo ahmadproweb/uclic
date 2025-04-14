@@ -151,6 +151,9 @@ export default function RootLayout({
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
 
+        <link rel="preconnect" href="https://eu.i.posthog.com" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+
       </head>
       <body suppressHydrationWarning>
         {/* Google Tag Manager (noscript) */}

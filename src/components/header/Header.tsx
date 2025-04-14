@@ -11,16 +11,25 @@ import { useTheme } from "@/context/ThemeContext";
 import { CTAButton } from "@/components/ui/cta-button";
 import posthog from "posthog-js";
 
-// Définir les types pour window.gtag
+// Définir les types pour window.gtag et dataLayer
 declare global {
   interface Window {
+    dataLayer?: Array<{
+      event: string;
+      eventCategory?: string;
+      eventLabel?: string;
+      buttonLocation?: string;
+      virtualPagePath?: string;
+      virtualPageTitle?: string;
+      [key: string]: any;
+    }>;
     gtag?: (
       command: 'event',
       eventName: string,
       eventParams: {
-        event_category?: string;
-        event_label?: string;
-        [key: string]: Record<string, unknown>;
+        event_category: string;
+        event_label: string;
+        button_location: string;
       }
     ) => void;
   }
@@ -31,13 +40,12 @@ const SCROLL_THRESHOLD = 20;
 
 // Track Audit button click
 const trackAuditClick = (location: string) => {
-  // Debug logs
-  console.log('🎯 Tracking audit click:', location);
-  
-  window.gtag?.('event', 'audit_button_click', {
-    event_category: 'engagement',
-    event_label: `Header - ${location}`,
-    button_location: location
+  // GTM tracking
+  window.dataLayer?.push({
+    event: 'audit_button_click',
+    eventCategory: 'engagement',
+    eventLabel: `Header - ${location}`,
+    buttonLocation: location
   });
 
   // PostHog tracking
