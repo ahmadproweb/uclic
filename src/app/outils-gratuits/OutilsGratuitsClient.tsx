@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { colors as theme } from '@/config/theme';
 import Link from 'next/link';
 import PreFooter from '@/components/footer/PreFooter';
+import { ChartBar, Calculator } from 'lucide-react';
 
 export default function OutilsGratuitsClient() {
   const { theme: currentTheme } = useTheme();
@@ -80,6 +81,7 @@ export default function OutilsGratuitsClient() {
             Outils Growth Hacking
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* MDE Calculator */}
             <Link
               href="/outils-gratuits/mde-calculator"
               className="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl backdrop-blur-sm p-6"
@@ -94,9 +96,7 @@ export default function OutilsGratuitsClient() {
               <div className="space-y-4">
                 {/* Icon */}
                 <div className="w-12 h-12 rounded-xl overflow-hidden bg-white/50 mb-4 flex items-center justify-center">
-                  <svg className="w-6 h-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
+                  <Calculator className="w-6 h-6 text-black" />
                 </div>
                 
                 {/* Title */}
@@ -110,7 +110,36 @@ export default function OutilsGratuitsClient() {
                 </p>
               </div>
             </Link>
-            {/* Autres outils de Growth Hacking à ajouter ici */}
+
+            {/* A/B Test Calculator */}
+            <Link
+              href="/outils-gratuits/ab-test-calculator"
+              className="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl backdrop-blur-sm p-6"
+              style={{
+                background: `linear-gradient(145deg, 
+                  #E0FF5C,
+                  #E0FF5C
+                )`,
+                boxShadow: `0 8px 32px -4px rgba(224, 255, 92, 0.25)`
+              }}
+            >
+              <div className="space-y-4">
+                {/* Icon */}
+                <div className="w-12 h-12 rounded-xl overflow-hidden bg-white/50 mb-4 flex items-center justify-center">
+                  <ChartBar className="w-6 h-6 text-black" />
+                </div>
+                
+                {/* Title */}
+                <h3 className="text-xl font-semibold text-black">
+                  A/B Test Calculator
+                </h3>
+                
+                {/* Description */}
+                <p className="text-sm text-black/70 line-clamp-2">
+                  Calculez la signification statistique de vos tests A/B et analysez les résultats avec des métriques avancées comme l'analyse bayésienne.
+                </p>
+              </div>
+            </Link>
           </div>
         </div>
 
