@@ -15,6 +15,22 @@ export function middleware(request: NextRequest) {
     )
   }
 
+  // Redirection de /services/facebook-ads vers /expertise/agence-sma/agence-facebook-meta-ads
+  if (request.nextUrl.pathname === '/services/facebook-ads') {
+    return NextResponse.redirect(
+      new URL('/expertise/agence-sma/agence-facebook-meta-ads', request.url),
+      { status: 301 }
+    )
+  }
+
+  // Redirection de /expertises/freelance-seo vers /expertise/freelance-seo
+  if (request.nextUrl.pathname === '/expertises/freelance-seo') {
+    return NextResponse.redirect(
+      new URL('/expertise/freelance-seo', request.url),
+      { status: 301 }
+    )
+  }
+
   // Redirection de /blog/page/1 vers /blog
   if (request.nextUrl.pathname === '/blog/page/1') {
     return NextResponse.redirect(new URL('/blog', request.url));
@@ -29,6 +45,8 @@ export const config = {
     '/services/referencement-naturel', 
     '/blog/page/1',
     '/machine-à-sous/:path*',
-    '/machine-%C3%A0-sous/:path*'
+    '/machine-%C3%A0-sous/:path*',
+    '/services/facebook-ads',
+    '/expertises/freelance-seo'
   ],
 } 
