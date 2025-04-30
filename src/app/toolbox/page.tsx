@@ -1,55 +1,39 @@
-import ToolboxArchiveClientSide from '@/components/pages/toolbox/ToolboxArchiveClientSide';
+import { Suspense } from 'react';
 import { fetchToolboxData } from '@/lib/wordpress';
+import ToolboxPage from '@/components/pages/toolbox/ToolboxPage';
+import Loading from '@/components/ui/Loading';
+import { Metadata } from 'next';
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+export const revalidate = 3600; // Revalidate every hour
 
-export default async function ToolboxPage({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
-  const page = typeof searchParams.page === 'string' ? parseInt(searchParams.page) : 1;
-  const pageSize = 12;
-  
-  // For pages > 1, we need to fetch all previous pages to get the correct cursor
-  let cursor = undefined;
-  
-  if (page > 1) {
-    // First fetch all items up to the current page
-    const previousData = await fetchToolboxData(pageSize * (page - 1));
-    
-    if (previousData.nodes.length > 0) {
-      cursor = previousData.pageInfo.endCursor;
-    }
+export const metadata: Metadata = {
+  title: "Boîte à outils startups | UCLIC",
+  description: "Découvrez notre sélection d'outils pour startups. Des ressources essentielles pour développer votre entreprise.",
+  alternates: {
+    canonical: 'https://uclic.fr/toolbox'
+  },
+  openGraph: {
+    title: "Boîte à outils startups | UCLIC",
+    description: "Découvrez notre sélection d'outils pour startups. Des ressources essentielles pour développer votre entreprise.",
+    url: 'https://uclic.fr/toolbox',
+    type: "website",
+    locale: "fr_FR",
+    siteName: "Uclic",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Boîte à outils startups | UCLIC",
+    description: "Découvrez notre sélection d'outils pour startups. Des ressources essentielles pour développer votre entreprise.",
+    site: "@uclic_fr"
   }
-  
-  // Now fetch the current page data using the cursor
-  const currentPageData = await fetchToolboxData(pageSize, cursor);
-  
-  // Calculate total count based on current page data and pagination info
-  let estimatedTotalCount;
-  if (currentPageData.pageInfo.hasNextPage) {
-    // If there are more pages, estimate the total count
-    estimatedTotalCount = (page * pageSize) + pageSize;
-  } else {
-    // If this is the last page, calculate exact count
-    estimatedTotalCount = ((page - 1) * pageSize) + currentPageData.nodes.length;
-  }
+};
+
+export default async function Page() {
+  const toolboxData = await fetchToolboxData();
   
   return (
-    <ToolboxArchiveClientSide 
-      tools={currentPageData.nodes}
-      pageInfo={currentPageData.pageInfo}
-      currentPage={page}
-      totalCount={estimatedTotalCount}
-      pageSize={pageSize}
-    />
+    <Suspense fallback={<Loading />}>
+      <ToolboxPage posts={toolboxData.nodes} initialPage={1} />
+    </Suspense>
   );
-}
-
-// Métadonnées de la page
-export const metadata = {
-  title: 'Toolbox - Notre sélection d\'outils pour votre croissance | Uclic',
-  description: 'Découvrez notre sélection d\'outils et de ressources pour développer votre activité efficacement.',
-}; 
+} 

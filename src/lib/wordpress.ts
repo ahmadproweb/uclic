@@ -544,8 +544,8 @@ export async function fetchToolboxData(first: number = 100, after?: string): Pro
   const query = `
     query GetToolboxItems($first: Int!, $after: String) {
       producthunts(
-        first: $first, 
-        after: $after,
+        first: $first
+        after: $after
         where: { orderby: { field: DATE, order: DESC } }
       ) {
         nodes {
@@ -591,54 +591,36 @@ export async function fetchToolboxData(first: number = 100, after?: string): Pro
   `;
 
   try {
-    console.log('📡 Sending GraphQL query for toolbox items...');
-    const response = await fetchAPI(query, {
-      variables: {
-        first,
-        after: after || null,
-      }
-    });
-    
-    // More detailed logging
-    console.log('📦 Raw API response structure:', {
-      hasResponse: !!response,
-      responseKeys: response ? Object.keys(response) : [],
-      hasProductHunts: !!response?.producthunts,
-      productHuntsKeys: response?.producthunts ? Object.keys(response.producthunts) : [],
-      hasNodes: !!response?.producthunts?.nodes,
-      nodesLength: response?.producthunts?.nodes?.length || 0,
-      firstNode: response?.producthunts?.nodes?.[0] ? {
-        id: response.producthunts.nodes[0].id,
-        title: response.producthunts.nodes[0].title,
-        hasProductHuntFields: !!response.producthunts.nodes[0].productHuntFields,
-        productHuntFieldsKeys: response.producthunts.nodes[0].productHuntFields ? 
-          Object.keys(response.producthunts.nodes[0].productHuntFields) : []
-      } : null
-    });
+    let allNodes: ProductHunt[] = [];
+    let hasNextPage = true;
+    let endCursor: string | null = after || null;
 
-    if (!response?.producthunts?.nodes) {
-      console.error('❌ No toolbox items found in response');
-      console.error('Response structure:', {
-        hasProductHunts: !!response?.producthunts,
-        responseKeys: response ? Object.keys(response) : [],
-        fullResponse: response
+    while (hasNextPage) {
+      const response = await fetchAPI(query, {
+        variables: {
+          first: 100,
+          after: endCursor
+        }
       });
-      return {
-        nodes: [],
-        pageInfo: {
-          endCursor: '',
-          hasNextPage: false,
-          hasPreviousPage: false,
-          startCursor: ''
-        },
-        totalCount: 0
-      };
+
+      if (!response?.producthunts?.nodes) {
+        break;
+      }
+
+      allNodes = [...allNodes, ...response.producthunts.nodes];
+      hasNextPage = response.producthunts.pageInfo.hasNextPage;
+      endCursor = response.producthunts.pageInfo.endCursor;
     }
 
     return {
-      nodes: response.producthunts.nodes,
-      pageInfo: response.producthunts.pageInfo,
-      totalCount: response.producthunts.nodes.length
+      nodes: allNodes,
+      pageInfo: {
+        endCursor: allNodes.length > 0 ? endCursor || '' : '',
+        hasNextPage: false,
+        hasPreviousPage: false,
+        startCursor: ''
+      },
+      totalCount: allNodes.length
     };
   } catch (error) {
     console.error('🚨 Error fetching toolbox items:', error);

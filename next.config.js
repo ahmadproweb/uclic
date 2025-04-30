@@ -171,6 +171,21 @@ const nextConfig = {
         source: '/strategies-de-growth-marketing/:slug',
         destination: '/blog/:slug',
         permanent: true,
+      },
+      {
+        source: '/social-media/:slug',
+        destination: '/blog/category/social-media',
+        permanent: true,
+      },
+      {
+        source: '/services/agence-google-ads',
+        destination: '/expertise/agence-paid-media/agence-google-ads',
+        permanent: true,
+      },
+      {
+        source: '/levee-de-fonds/page/1',
+        destination: '/levee-de-fonds',
+        permanent: true,
       }
     ];
   }
