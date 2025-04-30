@@ -5,6 +5,7 @@ import { useTheme } from '@/context/ThemeContext';
 import { cn } from '@/lib/utils';
 import { colors as theme } from '@/config/theme';
 import Link from 'next/link';
+import { useRouter, usePathname } from 'next/navigation';
 import PreFooter from '@/components/footer/PreFooter';
 import Pagination from '@/components/ui/Pagination';
 import ScrollToTop from '@/components/ui/ScrollToTop';
@@ -85,6 +86,8 @@ export default function LeveesPage({
 }) {
   const { theme: currentTheme } = useTheme();
   const isDark = currentTheme === 'dark';
+  const router = useRouter();
+  const pathname = usePathname();
 
   // Get featured post (first post)
   const featuredPost = leveePosts && leveePosts.length > 0 ? leveePosts[0] : null;
@@ -104,6 +107,15 @@ export default function LeveesPage({
 
   const initialPosts = leveePosts.slice(1, 1 + postsPerPage);
   const postsToRender = displayedPosts.length > 0 ? displayedPosts : initialPosts;
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    if (page === 1) {
+      router.push('/levee-de-fonds', { scroll: false });
+    } else {
+      router.push(`/levee-de-fonds/page/${page}`, { scroll: false });
+    }
+  };
 
   if (!leveePosts || leveePosts.length === 0) {
     return <div className="text-center py-20 text-black">Aucune levée de fonds trouvée.</div>;
@@ -169,7 +181,7 @@ export default function LeveesPage({
             "text-base md:text-lg",
             isDark ? "text-white/100" : "text-black/80"
           )}>
-            Restez informé des investissements<br/>dans l'écosystème Web3
+            Restez informé des investissements<br/>dans l&apos;écosystème Web3
           </p>
         </div>
         
@@ -199,7 +211,7 @@ export default function LeveesPage({
                 <div className="text-white/80 flex flex-wrap items-center text-xs sm:text-sm space-x-2 sm:space-x-4 mt-2 sm:mt-4">
                   <span>{formatDate(featuredPost.date)}</span>
                 </div>
-                <Link 
+                <Link
                   href={`/levee-de-fonds/${featuredPost.slug}`}
                   className="px-4 sm:px-6 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium mt-4 sm:mt-8 inline-block transition-all
                     bg-[#E0FF5C] text-black hover:bg-[#E0FF5C]/90"
@@ -223,13 +235,16 @@ export default function LeveesPage({
           <Pagination 
             currentPage={currentPage} 
             totalPages={totalPages} 
-            onPageChange={setCurrentPage}
+            onPageChange={handlePageChange}
           />
         </div>
       </div>
 
       <ScrollToTop />
-      <StickyShareButtons />
+      <StickyShareButtons 
+        url={`https://uclic.fr${pathname}`}
+        title="Levées de fonds | UCLIC"
+      />
     </section>
   );
 } 
