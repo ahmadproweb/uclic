@@ -70,37 +70,32 @@ export async function generateMetadata({ params }: LeveePostParams): Promise<Met
   const seo = post.seo;
   const openGraph = seo.openGraph;
   const twitterMeta = openGraph?.twitterMeta;
+  const baseUrl = 'https://uclic.fr';
 
   const metadata: Metadata = {
     title: seo.title,
     description: seo.description,
-  };
-
-  if (seo.canonicalUrl) {
-    metadata.alternates = {
-      canonical: seo.canonicalUrl,
-    };
-  }
-
-  if (seo.robots) {
-    metadata.robots = {
-      index: seo.robots.includes('index'),
-      follow: seo.robots.includes('follow'),
+    robots: {
+      index: true,
+      follow: true,
       googleBot: {
-        index: seo.robots.includes('index'),
-        follow: seo.robots.includes('follow'),
-        'max-snippet': seo.robots.includes('max-snippet:-1') ? -1 : undefined,
-        'max-video-preview': seo.robots.includes('max-video-preview:-1') ? -1 : undefined,
-        'max-image-preview': seo.robots.includes('max-image-preview:large') ? 'large' : undefined,
+        index: true,
+        follow: true,
+        'max-snippet': -1,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
       },
-    };
-  }
+    },
+    alternates: {
+      canonical: `${baseUrl}/levee-de-fonds/${slug}`,
+    },
+  };
 
   if (openGraph) {
     metadata.openGraph = {
       title: openGraph.title,
       description: openGraph.description,
-      url: openGraph.url,
+      url: `${baseUrl}/levee-de-fonds/${slug}`,
       siteName: openGraph.siteName,
       locale: openGraph.locale,
       type: 'article',
