@@ -253,6 +253,7 @@ export default function LeveesPage({
             currentPage={currentPage} 
             totalPages={totalPages} 
             onPageChange={handlePageChange}
+            basePath="/levee-de-fonds"
           />
         </div>
       </div>

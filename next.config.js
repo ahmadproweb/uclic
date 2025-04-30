@@ -186,7 +186,22 @@ const nextConfig = {
         source: '/levee-de-fonds/page/1',
         destination: '/levee-de-fonds',
         permanent: true,
-      }
+      },
+      {
+        source: '/services/referencement-naturel',
+        destination: '/expertise/freelance-seo',
+        permanent: true,
+      },
+      {
+        source: '/services/bing-ads',
+        destination: '/expertise/agence-paid-media/agence-bing-ads',
+        permanent: true,
+      },
+      {
+        source: '/machine-à-sous/:path*',
+        destination: '/',
+        permanent: true,
+      },
     ];
   }
 };

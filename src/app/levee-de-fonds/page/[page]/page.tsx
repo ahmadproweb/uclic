@@ -1,9 +1,8 @@
+import { Metadata } from 'next';
 import { Suspense } from 'react';
-import { notFound } from 'next/navigation';
 import { getAllLevees } from '@/lib/wordpress';
 import LeveesPage from '@/components/pages/levee-de-fonds/LeveesPage';
 import Loading from '@/components/ui/Loading';
-import { Metadata } from 'next';
 
 interface PageProps {
   params: {
@@ -11,55 +10,44 @@ interface PageProps {
   };
 }
 
-export async function generateMetadata({ params }: { params: { page: string } }): Promise<Metadata> {
-  const pageNumber = parseInt(params.page);
-  const title = pageNumber > 1 
-    ? `Levée de fonds startups françaises - Page ${pageNumber} | UCLIC`
-    : "Levée de fonds startups françaises | UCLIC";
-
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const currentPage = parseInt(params.page);
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://uclic.fr';
+  
   return {
-    title,
-    description: "Découvrez les dernières levées de fonds des startups françaises. Restez informé des investissements dans l'écosystème startup.",
+    title: `Levées de fonds - Page ${currentPage} | UCLIC`,
+    description: `Découvrez les dernières levées de fonds des startups françaises - Page ${currentPage}`,
     alternates: {
-      canonical: 'https://uclic.fr/levee-de-fonds'
+      canonical: currentPage === 1 
+        ? `${baseUrl}/levee-de-fonds`
+        : `${baseUrl}/levee-de-fonds/page/${currentPage}`,
     },
     openGraph: {
-      title: "Levée de fonds startups françaises | UCLIC",
-      description: "Découvrez les dernières levées de fonds des startups françaises. Restez informé des investissements dans l'écosystème startup.",
-      url: 'https://uclic.fr/levee-de-fonds',
-      type: "website",
-      locale: "fr_FR",
-      siteName: "Uclic",
+      title: `Levées de fonds - Page ${currentPage} | UCLIC`,
+      description: `Découvrez les dernières levées de fonds des startups françaises - Page ${currentPage}`,
+      url: currentPage === 1 
+        ? `${baseUrl}/levee-de-fonds`
+        : `${baseUrl}/levee-de-fonds/page/${currentPage}`,
     },
-    twitter: {
-      card: "summary_large_image",
-      title: "Levée de fonds startups françaises | UCLIC",
-      description: "Découvrez les dernières levées de fonds des startups françaises. Restez informé des investissements dans l'écosystème startup.",
-      site: "@uclic_fr"
-    }
+    robots: {
+      index: true,
+      follow: true,
+      'max-snippet': -1,
+      'max-image-preview': 'large',
+      'max-video-preview': -1,
+    },
   };
 }
 
-export const revalidate = 3600; // Revalidate every hour
+export const revalidate = 3600;
 
-export default async function LeveeDeFondsPage({ params }: PageProps) {
-  const page = parseInt(params.page);
-  
-  if (isNaN(page) || page < 1) {
-    notFound();
-  }
-
+export default async function Page({ params }: PageProps) {
+  const currentPage = parseInt(params.page);
   const levees = await getAllLevees();
-  const postsPerPage = 9;
-  const totalPages = Math.ceil((levees.length - 1) / postsPerPage);
-
-  if (page > totalPages) {
-    notFound();
-  }
-
+  
   return (
     <Suspense fallback={<Loading />}>
-      <LeveesPage posts={levees} initialPage={page} />
+      <LeveesPage posts={levees} initialPage={currentPage} />
     </Suspense>
   );
 } 

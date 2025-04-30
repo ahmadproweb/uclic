@@ -163,9 +163,7 @@ export default function BlogIndexClientSide({
     window.scrollTo({ top: 0, behavior: 'smooth' });
     
     try {
-      const searchParams = new URLSearchParams();
-      searchParams.set('page', newPage.toString());
-      router.push(`/blog?${searchParams.toString()}`);
+      router.push(newPage === 1 ? '/blog' : `/blog/page/${newPage}`);
       setCurrentPage(newPage);
     } catch (error) {
       console.error('Error changing page:', error);

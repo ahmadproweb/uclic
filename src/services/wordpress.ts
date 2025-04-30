@@ -259,11 +259,11 @@ export async function getRelatedPosts(currentPost: WordPressPost, count: number 
 
 const API_URL = 'https://api.uclic.fr/wp-json/wp/v2';
 
-export async function getPostsByCategory(slug: string): Promise<BlogPost[]> {
+export async function getPostsByCategory(slug: string, page: number = 1, perPage: number = 9): Promise<{ posts: BlogPost[], total: number, totalPages: number }> {
   try {
     const categoryId = await getCategoryIdBySlug(slug);
     const response = await fetch(
-      `${API_URL}/posts?categories=${categoryId}&_embed`,
+      `${API_URL}/posts?categories=${categoryId}&_embed&page=${page}&per_page=${perPage}`,
       { next: { revalidate: 3600 } }
     );
 
@@ -271,22 +271,30 @@ export async function getPostsByCategory(slug: string): Promise<BlogPost[]> {
       throw new Error('Failed to fetch posts by category');
     }
 
+    // Récupérer le nombre total d'articles depuis les headers
+    const total = parseInt(response.headers.get('X-WP-Total') || '0', 10);
+    const totalPages = parseInt(response.headers.get('X-WP-TotalPages') || '0', 10);
+
     const posts = await response.json();
-    return posts.map((post: WordPressPost) => ({
-      id: post.id,
-      title: post.title.rendered,
-      excerpt: post.excerpt.rendered,
-      content: post.content.rendered,
-      date: post.date,
-      author: post._embedded?.author?.[0]?.name || 'Anonymous',
-      slug: post.slug,
-      category: getPostCategory(post),
-      reading_time: estimateReadingTime(post.content.rendered),
-      featured_image_url: getFeaturedImage(post).url
-    }));
+    return {
+      posts: posts.map((post: WordPressPost) => ({
+        id: post.id,
+        title: post.title.rendered,
+        excerpt: post.excerpt.rendered,
+        content: post.content.rendered,
+        date: post.date,
+        author: post._embedded?.author?.[0]?.name || 'Anonymous',
+        slug: post.slug,
+        category: getPostCategory(post),
+        reading_time: estimateReadingTime(post.content.rendered),
+        featured_image_url: getFeaturedImage(post).url
+      })),
+      total,
+      totalPages
+    };
   } catch (error) {
     console.error('Error fetching posts by category:', error);
-    return [];
+    return { posts: [], total: 0, totalPages: 0 };
   }
 }
 
