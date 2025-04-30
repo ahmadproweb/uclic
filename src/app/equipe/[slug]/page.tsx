@@ -37,12 +37,14 @@ export async function generateMetadata({ params }: TeamMemberPageProps) {
     };
   }
 
+  const description = member.equipeFields.extrait || `Expert chez UCLIC`;
+
   return {
-    title: `${member.title} | UCLIC`,
-    description: member.equipeFields.extrait || `Découvrez le profil de ${member.title}, membre de l'équipe UCLIC.`,
+    title: `${member.title} | ${description}`,
+    description: description,
     openGraph: {
-      title: `${member.title} | UCLIC`,
-      description: member.equipeFields.extrait || `Découvrez le profil de ${member.title}, membre de l'équipe UCLIC.`,
+      title: `${member.title} | ${description}`,
+      description: description,
       images: [
         {
           url: member.equipeFields.image?.node.sourceUrl || '/images/default-profile.jpg',
