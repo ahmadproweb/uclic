@@ -181,7 +181,7 @@ export default function LeveesPage({
             "text-base md:text-lg",
             isDark ? "text-white/100" : "text-black/80"
           )}>
-            Restez informé des investissements<br/>dans l&apos;écosystème Web3
+            Restez informé des investissements<br/>dans l&apos;écosystème startup
           </p>
         </div>
         
