@@ -42,10 +42,10 @@ export async function generateMetadata({ params }: { params: { page: string } })
 
 export const revalidate = 3600; // Revalidate every hour
 
-export default async function LeveesPaginationPage({ params }: PageProps) {
-  const pageNumber = parseInt(params.page);
+export default async function LeveeDeFondsPage({ params }: PageProps) {
+  const page = parseInt(params.page);
   
-  if (isNaN(pageNumber) || pageNumber < 1) {
+  if (isNaN(page) || page < 1) {
     notFound();
   }
 
@@ -53,13 +53,13 @@ export default async function LeveesPaginationPage({ params }: PageProps) {
   const postsPerPage = 9;
   const totalPages = Math.ceil((levees.length - 1) / postsPerPage);
 
-  if (pageNumber > totalPages) {
+  if (page > totalPages) {
     notFound();
   }
 
   return (
     <Suspense fallback={<Loading />}>
-      <LeveesPage posts={levees} initialPage={pageNumber} />
+      <LeveesPage posts={levees} initialPage={page} />
     </Suspense>
   );
 } 

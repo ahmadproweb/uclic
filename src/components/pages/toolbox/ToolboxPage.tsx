@@ -205,6 +205,7 @@ export default function ToolboxPage({
             currentPage={currentPage} 
             totalPages={totalPages} 
             onPageChange={handlePageChange}
+            basePath="/toolbox"
           />
         </div>
       </div>

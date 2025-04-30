@@ -19,13 +19,13 @@ export async function generateMetadata({ params }: { params: { page: string } })
 
   return {
     title,
-    description: "Découvrez notre sélection d'outils pour startups. Des ressources essentielles pour développer votre entreprise.",
+    description: "Découvrez notre sélection d'outils essentiels pour startups. Des ressources pour développer votre entreprise efficacement.",
     alternates: {
       canonical: 'https://uclic.fr/toolbox'
     },
     openGraph: {
       title: "Boîte à outils startups | UCLIC",
-      description: "Découvrez notre sélection d'outils pour startups. Des ressources essentielles pour développer votre entreprise.",
+      description: "Découvrez notre sélection d'outils essentiels pour startups. Des ressources pour développer votre entreprise efficacement.",
       url: 'https://uclic.fr/toolbox',
       type: "website",
       locale: "fr_FR",
@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: { params: { page: string } })
     twitter: {
       card: "summary_large_image",
       title: "Boîte à outils startups | UCLIC",
-      description: "Découvrez notre sélection d'outils pour startups. Des ressources essentielles pour développer votre entreprise.",
+      description: "Découvrez notre sélection d'outils essentiels pour startups. Des ressources pour développer votre entreprise efficacement.",
       site: "@uclic_fr"
     }
   };
@@ -50,7 +50,7 @@ export default async function ToolboxPaginationPage({ params }: PageProps) {
   }
 
   const toolboxData = await fetchToolboxData();
-  const postsPerPage = 20;
+  const postsPerPage = 21;
   const totalPages = Math.ceil(toolboxData.nodes.length / postsPerPage);
 
   if (pageNumber > totalPages) {
