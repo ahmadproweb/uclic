@@ -1158,7 +1158,7 @@ export interface Levee {
 
 const GetAllLevees = `
   query GetAllLevees {
-    levees(first: 100) {
+    levees(first: 10000) {
       nodes {
         id
         title
@@ -1241,8 +1241,55 @@ const GetRelatedLevees = `
 
 export async function getAllLevees(): Promise<Levee[]> {
   try {
-    const response = await fetchAPI(GetAllLevees);
-    return response.levees.nodes;
+    const query = `
+      query GetAllLevees($first: Int!, $after: String) {
+        levees(
+          first: $first
+          after: $after
+          where: { orderby: { field: DATE, order: DESC } }
+        ) {
+          nodes {
+            id
+            title
+            slug
+            date
+            featuredImage {
+              node {
+                sourceUrl
+                altText
+              }
+            }
+          }
+          pageInfo {
+            endCursor
+            hasNextPage
+          }
+        }
+      }
+    `;
+
+    let allLevees: Levee[] = [];
+    let hasNextPage = true;
+    let endCursor: string | null = null;
+
+    while (hasNextPage) {
+      const response = await fetchAPI(query, {
+        variables: {
+          first: 100,
+          after: endCursor
+        }
+      });
+
+      if (!response?.levees?.nodes) {
+        break;
+      }
+
+      allLevees = [...allLevees, ...response.levees.nodes];
+      hasNextPage = response.levees.pageInfo.hasNextPage;
+      endCursor = response.levees.pageInfo.endCursor;
+    }
+
+    return allLevees;
   } catch (error) {
     console.error('Error fetching all levees:', error);
     return [];
