@@ -9,36 +9,52 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const category = await getCategoryBySlug(slug);
   
   return {
-    title: `${category.name} - Blog UCLIC`,
-    description: `Découvrez tous nos articles sur ${category.name}`,
+    title: `L'actualité ${category.name} de notre agence | UCLIC`,
+    description: `Découvrez notre expertise en ${category.name}. Articles, guides et conseils par notre agence spécialisée pour optimiser votre stratégie ${category.name.toLowerCase()}.`,
+    openGraph: {
+      title: `L'actualité ${category.name} de notre agence | UCLIC`,
+      description: `Découvrez notre expertise en ${category.name}. Articles, guides et conseils par notre agence spécialisée pour optimiser votre stratégie ${category.name.toLowerCase()}.`,
+      type: 'website',
+      locale: 'fr_FR',
+      siteName: 'UCLIC',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `L'actualité ${category.name} de notre agence | UCLIC`,
+      description: `Découvrez notre expertise en ${category.name}. Articles, guides et conseils par notre agence spécialisée pour optimiser votre stratégie ${category.name.toLowerCase()}.`,
+    }
   };
 }
 
-// Définis le paramètre de page pour l'URL
-interface CategoryPageProps {
-  params: { slug: string };
-  searchParams?: { page?: string };
+interface PageProps {
+  params: {
+    slug: string;
+  };
 }
 
-export default async function CategoryPage({ params, searchParams }: CategoryPageProps) {
-  const slug = await Promise.resolve(params.slug);
-  const currentPage = searchParams?.page ? parseInt(searchParams.page) : 1;
+export default async function CategoryPage({ params }: PageProps) {
+  const category = await getCategoryBySlug(params.slug);
   
-  const [category, posts] = await Promise.all([
-    getCategoryBySlug(slug),
-    getPostsByCategory(slug)
-  ]);
-
   if (!category) {
     notFound();
   }
+
+  const { posts, total, totalPages } = await getPostsByCategory(params.slug, 1);
+  
+  console.log('Category page debug:', {
+    slug: params.slug,
+    totalPosts: total,
+    totalPages,
+    postsCount: posts.length
+  });
 
   return (
     <Suspense fallback={<div className="p-12 text-center">Chargement des articles...</div>}>
       <BlogCategoryClientSide 
         posts={posts} 
         category={category}
-        initialPage={currentPage}
+        initialPage={1}
+        totalPages={totalPages}
       />
     </Suspense>
   );

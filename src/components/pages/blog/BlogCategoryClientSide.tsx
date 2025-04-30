@@ -11,6 +11,7 @@ import Link from 'next/link';
 import Pagination from '@/components/ui/Pagination';
 import ScrollToTop from '@/components/ui/ScrollToTop';
 import StickyShareButtons from '@/components/ui/StickyShareButtons';
+import { useRouter } from 'next/navigation';
 
 // Fonction pour décoder les caractères HTML
 function decodeHTMLEntities(text: string) {
@@ -26,37 +27,46 @@ interface BlogCategoryClientSideProps {
     description?: string;
   };
   initialPage?: number;
+  totalPages: number;
 }
 
 export default function BlogCategoryClientSide({ 
   posts: blogPosts, 
   category,
-  initialPage = 1 
+  initialPage = 1,
+  totalPages
 }: BlogCategoryClientSideProps) {
   const { theme: currentTheme } = useTheme();
   const isDark = currentTheme === 'dark';
+  const router = useRouter();
   
   const featuredPost = blogPosts && blogPosts.length > 0 ? blogPosts[0] : null;
   
   const [currentPage, setCurrentPage] = useState(initialPage);
-  const [displayedPosts, setDisplayedPosts] = useState<BlogPost[]>([]);
-  const postsPerPage = 9;
-  const totalPages = Math.ceil((blogPosts.length - 1) / postsPerPage);
+  const [isLoading, setIsLoading] = useState(false);
   
-  useEffect(() => {
-    const startIndex = 1 + (currentPage - 1) * postsPerPage;
-    const endIndex = startIndex + postsPerPage;
-    setDisplayedPosts(blogPosts.slice(startIndex, endIndex));
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [currentPage, blogPosts]);
+  // Ajout de logs pour le débogage
+  console.log('Total posts:', blogPosts.length);
+  console.log('Total pages:', totalPages);
+  console.log('Current page:', currentPage);
+  
+  // Construire l'URL de base pour la pagination
+  const baseUrl = `/blog/category/${category.name.toLowerCase().replace(/\s+/g, '-')}`;
 
-  // Pour les utilisateurs sans JavaScript, calculer les posts à afficher initialement
-  const initialStartIndex = 1 + (initialPage - 1) * postsPerPage;
-  const initialEndIndex = initialStartIndex + postsPerPage;
-  const initialPosts = blogPosts.slice(initialStartIndex, initialEndIndex);
-  
-  // Utiliser les posts du state s'ils sont définis, sinon utiliser les posts initiaux
-  const postsToRender = displayedPosts.length > 0 ? displayedPosts : initialPosts;
+  // Gérer le changement de page
+  const handlePageChange = useCallback(async (newPage: number) => {
+    setIsLoading(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    try {
+      router.push(newPage === 1 ? baseUrl : `${baseUrl}/page/${newPage}`);
+      setCurrentPage(newPage);
+    } catch (error) {
+      console.error('Error changing page:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [router, baseUrl]);
 
   if (!blogPosts || blogPosts.length === 0) {
     return (
@@ -65,9 +75,6 @@ export default function BlogCategoryClientSide({
       </div>
     );
   }
-
-  // Construire l'URL de base pour la pagination
-  const baseUrl = `/blog/category/${category.name.toLowerCase().replace(/\s+/g, '-')}`;
 
   return (
     <section className="w-full max-w-[100vw] pt-28 md:pt-32 pb-16 md:pb-24 relative overflow-hidden">
@@ -111,12 +118,12 @@ export default function BlogCategoryClientSide({
           <span className={cn(
             "text-base mb-4 block font-semibold",
             isDark ? "text-[#E0FF5C]" : "text-black"
-          )}>{category.name}</span>
+          )}>Agence {category.name}</span>
           <h1 className={cn(
             "text-3xl md:text-5xl font-normal mb-4",
             isDark ? "text-white" : "text-black"
           )}>
-            Nos articles sur<br/>{category.name}
+            L&apos;actualité {category.name}<br/>de notre agence
           </h1>
           <div className={cn(
             "w-12 h-0.5 mx-auto mb-4",
@@ -176,7 +183,7 @@ export default function BlogCategoryClientSide({
       
         {/* Blog grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 md:mb-16">
-          {postsToRender.map((post) => (
+          {blogPosts.map((post) => (
             <Link
               key={post.id}
               href={`/blog/${post.slug}`}
@@ -223,12 +230,27 @@ export default function BlogCategoryClientSide({
         {/* Pagination avec support progressif */}
         {totalPages > 1 && (
           <div className="mb-16">
-            <Pagination 
-              currentPage={currentPage} 
-              totalPages={totalPages} 
-              onPageChange={setCurrentPage}
-              basePath={baseUrl}
-            />
+            {isLoading ? (
+              <div className="flex justify-center items-center h-64">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+              </div>
+            ) : (
+              <>
+                {console.log('Rendering pagination with:', {
+                  totalPages,
+                  currentPage,
+                  hasNextPage: currentPage < totalPages,
+                  hasPrevPage: currentPage > 1,
+                  postsCount: blogPosts.length
+                })}
+                <Pagination 
+                  currentPage={currentPage} 
+                  totalPages={totalPages} 
+                  onPageChange={handlePageChange}
+                  basePath={baseUrl}
+                />
+              </>
+            )}
           </div>
         )}
       </div>
