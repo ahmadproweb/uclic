@@ -11,27 +11,34 @@ interface PageProps {
   };
 }
 
-export const metadata: Metadata = {
-  title: "Levée de Fonds | Growth Marketing pour Startups | Uclic",
-  description: "Optimisez votre levée de fonds grâce au Growth Marketing. Nos freelances experts vous accompagnent dans l'optimisation de vos KPIs et processus commerciaux.",
-  alternates: {
-    canonical: 'https://uclic.fr/levee-de-fonds'
-  },
-  openGraph: {
-    title: "Levée de Fonds | Growth Marketing pour Startups | Uclic",
-    description: "Optimisez votre levée de fonds grâce au Growth Marketing. Nos freelances experts vous accompagnent dans l'optimisation de vos KPIs et processus commerciaux.",
-    url: 'https://uclic.fr/levee-de-fonds',
-    type: "website",
-    locale: "fr_FR",
-    siteName: "Uclic",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Levée de Fonds | Growth Marketing pour Startups | Uclic",
-    description: "Optimisez votre levée de fonds grâce au Growth Marketing. Nos freelances experts vous accompagnent dans l'optimisation de vos KPIs et processus commerciaux.",
-    site: "@uclic_fr"
-  }
-};
+export async function generateMetadata({ params }: { params: { page: string } }): Promise<Metadata> {
+  const pageNumber = parseInt(params.page);
+  const title = pageNumber > 1 
+    ? `Levée de fonds startups françaises - Page ${pageNumber} | UCLIC`
+    : "Levée de fonds startups françaises | UCLIC";
+
+  return {
+    title,
+    description: "Découvrez les dernières levées de fonds des startups françaises. Restez informé des investissements dans l'écosystème startup.",
+    alternates: {
+      canonical: 'https://uclic.fr/levee-de-fonds'
+    },
+    openGraph: {
+      title: "Levée de fonds startups françaises | UCLIC",
+      description: "Découvrez les dernières levées de fonds des startups françaises. Restez informé des investissements dans l'écosystème startup.",
+      url: 'https://uclic.fr/levee-de-fonds',
+      type: "website",
+      locale: "fr_FR",
+      siteName: "Uclic",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Levée de fonds startups françaises | UCLIC",
+      description: "Découvrez les dernières levées de fonds des startups françaises. Restez informé des investissements dans l'écosystème startup.",
+      site: "@uclic_fr"
+    }
+  };
+}
 
 export const revalidate = 3600; // Revalidate every hour
 

@@ -6,14 +6,14 @@ import { cn } from '@/lib/utils';
 import { colors as theme } from '@/config/theme';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
-import PreFooter from '@/components/footer/PreFooter';
 import Pagination from '@/components/ui/Pagination';
 import ScrollToTop from '@/components/ui/ScrollToTop';
 import StickyShareButtons from '@/components/ui/StickyShareButtons';
 import { formatDate } from '@/services/wordpress';
+import Image from 'next/image';
 
 // Define the levee post interface
-export interface LeveePost {
+interface LeveePost {
   id: string;
   title: string;
   slug: string;
@@ -26,12 +26,20 @@ export interface LeveePost {
   };
 }
 
+interface LeveeCardProps {
+  post: LeveePost;
+  index: number;
+}
+
 // Internal LeveeCard component for this page
-function LeveeCard({ post }: { post: LeveePost }) {
-  const imageUrl = post.featuredImage?.node.sourceUrl;
-  const optimizedImageUrl = imageUrl 
-    ? `${imageUrl.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1')}${imageUrl.endsWith('.webp') ? '' : '.webp'}`
-    : '/images/default-post.jpg';
+function LeveeCard({ post, index }: LeveeCardProps) {
+  // Extraire les initiales du titre
+  const initials = post.title
+    .split(' ')
+    .map(word => word[0])
+    .join('')
+    .slice(0, 3)
+    .toUpperCase();
 
   return (
     <Link
@@ -45,14 +53,22 @@ function LeveeCard({ post }: { post: LeveePost }) {
         boxShadow: `0 8px 32px -4px rgba(224, 255, 92, 0.25)`
       }}
     >
-      {/* Featured Image */}
-      <div className="relative w-full h-48 overflow-hidden">
-        <img
-          src={optimizedImageUrl}
-          alt={post.featuredImage?.node.altText || post.title}
-          className="object-cover transition-transform duration-500 group-hover:scale-105 w-full h-full"
-          loading="lazy"
-        />
+      {/* Featured Image or Text Placeholder */}
+      <div className="relative h-48 overflow-hidden">
+        {post.featuredImage?.node?.sourceUrl ? (
+          <Image
+            src={post.featuredImage.node.sourceUrl}
+            alt={post.featuredImage.node.altText || post.title}
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            priority={index < 3}
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#E0FF5C] to-[#B8D44A]">
+            <span className="text-4xl font-bold text-black/80">{initials}</span>
+          </div>
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
         <span className="absolute bottom-4 left-4 inline-block px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-sm z-20">
           Levée de fonds
@@ -188,11 +204,12 @@ export default function LeveesPage({
         {/* Hero section with featured post */}
         {featuredPost && (
           <div className="relative w-full h-[35vh] sm:h-[40vh] md:h-[50vh] lg:h-[60vh] mb-8 sm:mb-12 md:mb-16 rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl">
-            <img
+            <Image
               src={featuredPost.featuredImage?.node.sourceUrl || '/images/default-post.jpg'}
               alt={featuredPost.featuredImage?.node.altText || featuredPost.title}
-              className="object-cover rounded-2xl sm:rounded-3xl w-full h-full"
-              loading="eager"
+              fill
+              className="object-cover rounded-2xl sm:rounded-3xl"
+              priority
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
             <div className="absolute inset-0 flex flex-col justify-end p-4 sm:p-6 md:p-8 lg:p-14">
@@ -225,8 +242,8 @@ export default function LeveesPage({
       
         {/* Levees grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 md:mb-16">
-          {postsToRender.map((post) => (
-            <LeveeCard key={post.id} post={post} />
+          {postsToRender.map((post, index) => (
+            <LeveeCard key={post.id} post={post} index={index} />
           ))}
         </div>
         
