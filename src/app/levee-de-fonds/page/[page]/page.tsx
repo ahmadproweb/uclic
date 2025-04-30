@@ -1,5 +1,8 @@
+import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
-import LeveesPage from '../page';
+import { getAllLevees } from '@/lib/wordpress';
+import LeveesPage from '@/components/pages/levee-de-fonds/LeveesPage';
+import Loading from '@/components/ui/Loading';
 import { Metadata } from 'next';
 
 interface PageProps {
@@ -8,7 +11,7 @@ interface PageProps {
   };
 }
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Levée de Fonds | Growth Marketing pour Startups | Uclic",
   description: "Optimisez votre levée de fonds grâce au Growth Marketing. Nos freelances experts vous accompagnent dans l'optimisation de vos KPIs et processus commerciaux.",
   alternates: {
@@ -32,12 +35,24 @@ export const metadata = {
 
 export const revalidate = 3600; // Revalidate every hour
 
-export default function LeveesPaginationPage({ params }: PageProps) {
+export default async function LeveesPaginationPage({ params }: PageProps) {
   const pageNumber = parseInt(params.page);
   
   if (isNaN(pageNumber) || pageNumber < 1) {
     notFound();
   }
 
-  return <LeveesPage initialPage={pageNumber} />;
+  const levees = await getAllLevees();
+  const postsPerPage = 9;
+  const totalPages = Math.ceil((levees.length - 1) / postsPerPage);
+
+  if (pageNumber > totalPages) {
+    notFound();
+  }
+
+  return (
+    <Suspense fallback={<Loading />}>
+      <LeveesPage posts={levees} initialPage={pageNumber} />
+    </Suspense>
+  );
 } 
