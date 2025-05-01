@@ -9,9 +9,6 @@ export const revalidate = 3600; // Revalidate every hour
 export const metadata: Metadata = {
   title: "Levée de fonds startups françaises | UCLIC",
   description: "Découvrez les dernières levées de fonds des startups françaises. Restez informé des investissements dans l'écosystème startup.",
-  alternates: {
-    canonical: 'https://uclic.fr/levee-de-fonds'
-  },
   openGraph: {
     title: "Levée de fonds startups françaises | UCLIC",
     description: "Découvrez les dernières levées de fonds des startups françaises. Restez informé des investissements dans l'écosystème startup.",

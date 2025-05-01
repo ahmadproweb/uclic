@@ -4,24 +4,18 @@ import React from 'react';
 import { CTAButton } from "@/components/ui/cta-button";
 import ExpertiseContactForm from './ExpertiseContactForm';
 import HeroBackgroundExpertise from './HeroBackgroundExpertise';
-import { useTheme } from "@/context/ThemeContext";
 import { ExpertiseCategoryFields } from '@/lib/wordpress';
 import { cn } from '@/lib/utils';
 
 interface HeroExpertiseProps {
   categoryName: string;
-  category: string;
   expertiseFields: ExpertiseCategoryFields;
 }
 
 const HeroExpertise: React.FC<HeroExpertiseProps> = ({ 
   categoryName, 
-  category,
   expertiseFields 
 }) => {
-  const { theme: currentTheme } = useTheme();
-  const isDark = currentTheme === 'dark';
-
   return (
     <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
       <HeroBackgroundExpertise />
@@ -30,11 +24,15 @@ const HeroExpertise: React.FC<HeroExpertiseProps> = ({
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <div className="max-w-2xl">
             {expertiseFields.tag && (
-              <h1 className={cn(
-                "inline-flex px-3 sm:px-4 py-1.5 bg-[#9FB832]/10 dark:bg-[#E0FF5C]/10 rounded-full text-[#9FB832] dark:text-[#E0FF5C] text-sm sm:text-base font-medium relative z-10 mb-4 sm:mb-6 md:mb-8"
-              )}>
+              <div 
+                role="doc-subtitle"
+                aria-label="Catégorie d'expertise"
+                className={cn(
+                  "inline-flex px-3 sm:px-4 py-1.5 bg-[#9FB832]/10 dark:bg-[#E0FF5C]/10 rounded-full text-[#9FB832] dark:text-[#E0FF5C] text-sm sm:text-base font-medium relative z-10 mb-4 sm:mb-6 md:mb-8"
+                )}
+              >
                 {expertiseFields.tag}
-              </h1>
+              </div>
             )}
 
             <h1 className={cn(
@@ -58,7 +56,6 @@ const HeroExpertise: React.FC<HeroExpertiseProps> = ({
               >
                 Nous contacter
               </CTAButton>
-             
             </div>
           </div>
 

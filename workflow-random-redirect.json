@@ -1,0 +1,100 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "path": "random",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "webhookId": "random-page"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.uclic.fr/graphql",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {},
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "query GetAllPosts { posts(first: 1000) { nodes { slug } } }"
+            }
+          ]
+        }
+      },
+      "name": "Get Posts URLs",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [460, 300],
+      "typeVersion": 4.1
+    },
+    {
+      "parameters": {
+        "functionCode": "// Récupérer la liste des URLs\nconst urls = $input.first().json.data.posts.nodes.map(post => `https://uclic.fr/blog/${post.slug}`);\n\n// Sélection aléatoire d'une URL\nconst random_url = urls[Math.floor(Math.random() * urls.length)];\n\n// Retourner l'URL pour la redirection\nreturn [\n  {\n    json: {\n      redirectUrl: random_url\n    }\n  }\n];"
+      },
+      "name": "Select Random URL",
+      "type": "n8n-nodes-base.function",
+      "position": [680, 300],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "respondWith": "redirect",
+        "redirectURL": "={{ $json.redirectUrl }}",
+        "options": {}
+      },
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "position": [900, 300],
+      "typeVersion": 1
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get Posts URLs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Posts URLs": {
+      "main": [
+        [
+          {
+            "node": "Select Random URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select Random URL": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+} 

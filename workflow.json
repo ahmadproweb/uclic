@@ -1,0 +1,155 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "expression": "1"
+            }
+          ]
+        }
+      },
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "position": [240, 300],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://api.uclic.fr/wp-json/wp/v2/posts",
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "modified_after",
+              "value": "={{$now.minus(1, 'hours').format('YYYY-MM-DDTHH:mm:ss')}}"
+            },
+            {
+              "name": "per_page",
+              "value": "100"
+            },
+            {
+              "name": "_fields",
+              "value": "id,title,slug,status,modified,link"
+            }
+          ]
+        }
+      },
+      "name": "Get Posts",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [460, 300],
+      "typeVersion": 4.1
+    },
+    {
+      "parameters": {
+        "operation": "filter",
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json[\"status\"]}}",
+              "value2": "publish"
+            }
+          ]
+        }
+      },
+      "name": "Filter Published",
+      "type": "n8n-nodes-base.filter",
+      "position": [680, 300],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "functionCode": "// Process all items and collect URLs\nconst urls = items\n  .filter(item => {\n    if (!item?.json?.modified || !item?.json?.slug) return false;\n    \n    // Check if modified within last hour\n    const now = new Date();\n    const modifiedDate = new Date(item.json.modified);\n    const hoursDiff = (now - modifiedDate) / (1000 * 60 * 60);\n    return hoursDiff <= 1;\n  })\n  .map(item => {\n    // Construct URL directly with slug\n    return `https://uclic.fr/blog/${item.json.slug}`;\n  });\n\n// Only proceed if we have URLs to process\nif (urls.length === 0) {\n  return [];\n}\n\n// Return data formatted for task creation\nreturn [{\n  json: {\n    title: `UCLIC Index Task ${new Date().toISOString()}`,\n    urls: urls\n  }\n}];"
+      },
+      "name": "Prepare Task Data",
+      "type": "n8n-nodes-base.function",
+      "position": [900, 300],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.speedyindex.com/v2/task/google/indexer/create",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "de42e0b26fab98c90636d54d721a198b"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {},
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "title",
+              "value": "={{$json[\"title\"]}}"
+            },
+            {
+              "name": "urls",
+              "value": "={{$json[\"urls\"]}}"
+            }
+          ]
+        }
+      },
+      "name": "Create Index Task",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [1120, 300],
+      "typeVersion": 4.1
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Posts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Posts": {
+      "main": [
+        [
+          {
+            "node": "Filter Published",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Published": {
+      "main": [
+        [
+          {
+            "node": "Prepare Task Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Task Data": {
+      "main": [
+        [
+          {
+            "node": "Create Index Task",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+} 

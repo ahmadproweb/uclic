@@ -3,51 +3,57 @@ import { Suspense } from 'react';
 import { getAllLevees } from '@/lib/wordpress';
 import LeveesPage from '@/components/pages/levee-de-fonds/LeveesPage';
 import Loading from '@/components/ui/Loading';
+import { notFound } from 'next/navigation';
 
-interface PageProps {
+interface Props {
   params: {
     page: string;
   };
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const currentPage = parseInt(params.page);
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://uclic.fr';
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const pageNumber = parseInt(params.page, 10);
   
   return {
-    title: `Levées de fonds - Page ${currentPage} | UCLIC`,
-    description: `Découvrez les dernières levées de fonds des startups françaises - Page ${currentPage}`,
-    alternates: {
-      canonical: currentPage === 1 
-        ? `${baseUrl}/levee-de-fonds`
-        : `${baseUrl}/levee-de-fonds/page/${currentPage}`,
-    },
-    openGraph: {
-      title: `Levées de fonds - Page ${currentPage} | UCLIC`,
-      description: `Découvrez les dernières levées de fonds des startups françaises - Page ${currentPage}`,
-      url: currentPage === 1 
-        ? `${baseUrl}/levee-de-fonds`
-        : `${baseUrl}/levee-de-fonds/page/${currentPage}`,
-    },
+    title: `Levées de fonds startups françaises - Page ${pageNumber} | UCLIC`,
+    description: `Découvrez les dernières levées de fonds des startups françaises. Page ${pageNumber} des actualités sur les investissements dans l'écosystème startup.`,
     robots: {
       index: true,
       follow: true,
       'max-snippet': -1,
       'max-image-preview': 'large',
-      'max-video-preview': -1,
+      'max-video-preview': -1
     },
+    openGraph: {
+      title: `Levées de fonds startups françaises - Page ${pageNumber} | UCLIC`,
+      description: `Découvrez les dernières levées de fonds des startups françaises. Page ${pageNumber} des actualités sur les investissements dans l'écosystème startup.`,
+      url: `https://uclic.fr/levee-de-fonds/page/${pageNumber}`,
+      type: "website",
+      locale: "fr_FR",
+      siteName: "Uclic",
+    },
+    alternates: {
+      canonical: `https://uclic.fr/levee-de-fonds/page/${pageNumber}`
+    }
   };
 }
 
-export const revalidate = 3600;
-
-export default async function Page({ params }: PageProps) {
-  const currentPage = parseInt(params.page);
+export default async function Page({ params }: Props) {
+  const pageNumber = parseInt(params.page, 10);
   const levees = await getAllLevees();
+  
+  // Calculate total pages
+  const postsPerPage = 9;
+  const totalPages = Math.ceil(levees.length / postsPerPage);
+  
+  // Validate page number
+  if (isNaN(pageNumber) || pageNumber < 1 || pageNumber > totalPages) {
+    notFound();
+  }
   
   return (
     <Suspense fallback={<Loading />}>
-      <LeveesPage posts={levees} initialPage={currentPage} />
+      <LeveesPage posts={levees} initialPage={pageNumber} />
     </Suspense>
   );
 } 

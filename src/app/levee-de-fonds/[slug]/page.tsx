@@ -78,12 +78,14 @@ export async function generateMetadata({ params }: LeveePostParams): Promise<Met
     robots: {
       index: true,
       follow: true,
+      nocache: false,
       googleBot: {
         index: true,
         follow: true,
         'max-snippet': -1,
         'max-video-preview': -1,
         'max-image-preview': 'large',
+        noimageindex: false
       },
     },
     alternates: {

@@ -1,6 +1,32 @@
 {
   "version": 2,
   "framework": "nextjs",
+  "redirects": [
+    {
+      "source": "/:path*/page/:num",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.uclic.fr"
+        }
+      ],
+      "destination": "https://uclic.fr/:path*/page/:num",
+      "permanent": true,
+      "statusCode": 301
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.uclic.fr"
+        }
+      ],
+      "destination": "https://uclic.fr/:path*",
+      "permanent": true,
+      "statusCode": 301
+    }
+  ],
   "headers": [
     {
       "source": "/:path*",
