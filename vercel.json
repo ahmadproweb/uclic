@@ -4,27 +4,25 @@
   "redirects": [
     {
       "source": "/:path*/page/:num",
+      "destination": "https://uclic.fr/:path*/page/:num",
       "has": [
         {
           "type": "host",
           "value": "www.uclic.fr"
         }
       ],
-      "destination": "https://uclic.fr/:path*/page/:num",
-      "permanent": true,
-      "statusCode": 301
+      "permanent": true
     },
     {
       "source": "/:path*",
+      "destination": "https://uclic.fr/:path*",
       "has": [
         {
           "type": "host",
           "value": "www.uclic.fr"
         }
       ],
-      "destination": "https://uclic.fr/:path*",
-      "permanent": true,
-      "statusCode": 301
+      "permanent": true
     }
   ],
   "headers": [
