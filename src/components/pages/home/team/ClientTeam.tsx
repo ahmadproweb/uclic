@@ -91,15 +91,6 @@ const TeamMemberCard = memo(function TeamMemberCard({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <Link
-        href={`/equipe/${member.slug}`}
-        className={cn(
-          "absolute inset-0 rounded-2xl md:rounded-[32px]",
-          "focus:outline-none focus:ring-2 focus:ring-primary/50",
-          "pointer-events-none group-hover/card:pointer-events-auto"
-        )}
-        aria-label={`En savoir plus sur ${member.title}`}
-      />
       <div
         className={cn(
           "relative rounded-2xl md:rounded-[32px] p-4 md:p-8",
@@ -278,14 +269,15 @@ const ClientTeam = memo(function ClientTeam({ initialData }: { initialData: Team
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-7xl mx-auto">
         {teamMembers.map((member) => (
-          <TeamMemberCard
-            key={member.slug}
-            member={member}
-            hoveredId={hoveredId}
-            onHover={handleHover}
-            themeColors={themeColors}
-            isDark={isDark}
-          />
+          <Link href={`/equipe/${member.slug}`} key={member.slug} className="block group">
+            <TeamMemberCard
+              member={member}
+              hoveredId={hoveredId}
+              onHover={handleHover}
+              themeColors={themeColors}
+              isDark={isDark}
+            />
+          </Link>
         ))}
       </div>
     </section>
