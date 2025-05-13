@@ -4,13 +4,13 @@ import Link from "next/link";
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 import { useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export function Logo() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
   const searchParams = useSearchParams();
-  const loveParam = searchParams.get('love');
+  const [customLogo, setCustomLogo] = useState<string | null>(null);
 
   // Fonction pour extraire le domaine d'une URL
   const extractDomain = (url: string) => {
@@ -29,15 +29,34 @@ export function Logo() {
     return mainDomain;
   };
 
-  const domain = loveParam ? extractDomain(loveParam) : null;
+  useEffect(() => {
+    // Récupérer le logo du cache au chargement
+    const cachedLogo = localStorage.getItem('customLogo');
+    if (cachedLogo) {
+      setCustomLogo(cachedLogo);
+    }
+
+    // Vérifier si un nouveau logo est demandé via l'URL
+    const loveParam = searchParams.get('love');
+    if (loveParam) {
+      const domain = extractDomain(loveParam);
+      const logoUrl = `https://www.logo.dev/api/logo?domain=${domain}&token=YOUR_TOKEN`;
+      
+      // Mettre en cache le nouveau logo
+      localStorage.setItem('customLogo', logoUrl);
+      setCustomLogo(logoUrl);
+    }
+  }, [searchParams]);
+
+  const domain = customLogo ? extractDomain(customLogo) : null;
   const logoUrl = domain ? `https://img.logo.dev/${domain}?token=pk_MW4QolF6TPewpNsB9eZvDA` : null;
 
   useEffect(() => {
-    if (loveParam) {
-      console.log('Paramètre love:', loveParam);
+    if (customLogo) {
+      console.log('Paramètre love:', customLogo);
       console.log('URL du logo:', logoUrl);
     }
-  }, [loveParam, logoUrl]);
+  }, [customLogo, logoUrl]);
 
   return (
     <Link href="/" className="relative z-10 flex items-center gap-2" aria-label="Retour à l'accueil">
