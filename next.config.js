@@ -138,6 +138,21 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: '/services/agence-marketing-e-commerce',
+        destination: '/services/agence-marketing-e-commerce',
+        permanent: true, // Utilise une redirection 301 (permanente)
+      },
+      {
+        source: '/conditions-generales-de-vente',
+        destination: '/legal/conditions-generales-de-vente',
+        permanent: true, // Utilise une redirection 301 (permanente)
+      },
+      {
+        source: '/services/agence-relation-presse',
+        destination: '/expertise/freelance-seo',
+        permanent: true, // Utilise une redirection 301 (permanente)
+      },
+      {
         source: '/growth-hacking/:slug',
         destination: '/blog/:slug',
         permanent: true, // Utilise une redirection 301 (permanente)

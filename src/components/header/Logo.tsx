@@ -3,13 +3,44 @@
 import Link from "next/link";
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
+import { useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 export function Logo() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
+  const searchParams = useSearchParams();
+  const loveParam = searchParams.get('love');
+
+  // Fonction pour extraire le domaine d'une URL
+  const extractDomain = (url: string) => {
+    if (!url) return null;
+    
+    // Nettoyage de l'URL
+    const cleanUrl = url.trim().toLowerCase();
+    // Suppression du protocole et www
+    const domain = cleanUrl.replace(/^(https?:\/\/)?(www\.)?/, '');
+    // Extraction du domaine principal
+    const mainDomain = domain.split('/')[0];
+    
+    console.log('URL originale:', url);
+    console.log('Domaine extrait:', mainDomain);
+    
+    return mainDomain;
+  };
+
+  const domain = loveParam ? extractDomain(loveParam) : null;
+  const logoUrl = domain ? `https://img.logo.dev/${domain}?token=pk_MW4QolF6TPewpNsB9eZvDA` : null;
+
+  useEffect(() => {
+    if (loveParam) {
+      console.log('Paramètre love:', loveParam);
+      console.log('URL du logo:', logoUrl);
+    }
+  }, [loveParam, logoUrl]);
 
   return (
-    <Link href="/" className="relative z-10" aria-label="Retour à l'accueil">
+    <Link href="/" className="relative z-10 flex items-center gap-2" aria-label="Retour à l'accueil">
       <div suppressHydrationWarning>
         <svg 
           width="100" 
@@ -30,6 +61,28 @@ export function Logo() {
           <path d="M37.2543 33.4178C37.2465 33.2182 37.2329 33.0187 37.2173 32.8181L37.2115 32.7549C37.1949 32.5544 37.1755 32.3538 37.1531 32.1543L35.803 18.2159C35.7494 17.6182 35.6988 17.0205 35.6569 16.4219C35.5791 15.3278 35.4564 14.2151 35.0661 13.1823C34.9385 12.8436 34.7789 12.5233 34.5998 12.2099C33.7237 10.74 32.3123 9.61865 30.6789 9.10566C30.0004 8.89248 29.2908 8.7854 28.5792 8.7854C26.3345 8.7854 24.4548 10.0713 22.8175 11.4808C20.8746 13.1522 18.92 14.8109 16.9663 16.4706C14.5201 18.5488 12.1995 20.5229 9.7338 22.6352C8.4411 23.743 7.08318 24.8575 5.74278 25.9059C4.53964 26.8472 3.12915 27.9063 2.12945 29.0773C0.836749 30.591 0.0424403 32.5436 0.00155668 34.6813C-0.0899447 39.5873 3.86409 43.6786 8.77013 43.7458C13.7404 43.8149 17.7918 39.8054 17.7918 34.8506C17.7918 33.3526 17.4229 31.8447 16.6675 30.5238C16.3073 29.894 15.5442 29.0053 14.9864 28.5419C14.4296 28.0786 13.8747 27.6211 13.4873 26.9942C12.914 26.0665 12.6103 24.986 12.6103 23.8958C12.6103 20.6319 15.256 17.9871 18.5189 17.9871C21.1082 17.9871 23.314 19.5991 24.6378 21.7406C26.1496 24.1859 26.169 26.8277 26.169 29.6098C26.169 31.211 26.169 32.8133 26.169 34.4155C26.169 37.4818 28.6551 39.9669 31.7204 39.9669C33.8639 39.9669 35.7981 38.682 36.7073 36.7527C37.193 35.7219 37.301 34.582 37.2553 33.4188L37.2543 33.4178Z"/>
         </svg>
       </div>
+      
+      {logoUrl && (
+        <div className="flex items-center gap-2">
+          <div className="relative">
+            <img 
+              src={logoUrl}
+              alt={`Logo de ${domain}`}
+              className="h-[50px] w-[50px] object-contain border border-gray-200 rounded-md"
+            />
+            <div className="absolute -top-2 -right-1 bg-red-500 rounded-md px-1.5 py-0.5 flex items-center shadow-sm">
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                viewBox="0 0 24 24" 
+                fill="white" 
+                className="w-4 h-4"
+              >
+                <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      )}
     </Link>
   );
 } 

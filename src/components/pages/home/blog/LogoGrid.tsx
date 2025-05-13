@@ -19,7 +19,6 @@ const logos: Logo[] = [
   { name: "Deepki", image: "/partners/deepki.png", alt: "Logo Deepki, solution ESG pour l'immobilier" },
   { name: "Agicap", image: "/partners/agicap.png", alt: "Logo Agicap, solution de gestion de trésorerie" },
   { name: "CodinGame", image: "/partners/codingame.png", alt: "Logo CodinGame, plateforme d'évaluation technique" },
-  { name: "ISAI", image: "/partners/isai.png", alt: "Logo ISAI, fonds d'investissement tech" },
   { name: "Louis Vuitton", image: "/partners/louisvuitton.png", alt: "Logo Louis Vuitton, maison de luxe" },
   { name: "Floa", image: "/partners/floa.png", alt: "Logo Floa, services financiers innovants" },
   { name: "Summit Partners", image: "/partners/summit-partner.png", alt: "Logo Summit Partners, fonds d'investissement international" },
