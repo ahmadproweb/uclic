@@ -1,9 +1,13 @@
-import { Suspense } from 'react';
-import { notFound } from 'next/navigation';
-import { getLeveeBySlug, getRelatedLevees, getLatestLevees } from '@/lib/wordpress';
-import LeveePage from '@/components/pages/levee-de-fonds/LeveePage';
-import Loading from '@/components/ui/Loading';
-import type { Metadata } from 'next';
+import LeveePage from "@/components/pages/levee-de-fonds/LeveePage";
+import Loading from "@/components/ui/Loading";
+import {
+  getLatestLevees,
+  getLeveeBySlug,
+  getRelatedLevees,
+} from "@/lib/wordpress";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 // JSON-LD Types
 interface JsonLdImage {
@@ -52,14 +56,16 @@ interface LeveePostParams {
   };
 }
 
-export async function generateMetadata({ params }: LeveePostParams): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: LeveePostParams): Promise<Metadata> {
   const slug = await Promise.resolve(params.slug);
   const post = await getLeveeBySlug(slug);
 
   if (!post) {
     return {
-      title: 'Levée de fonds non trouvée | UCLIC',
-      description: 'La levée de fonds que vous recherchez n\'existe pas.',
+      title: "Levée de fonds non trouvée",
+      description: "La levée de fonds que vous recherchez n'existe pas.",
     };
   }
 
@@ -70,7 +76,7 @@ export async function generateMetadata({ params }: LeveePostParams): Promise<Met
   const seo = post.seo;
   const openGraph = seo.openGraph;
   const twitterMeta = openGraph?.twitterMeta;
-  const baseUrl = 'https://uclic.fr';
+  const baseUrl = "https://uclic.fr";
 
   const metadata: Metadata = {
     title: seo.title,
@@ -82,10 +88,10 @@ export async function generateMetadata({ params }: LeveePostParams): Promise<Met
       googleBot: {
         index: true,
         follow: true,
-        'max-snippet': -1,
-        'max-video-preview': -1,
-        'max-image-preview': 'large',
-        noimageindex: false
+        "max-snippet": -1,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        noimageindex: false,
       },
     },
     alternates: {
@@ -100,21 +106,23 @@ export async function generateMetadata({ params }: LeveePostParams): Promise<Met
       url: `${baseUrl}/levee-de-fonds/${slug}`,
       siteName: openGraph.siteName,
       locale: openGraph.locale,
-      type: 'article',
-      images: openGraph.image ? [
-        {
-          url: openGraph.image.url,
-          width: openGraph.image.width,
-          height: openGraph.image.height,
-          alt: post.title,
-        },
-      ] : undefined,
+      type: "article",
+      images: openGraph.image
+        ? [
+            {
+              url: openGraph.image.url,
+              width: openGraph.image.width,
+              height: openGraph.image.height,
+              alt: post.title,
+            },
+          ]
+        : undefined,
     };
   }
 
   if (twitterMeta) {
     metadata.twitter = {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title: twitterMeta.title,
       description: twitterMeta.description,
       images: openGraph?.image ? [openGraph.image.url] : undefined,
@@ -123,8 +131,8 @@ export async function generateMetadata({ params }: LeveePostParams): Promise<Met
 
   if (openGraph?.articleMeta?.section) {
     metadata.other = {
-      'article:section': openGraph.articleMeta.section,
-      'article:publisher': 'https://www.facebook.com/uclic.fr',
+      "article:section": openGraph.articleMeta.section,
+      "article:publisher": "https://www.facebook.com/uclic.fr",
     };
   }
 
@@ -144,43 +152,43 @@ export default async function Page({ params }: LeveePostParams) {
   // Fetch related and latest posts in parallel
   const [relatedPosts, latestPosts] = await Promise.all([
     getRelatedLevees(post.id),
-    getLatestLevees(3, [post.id])
+    getLatestLevees(3, [post.id]),
   ]);
 
   // Prepare JSON-LD data
   const jsonLd: ArticleJsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": post.title,
-    "datePublished": post.date,
-    "dateModified": post.date,
-    "image": post.featuredImage?.node.sourceUrl || "",
-    "author": {
+    headline: post.title,
+    datePublished: post.date,
+    dateModified: post.date,
+    image: post.featuredImage?.node.sourceUrl || "",
+    author: {
       "@type": "Organization",
-      "name": "UCLIC",
-      "url": "https://uclic.fr"
+      name: "UCLIC",
+      url: "https://uclic.fr",
     },
-    "publisher": {
+    publisher: {
       "@type": "Organization",
-      "name": "UCLIC",
-      "url": "https://uclic.fr",
-      "logo": {
+      name: "UCLIC",
+      url: "https://uclic.fr",
+      logo: {
         "@type": "ImageObject",
-        "url": "https://uclic.fr/images/logo.png"
-      }
+        url: "https://uclic.fr/images/logo.png",
+      },
     },
-    "description": post.seo?.description || "",
-    "mainEntityOfPage": {
+    description: post.seo?.description || "",
+    mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://uclic.fr/levee-de-fonds/${post.slug}`
-    }
+      "@id": `https://uclic.fr/levee-de-fonds/${post.slug}`,
+    },
   };
 
   return (
     <>
       <JsonLd data={jsonLd} />
       <Suspense fallback={<Loading />}>
-        <LeveePage 
+        <LeveePage
           post={post}
           relatedPosts={relatedPosts}
           latestPosts={latestPosts}
@@ -188,4 +196,4 @@ export default async function Page({ params }: LeveePostParams) {
       </Suspense>
     </>
   );
-} 
+}

@@ -1,9 +1,12 @@
-import { Suspense } from 'react';
-import { notFound } from 'next/navigation';
-import { getPortfolioBySlug, getRelatedPortfolios, getLatestPortfolios } from '@/lib/wordpress';
-import LeveePage from '@/components/pages/levee-de-fonds/LeveePage';
-import Loading from '@/components/ui/Loading';
-import { Metadata } from 'next';
+import LeveePage from "@/components/pages/levee-de-fonds/LeveePage";
+import Loading from "@/components/ui/Loading";
+import {
+  getLatestPortfolios,
+  getPortfolioBySlug,
+  getRelatedPortfolios,
+} from "@/lib/wordpress";
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 interface PortfolioPostParams {
   params: {
@@ -16,13 +19,13 @@ export async function generateMetadata({ params }: PortfolioPostParams) {
 
   if (!post) {
     return {
-      title: 'Cas client non trouvé | UCLIC',
-      description: 'Le cas client que vous recherchez n\'existe pas.',
+      title: "Cas client non trouvé",
+      description: "Le cas client que vous recherchez n'existe pas.",
     };
   }
 
   return {
-    title: `${post.title} | UCLIC`,
+    title: `${post.title}`,
     description: `Découvrez les détails du cas client : ${post.title}`,
   };
 }
@@ -39,16 +42,16 @@ export default async function Page({ params }: PortfolioPostParams) {
   // Fetch related and latest posts in parallel
   const [relatedPosts, latestPosts] = await Promise.all([
     getRelatedPortfolios(post.id),
-    getLatestPortfolios(3, [post.id]) // Exclude current post
+    getLatestPortfolios(3, [post.id]), // Exclude current post
   ]);
 
   return (
     <Suspense fallback={<Loading />}>
-      <LeveePage 
+      <LeveePage
         post={post}
         relatedPosts={relatedPosts}
         latestPosts={latestPosts}
       />
     </Suspense>
   );
-} 
+}

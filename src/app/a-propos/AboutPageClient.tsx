@@ -1,8 +1,8 @@
 "use client";
 
+import PreFooter from "@/components/footer/PreFooter";
 import { cn } from "@/lib/utils";
-import PreFooter from '@/components/footer/PreFooter';
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 export default function AboutPageClient() {
   const [isVisible, setIsVisible] = useState(false);
@@ -17,12 +17,13 @@ export default function AboutPageClient() {
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-white to-[#E0FF5C] dark:from-black dark:to-[#E0FF5C]" />
 
       {/* Grain effect overlay */}
-      <div 
+      <div
         className="absolute inset-0 z-0 mix-blend-soft-light opacity-50 dark:opacity-90"
         style={{
-          backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.7\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\' opacity=\'0.8\'/%3E%3C/svg%3E")',
-          backgroundRepeat: 'repeat',
-          backgroundSize: '100px 100px'
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.8'/%3E%3C/svg%3E\")",
+          backgroundRepeat: "repeat",
+          backgroundSize: "100px 100px",
         }}
       />
 
@@ -41,7 +42,9 @@ export default function AboutPageClient() {
             </h1>
             <div className="w-12 h-0.5 mx-auto mb-4 bg-black dark:bg-[#E0FF5C]" />
             <p className="text-base md:text-lg text-black/70 dark:text-white/80">
-              Découvrez comment est né Uclic<br/>et ce qui nous anime au quotidien
+              Découvrez comment est né Uclic
+              <br />
+              et ce qui nous anime au quotidien
             </p>
           </div>
 
@@ -53,7 +56,7 @@ export default function AboutPageClient() {
               "bg-white/10 dark:bg-black/10 backdrop-blur-sm"
             )}
             style={{
-              boxShadow: '0 8px 32px -4px rgba(0,0,0,0.1)'
+              boxShadow: "0 8px 32px -4px rgba(0,0,0,0.1)",
             }}
           >
             <p className="text-xl md:text-2xl leading-relaxed typewriter-text delay-0 text-[#2C1810] dark:text-white">
@@ -61,23 +64,35 @@ export default function AboutPageClient() {
             </p>
 
             <p className="text-lg md:text-xl leading-relaxed typewriter-text delay-1 text-[#2C1810] dark:text-white/90">
-              Laissez-moi vous conter l&apos;histoire d&apos;une révolution silencieuse dans le monde digital. Une histoire qui commence par une frustration partagée face aux agences traditionnelles et leurs promesses creuses.
+              Laissez-moi vous conter l&apos;histoire d&apos;une révolution
+              silencieuse dans le monde digital. Une histoire qui commence par
+              une frustration partagée face aux agences traditionnelles et leurs
+              promesses creuses.
             </p>
 
             <p className="text-lg md:text-xl leading-relaxed typewriter-text delay-2 text-[#2C1810] dark:text-white/90">
-              Nous rêvions d&apos;un monde où le digital serait enfin accessible, où l&apos;expertise ne se cacherait plus derrière un jargon incompréhensible, où la valeur l&apos;emporterait sur le superflu.
+              Nous rêvions d&apos;un monde où le digital serait enfin
+              accessible, où l&apos;expertise ne se cacherait plus derrière un
+              jargon incompréhensible, où la valeur l&apos;emporterait sur le
+              superflu.
             </p>
 
             <p className="text-lg md:text-xl leading-relaxed typewriter-text delay-3 text-[#2C1810] dark:text-white/90">
-              C&apos;est ainsi qu&apos;est né Uclic. Non pas comme une simple agence, mais comme un collectif d&apos;âmes passionnées, unies par une vision commune : rendre le digital profondément humain.
+              C&apos;est ainsi qu&apos;est né Uclic. Non pas comme une simple
+              agence, mais comme un collectif d&apos;âmes passionnées, unies par
+              une vision commune : rendre le digital profondément humain.
             </p>
 
             <p className="text-lg md:text-xl leading-relaxed typewriter-text delay-4 text-[#2C1810] dark:text-white/90">
-              Notre approche ? La simplicité dans sa forme la plus pure. Pas de processus complexes, pas de promesses démesurées. Juste une expertise authentique, mise au service de votre réussite.
+              Notre approche ? La simplicité dans sa forme la plus pure. Pas de
+              processus complexes, pas de promesses démesurées. Juste une
+              expertise authentique, mise au service de votre réussite.
             </p>
 
             <p className="text-lg md:text-xl leading-relaxed typewriter-text delay-5 text-[#2C1810] dark:text-white/90">
-              Chaque jour, nous sélectionnons méticuleusement les meilleurs talents freelances, créant ainsi une communauté d&apos;experts dévoués à transformer vos ambitions en réalités tangibles.
+              Chaque jour, nous sélectionnons méticuleusement les meilleurs
+              talents freelances, créant ainsi une communauté d&apos;experts
+              dévoués à transformer vos ambitions en réalités tangibles.
             </p>
 
             <div className="text-right mt-12 typewriter-text delay-6 text-[#2C1810] dark:text-white">
@@ -105,13 +120,27 @@ export default function AboutPageClient() {
           animation: fadeIn 1s ease-out forwards;
         }
 
-        .delay-0 { animation-delay: 0.5s; }
-        .delay-1 { animation-delay: 1.5s; }
-        .delay-2 { animation-delay: 3s; }
-        .delay-3 { animation-delay: 4.5s; }
-        .delay-4 { animation-delay: 6s; }
-        .delay-5 { animation-delay: 7.5s; }
-        .delay-6 { animation-delay: 9s; }
+        .delay-0 {
+          animation-delay: 0.5s;
+        }
+        .delay-1 {
+          animation-delay: 1.5s;
+        }
+        .delay-2 {
+          animation-delay: 3s;
+        }
+        .delay-3 {
+          animation-delay: 4.5s;
+        }
+        .delay-4 {
+          animation-delay: 6s;
+        }
+        .delay-5 {
+          animation-delay: 7.5s;
+        }
+        .delay-6 {
+          animation-delay: 9s;
+        }
 
         @keyframes fadeIn {
           from {
@@ -126,4 +155,4 @@ export default function AboutPageClient() {
       `}</style>
     </main>
   );
-} 
+}

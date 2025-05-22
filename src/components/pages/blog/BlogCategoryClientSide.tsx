@@ -1,21 +1,20 @@
-'use client';
+"use client";
 
+import PreFooter from "@/components/footer/PreFooter";
+import Pagination from "@/components/ui/Pagination";
+import ScrollToTop from "@/components/ui/ScrollToTop";
+import StickyShareButtons from "@/components/ui/StickyShareButtons";
+import { colors as theme } from "@/config/theme";
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
-import { colors as theme } from '@/config/theme';
-import BlogCard from '@/components/cards/BlogCard';
-import PreFooter from '@/components/footer/PreFooter';
-import { useState, useEffect, useMemo, useCallback } from 'react';
-import { BlogPost } from '@/types/blog';
-import Link from 'next/link';
-import Pagination from '@/components/ui/Pagination';
-import ScrollToTop from '@/components/ui/ScrollToTop';
-import StickyShareButtons from '@/components/ui/StickyShareButtons';
-import { useRouter } from 'next/navigation';
+import { BlogPost } from "@/types/blog";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useCallback, useState } from "react";
 
 // Fonction pour décoder les caractères HTML
 function decodeHTMLEntities(text: string) {
-  const textarea = document.createElement('textarea');
+  const textarea = document.createElement("textarea");
   textarea.innerHTML = text;
   return textarea.value;
 }
@@ -30,43 +29,48 @@ interface BlogCategoryClientSideProps {
   totalPages: number;
 }
 
-export default function BlogCategoryClientSide({ 
-  posts: blogPosts, 
+export default function BlogCategoryClientSide({
+  posts: blogPosts,
   category,
   initialPage = 1,
-  totalPages
+  totalPages,
 }: BlogCategoryClientSideProps) {
   const { theme: currentTheme } = useTheme();
-  const isDark = currentTheme === 'dark';
+  const isDark = currentTheme === "dark";
   const router = useRouter();
-  
+
   const featuredPost = blogPosts && blogPosts.length > 0 ? blogPosts[0] : null;
-  
+
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   // Ajout de logs pour le débogage
-  console.log('Total posts:', blogPosts.length);
-  console.log('Total pages:', totalPages);
-  console.log('Current page:', currentPage);
-  
+  console.log("Total posts:", blogPosts.length);
+  console.log("Total pages:", totalPages);
+  console.log("Current page:", currentPage);
+
   // Construire l'URL de base pour la pagination
-  const baseUrl = `/blog/category/${category.name.toLowerCase().replace(/\s+/g, '-')}`;
+  const baseUrl = `/blog/category/${category.name
+    .toLowerCase()
+    .replace(/\s+/g, "-")}`;
 
   // Gérer le changement de page
-  const handlePageChange = useCallback(async (newPage: number) => {
-    setIsLoading(true);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    
-    try {
-      router.push(newPage === 1 ? baseUrl : `${baseUrl}/page/${newPage}`);
-      setCurrentPage(newPage);
-    } catch (error) {
-      console.error('Error changing page:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [router, baseUrl]);
+  const handlePageChange = useCallback(
+    async (newPage: number) => {
+      setIsLoading(true);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      try {
+        router.push(newPage === 1 ? baseUrl : `${baseUrl}/page/${newPage}`);
+        setCurrentPage(newPage);
+      } catch (error) {
+        console.error("Error changing page:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [router, baseUrl]
+  );
 
   if (!blogPosts || blogPosts.length === 0) {
     return (
@@ -79,66 +83,79 @@ export default function BlogCategoryClientSide({
   return (
     <section className="w-full max-w-[100vw] pt-28 md:pt-32 pb-16 md:pb-24 relative overflow-hidden">
       {/* Base Background gradient */}
-      <div 
+      <div
         className="absolute inset-0 z-0"
         style={{
-          background: isDark 
+          background: isDark
             ? `linear-gradient(180deg, ${theme.colors.common.black}, #E0FF5C)`
-            : `linear-gradient(180deg, ${theme.colors.common.white}, #E0FF5C)`
+            : `linear-gradient(180deg, ${theme.colors.common.white}, #E0FF5C)`,
         }}
       />
 
       {/* Grain effect overlay */}
-      <div 
+      <div
         className={cn(
           "absolute inset-0 z-0 mix-blend-soft-light",
           isDark ? "opacity-90" : "opacity-50"
         )}
         style={{
-          backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.7\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\' opacity=\'0.8\'/%3E%3C/svg%3E")',
-          backgroundRepeat: 'repeat',
-          backgroundSize: '100px 100px'
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.8'/%3E%3C/svg%3E\")",
+          backgroundRepeat: "repeat",
+          backgroundSize: "100px 100px",
         }}
       />
 
       {/* Overlay gradient */}
-      <div 
+      <div
         className="absolute bottom-0 left-0 right-0 z-[1]"
         style={{
           background: isDark
-            ? 'linear-gradient(to top, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 100%)'
-            : 'linear-gradient(to top, rgb(243, 244, 246) 0%, rgba(243, 244, 246, 1) 40%, rgba(243, 244, 246, 0) 100%)',
-          height: '25%'
+            ? "linear-gradient(to top, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 100%)"
+            : "linear-gradient(to top, rgb(243, 244, 246) 0%, rgba(243, 244, 246, 1) 40%, rgba(243, 244, 246, 0) 100%)",
+          height: "25%",
         }}
       />
-      
+
       <div className="max-w-[1250px] mx-auto px-4 relative z-10">
         {/* Header */}
         <div className="text-center mb-12 md:mb-16">
-          <span className={cn(
-            "text-base mb-4 block font-semibold",
-            isDark ? "text-[#E0FF5C]" : "text-black"
-          )}>Agence {category.name}</span>
-          <h1 className={cn(
-            "text-3xl md:text-5xl font-normal mb-4",
-            isDark ? "text-white" : "text-black"
-          )}>
-            L&apos;actualité {category.name}<br/>de notre agence
+          <span
+            className={cn(
+              "text-base mb-4 block font-semibold",
+              isDark ? "text-[#E0FF5C]" : "text-black"
+            )}
+          >
+            Agence {category.name}
+          </span>
+          <h1
+            className={cn(
+              "text-3xl md:text-5xl font-normal mb-4",
+              isDark ? "text-white" : "text-black"
+            )}
+          >
+            L&apos;actualité {category.name}
+            <br />
+            de notre agence
           </h1>
-          <div className={cn(
-            "w-12 h-0.5 mx-auto mb-4",
-            isDark ? "bg-[#E0FF5C]" : "bg-black"
-          )}/>
+          <div
+            className={cn(
+              "w-12 h-0.5 mx-auto mb-4",
+              isDark ? "bg-[#E0FF5C]" : "bg-black"
+            )}
+          />
           {category.description && (
-            <p className={cn(
-              "text-base md:text-lg",
-              isDark ? "text-white/100" : "text-black"
-            )}>
+            <p
+              className={cn(
+                "text-base md:text-lg",
+                isDark ? "text-white/100" : "text-black"
+              )}
+            >
               {category.description}
             </p>
           )}
         </div>
-        
+
         {/* Featured Post */}
         {featuredPost && (
           <div className="relative w-full h-[40vh] md:h-[50vh] mb-16 rounded-3xl overflow-hidden shadow-xl">
@@ -155,22 +172,28 @@ export default function BlogCategoryClientSide({
                   <span className="inline-block px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-sm z-10">
                     {featuredPost.category}
                   </span>
-                  <span className={cn(
-                    'text-sm uppercase tracking-wider font-semibold inline-block px-3 py-1 rounded-full',
-                    isDark ? 'bg-[#E0FF5C] text-black' : 'bg-black text-[#E0FF5C]'
-                  )}>
+                  <span
+                    className={cn(
+                      "text-sm uppercase tracking-wider font-semibold inline-block px-3 py-1 rounded-full",
+                      isDark
+                        ? "bg-[#E0FF5C] text-black"
+                        : "bg-black text-[#E0FF5C]"
+                    )}
+                  >
                     À la une
                   </span>
                 </div>
                 <h2 className="text-3xl md:text-5xl font-bold max-w-3xl mb-4 text-white">
-                  {decodeHTMLEntities(featuredPost.title.rendered || featuredPost.title)}
+                  {decodeHTMLEntities(
+                    featuredPost.title.rendered || featuredPost.title
+                  )}
                 </h2>
                 <div className="text-white/80 flex flex-wrap items-center text-sm space-x-4 mt-4">
                   <span>{featuredPost.author}</span>
                   <span>•</span>
                   <span>{featuredPost.reading_time} min de lecture</span>
                 </div>
-                <Link 
+                <Link
                   href={`/blog/${featuredPost.slug}`}
                   className="px-6 py-2 rounded-full text-sm font-medium mt-8 inline-block bg-[#E0FF5C] text-black"
                 >
@@ -180,7 +203,7 @@ export default function BlogCategoryClientSide({
             </div>
           </div>
         )}
-      
+
         {/* Blog grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 md:mb-16">
           {blogPosts.map((post) => (
@@ -192,7 +215,10 @@ export default function BlogCategoryClientSide({
               {/* Image */}
               <div className="relative w-full h-[250px] overflow-hidden">
                 <img
-                  src={`${post.featured_image_url.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1')}.webp`}
+                  src={`${post.featured_image_url.replace(
+                    /\.(jpg|jpeg|png|gif)$/,
+                    "-400x250.$1"
+                  )}.webp`}
                   alt={post.title}
                   className="object-cover w-full h-full"
                   loading="lazy"
@@ -204,16 +230,16 @@ export default function BlogCategoryClientSide({
                   </span>
                 )}
               </div>
-              
+
               <div className="p-6 space-y-4">
                 <h3 className="text-xl font-semibold text-black">
                   {decodeHTMLEntities(post.title.rendered || post.title)}
                 </h3>
-                
-                <div 
+
+                <div
                   className="text-black line-clamp-2"
                   dangerouslySetInnerHTML={{ __html: post.excerpt }}
-                  style={{ color: 'rgba(0, 0, 0, 0.9)' }}
+                  style={{ color: "rgba(0, 0, 0, 0.9)" }}
                 />
 
                 <div className="flex items-center gap-2 text-sm text-black/70">
@@ -226,7 +252,7 @@ export default function BlogCategoryClientSide({
             </Link>
           ))}
         </div>
-        
+
         {/* Pagination avec support progressif */}
         {totalPages > 1 && (
           <div className="mb-16">
@@ -236,16 +262,16 @@ export default function BlogCategoryClientSide({
               </div>
             ) : (
               <>
-                {console.log('Rendering pagination with:', {
+                {console.log("Rendering pagination with:", {
                   totalPages,
                   currentPage,
                   hasNextPage: currentPage < totalPages,
                   hasPrevPage: currentPage > 1,
-                  postsCount: blogPosts.length
+                  postsCount: blogPosts.length,
                 })}
-                <Pagination 
-                  currentPage={currentPage} 
-                  totalPages={totalPages} 
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
                   onPageChange={handlePageChange}
                   basePath={baseUrl}
                 />
@@ -259,12 +285,9 @@ export default function BlogCategoryClientSide({
       <div className="max-w-[1250px] mx-auto px-4 relative z-10">
         <PreFooter noBgGradient />
       </div>
-      
+
       <ScrollToTop />
-      <StickyShareButtons 
-        url=""
-        title={`${category.name} - Blog UCLIC`}
-      />
+      <StickyShareButtons url="" title={`${category.name} | Blog UCLIC`} />
     </section>
   );
-} 
+}

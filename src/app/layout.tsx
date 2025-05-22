@@ -13,7 +13,13 @@ import Script from "next/script";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Uclic - Agence de Growth Marketing",
+  title: {
+    default: `Uclic - Agence de Growth Marketing`,
+    template: `%s | Uclic`,
+  },
+  alternates: {
+    canonical: "./",
+  },
   description:
     "Uclic est une agence de growth marketing qui vous accompagne dans votre développement avec des stratégies data-driven et l'IA.",
   metadataBase: new URL("https://uclic.fr"),

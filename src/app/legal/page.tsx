@@ -1,14 +1,14 @@
-import { Metadata } from 'next'
-import { getLegalPages } from '@/services/wordpress'
-import LegalPagesClient from './LegalPagesClient'
+import { getLegalPages } from "@/services/wordpress";
+import { Metadata } from "next";
+import LegalPagesClient from "./LegalPagesClient";
 
 export const metadata: Metadata = {
-  title: 'Documents Légaux | Uclic',
-  description: 'Documents légaux et conditions générales de Uclic',
-}
+  title: "Documents Légaux",
+  description: "Documents légaux et conditions générales de Uclic",
+};
 
 export default async function LegalPages() {
-  const pages = await getLegalPages()
-  
-  return <LegalPagesClient />
-} 
+  const pages = await getLegalPages();
+
+  return <LegalPagesClient />;
+}

@@ -1,28 +1,31 @@
-import { Suspense } from 'react';
-import { getAllLevees } from '@/lib/wordpress';
-import LeveesPage from '@/components/pages/levee-de-fonds/LeveesPage';
-import Loading from '@/components/ui/Loading';
-import { Metadata } from 'next';
+import LeveesPage from "@/components/pages/levee-de-fonds/LeveesPage";
+import Loading from "@/components/ui/Loading";
+import { getAllLevees } from "@/lib/wordpress";
+import { Metadata } from "next";
+import { Suspense } from "react";
 
 export const revalidate = 3600; // Revalidate every hour
 
 export const metadata: Metadata = {
-  title: "Levée de fonds startups françaises | UCLIC",
-  description: "Découvrez les dernières levées de fonds des startups françaises. Restez informé des investissements dans l'écosystème startup.",
+  title: "Levée de fonds startups françaises",
+  description:
+    "Découvrez les dernières levées de fonds des startups françaises. Restez informé des investissements dans l'écosystème startup.",
   openGraph: {
-    title: "Levée de fonds startups françaises | UCLIC",
-    description: "Découvrez les dernières levées de fonds des startups françaises. Restez informé des investissements dans l'écosystème startup.",
-    url: 'https://uclic.fr/levee-de-fonds',
+    title: "Levée de fonds startups françaises",
+    description:
+      "Découvrez les dernières levées de fonds des startups françaises. Restez informé des investissements dans l'écosystème startup.",
+    url: "https://uclic.fr/levee-de-fonds",
     type: "website",
     locale: "fr_FR",
     siteName: "Uclic",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Levée de fonds startups françaises | UCLIC",
-    description: "Découvrez les dernières levées de fonds des startups françaises. Restez informé des investissements dans l'écosystème startup.",
-    site: "@uclic_fr"
-  }
+    title: "Levée de fonds startups françaises",
+    description:
+      "Découvrez les dernières levées de fonds des startups françaises. Restez informé des investissements dans l'écosystème startup.",
+    site: "@uclic_fr",
+  },
 };
 
 export default async function Page() {
@@ -32,4 +35,4 @@ export default async function Page() {
       <LeveesPage posts={levees} initialPage={1} />
     </Suspense>
   );
-} 
+}

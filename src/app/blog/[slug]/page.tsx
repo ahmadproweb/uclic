@@ -1,15 +1,15 @@
-import { notFound } from 'next/navigation';
-import { 
-  getLatestPosts, 
-  getPostCategory, 
-  estimateReadingTime, 
+import BlogPostClientSide from "@/components/pages/blog/BlogPostClientSide";
+import {
   decodeHtmlEntitiesServer,
+  estimateReadingTime,
+  getLatestPosts,
+  getPostCategory,
+  getRelatedPosts,
   WordPressPost,
-  getRelatedPosts
-} from '@/services/wordpress';
-import BlogPostClientSide from '@/components/pages/blog/BlogPostClientSide';
-import { Suspense } from 'react';
-import { Metadata } from 'next';
+} from "@/services/wordpress";
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 // JSON-LD Types
 interface JsonLdImage {
@@ -72,27 +72,31 @@ type BlogPostParams = {
 };
 
 // Generate metadata for the page
-export async function generateMetadata({ params }: BlogPostParams): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: BlogPostParams): Promise<Metadata> {
   const slug = await Promise.resolve(params.slug);
   const post = await getPostBySlug(slug);
 
   if (!post) {
     return {
-      title: 'Article non trouvé - Blog UCLIC',
-      description: 'L\'article que vous recherchez n\'existe pas.'
+      title: "Article non trouvé | Blog UCLIC",
+      description: "L'article que vous recherchez n'existe pas.",
     };
   }
 
   return {
-    title: `${decodeHtmlEntitiesServer(post.title.rendered)} - Blog UCLIC`,
-    description: decodeHtmlEntitiesServer(post.excerpt.rendered.replace(/<[^>]*>/g, '')),
+    title: `${decodeHtmlEntitiesServer(post.title.rendered)} | Blog UCLIC`,
+    description: decodeHtmlEntitiesServer(
+      post.excerpt.rendered.replace(/<[^>]*>/g, "")
+    ),
   };
 }
 
 // Generate static params for all blog posts
 export async function generateStaticParams() {
   const { posts } = await getLatestPosts(10);
-  
+
   return posts.map((post) => ({
     slug: post.slug,
   }));
@@ -105,20 +109,20 @@ async function getPostBySlug(slug: string): Promise<WordPressPost | null> {
       `https://api.uclic.fr/wp-json/wp/v2/posts?slug=${slug}&_embed`,
       { next: { revalidate: 3600 } }
     );
-    
+
     if (!response.ok) {
       throw new Error(`Failed to fetch post: ${response.status}`);
     }
-    
+
     const posts = await response.json();
-    
+
     if (posts.length === 0) {
       return null;
     }
-    
+
     return posts[0];
   } catch (error) {
-    console.error('Error fetching WordPress post:', error);
+    console.error("Error fetching WordPress post:", error);
     return null;
   }
 }
@@ -135,7 +139,7 @@ export default async function BlogPostPage({ params }: BlogPostParams) {
   // Get related and latest posts for the sidebar
   const [relatedPosts, latestPosts] = await Promise.all([
     getRelatedPosts(post),
-    getLatestPosts(3)
+    getLatestPosts(3),
   ]);
 
   // Transform WordPress post to our format
@@ -147,47 +151,56 @@ export default async function BlogPostPage({ params }: BlogPostParams) {
     date: post.date,
     reading_time: estimateReadingTime(post.content.rendered),
     category: getPostCategory(post),
-    author: post._embedded?.author?.[0]?.name || 'Uclic',
-    featured_image_url: post._embedded?.['wp:featuredmedia']?.[0]?.source_url || '',
-    slug: post.slug
+    author: post._embedded?.author?.[0]?.name || "Uclic",
+    featured_image_url:
+      post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "",
+    slug: post.slug,
   };
 
   // Prepare JSON-LD data
   const jsonLd: BlogPostJsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": transformedPost.title,
-    "datePublished": transformedPost.date,
-    "dateModified": transformedPost.date,
-    "image": transformedPost.featured_image_url,
-    "author": {
+    headline: transformedPost.title,
+    datePublished: transformedPost.date,
+    dateModified: transformedPost.date,
+    image: transformedPost.featured_image_url,
+    author: {
       "@type": "Person",
-      "name": transformedPost.author
+      name: transformedPost.author,
     },
-    "publisher": {
+    publisher: {
       "@type": "Organization",
-      "name": "UCLIC",
-      "url": "https://uclic.fr",
-      "logo": {
+      name: "UCLIC",
+      url: "https://uclic.fr",
+      logo: {
         "@type": "ImageObject",
-        "url": "https://uclic.fr/images/logo.png"
-      }
+        url: "https://uclic.fr/images/logo.png",
+      },
     },
-    "description": decodeHtmlEntitiesServer(transformedPost.excerpt.replace(/<[^>]*>/g, '')),
-    "mainEntityOfPage": {
+    description: decodeHtmlEntitiesServer(
+      transformedPost.excerpt.replace(/<[^>]*>/g, "")
+    ),
+    mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://uclic.fr/blog/${transformedPost.slug}`
+      "@id": `https://uclic.fr/blog/${transformedPost.slug}`,
     },
-    "wordCount": transformedPost.content.split(/\s+/).length,
-    "articleBody": decodeHtmlEntitiesServer(transformedPost.content.replace(/<[^>]*>/g, '')),
-    "articleSection": transformedPost.category
+    wordCount: transformedPost.content.split(/\s+/).length,
+    articleBody: decodeHtmlEntitiesServer(
+      transformedPost.content.replace(/<[^>]*>/g, "")
+    ),
+    articleSection: transformedPost.category,
   };
 
   return (
     <>
       <JsonLd data={jsonLd} />
-      <Suspense fallback={<div className="p-12 text-center">Chargement de l'article...</div>}>
-        <BlogPostClientSide 
+      <Suspense
+        fallback={
+          <div className="p-12 text-center">Chargement de l'article...</div>
+        }
+      >
+        <BlogPostClientSide
           post={transformedPost}
           preloadedRelatedPosts={relatedPosts}
           preloadedLatestPosts={latestPosts.posts}
@@ -195,4 +208,4 @@ export default async function BlogPostPage({ params }: BlogPostParams) {
       </Suspense>
     </>
   );
-} 
+}
