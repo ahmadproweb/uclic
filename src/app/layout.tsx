@@ -7,7 +7,7 @@ import HubspotChat from "@/components/ui/HubspotChat";
 import VideoPopup from "@/components/ui/VideoPopup";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { VideoPopupProvider } from "@/context/VideoPopupContext";
-import { absans, inter } from "@/lib/fonts";
+import { absans, gmono, inter } from "@/lib/fonts";
 import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
@@ -37,7 +37,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${inter.variable} ${absans.variable} font-sans dark`}
+      className={`${inter.variable} ${absans.variable} ${gmono.variable} dark`}
       suppressHydrationWarning
     >
       <head>

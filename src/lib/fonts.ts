@@ -1,4 +1,4 @@
-import { Inter } from "next/font/google";
+import { Geist_Mono, Inter } from "next/font/google";
 import localFont from "next/font/local";
 
 export const inter = Inter({
@@ -13,4 +13,10 @@ export const absans = localFont({
   variable: "--font-absans",
   preload: true,
   fallback: ["system-ui", "arial"],
+});
+
+export const gmono = Geist_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-geistmono",
 });

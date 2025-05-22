@@ -1,30 +1,30 @@
-'use client';
+"use client";
 
-import React from 'react';
 import { CTAButton } from "@/components/ui/cta-button";
-import ExpertiseContactForm from './ExpertiseContactForm';
-import HeroBackgroundExpertise from './HeroBackgroundExpertise';
-import { ExpertiseCategoryFields } from '@/lib/wordpress';
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
+import { ExpertiseCategoryFields } from "@/lib/wordpress";
+import React from "react";
+import ExpertiseContactForm from "./ExpertiseContactForm";
+import HeroBackgroundExpertise from "./HeroBackgroundExpertise";
 
 interface HeroExpertiseProps {
   categoryName: string;
   expertiseFields: ExpertiseCategoryFields;
 }
 
-const HeroExpertise: React.FC<HeroExpertiseProps> = ({ 
-  categoryName, 
-  expertiseFields 
+const HeroExpertise: React.FC<HeroExpertiseProps> = ({
+  categoryName,
+  expertiseFields,
 }) => {
   return (
     <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
       <HeroBackgroundExpertise />
-      
+
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <div className="max-w-2xl">
             {expertiseFields.tag && (
-              <div 
+              <div
                 role="doc-subtitle"
                 aria-label="Catégorie d'expertise"
                 className={cn(
@@ -35,22 +35,26 @@ const HeroExpertise: React.FC<HeroExpertiseProps> = ({
               </div>
             )}
 
-            <h1 className={cn(
-              "text-4xl sm:text-4xl md:text-5xl lg:text-[64px] font-semibold mb-4 sm:mb-6 leading-[1.1] tracking-[-0.04em] text-rendering-optimizeLegibility will-change-transform text-[#000] dark:text-[#F5F5F1] whitespace-pre-line"
-            )}>
+            <h1
+              className={cn(
+                "text-4xl sm:text-4xl md:text-5xl lg:text-[64px] font-semibold mb-4 sm:mb-6 leading-[1.1] tracking-[-0.04em] text-rendering-optimizeLegibility will-change-transform text-[#000] dark:text-[#F5F5F1] whitespace-pre-line"
+              )}
+            >
               {expertiseFields.h1 || categoryName}
             </h1>
 
             {expertiseFields.subtitle && (
-              <p className={cn(
-                "text-base md:text-lg mt-6 mb-8 md:mb-2 max-w-xl pr-4 leading-relaxed tracking-[-0.01em] font-absans font-normal text-rendering-optimizeLegibility subpixel-antialiased text-[#000] dark:text-[#F5F5F1]"
-              )}>
+              <p
+                className={cn(
+                  "text-base md:text-lg mt-6 mb-8 md:mb-2 max-w-xl pr-4 leading-relaxed tracking-[-0.01em] font-normal text-rendering-optimizeLegibility subpixel-antialiased text-[#000] dark:text-[#F5F5F1]"
+                )}
+              >
                 {expertiseFields.subtitle}
               </p>
             )}
 
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
-              <CTAButton 
+              <CTAButton
                 href={`/contact`}
                 className="bg-[#E0FF5C] text-black hover:bg-black hover:text-white dark:bg-white dark:text-black dark:hover:bg-[#E0FF5C]"
               >
@@ -68,4 +72,4 @@ const HeroExpertise: React.FC<HeroExpertiseProps> = ({
   );
 };
 
-export default HeroExpertise; 
+export default HeroExpertise;

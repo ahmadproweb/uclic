@@ -1,6 +1,5 @@
 /* Styles pour le contenu WordPress */
 .wp-content-styles {
-  font-family: system-ui, -apple-system, sans-serif;
   line-height: 1.6;
 }
 
@@ -75,7 +74,7 @@
 }
 
 /* Listes */
-.wp-content-styles ul, 
+.wp-content-styles ul,
 .wp-content-styles ol {
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -162,7 +161,7 @@
   .wp-content-styles img[data-src] {
     opacity: 0;
   }
-  
+
   .wp-content-styles img.loaded {
     opacity: 1;
   }
@@ -215,8 +214,8 @@
 
 /* Mode clair */
 :root {
-  --primary-color: #9FB832;
-  --primary-light: #E0FF5C;
+  --primary-color: #9fb832;
+  --primary-light: #e0ff5c;
 }
 
 .light .wp-content-styles {
@@ -363,4 +362,4 @@
   .wp-content-styles iframe {
     height: 300px;
   }
-} 
+}

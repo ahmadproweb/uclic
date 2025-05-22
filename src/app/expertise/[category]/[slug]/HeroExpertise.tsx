@@ -1,10 +1,9 @@
-'use client';
+"use client";
 
-import React from 'react';
 import { CTAButton } from "@/components/ui/cta-button";
-import ExpertiseContactForm from './ExpertiseContactForm';
-import HeroBackgroundExpertise from './HeroBackgroundExpertise';
 import { useTheme } from "@/context/ThemeContext";
+import ExpertiseContactForm from "./ExpertiseContactForm";
+import HeroBackgroundExpertise from "./HeroBackgroundExpertise";
 
 interface HeroExpertiseProps {
   expertise: {
@@ -19,7 +18,7 @@ interface HeroExpertiseProps {
 
 export default function HeroExpertise({ expertise }: HeroExpertiseProps) {
   const { theme: currentTheme } = useTheme();
-  const isDark = currentTheme === 'dark';
+  const isDark = currentTheme === "dark";
 
   return (
     <section className="relative min-h-[calc(70vh-var(--header-height))] flex items-center pt-28 sm:pt-32 md:pt-36 overflow-hidden">
@@ -35,14 +34,14 @@ export default function HeroExpertise({ expertise }: HeroExpertiseProps) {
               {expertise.expertiseFields?.h1 || expertise.title}
             </h2>
             {expertise.expertiseFields?.subtitle && (
-              <p className="text-base md:text-lg mt-6 mb-8 md:mb-2 max-w-xl pr-4 leading-relaxed tracking-[-0.01em] font-absans font-normal text-rendering-optimizeLegibility subpixel-antialiased text-[#000] dark:text-[#F5F5F1]">
+              <p className="text-base md:text-lg mt-6 mb-8 md:mb-2 max-w-xl pr-4 leading-relaxed tracking-[-0.01em] font-normal text-rendering-optimizeLegibility subpixel-antialiased text-[#000] dark:text-[#F5F5F1]">
                 {expertise.expertiseFields.subtitle}
               </p>
             )}
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
               <div className="flex items-center">
-                <CTAButton 
-                  href="/contact" 
+                <CTAButton
+                  href="/contact"
                   variant={isDark ? "mainCTA" : "shiny"}
                   className="group"
                 >
@@ -57,8 +56,8 @@ export default function HeroExpertise({ expertise }: HeroExpertiseProps) {
           </div>
         </div>
       </div>
-      
+
       <HeroBackgroundExpertise />
     </section>
   );
-} 
+}
