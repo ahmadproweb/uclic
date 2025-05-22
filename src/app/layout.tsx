@@ -1,40 +1,32 @@
-import type { Metadata, Viewport } from "next";
-import { inter, absans } from '@/lib/fonts';
-import "./globals.css";
-import Header from "@/components/header/Header";
 import Footer from "@/components/footer/Footer";
-import { ThemeProvider } from "@/context/ThemeContext";
-import Script from "next/script";
-import { SpotifyPlayerProvider } from '@/components/providers/SpotifyPlayerProvider';
-import { VideoPopupProvider } from '@/context/VideoPopupContext';
-import VideoPopup from '@/components/ui/VideoPopup';
-import HubspotChat from '@/components/ui/HubspotChat';
-import Analytics from '@/components/GoogleAnalytics';
+import Analytics from "@/components/GoogleAnalytics";
+import Header from "@/components/header/Header";
 import { PHProvider } from "@/components/providers/PostHogProvider";
-
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 5,
-  userScalable: true,
-  viewportFit: 'cover',
-  themeColor: '#E0FF5C'
-};
+import { SpotifyPlayerProvider } from "@/components/providers/SpotifyPlayerProvider";
+import HubspotChat from "@/components/ui/HubspotChat";
+import VideoPopup from "@/components/ui/VideoPopup";
+import { ThemeProvider } from "@/context/ThemeContext";
+import { VideoPopupProvider } from "@/context/VideoPopupContext";
+import { absans, inter } from "@/lib/fonts";
+import type { Metadata } from "next";
+import Script from "next/script";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Uclic - Agence de Growth Marketing",
-  description: "Uclic est une agence de growth marketing qui vous accompagne dans votre développement avec des stratégies data-driven et l'IA.",
-  metadataBase: new URL('https://uclic.fr'),
-  manifest: '/manifest.json',
+  description:
+    "Uclic est une agence de growth marketing qui vous accompagne dans votre développement avec des stratégies data-driven et l'IA.",
+  metadataBase: new URL("https://uclic.fr"),
+  manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
-    statusBarStyle: 'default',
-    title: 'Uclic',
+    statusBarStyle: "default",
+    title: "Uclic",
   },
   formatDetection: {
     telephone: false,
   },
-  applicationName: 'Uclic'
+  applicationName: "Uclic",
 };
 
 export default function RootLayout({
@@ -43,27 +35,43 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className={`${inter.variable} ${absans.variable} font-sans dark`} suppressHydrationWarning>
+    <html
+      lang="fr"
+      className={`${inter.variable} ${absans.variable} font-sans dark`}
+      suppressHydrationWarning
+    >
       <head>
         <meta name="color-scheme" content="dark" />
-        <script dangerouslySetInnerHTML={{
-          __html: `
+        <meta httpEquiv="x-dns-prefetch-control" content="on" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <link rel="dns-prefetch" href="https://uclic.fr" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
             (function() {
               document.documentElement.classList.add('dark');
               localStorage.setItem('theme', 'dark');
             })();
-          `
-        }} />
-        <link 
-          rel="preconnect" 
-          href="https://fonts.googleapis.com" 
+          `,
+          }}
         />
-        <link 
-          rel="preconnect" 
-          href="https://fonts.gstatic.com" 
-          crossOrigin="anonymous" 
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
         />
-        
+        <link
+          rel="preload"
+          href="/fonts/your-main-font.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+
         <Script id="performance-optimizations" strategy="afterInteractive">
           {`
             const deferredInit = () => {
@@ -143,23 +151,40 @@ export default function RootLayout({
           `}
         </Script>
 
-        <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/favicon/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon/favicon-16x16.png"
+        />
         <link rel="manifest" href="/favicon/site.webmanifest" />
-        <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5" />
+        <link
+          rel="mask-icon"
+          href="/favicon/safari-pinned-tab.svg"
+          color="#5bbad5"
+        />
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
-
       </head>
       <body suppressHydrationWarning>
         {/* Google Tag Manager (noscript) */}
         <noscript>
-          <iframe 
+          <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-P6CSQ32"
-            height="0" 
-            width="0" 
-            style={{ display: 'none', visibility: 'hidden' }}
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
           />
         </noscript>
         <ThemeProvider>
