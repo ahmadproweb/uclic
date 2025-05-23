@@ -12,9 +12,9 @@ import HeroBackground from "./HeroBackground";
 // Memoized main heading component
 const MainHeading = memo(function MainHeading() {
   return (
-    <h5 className="inline-flex px-3 sm:px-4 py-1.5 bg-[#9FB832]/10 dark:bg-[#E0FF5C]/10 rounded-full text-[#9FB832] dark:text-[#E0FF5C] text-sm sm:text-base font-medium relative z-10 mb-4 sm:mb-6 md:mb-8">
+    <p className="inline-flex px-3 sm:px-4 py-1.5 bg-[#9FB832]/10 dark:bg-[#E0FF5C]/10 rounded-full text-[#9FB832] dark:text-[#E0FF5C] text-sm sm:text-base font-medium relative z-10 mb-4 sm:mb-6 md:mb-8">
       Freelance Growth
-    </h5>
+    </p>
   );
 });
 

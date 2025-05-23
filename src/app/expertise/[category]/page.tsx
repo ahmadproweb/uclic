@@ -25,10 +25,11 @@ interface CategoryPageProps {
 }
 
 export async function generateMetadata(
-  { params }: CategoryPageProps,
+  props: CategoryPageProps,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const category = await Promise.resolve(params?.category);
+  const params = await props.params;
+  const category = params?.category;
   if (!category) return notFound();
 
   const categoryData = await getExpertiseCategory(category);
@@ -37,15 +38,16 @@ export async function generateMetadata(
   return {
     title:
       categoryData.expertiseFields.metaTitle ||
-      `${categoryData.name} | Agence Growth - Uclic`,
+      `${categoryData.name} | Agence Growth`,
     description:
       categoryData.expertiseFields.metaDescription ||
       `Découvrez nos expertises en ${categoryData.name}. Services de création de site web, branding, et développement digital.`,
   };
 }
 
-export default async function CategoryPage({ params }: CategoryPageProps) {
-  const category = await Promise.resolve(params?.category);
+export default async function CategoryPage(props: CategoryPageProps) {
+  const params = await props.params;
+  const category = params?.category;
   console.log("🔍 Category slug:", category);
 
   if (!category) {

@@ -20,14 +20,6 @@ export const metadata: Metadata = {
     title: "A/B Testing Confidence - Calculateur Taille d'échantillon",
     description:
       "Calculez la taille d'échantillon optimale pour vos tests A/B avec notre outil A/B Testing Confidence. Déterminez le niveau de confiance statistique nécessaire pour des résultats fiables. Outil essentiel pour l'expérimentation et l'optimisation de conversion.",
-    images: [
-      {
-        url: "/images/og/mde-calculator.jpg",
-        width: 1200,
-        height: 630,
-        alt: "A/B Testing Confidence - Outil Uclic",
-      },
-    ],
   },
   alternates: {
     canonical: "https://www.uclic.fr/outils-gratuits/mde-calculator",

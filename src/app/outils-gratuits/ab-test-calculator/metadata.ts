@@ -25,14 +25,6 @@ export const metadata: Metadata = {
     title: "Calculateur A/B Test - Test de Signification Statistique",
     description:
       "Calculez la signification statistique de vos tests A/B avec notre calculateur gratuit. Analysez les taux de conversion, les intervalles de confiance et la probabilité bayésienne. Prenez des décisions data-driven pour vos optimisations marketing.",
-    images: [
-      {
-        url: "/images/og/ab-test-calculator.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Calculateur A/B Test - Outil Uclic",
-      },
-    ],
   },
   alternates: {
     canonical: "https://www.uclic.fr/outils-gratuits/ab-test-calculator",

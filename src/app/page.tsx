@@ -39,28 +39,3 @@ export default function Home() {
     </main>
   );
 }
-
-export const metadata = {
-  title: "Freelance Growth Marketing / Hacking : Sales, Ops, Produit",
-  description:
-    "Uclic conçoit et optimise vos opérations commerciales pour maximiser chaque interaction. Avec des workflows CRM avancés et des processus de vente automatisés.",
-  alternates: {
-    canonical: "https://www.uclic.fr",
-  },
-  openGraph: {
-    title: "Freelance Growth Marketing / Hacking : Sales, Ops, Produit",
-    description:
-      "Uclic conçoit et optimise vos opérations commerciales pour maximiser chaque interaction. Avec des workflows CRM avancés et des processus de vente automatisés.",
-    url: "https://www.uclic.fr",
-    type: "website",
-    locale: "fr_FR",
-    siteName: "Uclic",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Freelance Growth Marketing / Hacking : Sales, Ops, Produit",
-    description:
-      "Uclic conçoit et optimise vos opérations commerciales pour maximiser chaque interaction. Avec des workflows CRM avancés et des processus de vente automatisés.",
-    site: "@uclic_fr",
-  },
-};

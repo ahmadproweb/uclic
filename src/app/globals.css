@@ -415,3 +415,7 @@ h4,
 h5 {
   font-family: var(--font-absans);
 }
+
+button {
+  cursor: pointer;
+}

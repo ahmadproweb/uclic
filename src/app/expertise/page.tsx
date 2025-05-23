@@ -3,14 +3,14 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Expertise Growth Marketing & Sales | Agence Growth - Uclic",
+  title: "Expertise Growth Marketing & Sales | Agence Growth",
   description:
     "Découvrez nos expertises en Growth Marketing, Sales Ops et Product Marketing. Une équipe de freelances certifiés pour optimiser votre croissance et vos processus commerciaux.",
   alternates: {
     canonical: "https://www.uclic.fr/expertise",
   },
   openGraph: {
-    title: "Expertise Growth Marketing & Sales | Agence Growth - Uclic",
+    title: "Expertise Growth Marketing & Sales | Agence Growth",
     description:
       "Découvrez nos expertises en Growth Marketing, Sales Ops et Product Marketing. Une équipe de freelances certifiés pour optimiser votre croissance et vos processus commerciaux.",
     url: "https://www.uclic.fr/expertise",
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Expertise Growth Marketing & Sales | Agence Growth - Uclic",
+    title: "Expertise Growth Marketing & Sales | Agence Growth",
     description:
       "Découvrez nos expertises en Growth Marketing, Sales Ops et Product Marketing. Une équipe de freelances certifiés pour optimiser votre croissance et vos processus commerciaux.",
     site: "@uclic_fr",

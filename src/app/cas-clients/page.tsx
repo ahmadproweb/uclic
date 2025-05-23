@@ -31,7 +31,6 @@ export const metadata: Metadata = {
     type: "website",
     locale: "fr_FR",
     siteName: "Uclic",
-    // images: ["https://www.uclic.fr/images/cas-clients-og.jpg"], // Uncomment and set if you have an image
   },
   twitter: {
     card: "summary_large_image",
@@ -39,7 +38,6 @@ export const metadata: Metadata = {
     description:
       "Découvrez nos cas clients et success stories : des exemples concrets de missions réalisées en Growth Marketing, Sales Ops et Product Marketing par l'équipe Uclic.",
     site: "@uclic_fr",
-    // images: ["https://www.uclic.fr/images/cas-clients-og.jpg"], // Uncomment and set if you have an image
   },
 };
 

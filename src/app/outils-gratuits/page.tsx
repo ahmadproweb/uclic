@@ -21,14 +21,6 @@ export const metadata: Metadata = {
       "Découvrez nos outils gratuits pour optimiser votre croissance. Des calculateurs et ressources essentielles pour vos tests A/B, analyses statistiques et stratégie marketing.",
     type: "website",
     locale: "fr_FR",
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Outils Gratuits - Uclic",
-      },
-    ],
   },
   alternates: {
     canonical: "https://www.uclic.fr/outils-gratuits",

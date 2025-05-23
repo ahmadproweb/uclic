@@ -14,14 +14,14 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: `Uclic - Agence de Growth Marketing`,
+    default: `Uclic: Freelance Growth Marketing / Hacking : Sales, Ops, Produit`,
     template: `%s | Uclic`,
   },
   alternates: {
     canonical: "./",
   },
   description:
-    "Uclic est une agence de growth marketing qui vous accompagne dans votre développement avec des stratégies data-driven et l'IA.",
+    "Uclic conçoit et optimise vos opérations commerciales pour maximiser chaque interaction. Avec des workflows CRM avancés et des processus de vente automatisés.",
   metadataBase: new URL("https://www.uclic.fr"),
   manifest: "/manifest.json",
   appleWebApp: {
@@ -33,6 +33,22 @@ export const metadata: Metadata = {
     telephone: false,
   },
   applicationName: "Uclic",
+  openGraph: {
+    title: "Freelance Growth Marketing / Hacking : Sales, Ops, Produit",
+    description:
+      "Uclic conçoit et optimise vos opérations commerciales pour maximiser chaque interaction. Avec des workflows CRM avancés et des processus de vente automatisés.",
+    url: "https://www.uclic.fr",
+    type: "website",
+    locale: "fr_FR",
+    siteName: "Uclic",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Freelance Growth Marketing / Hacking : Sales, Ops, Produit",
+    description:
+      "Uclic conçoit et optimise vos opérations commerciales pour maximiser chaque interaction. Avec des workflows CRM avancés et des processus de vente automatisés.",
+    site: "@uclic_fr",
+  },
 };
 
 export default function RootLayout({
