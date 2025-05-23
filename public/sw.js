@@ -38,15 +38,6 @@ self.addEventListener("install", (event) => {
         console.debug("[SW] Pre-caching assets");
         return cache.addAll(PRECACHE_ASSETS);
       }),
-      // Mise en cache des polices
-      caches.open("font-cache").then((cache) => {
-        return cache.addAll([
-          "https://fonts.gstatic.com/s/inter/v1/inter-latin-400.woff2",
-          "https://fonts.gstatic.com/s/inter/v1/inter-latin-500.woff2",
-          "https://fonts.gstatic.com/s/inter/v1/inter-latin-600.woff2",
-          "https://fonts.gstatic.com/s/inter/v1/inter-latin-700.woff2",
-        ]);
-      }),
     ]).then(() => {
       console.debug("[SW] Installation complete");
       self.skipWaiting();
