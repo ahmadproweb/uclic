@@ -411,12 +411,8 @@ export default function LeveePageClient({
         url={`/levee-de-fonds/${post.slug}`}
       />
       <ScrollToTop />
-      {/* PreFooter Section */}
-      <div className="relative z-10 w-full overflow-hidden pt-32 pb-8">
-        <div className="max-w-[1250px] mx-auto px-4">
-          <PreFooter noBgGradient />
-        </div>
-      </div>
+
+      <PreFooter noBgGradient />
     </>
   );
 }

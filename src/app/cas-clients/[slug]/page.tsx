@@ -15,7 +15,8 @@ interface PortfolioPostParams {
 }
 
 export async function generateMetadata({ params }: PortfolioPostParams) {
-  const post = await getPortfolioBySlug(params.slug);
+  const slug = await Promise.resolve(params.slug);
+  const post = await getPortfolioBySlug(slug);
 
   if (!post) {
     return {
@@ -33,7 +34,8 @@ export async function generateMetadata({ params }: PortfolioPostParams) {
 export const revalidate = 3600; // Revalidate every hour
 
 export default async function Page({ params }: PortfolioPostParams) {
-  const post = await getPortfolioBySlug(params.slug);
+  const slug = await Promise.resolve(params.slug);
+  const post = await getPortfolioBySlug(slug);
 
   if (!post) {
     notFound();

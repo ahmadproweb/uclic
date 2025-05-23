@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { formatDate } from "@/services/wordpress";
+import { decodeHtmlEntitiesServer, formatDate } from "@/services/wordpress";
 import "@/styles/wordpress-content.css";
 import Link from "next/link";
 import LeveePageClient from "./LeveePageClient";
@@ -275,7 +275,7 @@ export default function LeveePage({
                           "text-black/70 hover:text-black dark:text-white/80 dark:hover:text-white"
                         )}
                       >
-                        {item.text}
+                        {decodeHtmlEntitiesServer(item.text)}
                       </a>
                     ))}
                   </nav>
