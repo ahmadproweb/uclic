@@ -298,7 +298,7 @@ export default function LeveesPage({
 
       <ScrollToTop />
       <StickyShareButtons
-        url={`https://uclic.fr${pathname}`}
+        url={`https://www.uclic.fr${pathname}`}
         title="Levées de fonds"
       />
     </section>

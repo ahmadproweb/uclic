@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   },
   description:
     "Uclic est une agence de growth marketing qui vous accompagne dans votre développement avec des stratégies data-driven et l'IA.",
-  metadataBase: new URL("https://uclic.fr"),
+  metadataBase: new URL("https://www.uclic.fr"),
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
@@ -48,7 +48,7 @@ export default function RootLayout({
     >
       <head>
         <meta httpEquiv="x-dns-prefetch-control" content="on" />
-        <link rel="dns-prefetch" href="https://uclic.fr" />
+        <link rel="dns-prefetch" href="https://www.uclic.fr" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"

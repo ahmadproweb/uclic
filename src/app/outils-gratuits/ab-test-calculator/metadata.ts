@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: "https://uclic.fr/outils-gratuits/ab-test-calculator",
+    canonical: "https://www.uclic.fr/outils-gratuits/ab-test-calculator",
   },
   twitter: {
     card: "summary_large_image",

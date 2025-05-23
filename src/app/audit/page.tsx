@@ -6,13 +6,13 @@ export const metadata: Metadata = {
   description:
     "Audit complet de votre stratégie Growth Marketing et Sales. Analysez vos processus commerciaux, CRM et marketing pour identifier les leviers de croissance.",
   alternates: {
-    canonical: "https://uclic.fr/audit",
+    canonical: "https://www.uclic.fr/audit",
   },
   openGraph: {
     title: "Audit Growth & Sales | Diagnostic Performance Marketing",
     description:
       "Audit complet de votre stratégie Growth Marketing et Sales. Analysez vos processus commerciaux, CRM et marketing pour identifier les leviers de croissance.",
-    url: "https://uclic.fr/audit",
+    url: "https://www.uclic.fr/audit",
     type: "website",
     locale: "fr_FR",
     siteName: "Uclic",

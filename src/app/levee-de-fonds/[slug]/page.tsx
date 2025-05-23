@@ -74,7 +74,7 @@ export async function generateMetadata({
   const seo = post.seo;
   const openGraph = seo.openGraph;
   const twitterMeta = openGraph?.twitterMeta;
-  const baseUrl = "https://uclic.fr";
+  const baseUrl = "https://www.uclic.fr";
 
   const metadata: Metadata = {
     title: seo.title,
@@ -164,21 +164,21 @@ export default async function Page({ params }: LeveePostParams) {
     author: {
       "@type": "Organization",
       name: "UCLIC",
-      url: "https://uclic.fr",
+      url: "https://www.uclic.fr",
     },
     publisher: {
       "@type": "Organization",
       name: "UCLIC",
-      url: "https://uclic.fr",
+      url: "https://www.uclic.fr",
       logo: {
         "@type": "ImageObject",
-        url: "https://uclic.fr/images/logo.png",
+        url: "https://www.uclic.fr/images/logo.png",
       },
     },
     description: post.seo?.description || "",
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://uclic.fr/levee-de-fonds/${post.slug}`,
+      "@id": `https://www.uclic.fr/levee-de-fonds/${post.slug}`,
     },
   };
 

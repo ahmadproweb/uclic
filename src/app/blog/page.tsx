@@ -13,13 +13,13 @@ export const metadata: Metadata = {
   description:
     "Articles et conseils d'experts en Growth Marketing, Sales Ops et Product Marketing. Découvrez nos stratégies data-driven pour optimiser votre croissance.",
   alternates: {
-    canonical: "https://uclic.fr/blog",
+    canonical: "https://www.uclic.fr/blog",
   },
   openGraph: {
     title: "Blog Growth Marketing & Sales | Conseils d'Experts",
     description:
       "Articles et conseils d'experts en Growth Marketing, Sales Ops et Product Marketing. Découvrez nos stratégies data-driven pour optimiser votre croissance.",
-    url: "https://uclic.fr/blog",
+    url: "https://www.uclic.fr/blog",
     type: "website",
     locale: "fr_FR",
     siteName: "Uclic",

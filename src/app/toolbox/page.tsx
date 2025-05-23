@@ -11,13 +11,13 @@ export const metadata: Metadata = {
   description:
     "Découvrez notre sélection d'outils pour startups. Des ressources essentielles pour développer votre entreprise.",
   alternates: {
-    canonical: "https://uclic.fr/toolbox",
+    canonical: "https://www.uclic.fr/toolbox",
   },
   openGraph: {
     title: "Boîte à outils startups",
     description:
       "Découvrez notre sélection d'outils pour startups. Des ressources essentielles pour développer votre entreprise.",
-    url: "https://uclic.fr/toolbox",
+    url: "https://www.uclic.fr/toolbox",
     type: "website",
     locale: "fr_FR",
     siteName: "Uclic",

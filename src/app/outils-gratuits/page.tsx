@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: "https://uclic.fr/outils-gratuits",
+    canonical: "https://www.uclic.fr/outils-gratuits",
   },
 };
 

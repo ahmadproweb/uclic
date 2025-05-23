@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: "https://uclic.fr/outils-gratuits/mde-calculator",
+    canonical: "https://www.uclic.fr/outils-gratuits/mde-calculator",
   },
   twitter: {
     card: "summary_large_image",

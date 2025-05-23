@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description:
     "Découvrez comment est né Uclic et ce qui nous anime au quotidien. Une agence digitale créée pour rendre le digital profondément humain.",
   alternates: {
-    canonical: "https://uclic.fr/a-propos",
+    canonical: "https://www.uclic.fr/a-propos",
   },
   openGraph: {
     title: "À propos | Notre histoire et nos valeurs",
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "fr_FR",
     siteName: "Uclic",
-    url: "https://uclic.fr/a-propos",
+    url: "https://www.uclic.fr/a-propos",
   },
   twitter: {
     card: "summary_large_image",

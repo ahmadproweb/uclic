@@ -241,7 +241,7 @@ export default function ToolboxPage({
 
       <ScrollToTop />
       <StickyShareButtons
-        url={`https://uclic.fr${pathname}`}
+        url={`https://www.uclic.fr${pathname}`}
         title="Boîte à outils startups"
       />
     </section>

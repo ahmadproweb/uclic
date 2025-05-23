@@ -27,13 +27,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `Levées de fonds startups françaises - Page ${pageNumber}`,
       description: `Découvrez les dernières levées de fonds des startups françaises. Page ${pageNumber} des actualités sur les investissements dans l'écosystème startup.`,
-      url: `https://uclic.fr/levee-de-fonds/page/${pageNumber}`,
+      url: `https://www.uclic.fr/levee-de-fonds/page/${pageNumber}`,
       type: "website",
       locale: "fr_FR",
       siteName: "Uclic",
     },
     alternates: {
-      canonical: `https://uclic.fr/levee-de-fonds/page/${pageNumber}`,
+      canonical: `https://www.uclic.fr/levee-de-fonds/page/${pageNumber}`,
     },
   };
 }

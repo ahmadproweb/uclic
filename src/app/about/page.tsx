@@ -6,13 +6,13 @@ export const metadata: Metadata = {
   description:
     "Découvrez l'équipe de freelances experts en Growth Marketing, Sales Ops et Product Marketing. Une approche data-driven pour maximiser votre croissance.",
   alternates: {
-    canonical: "https://uclic.fr/about",
+    canonical: "https://www.uclic.fr/about",
   },
   openGraph: {
     title: "À Propos | Freelances Growth & Sales Ops",
     description:
       "Découvrez l'équipe de freelances experts en Growth Marketing, Sales Ops et Product Marketing. Une approche data-driven pour maximiser votre croissance.",
-    url: "https://uclic.fr/about",
+    url: "https://www.uclic.fr/about",
     type: "website",
     locale: "fr_FR",
     siteName: "Uclic",

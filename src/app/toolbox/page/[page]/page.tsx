@@ -14,7 +14,7 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const currentPage = parseInt(params.page);
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://uclic.fr";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.uclic.fr";
 
   return {
     title: `Toolbox - Page ${currentPage}`,

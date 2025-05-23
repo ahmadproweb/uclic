@@ -172,10 +172,10 @@ export default async function BlogPostPage({ params }: BlogPostParams) {
     publisher: {
       "@type": "Organization",
       name: "UCLIC",
-      url: "https://uclic.fr",
+      url: "https://www.uclic.fr",
       logo: {
         "@type": "ImageObject",
-        url: "https://uclic.fr/images/logo.png",
+        url: "https://www.uclic.fr/images/logo.png",
       },
     },
     description: decodeHtmlEntitiesServer(
@@ -183,7 +183,7 @@ export default async function BlogPostPage({ params }: BlogPostParams) {
     ),
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://uclic.fr/blog/${transformedPost.slug}`,
+      "@id": `https://www.uclic.fr/blog/${transformedPost.slug}`,
     },
     wordCount: transformedPost.content.split(/\s+/).length,
     articleBody: decodeHtmlEntitiesServer(

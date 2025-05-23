@@ -125,7 +125,7 @@ Allow: /images/
 Allow: /blog/
 
 # Sitemap
-Sitemap: https://uclic.fr/sitemap.xml
+Sitemap: https://www.uclic.fr/sitemap.xml
 
 # Host
-Host: https://uclic.fr 
+Host: https://www.uclic.fr 

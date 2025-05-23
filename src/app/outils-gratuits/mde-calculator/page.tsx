@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     locale: "fr_FR",
   },
   alternates: {
-    canonical: "https://uclic.fr/outils-gratuits/mde-calculator",
+    canonical: "https://www.uclic.fr/outils-gratuits/mde-calculator",
   },
 };
 
