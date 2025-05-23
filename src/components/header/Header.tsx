@@ -125,7 +125,7 @@ const Header = () => {
   return (
     <div
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 px-4 py-4",
+        "fixed top-0 left-0 right-0 z-50 px-4 py-4 font-heading",
         "transform will-change-transform transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
       )}
       ref={headerRef}

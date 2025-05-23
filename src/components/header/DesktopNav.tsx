@@ -25,43 +25,64 @@ const NavItem = memo(
     isMegaMenuOpen: boolean;
     onMouseEnter: () => void;
     onClick: () => void;
-  }) => (
-    <div key={item.href} className="relative" style={{ whiteSpace: "nowrap" }}>
-      {item.hasMegaMenu ? (
-        <button
-          className={cn(
-            item.className,
-            isMegaMenuOpen && "text-[#9FB832] dark:text-[#E0FF5C]"
+  }) => {
+    // For accessibility, allow keyboard interaction for MegaMenu item
+    const isMegaMenu = !!item.hasMegaMenu;
+    return (
+      <div
+        key={item.href}
+        className="relative"
+        style={{
+          whiteSpace: "nowrap",
+          ...(isMegaMenu ? { cursor: "pointer" } : {}),
+        }}
+        tabIndex={isMegaMenu ? 0 : undefined}
+        onMouseEnter={isMegaMenu ? onMouseEnter : undefined}
+        onClick={isMegaMenu ? onClick : undefined}
+        onKeyDown={
+          isMegaMenu
+            ? (e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  onClick();
+                }
+              }
+            : undefined
+        }
+        role={isMegaMenu ? "button" : undefined}
+        aria-expanded={isMegaMenu ? isMegaMenuOpen : undefined}
+        aria-haspopup={isMegaMenu ? "true" : undefined}
+        aria-label={
+          isMegaMenu
+            ? `${item.label} - Cliquez pour ${
+                isMegaMenuOpen ? "fermer" : "ouvrir"
+              } le menu`
+            : `Accéder à ${item.label}`
+        }
+      >
+        <p className="m-0 inline-flex items-center">
+          {item.label}
+          {isMegaMenu && (
+            <i
+              className={cn(
+                "ri-arrow-down-s-line ml-1 !transition-none",
+                isMegaMenuOpen && "rotate-180"
+              )}
+              aria-hidden="true"
+            />
           )}
-          onClick={onClick}
-          onMouseEnter={onMouseEnter}
-          role="button"
-          aria-expanded={isMegaMenuOpen}
-          aria-haspopup="true"
-          aria-label={`${item.label} - Cliquez pour ${
-            isMegaMenuOpen ? "fermer" : "ouvrir"
-          } le menu`}
-        >
-          {item.label}
-          <i
-            className={cn(
-              "ri-arrow-down-s-line ml-1 !transition-none",
-              isMegaMenuOpen && "rotate-180"
-            )}
-            aria-hidden="true"
+        </p>
+        {!isMegaMenu && (
+          <Link
+            href={item.href}
+            className="absolute inset-0 z-10"
+            aria-label={`Accéder à ${item.label}`}
+            tabIndex={-1}
           />
-        </button>
-      ) : (
-        <Link
-          href={item.href}
-          className={cn(item.className, "block")}
-          aria-label={`Accéder à ${item.label}`}
-        >
-          {item.label}
-        </Link>
-      )}
-    </div>
-  )
+        )}
+      </div>
+    );
+  }
 );
 
 NavItem.displayName = "NavItem";
@@ -91,15 +112,22 @@ export const DesktopNav = memo(
       [setIsMegaMenuOpen]
     );
 
+    const handleNavMouseLeave = useCallback(() => {
+      setIsMegaMenuOpen(false);
+    }, [setIsMegaMenuOpen]);
+
     return (
-      <div className="hidden md:flex items-center gap-4 absolute left-1/2 -translate-x-1/2">
+      <div
+        className="hidden md:flex items-center gap-4 absolute left-1/2 -translate-x-1/2"
+        onMouseLeave={handleNavMouseLeave}
+      >
         {navItems.map((item) => (
           <NavItem
             key={item.href}
             item={item}
             isDirectlyOverHero={isDirectlyOverHero}
             isOverHero={isOverHero}
-            isMegaMenuOpen={isMegaMenuOpen}
+            isMegaMenuOpen={!!item.hasMegaMenu && isMegaMenuOpen}
             onMouseEnter={() => handleItemMouseEnter(item)}
             onClick={() => handleItemClick(item)}
           />
