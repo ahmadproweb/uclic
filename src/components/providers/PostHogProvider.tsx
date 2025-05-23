@@ -1,19 +1,20 @@
-'use client';
+"use client";
 
-import posthog from 'posthog-js';
-import { PostHogProvider } from 'posthog-js/react';
-import { usePathname, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { usePathname, useSearchParams } from "next/navigation";
+import posthog from "posthog-js";
+import { PostHogProvider } from "posthog-js/react";
+import { Suspense, useEffect } from "react";
 
-if (typeof window !== 'undefined') {
-  posthog.init('phc_tgVMqLsXV5UAc3fluEFVXs5qrX0IaFJpBPUSyMeUaIN', {
-    api_host: 'https://eu.i.posthog.com',
-    person_profiles: 'identified_only',
+if (typeof window !== "undefined") {
+  posthog.init("phc_tgVMqLsXV5UAc3fluEFVXs5qrX0IaFJpBPUSyMeUaIN", {
+    api_host: "https://eu.i.posthog.com",
+    person_profiles: "identified_only",
     capture_pageview: false, // Nous gérerons manuellement les pageviews
   });
 }
 
-export function PHProvider({ children }: { children: React.ReactNode }) {
+// Separate component that uses useSearchParams
+function PostHogPageViewTracker() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -23,11 +24,22 @@ export function PHProvider({ children }: { children: React.ReactNode }) {
       if (searchParams?.toString()) {
         url = url + `?${searchParams.toString()}`;
       }
-      posthog.capture('$pageview', {
+      posthog.capture("$pageview", {
         $current_url: url,
       });
     }
   }, [pathname, searchParams]);
 
-  return <PostHogProvider client={posthog}>{children}</PostHogProvider>;
-} 
+  return null;
+}
+
+export function PHProvider({ children }: { children: React.ReactNode }) {
+  return (
+    <PostHogProvider client={posthog}>
+      <Suspense fallback={null}>
+        <PostHogPageViewTracker />
+      </Suspense>
+      {children}
+    </PostHogProvider>
+  );
+}
