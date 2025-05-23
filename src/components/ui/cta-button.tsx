@@ -119,7 +119,7 @@ export const CTAButton = memo(
 
     const commonClasses = cn(
       // Base styles
-      "font-mono group inline-flex items-center gap-2",
+      "group inline-flex items-center gap-2",
       "font-medium rounded-full",
       "!transition-none",
       "w-fit whitespace-nowrap",

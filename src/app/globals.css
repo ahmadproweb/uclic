@@ -7,8 +7,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-mono: var(--font-geistmono);
-  --font-heading: var(--font-absans);
+  --font-sans: var(--font-absans);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -410,15 +409,6 @@
   color: currentColor;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5 {
-  font-family: var(--font-absans);
-}
-
 button {
   cursor: pointer;
-  font-family: var(--font-geistmono);
 }

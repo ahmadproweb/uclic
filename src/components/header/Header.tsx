@@ -179,7 +179,7 @@ const Header = () => {
         </nav>
       </header>
 
-      <MegaMenu isOpen={isMegaMenuOpen} onMouseLeave={handleMegaMenuClose} />
+      <MegaMenu isOpen={isMegaMenuOpen} setIsMegaMenuOpen={setIsMegaMenuOpen} />
 
       <MobileMenu
         isOpen={isMobileMenuOpen}

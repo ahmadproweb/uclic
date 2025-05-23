@@ -11,14 +11,14 @@ import { ServiceCard } from "./ServiceCard";
 
 interface MegaMenuProps {
   isOpen: boolean;
-  onMouseLeave: () => void;
+  setIsMegaMenuOpen: (value: boolean) => void;
 }
 
 interface CategoryWithExpertises extends ExpertiseGrowthCategory {
   expertises: ExpertiseByCategory[];
 }
 
-export function MegaMenu({ isOpen, onMouseLeave }: MegaMenuProps) {
+export function MegaMenu({ isOpen, setIsMegaMenuOpen }: MegaMenuProps) {
   const { theme: currentTheme } = useTheme();
   const isDark = currentTheme === "dark";
   const [categories, setCategories] = useState<CategoryWithExpertises[]>([]);
@@ -56,25 +56,10 @@ export function MegaMenu({ isOpen, onMouseLeave }: MegaMenuProps) {
         "fixed top-24 left-0 right-0 w-full z-40",
         isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
       )}
-      onMouseEnter={(e) => {
-        e.stopPropagation();
-      }}
+      onMouseEnter={() => setIsMegaMenuOpen(true)}
+      onMouseLeave={() => setIsMegaMenuOpen(false)}
     >
       <div className="max-w-[1400px] mx-auto px-4 h-full relative mt-2">
-        {/* Zones de détection latérales et inférieure */}
-        <div
-          className="absolute -left-4 top-0 w-4 h-full"
-          onMouseEnter={onMouseLeave}
-        />
-        <div
-          className="absolute -right-4 top-0 w-4 h-full"
-          onMouseEnter={onMouseLeave}
-        />
-        <div
-          className="absolute -bottom-4 left-0 w-full h-4"
-          onMouseEnter={onMouseLeave}
-        />
-
         <div
           className={cn(
             "backdrop-blur-2xl shadow-2xl border rounded-[15px]",
@@ -108,7 +93,7 @@ export function MegaMenu({ isOpen, onMouseLeave }: MegaMenuProps) {
                         href: `/expertise/${category.slug}/${expertise.slug}`,
                       })),
                     }}
-                    onSelect={onMouseLeave}
+                    onSelect={() => setIsMegaMenuOpen(false)}
                   />
                 ))}
               </div>
