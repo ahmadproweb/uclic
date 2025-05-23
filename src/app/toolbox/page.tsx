@@ -34,9 +34,21 @@ export const metadata: Metadata = {
 export default async function Page() {
   const toolboxData = await fetchToolboxData();
 
+  // Map ProductHunt[] to ToolboxPost[]
+  const toolboxPosts = toolboxData.nodes.map((tool) => ({
+    id: (tool as any).id ?? tool.productHuntFields.id,
+    title: tool.title,
+    slug: tool.slug,
+    date: (tool as any).date ?? tool.productHuntFields.day ?? "",
+    productHuntFields: {
+      tagline: tool.productHuntFields.tagline ?? "",
+      logo: tool.productHuntFields.logo ?? "",
+    },
+  }));
+
   return (
     <Suspense fallback={<Loading />}>
-      <ToolboxPage posts={toolboxData.nodes} initialPage={1} />
+      <ToolboxPage posts={toolboxPosts} initialPage={1} />
     </Suspense>
   );
 }

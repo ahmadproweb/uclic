@@ -1,3 +1,5 @@
+import { WordPressPost } from "@/services/wordpress";
+
 export interface TeamListMember {
   title: string;
   slug: string;
@@ -12,13 +14,13 @@ export interface TeamListMember {
       node: {
         sourceUrl: string;
         altText: string;
-      }
+      };
     } | null;
     miniImage: {
       node: {
         sourceUrl: string;
         altText: string;
-      }
+      };
     } | null;
   };
 }
@@ -37,13 +39,13 @@ export interface TeamMember {
       node: {
         sourceUrl: string;
         altText: string;
-      }
+      };
     } | null;
     miniImage: {
       node: {
         sourceUrl: string;
         altText: string;
-      }
+      };
     } | null;
   };
 }
@@ -226,9 +228,9 @@ export interface AuthorResponse {
 export async function fetchTeamData(): Promise<TeamMember[]> {
   try {
     const response = await fetch(`https://api.uclic.fr/graphql`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         query: `
@@ -261,7 +263,7 @@ export async function fetchTeamData(): Promise<TeamMember[]> {
               }
             }
           }
-        `
+        `,
       }),
     });
 
@@ -270,14 +272,19 @@ export async function fetchTeamData(): Promise<TeamMember[]> {
     }
 
     const data = await response.json();
-    
+
     if (data.errors) {
-      console.error('GraphQL Errors:', JSON.stringify(data.errors, null, 2));
-      throw new Error(`GraphQL query failed: ${data.errors[0]?.message || 'Unknown error'}`);
+      console.error("GraphQL Errors:", JSON.stringify(data.errors, null, 2));
+      throw new Error(
+        `GraphQL query failed: ${data.errors[0]?.message || "Unknown error"}`
+      );
     }
 
     if (!data?.data?.equipes?.nodes) {
-      console.error('Invalid response structure:', JSON.stringify(data, null, 2));
+      console.error(
+        "Invalid response structure:",
+        JSON.stringify(data, null, 2)
+      );
       return [];
     }
 
@@ -285,25 +292,27 @@ export async function fetchTeamData(): Promise<TeamMember[]> {
       ...member,
       equipeFields: {
         ...member.equipeFields,
-        linkedin: member.equipeFields?.linkedin || '',
-        twitter: member.equipeFields?.twitter || '',
-        autre: member.equipeFields?.autre || '',
-        role: member.equipeFields?.role || '',
-        extrait: member.equipeFields?.extrait || '',
+        linkedin: member.equipeFields?.linkedin || "",
+        twitter: member.equipeFields?.twitter || "",
+        autre: member.equipeFields?.autre || "",
+        role: member.equipeFields?.role || "",
+        extrait: member.equipeFields?.extrait || "",
         image: member.equipeFields?.image || null,
-        miniImage: member.equipeFields?.miniImage || null
-      }
+        miniImage: member.equipeFields?.miniImage || null,
+      },
     }));
-
   } catch (error) {
-    console.error('Error fetching team data:', error instanceof Error ? error.message : 'Unknown error');
+    console.error(
+      "Error fetching team data:",
+      error instanceof Error ? error.message : "Unknown error"
+    );
     return [];
   }
 }
 
 export async function getTeamMember(slug: string): Promise<TeamMember | null> {
-  console.log('🔍 Fetching team member with slug:', slug);
-  
+  console.log("🔍 Fetching team member with slug:", slug);
+
   const query = `
     query GetTeamMember($slug: ID!) {
       equipe(id: $slug, idType: SLUG) {
@@ -328,47 +337,49 @@ export async function getTeamMember(slug: string): Promise<TeamMember | null> {
   `;
 
   try {
-    console.log('📡 Sending GraphQL query...');
+    console.log("📡 Sending GraphQL query...");
     const response = await fetchAPI(query, { variables: { slug } });
-    console.log('📦 Raw API response:', JSON.stringify(response, null, 2));
+    console.log("📦 Raw API response:", JSON.stringify(response, null, 2));
 
     if (!response?.equipe) {
-      console.error('❌ No team member found in response');
-      console.error('Response structure:', {
+      console.error("❌ No team member found in response");
+      console.error("Response structure:", {
         hasEquipe: !!response?.equipe,
         responseKeys: response ? Object.keys(response) : [],
-        fullResponse: response
+        fullResponse: response,
       });
       return null;
     }
 
     const member = response.equipe;
-    console.log('🔍 Member structure:', {
+    console.log("🔍 Member structure:", {
       hasTitle: !!member.title,
       hasSlug: !!member.slug,
       hasContent: !!member.content,
       hasEquipeFields: !!member.equipeFields,
-      equipeFieldsKeys: member.equipeFields ? Object.keys(member.equipeFields) : [],
+      equipeFieldsKeys: member.equipeFields
+        ? Object.keys(member.equipeFields)
+        : [],
       hasImage: !!member.equipeFields?.image,
-      imageStructure: member.equipeFields?.image
+      imageStructure: member.equipeFields?.image,
     });
 
-    console.log('✅ Successfully fetched team member:', member.title);
+    console.log("✅ Successfully fetched team member:", member.title);
     return member;
   } catch (error) {
-    console.error('🚨 Error fetching team member:', error);
-    console.error('Error details:', {
+    console.error("🚨 Error fetching team member:", error);
+    console.error("Error details:", {
       slug,
-      error: error instanceof Error ? error.message : 'Unknown error',
-      stack: error instanceof Error ? error.stack : undefined
+      error: error instanceof Error ? error.message : "Unknown error",
+      stack: error instanceof Error ? error.stack : undefined,
     });
     return null;
   }
 }
 
 export async function getTeamMembers(): Promise<TeamMember[]> {
-  console.log('🔍 Fetching all team members');
-  
+  console.log("🔍 Fetching all team members");
+
   const query = `
     query GetTeamMembers {
       equipes(first: 100) {
@@ -395,16 +406,16 @@ export async function getTeamMembers(): Promise<TeamMember[]> {
   `;
 
   try {
-    console.log('📡 Sending GraphQL query for team members...');
+    console.log("📡 Sending GraphQL query for team members...");
     const response = await fetchAPI(query);
-    console.log('📦 Raw API response:', JSON.stringify(response, null, 2));
+    console.log("📦 Raw API response:", JSON.stringify(response, null, 2));
 
     if (!response?.equipes?.nodes) {
-      console.error('❌ No team members found in response');
-      console.error('Response structure:', {
+      console.error("❌ No team members found in response");
+      console.error("Response structure:", {
         hasEquipes: !!response?.equipes,
         responseKeys: response ? Object.keys(response) : [],
-        fullResponse: response
+        fullResponse: response,
       });
       return [];
     }
@@ -413,21 +424,26 @@ export async function getTeamMembers(): Promise<TeamMember[]> {
     console.log(`✅ Successfully fetched ${members.length} team members`);
     return members;
   } catch (error) {
-    console.error('🚨 Error fetching team members:', error);
-    console.error('Error details:', {
-      error: error instanceof Error ? error.message : 'Unknown error',
-      stack: error instanceof Error ? error.stack : undefined
+    console.error("🚨 Error fetching team members:", error);
+    console.error("Error details:", {
+      error: error instanceof Error ? error.message : "Unknown error",
+      stack: error instanceof Error ? error.stack : undefined,
     });
     return [];
   }
 }
 
-async function fetchAPI(query: string, { variables }: { variables?: { [key: string]: string | number | boolean | null } } = {}) {
+async function fetchAPI(
+  query: string,
+  {
+    variables,
+  }: { variables?: { [key: string]: string | number | boolean | null } } = {}
+) {
   try {
-    const res = await fetch('https://api.uclic.fr/graphql', {
-      method: 'POST',
+    const res = await fetch("https://api.uclic.fr/graphql", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         query,
@@ -443,27 +459,31 @@ async function fetchAPI(query: string, { variables }: { variables?: { [key: stri
     const json = await res.json();
 
     if (json.errors) {
-      console.error('GraphQL Errors:', JSON.stringify(json.errors, null, 2));
+      console.error("GraphQL Errors:", JSON.stringify(json.errors, null, 2));
       throw new Error(
-        `GraphQL Error: ${(json.errors as GraphQLError[]).map(e => e.message).join(', ')}`
+        `GraphQL Error: ${(json.errors as GraphQLError[])
+          .map((e) => e.message)
+          .join(", ")}`
       );
     }
 
     if (!json.data) {
-      console.error('No data in response:', JSON.stringify(json, null, 2));
-      throw new Error('No data received from GraphQL API');
+      console.error("No data in response:", JSON.stringify(json, null, 2));
+      throw new Error("No data received from GraphQL API");
     }
 
     return json.data;
   } catch (error) {
-    console.error('API Error:', error);
+    console.error("API Error:", error);
     throw error;
   }
 }
 
-export async function getToolboxItem(slug: string): Promise<ProductHunt | null> {
-  console.log('🔍 Fetching toolbox item with slug:', slug);
-  
+export async function getToolboxItem(
+  slug: string
+): Promise<ProductHunt | null> {
+  console.log("🔍 Fetching toolbox item with slug:", slug);
+
   const query = `
     query GetProductHuntBySlug($slug: ID!) {
       producthunt(id: $slug, idType: SLUG) {
@@ -511,11 +531,11 @@ export async function getToolboxItem(slug: string): Promise<ProductHunt | null> 
   `;
 
   try {
-    console.log('📡 Sending GraphQL query for toolbox item...');
+    console.log("📡 Sending GraphQL query for toolbox item...");
     const response = await fetchAPI(query, { variables: { slug } });
-    
+
     if (!response?.producthunt) {
-      console.error('❌ No toolbox item found in response');
+      console.error("❌ No toolbox item found in response");
       return null;
     }
 
@@ -527,20 +547,26 @@ export async function getToolboxItem(slug: string): Promise<ProductHunt | null> 
     // Add related tools to the main tool object
     const toolWithRelated = {
       ...response.producthunt,
-      relatedTools
+      relatedTools,
     };
 
-    console.log('✅ Successfully fetched toolbox item:', response.producthunt.title);
+    console.log(
+      "✅ Successfully fetched toolbox item:",
+      response.producthunt.title
+    );
     return toolWithRelated;
   } catch (error) {
-    console.error('❌ Error fetching toolbox item:', error);
+    console.error("❌ Error fetching toolbox item:", error);
     return null;
   }
 }
 
-export async function fetchToolboxData(first: number = 100, after?: string): Promise<ProductHuntConnection> {
-  console.log('🔍 Fetching toolbox items with params:', { first, after });
-  
+export async function fetchToolboxData(
+  first: number = 100,
+  after?: string
+): Promise<ProductHuntConnection> {
+  console.log("🔍 Fetching toolbox items with params:", { first, after });
+
   const query = `
     query GetToolboxItems($first: Int!, $after: String) {
       producthunts(
@@ -599,8 +625,8 @@ export async function fetchToolboxData(first: number = 100, after?: string): Pro
       const response = await fetchAPI(query, {
         variables: {
           first: 100,
-          after: endCursor
-        }
+          after: endCursor,
+        },
       });
 
       if (!response?.producthunts?.nodes) {
@@ -615,28 +641,28 @@ export async function fetchToolboxData(first: number = 100, after?: string): Pro
     return {
       nodes: allNodes,
       pageInfo: {
-        endCursor: allNodes.length > 0 ? endCursor || '' : '',
+        endCursor: allNodes.length > 0 ? endCursor || "" : "",
         hasNextPage: false,
         hasPreviousPage: false,
-        startCursor: ''
+        startCursor: "",
       },
-      totalCount: allNodes.length
+      totalCount: allNodes.length,
     };
   } catch (error) {
-    console.error('🚨 Error fetching toolbox items:', error);
-    console.error('Error details:', {
-      error: error instanceof Error ? error.message : 'Unknown error',
-      stack: error instanceof Error ? error.stack : undefined
+    console.error("🚨 Error fetching toolbox items:", error);
+    console.error("Error details:", {
+      error: error instanceof Error ? error.message : "Unknown error",
+      stack: error instanceof Error ? error.stack : undefined,
     });
     return {
       nodes: [],
       pageInfo: {
-        endCursor: '',
+        endCursor: "",
         hasNextPage: false,
         hasPreviousPage: false,
-        startCursor: ''
+        startCursor: "",
       },
-      totalCount: 0
+      totalCount: 0,
     };
   }
 }
@@ -658,17 +684,17 @@ export async function checkProductHuntSchema(): Promise<void> {
   `;
 
   try {
-    console.log('🔍 Checking ProductHunt schema...');
+    console.log("🔍 Checking ProductHunt schema...");
     const response = await fetchAPI(query, {});
-    console.log('📦 Schema response:', JSON.stringify(response, null, 2));
+    console.log("📦 Schema response:", JSON.stringify(response, null, 2));
   } catch (error) {
-    console.error('🚨 Error checking schema:', error);
+    console.error("🚨 Error checking schema:", error);
   }
 }
 
 export async function getExpertise(slug: string): Promise<Expertise | null> {
-  console.log('🔍 Fetching expertise with slug:', slug);
-  
+  console.log("🔍 Fetching expertise with slug:", slug);
+
   const query = `
     query GetExpertise($slug: ID!) {
       expertise(id: $slug, idType: URI) {
@@ -726,32 +752,35 @@ export async function getExpertise(slug: string): Promise<Expertise | null> {
   `;
 
   try {
-    console.log('📡 Sending GraphQL query for expertise...');
-    const response = await fetchAPI(query, { variables: { slug: `expertise/${slug}` } });
-    
+    console.log("📡 Sending GraphQL query for expertise...");
+    const response = await fetchAPI(query, {
+      variables: { slug: `expertise/${slug}` },
+    });
+
     if (!response?.expertise) {
-      console.error('❌ No expertise found in response');
+      console.error("❌ No expertise found in response");
       return null;
     }
 
     // Add category information to the expertise object
     const expertise = {
       ...response.expertise,
-      category: response.expertise.expertiseGrowthCategories?.nodes?.[0] || null
+      category:
+        response.expertise.expertiseGrowthCategories?.nodes?.[0] || null,
     };
 
-    console.log('✅ Successfully fetched expertise:', expertise.title);
-    console.log('Category:', expertise.category);
+    console.log("✅ Successfully fetched expertise:", expertise.title);
+    console.log("Category:", expertise.category);
     return expertise;
   } catch (error) {
-    console.error('🚨 Error fetching expertise:', error);
+    console.error("🚨 Error fetching expertise:", error);
     return null;
   }
 }
 
 export async function getAllExpertises(): Promise<Expertise[]> {
-  console.log('🔍 Fetching all expertises');
-  
+  console.log("🔍 Fetching all expertises");
+
   const query = `
     query GetExpertises {
       expertises {
@@ -805,25 +834,27 @@ export async function getAllExpertises(): Promise<Expertise[]> {
   `;
 
   try {
-    console.log('📡 Sending GraphQL query for expertises...');
+    console.log("📡 Sending GraphQL query for expertises...");
     const response = await fetchAPI(query);
-    
+
     if (!response?.expertises?.nodes) {
-      console.error('❌ No expertises found in response');
+      console.error("❌ No expertises found in response");
       return [];
     }
 
-    console.log(`✅ Successfully fetched ${response.expertises.nodes.length} expertises`);
+    console.log(
+      `✅ Successfully fetched ${response.expertises.nodes.length} expertises`
+    );
     return response.expertises.nodes;
   } catch (error) {
-    console.error('🚨 Error fetching expertises:', error);
+    console.error("🚨 Error fetching expertises:", error);
     return [];
   }
 }
 
 export async function getExpertiseCategories(): Promise<ExpertiseCategory[]> {
-  console.log('🔍 Fetching expertise growth categories');
-  
+  console.log("🔍 Fetching expertise growth categories");
+
   const query = `
     query GetAllExpertiseGrowthCategories {
       expertiseGrowthCategories {
@@ -836,38 +867,45 @@ export async function getExpertiseCategories(): Promise<ExpertiseCategory[]> {
   `;
 
   try {
-    console.log('📡 Sending GraphQL query for expertise categories...');
+    console.log("📡 Sending GraphQL query for expertise categories...");
     const response = await fetchAPI(query);
-    console.log('📦 Raw taxonomy response:', JSON.stringify(response, null, 2));
-    
+    console.log("📦 Raw taxonomy response:", JSON.stringify(response, null, 2));
+
     if (!response?.expertiseGrowthCategories?.nodes) {
-      console.error('❌ No expertise categories found in response');
-      console.error('Response structure:', {
+      console.error("❌ No expertise categories found in response");
+      console.error("Response structure:", {
         hasCategories: !!response?.expertiseGrowthCategories,
         responseKeys: response ? Object.keys(response) : [],
-        fullResponse: response
+        fullResponse: response,
       });
       return [];
     }
 
     const categories = response.expertiseGrowthCategories.nodes;
 
-    console.log(`✅ Successfully fetched ${categories.length} expertise categories`);
-    console.log('Categories:', categories.map((cat: { name: string; slug: string }) => ({
-      name: cat.name,
-      slug: cat.slug
-    })));
-    
+    console.log(
+      `✅ Successfully fetched ${categories.length} expertise categories`
+    );
+    console.log(
+      "Categories:",
+      categories.map((cat: { name: string; slug: string }) => ({
+        name: cat.name,
+        slug: cat.slug,
+      }))
+    );
+
     return categories;
   } catch (error) {
-    console.error('🚨 Error fetching expertise categories:', error);
+    console.error("🚨 Error fetching expertise categories:", error);
     return [];
   }
 }
 
-export async function getExpertisePostsByCategory(categorySlug: string): Promise<ExpertisePost[]> {
-  console.log('🔍 Fetching expertise posts for category:', categorySlug);
-  
+export async function getExpertisePostsByCategory(
+  categorySlug: string
+): Promise<ExpertisePost[]> {
+  console.log("🔍 Fetching expertise posts for category:", categorySlug);
+
   const query = `
     query GetExpertisesByCategory($categorySlug: String!) {
       expertises(
@@ -907,52 +945,60 @@ export async function getExpertisePostsByCategory(categorySlug: string): Promise
   `;
 
   try {
-    console.log('📡 Sending GraphQL query for posts...');
+    console.log("📡 Sending GraphQL query for posts...");
     const response = await fetchAPI(query, { variables: { categorySlug } });
-    
-    console.log('📦 Raw response:', JSON.stringify(response, null, 2));
-    
+
+    console.log("📦 Raw response:", JSON.stringify(response, null, 2));
+
     if (!response?.expertises?.nodes) {
-      console.error('❌ No expertises found');
-      console.error('Response structure:', response);
+      console.error("❌ No expertises found");
+      console.error("Response structure:", response);
       return [];
     }
 
-    const posts = response.expertises.nodes.map(post => ({
+    const posts = response.expertises.nodes.map((post: any) => ({
       ...post,
       categories: {
-        nodes: [{
-          name: post.expertiseGrowthCategories?.nodes?.[0]?.name || '',
-          slug: post.expertiseGrowthCategories?.nodes?.[0]?.slug || '',
-          description: post.expertiseGrowthCategories?.nodes?.[0]?.description || ''
-        }]
-      }
+        nodes: [
+          {
+            name: post.expertiseGrowthCategories?.nodes?.[0]?.name || "",
+            slug: post.expertiseGrowthCategories?.nodes?.[0]?.slug || "",
+            description:
+              post.expertiseGrowthCategories?.nodes?.[0]?.description || "",
+          },
+        ],
+      },
     }));
-    
-    console.log(`✅ Successfully fetched ${posts.length} expertise posts for category ${categorySlug}`);
-    console.log('Posts:', posts.map(post => ({
-      title: post.title,
-      slug: post.slug,
-      uri: post.uri,
-      tag: post.expertiseFields?.tag,
-      categoryName: post.expertiseGrowthCategories?.nodes?.[0]?.name
-    })));
-    
+
+    console.log(
+      `✅ Successfully fetched ${posts.length} expertise posts for category ${categorySlug}`
+    );
+    console.log(
+      "Posts:",
+      posts.map((post: any) => ({
+        title: post.title,
+        slug: post.slug,
+        uri: post.uri,
+        tag: post.expertiseFields?.tag,
+        categoryName: post.expertiseGrowthCategories?.nodes?.[0]?.name,
+      }))
+    );
+
     return posts;
   } catch (error) {
-    console.error('🚨 Error fetching posts:', error);
-    console.error('Error details:', {
+    console.error("🚨 Error fetching posts:", error);
+    console.error("Error details:", {
       categorySlug,
-      error: error instanceof Error ? error.message : 'Unknown error',
-      stack: error instanceof Error ? error.stack : undefined
+      error: error instanceof Error ? error.message : "Unknown error",
+      stack: error instanceof Error ? error.stack : undefined,
     });
     return [];
   }
 }
 
 export async function getAuthor(slug: string): Promise<Author | null> {
-  console.log('🔍 Fetching author with slug:', slug);
-  
+  console.log("🔍 Fetching author with slug:", slug);
+
   const query = `
     query GetAuthor($slug: ID!) {
       user(id: $slug, idType: SLUG) {
@@ -990,11 +1036,11 @@ export async function getAuthor(slug: string): Promise<Author | null> {
   `;
 
   try {
-    console.log('📡 Sending GraphQL query for author...');
+    console.log("📡 Sending GraphQL query for author...");
     const response = await fetchAPI(query, { variables: { slug } });
-    
+
     if (!response?.user) {
-      console.error('❌ No author found in response');
+      console.error("❌ No author found in response");
       return null;
     }
 
@@ -1003,56 +1049,64 @@ export async function getAuthor(slug: string): Promise<Author | null> {
       id: response.user.id,
       name: response.user.name,
       slug: response.user.slug,
-      description: response.user.description || '',
+      description: response.user.description || "",
       avatar_urls: {
-        '96': response.user.avatar?.url?.replace(/\?.*$/, '') || '/images/default-avatar.png'
+        "96":
+          response.user.avatar?.url?.replace(/\?.*$/, "") ||
+          "/images/default-avatar.png",
       },
       meta: {
-        role: '',
-        linkedin: '',
-        twitter: '',
-        autre: ''
+        role: "",
+        linkedin: "",
+        twitter: "",
+        autre: "",
       },
-      posts: response.user.posts?.nodes.map(post => ({
+      posts: response.user.posts?.nodes.map((post: any) => ({
         id: post.id,
         title: {
-          rendered: post.title || ''
+          rendered: post.title || "",
         },
         content: {
-          rendered: post.content || ''
+          rendered: post.content || "",
         },
         excerpt: {
-          rendered: post.excerpt || ''
+          rendered: post.excerpt || "",
         },
         slug: post.slug,
         date: post.date,
         _embedded: {
-          'wp:featuredmedia': post.featuredImage ? [{
-            source_url: post.featuredImage.node.sourceUrl,
-            alt_text: post.featuredImage.node.altText
-          }] : undefined,
-          'wp:term': post.categories ? [
-            post.categories.nodes.map(cat => ({
-              name: cat.name,
-              slug: cat.slug
-            }))
-          ] : undefined
-        }
+          "wp:featuredmedia": post.featuredImage
+            ? [
+                {
+                  source_url: post.featuredImage.node.sourceUrl,
+                  alt_text: post.featuredImage.node.altText,
+                },
+              ]
+            : undefined,
+          "wp:term": post.categories
+            ? [
+                post.categories.nodes.map((cat: any) => ({
+                  name: cat.name,
+                  slug: cat.slug,
+                })),
+              ]
+            : undefined,
+        },
       })),
-      posts_count: response.user.posts?.nodes.length || 0
+      posts_count: response.user.posts?.nodes.length || 0,
     };
 
-    console.log('✅ Successfully fetched author:', author.name);
+    console.log("✅ Successfully fetched author:", author.name);
     return author;
   } catch (error) {
-    console.error('🚨 Error fetching author:', error);
+    console.error("🚨 Error fetching author:", error);
     return null;
   }
 }
 
 export async function getAllAuthors(): Promise<Author[]> {
-  console.log('🔍 Fetching all authors');
-  
+  console.log("🔍 Fetching all authors");
+
   const query = `
     query GetAllAuthors {
       users(first: 100) {
@@ -1070,28 +1124,28 @@ export async function getAllAuthors(): Promise<Author[]> {
   `;
 
   try {
-    console.log('📡 Sending GraphQL query for authors...');
+    console.log("📡 Sending GraphQL query for authors...");
     const response = await fetchAPI(query);
-    
+
     if (!response?.users?.nodes) {
-      console.error('❌ No authors found in response');
+      console.error("❌ No authors found in response");
       return [];
     }
 
-    const authors: Author[] = response.users.nodes.map(user => ({
+    const authors: Author[] = response.users.nodes.map((user: any) => ({
       id: user.id,
       name: user.name,
       slug: user.slug,
-      description: user.description || '',
+      description: user.description || "",
       avatar_urls: {
-        '96': user.avatar?.url || ''
-      }
+        "96": user.avatar?.url || "",
+      },
     }));
 
     console.log(`✅ Successfully fetched ${authors.length} authors`);
     return authors;
   } catch (error) {
-    console.error('🚨 Error fetching authors:', error);
+    console.error("🚨 Error fetching authors:", error);
     return [];
   }
 }
@@ -1258,8 +1312,8 @@ export async function getAllLevees(): Promise<Levee[]> {
       const response = await fetchAPI(query, {
         variables: {
           first: 100,
-          after: endCursor
-        }
+          after: endCursor,
+        },
       });
 
       if (!response?.levees?.nodes) {
@@ -1273,7 +1327,7 @@ export async function getAllLevees(): Promise<Levee[]> {
 
     return allLevees;
   } catch (error) {
-    console.error('Error fetching all levees:', error);
+    console.error("Error fetching all levees:", error);
     return [];
   }
 }
@@ -1283,24 +1337,30 @@ export async function getLeveeBySlug(slug: string): Promise<Levee | null> {
     const response = await fetchAPI(GetLeveeBySlug, { variables: { slug } });
     return response.levee;
   } catch (error) {
-    console.error('Error fetching levee by slug:', error);
+    console.error("Error fetching levee by slug:", error);
     return null;
   }
 }
 
-export async function getRelatedLevees(excludeId: string, first: number = 3): Promise<Levee[]> {
+export async function getRelatedLevees(
+  excludeId: string,
+  first: number = 3
+): Promise<Levee[]> {
   try {
     const response = await fetchAPI(GetRelatedLevees, {
-      variables: { excludeId, first }
+      variables: { excludeId, first },
     });
     return response.levees.nodes;
   } catch (error) {
-    console.error('Error fetching related levees:', error);
+    console.error("Error fetching related levees:", error);
     return [];
   }
 }
 
-export async function getLatestLevees(first: number = 3, excludeIds: string[] = []): Promise<Levee[]> {
+export async function getLatestLevees(
+  first: number = 3,
+  excludeIds: string[] = []
+): Promise<Levee[]> {
   try {
     const response = await fetchAPI(GetAllLevees);
     const levees = response.levees.nodes;
@@ -1308,7 +1368,7 @@ export async function getLatestLevees(first: number = 3, excludeIds: string[] = 
       .filter((levee: Levee) => !excludeIds.includes(levee.id))
       .slice(0, first);
   } catch (error) {
-    console.error('Error fetching latest levees:', error);
+    console.error("Error fetching latest levees:", error);
     return [];
   }
 }
@@ -1327,7 +1387,9 @@ export interface Portfolio {
   };
 }
 
-export async function getPortfolioBySlug(slug: string): Promise<Portfolio | null> {
+export async function getPortfolioBySlug(
+  slug: string
+): Promise<Portfolio | null> {
   const query = `
     query GetPortfolioBySlug($slug: ID!) {
       portfolio(id: $slug, idType: SLUG) {
@@ -1350,12 +1412,15 @@ export async function getPortfolioBySlug(slug: string): Promise<Portfolio | null
     const response = await fetchAPI(query, { variables: { slug } });
     return response.portfolio;
   } catch (error) {
-    console.error('Error fetching portfolio by slug:', error);
+    console.error("Error fetching portfolio by slug:", error);
     return null;
   }
 }
 
-export async function getRelatedPortfolios(excludeId: string, first: number = 3): Promise<Portfolio[]> {
+export async function getRelatedPortfolios(
+  excludeId: string,
+  first: number = 3
+): Promise<Portfolio[]> {
   const query = `
     query GetRelatedPortfolios($excludeId: ID!, $first: Int!) {
       portfolios(first: $first, where: { notIn: [$excludeId] }) {
@@ -1380,12 +1445,15 @@ export async function getRelatedPortfolios(excludeId: string, first: number = 3)
     const response = await fetchAPI(query, { variables: { excludeId, first } });
     return response.portfolios.nodes;
   } catch (error) {
-    console.error('Error fetching related portfolios:', error);
+    console.error("Error fetching related portfolios:", error);
     return [];
   }
 }
 
-export async function getLatestPortfolios(first: number = 3, excludeIds: string[] = []): Promise<Portfolio[]> {
+export async function getLatestPortfolios(
+  first: number = 3,
+  excludeIds: string[] = []
+): Promise<Portfolio[]> {
   const query = `
     query GetLatestPortfolios($first: Int!, $excludeIds: [ID!]) {
       portfolios(first: $first, where: { notIn: $excludeIds }) {
@@ -1407,14 +1475,20 @@ export async function getLatestPortfolios(first: number = 3, excludeIds: string[
   `;
 
   try {
-    const response = await fetchAPI(query, { variables: { first, excludeIds } });
+    const response = await fetchAPI(query, {
+      variables: {
+        first,
+        excludeIds: excludeIds.length > 0 ? excludeIds.join(",") : null,
+      },
+    });
     // Trier les résultats par date côté client
-    const sortedPortfolios = response.portfolios.nodes.sort((a, b) => 
-      new Date(b.date).getTime() - new Date(a.date).getTime()
+    const sortedPortfolios = response.portfolios.nodes.sort(
+      (a: any, b: any) =>
+        new Date(b.date).getTime() - new Date(a.date).getTime()
     );
     return sortedPortfolios;
   } catch (error) {
-    console.error('Error fetching latest portfolios:', error);
+    console.error("Error fetching latest portfolios:", error);
     return [];
   }
 }
@@ -1440,7 +1514,9 @@ export interface ExpertiseByCategory {
   };
 }
 
-export async function getAllExpertiseGrowthCategoriesForMenu(): Promise<ExpertiseGrowthCategory[]> {
+export async function getAllExpertiseGrowthCategoriesForMenu(): Promise<
+  ExpertiseGrowthCategory[]
+> {
   const query = `
     query GetAllExpertiseGrowthCategories {
       expertiseGrowthCategories(first: 100) {
@@ -1458,12 +1534,17 @@ export async function getAllExpertiseGrowthCategoriesForMenu(): Promise<Expertis
     const response = await fetchAPI(query);
     return response.expertiseGrowthCategories.nodes;
   } catch (error) {
-    console.error('Error fetching expertise growth categories for menu:', error);
+    console.error(
+      "Error fetching expertise growth categories for menu:",
+      error
+    );
     return [];
   }
 }
 
-export async function getExpertisesByCategory(categorySlug: string): Promise<ExpertiseByCategory[]> {
+export async function getExpertisesByCategory(
+  categorySlug: string
+): Promise<ExpertiseByCategory[]> {
   const query = `
     query GetExpertiseByCategory($categorySlug: String!) {
       expertises(
@@ -1503,7 +1584,10 @@ export async function getExpertisesByCategory(categorySlug: string): Promise<Exp
     const response = await fetchAPI(query, { variables: { categorySlug } });
     return response.expertises.nodes;
   } catch (error) {
-    console.error(`Error fetching expertises for category ${categorySlug}:`, error);
+    console.error(
+      `Error fetching expertises for category ${categorySlug}:`,
+      error
+    );
     return [];
   }
 }
@@ -1557,9 +1641,11 @@ export interface ExpertiseCategoryData {
   expertiseFields: ExpertiseCategoryFields;
 }
 
-export async function getExpertiseCategory(categorySlug: string): Promise<ExpertiseCategoryData | null> {
-  console.log('🔍 Fetching expertise category with slug:', categorySlug);
-  
+export async function getExpertiseCategory(
+  categorySlug: string
+): Promise<ExpertiseCategoryData | null> {
+  console.log("🔍 Fetching expertise category with slug:", categorySlug);
+
   const query = `
     query GetExpertiseCategory($categorySlug: ID!) {
       expertiseGrowthCategory(id: $categorySlug, idType: SLUG) {
@@ -1612,18 +1698,21 @@ export async function getExpertiseCategory(categorySlug: string): Promise<Expert
   `;
 
   try {
-    console.log('📡 Sending GraphQL query for expertise category...');
+    console.log("📡 Sending GraphQL query for expertise category...");
     const response = await fetchAPI(query, { variables: { categorySlug } });
-    
+
     if (!response?.expertiseGrowthCategory) {
-      console.error('❌ No expertise category found in response');
+      console.error("❌ No expertise category found in response");
       return null;
     }
 
-    console.log('✅ Successfully fetched expertise category:', response.expertiseGrowthCategory.name);
+    console.log(
+      "✅ Successfully fetched expertise category:",
+      response.expertiseGrowthCategory.name
+    );
     return response.expertiseGrowthCategory;
   } catch (error) {
-    console.error('🚨 Error fetching expertise category:', error);
+    console.error("🚨 Error fetching expertise category:", error);
     return null;
   }
-} 
+}

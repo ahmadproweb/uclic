@@ -49,9 +49,21 @@ export default async function Page({ params }: PageProps) {
   const currentPage = parseInt(params.page);
   const toolboxData = await fetchToolboxData();
 
+  // Map ProductHunt[] to ToolboxPost[]
+  const toolboxPosts = toolboxData.nodes.map((tool) => ({
+    id: (tool as any).id ?? tool.productHuntFields.id,
+    title: tool.title,
+    slug: tool.slug,
+    date: (tool as any).date ?? tool.productHuntFields.day ?? "",
+    productHuntFields: {
+      tagline: tool.productHuntFields.tagline ?? "",
+      logo: tool.productHuntFields.logo ?? "",
+    },
+  }));
+
   return (
     <Suspense fallback={<Loading />}>
-      <ToolboxPage posts={toolboxData.nodes} initialPage={currentPage} />
+      <ToolboxPage posts={toolboxPosts} initialPage={currentPage} />
     </Suspense>
   );
 }
