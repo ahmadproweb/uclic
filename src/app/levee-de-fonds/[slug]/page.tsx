@@ -1,5 +1,4 @@
 import LeveePage from "@/components/pages/levee-de-fonds/LeveePage";
-import Loading from "@/components/ui/Loading";
 import {
   getLatestLevees,
   getLeveeBySlug,
@@ -7,7 +6,6 @@ import {
 } from "@/lib/wordpress";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 
 // JSON-LD Types
 interface JsonLdImage {
@@ -187,13 +185,11 @@ export default async function Page({ params }: LeveePostParams) {
   return (
     <>
       <JsonLd data={jsonLd} />
-      <Suspense fallback={<Loading />}>
-        <LeveePage
-          post={post}
-          relatedPosts={relatedPosts}
-          latestPosts={latestPosts}
-        />
-      </Suspense>
+      <LeveePage
+        post={post}
+        relatedPosts={relatedPosts}
+        latestPosts={latestPosts}
+      />
     </>
   );
 }

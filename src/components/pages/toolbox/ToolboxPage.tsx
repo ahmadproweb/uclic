@@ -199,9 +199,9 @@ export default function ToolboxPage({
               isDark ? "text-white" : "text-black"
             )}
           >
-            Découvrez notre sélection
+            {`Découvrez notre sélection`}
             <br />
-            d'outils pour startups
+            {`d'outils pour startups`}
           </h1>
           <div
             className={cn(

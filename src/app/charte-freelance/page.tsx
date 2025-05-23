@@ -1,29 +1,23 @@
-'use client';
+"use client";
 
+import PreFooter from "@/components/footer/PreFooter";
+import ScrollToTop from "@/components/ui/ScrollToTop";
 import { cn } from "@/lib/utils";
-import PreFooter from '@/components/footer/PreFooter';
-import ScrollToTop from '@/components/ui/ScrollToTop';
-import { useEffect, useState } from 'react';
 
 export default function CharteFreelancePage() {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
-
   return (
     <main className="w-full min-h-screen relative">
       {/* Base Background gradient */}
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-white to-[#E0FF5C] dark:from-black dark:to-[#E0FF5C]" />
 
       {/* Grain effect overlay */}
-      <div 
+      <div
         className="absolute inset-0 z-0 mix-blend-soft-light opacity-50 dark:opacity-90"
         style={{
-          backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.7\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\' opacity=\'0.8\'/%3E%3C/svg%3E")',
-          backgroundRepeat: 'repeat',
-          backgroundSize: '100px 100px'
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.8'/%3E%3C/svg%3E\")",
+          backgroundRepeat: "repeat",
+          backgroundSize: "100px 100px",
         }}
       />
 
@@ -42,7 +36,9 @@ export default function CharteFreelancePage() {
             </h1>
             <div className="w-12 h-0.5 mx-auto mb-4 bg-black dark:bg-[#E0FF5C]" />
             <p className="text-base md:text-lg text-black/70 dark:text-white/80">
-              Découvrez les valeurs qui font d&apos;Uclic<br/>un collectif unique et transparent
+              Découvrez les valeurs qui font d&apos;Uclic
+              <br />
+              un collectif unique et transparent
             </p>
           </div>
 
@@ -50,11 +46,11 @@ export default function CharteFreelancePage() {
           <div
             className={cn(
               "space-y-8 transition-opacity duration-1000 rounded-3xl p-8",
-              isVisible ? "opacity-100" : "opacity-0",
+              "opacity-100",
               "bg-white/10 dark:bg-black/10 backdrop-blur-sm"
             )}
             style={{
-              boxShadow: '0 8px 32px -4px rgba(0,0,0,0.1)'
+              boxShadow: "0 8px 32px -4px rgba(0,0,0,0.1)",
             }}
           >
             <p className="text-xl md:text-2xl leading-relaxed typewriter-text delay-0 text-[#2C1810] dark:text-white">
@@ -62,23 +58,39 @@ export default function CharteFreelancePage() {
             </p>
 
             <p className="text-lg md:text-xl leading-relaxed typewriter-text delay-1 text-[#2C1810] dark:text-white/90">
-              Bienvenue dans l&apos;univers d&apos;Uclic, un collectif pas comme les autres. Nous avons créé cet espace unique où la collaboration et la transparence ne sont pas de simples mots, mais des engagements quotidiens.
+              Bienvenue dans l&apos;univers d&apos;Uclic, un collectif pas comme
+              les autres. Nous avons créé cet espace unique où la collaboration
+              et la transparence ne sont pas de simples mots, mais des
+              engagements quotidiens.
             </p>
 
             <p className="text-lg md:text-xl leading-relaxed typewriter-text delay-2 text-[#2C1810] dark:text-white/90">
-              Notre force réside dans la complémentarité de nos expertises. Chaque membre apporte sa pierre à l&apos;édifice, permettant ainsi de relever des défis toujours plus ambitieux. C&apos;est cette diversité qui nous rend uniques et efficaces.
+              Notre force réside dans la complémentarité de nos expertises.
+              Chaque membre apporte sa pierre à l&apos;édifice, permettant ainsi
+              de relever des défis toujours plus ambitieux. C&apos;est cette
+              diversité qui nous rend uniques et efficaces.
             </p>
 
             <p className="text-lg md:text-xl leading-relaxed typewriter-text delay-3 text-[#2C1810] dark:text-white/90">
-              La transparence est notre maître-mot. Pas de zones d&apos;ombre, pas de surprises : nous communiquons clairement sur tous les aspects de notre collaboration, des projets aux tarifs. Et surtout, nous ne prélevons aucune commission sur l&apos;apport d&apos;affaires.
+              La transparence est notre maître-mot. Pas de zones d&apos;ombre,
+              pas de surprises : nous communiquons clairement sur tous les
+              aspects de notre collaboration, des projets aux tarifs. Et
+              surtout, nous ne prélevons aucune commission sur l&apos;apport
+              d&apos;affaires.
             </p>
 
             <p className="text-lg md:text-xl leading-relaxed typewriter-text delay-4 text-[#2C1810] dark:text-white/90">
-              En rejoignant Uclic, vous intégrez un environnement où l&apos;indépendance se conjugue avec la force du collectif. Ensemble, nous pouvons entreprendre des projets plus ambitieux tout en conservant notre liberté d&apos;action.
+              En rejoignant Uclic, vous intégrez un environnement où
+              l&apos;indépendance se conjugue avec la force du collectif.
+              Ensemble, nous pouvons entreprendre des projets plus ambitieux
+              tout en conservant notre liberté d&apos;action.
             </p>
 
             <p className="text-lg md:text-xl leading-relaxed typewriter-text delay-5 text-[#2C1810] dark:text-white/90">
-              Si ces valeurs résonnent en vous, si vous croyez comme nous en la puissance de la collaboration transparente, alors vous êtes au bon endroit. Uclic n&apos;attend que vous pour écrire ensemble les prochains chapitres de son histoire.
+              Si ces valeurs résonnent en vous, si vous croyez comme nous en la
+              puissance de la collaboration transparente, alors vous êtes au bon
+              endroit. Uclic n&apos;attend que vous pour écrire ensemble les
+              prochains chapitres de son histoire.
             </p>
 
             <div className="text-right mt-12 typewriter-text delay-6 text-[#2C1810] dark:text-white">
@@ -106,13 +118,27 @@ export default function CharteFreelancePage() {
           animation: fadeIn 1s ease-out forwards;
         }
 
-        .delay-0 { animation-delay: 0.5s; }
-        .delay-1 { animation-delay: 1.5s; }
-        .delay-2 { animation-delay: 3s; }
-        .delay-3 { animation-delay: 4.5s; }
-        .delay-4 { animation-delay: 6s; }
-        .delay-5 { animation-delay: 7.5s; }
-        .delay-6 { animation-delay: 9s; }
+        .delay-0 {
+          animation-delay: 0.5s;
+        }
+        .delay-1 {
+          animation-delay: 1.5s;
+        }
+        .delay-2 {
+          animation-delay: 3s;
+        }
+        .delay-3 {
+          animation-delay: 4.5s;
+        }
+        .delay-4 {
+          animation-delay: 6s;
+        }
+        .delay-5 {
+          animation-delay: 7.5s;
+        }
+        .delay-6 {
+          animation-delay: 9s;
+        }
 
         @keyframes fadeIn {
           from {
@@ -128,4 +154,4 @@ export default function CharteFreelancePage() {
       <ScrollToTop />
     </main>
   );
-} 
+}

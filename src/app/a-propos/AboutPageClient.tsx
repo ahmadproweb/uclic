@@ -2,15 +2,8 @@
 
 import PreFooter from "@/components/footer/PreFooter";
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
 
 export default function AboutPageClient() {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
-
   return (
     <main className="w-full min-h-screen relative">
       {/* Base Background gradient */}
@@ -52,7 +45,7 @@ export default function AboutPageClient() {
           <div
             className={cn(
               "space-y-8 transition-opacity duration-1000 rounded-3xl p-8",
-              isVisible ? "opacity-100" : "opacity-0",
+              "opacity-100",
               "bg-white/10 dark:bg-black/10 backdrop-blur-sm"
             )}
             style={{
