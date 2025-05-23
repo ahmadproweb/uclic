@@ -412,12 +412,8 @@ export default function LeveePageClient({
       />
       <ScrollToTop />
       {/* PreFooter Section */}
-      <div className="w-full relative overflow-hidden pt-32 pb-8">
-        <div
-          className="absolute bottom-0 left-0 right-0 z-[1]"
-          style={{ background: "#F3F4F6", height: "50%" }}
-        />
-        <div className="max-w-[1250px] mx-auto px-4 relative z-10">
+      <div className="relative z-10 w-full overflow-hidden pt-32 pb-8">
+        <div className="max-w-[1250px] mx-auto px-4">
           <PreFooter noBgGradient />
         </div>
       </div>

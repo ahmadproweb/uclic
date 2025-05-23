@@ -89,17 +89,12 @@ export default function LeveePage({
   });
 
   return (
-    <div className="w-full max-w-[100vw] pt-28 md:pt-32 pb-16 md:pb-24 relative overflow-hidden bg-white">
+    <div className="w-full max-w-[100vw] pt-28 md:pt-32 pb-16 md:pb-24 relative overflow-hidden bg-white dark:bg-black">
       {/* Base Background gradient */}
-      <div
-        className="absolute inset-0 z-0 transition-colors duration-300"
-        style={{
-          background: `linear-gradient(180deg, #fff, rgba(225, 255, 92, 0.31))`,
-        }}
-      />
+      <div className="absolute inset-0 z-0 transition-colors duration-300 bg-gradient-to-b from-white to-[#E0FF5C] dark:from-black dark:to-[#E0FF5C]" />
       {/* Grain effect overlay */}
       <div
-        className="absolute inset-0 z-0 mix-blend-soft-light opacity-50"
+        className="absolute inset-0 z-0 mix-blend-soft-light opacity-50 dark:opacity-90"
         style={{
           backgroundImage:
             "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.8'/%3E%3C/svg%3E\")",
@@ -109,10 +104,8 @@ export default function LeveePage({
       />
       {/* New overlay gradient - black to transparent */}
       <div
-        className="absolute bottom-0 left-0 right-0 z-[1] transition-colors duration-300"
+        className="absolute bottom-0 left-0 right-0 z-[1] transition-colors duration-300 bg-gradient-to-t from-[#F3F4F6] via-[#F3F4F6] to-transparent dark:from-black dark:via-black dark:to-transparent"
         style={{
-          background:
-            "linear-gradient(to top, rgb(243, 244, 246) 0%, rgba(243, 244, 246, 1) 40%, rgba(243, 244, 246, 0) 100%)",
           height: "25%",
         }}
       />
@@ -130,25 +123,31 @@ export default function LeveePage({
               loading="eager"
             />
             {/* Gradient overlay plus fort en bas pour le texte */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30" />
             {/* Contenu superposé */}
             <div className="absolute inset-0 p-4 sm:p-6 md:p-8 flex flex-col justify-between z-10">
               {/* Navigation row */}
               <div className="flex justify-between items-center">
                 {/* Breadcrumb */}
-                <nav className="hidden sm:flex items-center space-x-2 text-xs text-white/100">
-                  <Link href="/" className="hover:text-white">
+                <nav className="hidden sm:flex items-center space-x-2 text-xs text-white dark:text-[#E0FF5C]">
+                  <Link
+                    href="/"
+                    className="hover:text-white dark:hover:text-[#E0FF5C]"
+                  >
                     Accueil
                   </Link>
                   <span>/</span>
-                  <Link href="/levee-de-fonds" className="hover:text-white">
+                  <Link
+                    href="/levee-de-fonds"
+                    className="hover:text-white dark:hover:text-[#E0FF5C]"
+                  >
                     Levées de fonds
                   </Link>
                 </nav>
                 {/* Back button */}
                 <Link
                   href="/levee-de-fonds"
-                  className="inline-flex items-center text-xs sm:text-sm text-white/100 hover:text-white"
+                  className="inline-flex items-center text-xs sm:text-sm text-white dark:text-[#E0FF5C] hover:text-white dark:hover:text-[#E0FF5C]"
                 >
                   <svg
                     className="w-4 h-4 mr-2 transform rotate-180"
@@ -169,7 +168,7 @@ export default function LeveePage({
               {/* Contenu bas de l'image */}
               <div>
                 {/* Title */}
-                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 text-white leading-tight">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 text-white dark:text-white leading-tight">
                   {post.title}
                 </h1>
                 {/* Category badge et métadonnées */}
@@ -181,7 +180,7 @@ export default function LeveePage({
                     Levée de fonds
                   </span>
                   {/* Article meta */}
-                  <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-xs sm:text-sm text-white">
+                  <div className="flex flex-wrap items-center gap-3 sm:gap-6 text-xs sm:text-sm text-white dark:text-[#E0FF5C]">
                     {/* Auteur */}
                     <div className="flex items-center gap-2">
                       <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
@@ -257,11 +256,11 @@ export default function LeveePage({
           {tocItems.length > 0 && (
             <div className="w-full lg:w-72 shrink-0 order-2 lg:order-1 relative">
               <div className="hidden lg:block">
-                <div className="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-black/5">
-                  <h4 className="text-sm sm:text-base font-medium mb-2 sm:mb-3 text-black">
+                <div className="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-black/5 dark:bg-white/5">
+                  <h4 className="text-sm sm:text-base font-medium mb-2 sm:mb-3 text-black dark:text-white">
                     Table des matières
                   </h4>
-                  <nav className="space-y-1 sm:space-y-1.5 max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-black/10 hover:scrollbar-thumb-black/20">
+                  <nav className="space-y-1 sm:space-y-1.5 max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-black/10 hover:scrollbar-thumb-black/20 dark:scrollbar-thumb-white/10 dark:hover:scrollbar-thumb-white/20">
                     {tocItems.map((item) => (
                       <a
                         key={item.id}
@@ -273,7 +272,7 @@ export default function LeveePage({
                             : item.level === 3
                             ? "ml-3"
                             : "ml-6",
-                          "text-black/70 hover:text-black"
+                          "text-black/70 hover:text-black dark:text-white/80 dark:hover:text-white"
                         )}
                       >
                         {item.text}
@@ -285,10 +284,10 @@ export default function LeveePage({
             </div>
           )}
           {/* Main content */}
-          <div className="wp-content-wrapper flex-1 order-1 lg:order-2 overflow-hidden light">
-            <div className="wp-content-wrapper overflow-hidden light">
+          <div className="wp-content-wrapper flex-1 order-1 lg:order-2 overflow-hidden light dark:dark">
+            <div className="wp-content-wrapper overflow-hidden light dark:dark">
               <article
-                className="max-w-none wp-content-styles"
+                className="max-w-none wp-content-styles text-black dark:text-white"
                 dangerouslySetInnerHTML={{ __html: processedContent }}
               />
             </div>
