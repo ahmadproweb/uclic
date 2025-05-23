@@ -77,6 +77,15 @@ const TeamMemberCard = memo(function TeamMemberCard({
   );
   const lastName = useMemo(() => lastNameParts.join(" "), [lastNameParts]);
 
+  // Ajout : si le nom complet ne contient pas d'espace, on tente de séparer prénom/nom sur la première majuscule du nom
+  const displayName = useMemo(() => {
+    if (fullName.includes(' ')) return fullName;
+    // Sépare sur la première majuscule après la première lettre
+    const match = fullName.match(/^([A-Z][a-zéèêàâîïôûç-]+)([A-Z].*)$/);
+    if (match) return `${match[1]} ${match[2]}`;
+    return fullName;
+  }, [fullName]);
+
   const handleMouseEnter = useCallback(
     () => onHover(member.slug),
     [member.slug, onHover]
@@ -213,8 +222,7 @@ const TeamMemberCard = memo(function TeamMemberCard({
                 : themeColors.common.black,
             }}
           >
-            <span className="block">{firstName}</span>
-            {lastName && <span className="block">{lastName}</span>}
+            {displayName}
           </h3>
           <p
             className="text-sm md:text-base mb-1 md:mb-2 transition-colors duration-300"
@@ -320,8 +328,9 @@ const ClientTeam = memo(function ClientTeam({
           className="tracking-[-1px] text-3xl md:text-4xl lg:text-5xl font-light transition-colors duration-300"
           style={{ color: themeColors.common.black }}
         >
-          Une équipe sur-mesure à<br className="hidden md:block" />
-          vos côtés
+          Des experts freelance engagés
+          <br className="hidden md:block" />
+          {' '}à vos côtés
         </h2>
       </header>
 

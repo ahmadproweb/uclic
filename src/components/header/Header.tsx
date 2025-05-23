@@ -19,6 +19,7 @@ const HeaderCTA = memo(({ isDark }: { isDark: boolean }) => (
     href="/audit"
     variant={isDark ? "mainCTA" : "shiny"}
     ariaLabel="Demander un audit gratuit"
+    size="l"
     className="!transition-none"
   >
     Audit Gratuit
@@ -135,9 +136,7 @@ const Header = () => {
           "max-w-7xl mx-auto rounded-2xl",
           "border backdrop-blur-md",
           "will-change-[background-color,box-shadow,transform] transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]",
-          isScrolled
-            ? "py-2 px-6 scale-[0.98] translate-y-2 shadow-2xl"
-            : "py-4 px-8 scale-100 translate-y-0 shadow-none",
+          "py-4 px-8 scale-100 translate-y-0 shadow-none",
           isDark
             ? [
                 "bg-black/40 border-white/10 text-white",

@@ -242,7 +242,7 @@ function CaseStudy({ portfolios: initialPortfolios }: CaseStudyProps) {
             isDark ? "text-white" : "text-black"
           )}>
             Découvrez comment nos équipes ont
-            <br className="hidden md:block" />
+            <br/>
             performé avec nos clients
           </h2>
         </header>

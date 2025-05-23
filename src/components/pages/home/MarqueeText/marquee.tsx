@@ -12,13 +12,15 @@ interface ServiceLink {
 const ServicesList = memo(function ServicesList({ services }: { services: ServiceLink[] }) {
   return (
     <nav className="sr-only" aria-label="Services navigation">
-      <h2>Nos services marketing</h2>
+      <h2>Nos services d'Agence Growth Marketing</h2>
       <ul role="list">
         {services.map((service) => (
           <li key={service.href} role="listitem">
-            <Link href={service.href} aria-label={`${service.text} - ${service.description}`}>
-              {service.text}
-            </Link>
+            <h3 className="text-inherit font-inherit inline">
+              <Link href={service.href} aria-label={`freelance ${service.text} - ${service.description}`}>
+                <span className="sr-only">Freelance </span>{service.text}
+              </Link>
+            </h3>
           </li>
         ))}
       </ul>
@@ -68,7 +70,7 @@ export default async function MarqueeText() {
   return (
     <section 
       className="w-full bg-white dark:bg-black overflow-hidden py-8 will-change-transform"
-      aria-label="Nos services marketing"
+      aria-label="Nos services d'Agence Growth Marketing"
     >
       <ServicesList services={allServices} />
       <MarqueeClient firstLine={firstLineServices} secondLine={secondLineServices} />

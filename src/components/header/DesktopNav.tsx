@@ -60,7 +60,7 @@ const NavItem = memo(
             : `Accéder à ${item.label}`
         }
       >
-        <p className="m-0 inline-flex items-center">
+        <p className="m-0 inline-flex items-center font-bold">
           {item.label}
           {isMegaMenu && (
             <i
@@ -119,7 +119,6 @@ export const DesktopNav = memo(
     return (
       <div
         className="hidden md:flex items-center gap-4 absolute left-1/2 -translate-x-1/2"
-        onMouseLeave={handleNavMouseLeave}
       >
         {navItems.map((item) => (
           <NavItem

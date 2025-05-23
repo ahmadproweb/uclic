@@ -101,7 +101,7 @@ const ServiceCard = memo(({
               style={{
                 color: hoveredId === service.slug ? themeColors.common.black : (isDark ? themeColors.common.white : themeColors.common.black)
               }}>
-              {service.name}
+              <span className="sr-only">Freelance </span>{service.name}
             </h3>
             <p className="text-sm line-clamp-3 md:line-clamp-none transition-colors duration-300 flex-grow"
               style={{
@@ -250,15 +250,15 @@ export default function AndMoreService({ children }: AndMoreServiceProps) {
 
       {/* Content */}
       <div className="relative z-10 max-w-[1250px] mx-auto px-4">
-        <h2 className={cn(
-          "text-3xl sm:text-4xl md:text-5xl lg:text-[50px]",
+        <span className={cn(
+          "block text-2xl md:text-3xl mx-auto text-center",
           "font-medium tracking-[-1px]",
           "text-black/90 dark:text-white/90",
           "leading-[1.1]",
-          "mb-12 md:mb-20 text-center transition-colors duration-300"
+          "mb-6 md:mb-10 transition-colors duration-300"
         )}>
           Et bien plus
-        </h2>
+        </span>
         <div className="relative w-full mb-8 md:mb-16">
           <div 
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-4"

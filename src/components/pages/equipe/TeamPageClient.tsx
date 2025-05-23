@@ -72,7 +72,7 @@ export default function TeamPageClient({ members }: TeamPageClientProps) {
             "text-base md:text-lg",
             isDark ? "text-white/80" : "text-black/70"
           )}>
-            Une équipe de freelances passionnés<br/>au service de votre croissance
+            Des freelance passionnés<br/>au service de votre croissance
           </p>
         </div>
 

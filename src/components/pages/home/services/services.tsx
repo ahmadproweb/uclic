@@ -40,11 +40,8 @@ export default function Services() {
           "leading-[1.1]"
         )}
       >
-        Rapide, flexible
-        <span className="block">
-          et incroyablement efficace
-        </span>
-        
+        Des freelances Growth flexibles et<br />
+        incroyablement efficaces
       </h2>
       
       <div 

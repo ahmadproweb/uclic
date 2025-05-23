@@ -12,16 +12,18 @@ import HeroBackground from "./HeroBackground";
 // Memoized main heading component
 const MainHeading = memo(function MainHeading() {
   return (
-    <p className="inline-flex px-3 sm:px-4 py-1.5 bg-[#9FB832]/10 dark:bg-[#E0FF5C]/10 rounded-full text-[#9FB832] dark:text-[#E0FF5C] text-sm sm:text-base font-medium relative z-10 mb-4 sm:mb-6 md:mb-8">
-      Freelance Growth
-    </p>
+    <>
+      <h1 className="inline-flex px-3 sm:px-4 py-1.5 bg-[#9FB832]/10 dark:bg-[#E0FF5C]/10 rounded-full text-[#9FB832] dark:text-[#E0FF5C] text-sm sm:text-base font-medium relative z-10 mb-2">
+      Freelance Growth Marketing // Hacking
+      </h1>
+    </>
   );
 });
 
 // Memoized vision text component
 const VisionText = memo(function VisionText() {
   return (
-    <h1
+    <p
       className={cn(
         "text-4xl sm:text-4xl md:text-5xl lg:text-[64px]",
         "font-semibold mb-4 sm:mb-6 leading-[1.1]",
@@ -41,7 +43,7 @@ l'impact est `}
         </span>
         <span className="absolute bottom-[-8px] left-[10%] w-[80%] h-[6px] -z-10 bg-[#9FB832]/20 dark:bg-[#E0FF5C]/20" />
       </span>
-    </h1>
+    </p>
   );
 });
 

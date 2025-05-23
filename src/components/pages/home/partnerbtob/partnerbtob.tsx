@@ -132,20 +132,23 @@ function PartnerBtoB() {
     >
       <div className="max-w-[1250px] mx-auto px-4">
         <div className="text-center">
-          <h2 className={cn(
+          <span className={cn(
             "text-3xl sm:text-4xl md:text-5xl lg:text-[50px]",
             "font-medium tracking-[-1px]",
             "text-black/90 dark:text-white/90",
             "leading-[1.1]",
-            "mb-8 md:mb-16"
+            "mb-4 md:mb-18"
           )}>
-            <span className="block">Des partenariats d&apos;excellence et</span>
-            <span className="block">
-              une expertise au service de{' '}
-              <UnderlinedText text="votre" />{' '}
-              <UnderlinedText text="croissance" />
-            </span>
-          </h2>
+            Des partenaires d'excellence<br/>
+            pour booster votre croissance
+          </span>            <span className="block mt-2 md:mt-4"></span>
+
+          <p className={cn(
+            "text-base md:text-lg max-w-2xl mx-auto mb-8 md:mb-16",
+            "text-black/70 dark:text-white/70"
+          )}>
+            Découvrez comment nos partenaires B2B, leaders dans leur domaine, contribuent à la réussite de vos projets de Growth Marketing. Grâce à des collaborations stratégiques et une expertise reconnue, nous maximisons la performance, l'innovation et la croissance de votre entreprise.
+          </p>
           
           <div className="max-w-[1000px] mx-auto">
             <div className="relative">

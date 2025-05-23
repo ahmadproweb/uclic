@@ -18,37 +18,33 @@ interface FAQItem {
 const faqItems: FAQItem[] = [
   {
     id: 1,
-    question: "Comment fonctionne Uclic ?",
-    answer: "Uclic est une agence Growth 360° qui accompagne les entreprises dans leur stratégie de croissance digitale. Notre approche se base sur une méthodologie en 4 étapes : audit initial, définition de la stratégie, mise en place des actions, et optimisation continue des performances."
+    question: "Pourquoi choisir un freelance Growth Marketing pour votre croissance ?",
+    answer: "Un freelance Growth Marketing vous apporte une expertise pointue, une grande réactivité et une approche sur-mesure pour accélérer vos résultats. Chez Uclic, nos freelances sont sélectionnés pour leur expérience en Growth Hacking et leur capacité à générer une croissance rapide et durable pour votre entreprise."
   },
   {
     id: 2,
-    question: "Pourquoi faire confiance à des experts Uclic ?",
-    answer: "Nos experts sont certifiés dans leurs domaines respectifs et cumulent plusieurs années d'expérience en growth marketing. Nous avons accompagné avec succès de nombreuses entreprises, de la startup à la grande entreprise, dans l'atteinte de leurs objectifs de croissance."
+    question: "Qu'est-ce que le Growth Hacking et comment Uclic l'applique ?",
+    answer: "Le Growth Hacking consiste à utiliser des techniques innovantes et des outils digitaux pour booster rapidement l'acquisition et la rétention client. Uclic combine l'expertise de freelances spécialisés et des stratégies de Growth Marketing éprouvées pour maximiser votre ROI à chaque étape du funnel."
   },
   {
     id: 3,
-    question: "Pourquoi faire appel à une agence Growth 360° ?",
-    answer: `Externaliser sa stratégie growth avec Uclic permet de couvrir l'ensemble des leviers d'acquisitions tout en ayant un référent au sein de la même agence.
-
-    Chez Uclic, quand on vous met à disposition une équipe, nous nous assurons de travailler les leviers d'acquisitions et de faire en sorte que l'ensemble de l'équipe projet travaille vers un objectif de croissance pour votre entreprise.
-    
-    Le cas échéant, nous vous mettons à disposition un chef de projet expert dans son domaine qui sera votre point de contact et qui s'assurera que la roadmap et les performances sont en adéquation avec vos objectifs.`
+    question: "Quels sont les avantages d'une équipe de freelances Growth Marketing ?",
+    answer: "Faire appel à une équipe de freelances Growth Marketing, c'est bénéficier d'une flexibilité totale, d'une expertise multi-canal et d'une capacité à s'adapter rapidement à vos enjeux business. Nos experts Uclic interviennent sur le SEO, SEA, Social Ads, Emailing, Automation et bien plus pour une croissance à 360°."
   },
   {
     id: 4,
-    question: "Quels sont les services proposés par Uclic ?",
-    answer: "Uclic propose une gamme complète de services en growth marketing : SEO, SEA, Social Media, Content Marketing, Email Marketing, CRO, Analytics et Data Science. Nous adaptons notre offre en fonction de vos besoins et objectifs spécifiques."
+    question: "Comment se déroule une mission Growth Marketing avec Uclic ?",
+    answer: "Après un audit de vos besoins, nous constituons une équipe de freelances Growth Marketing adaptée à vos objectifs. Nous définissons ensemble la stratégie, mettons en place les actions prioritaires et suivons les résultats avec des reportings réguliers pour optimiser en continu."
   },
   {
     id: 5,
-    question: "Comment se déroule une collaboration avec Uclic ?",
-    answer: "La collaboration débute par une phase de découverte où nous analysons vos besoins et objectifs. Ensuite, nous établissons ensemble un plan d'action personnalisé. Un chef de projet dédié vous accompagne tout au long de la mission et des points réguliers sont organisés pour suivre l'avancement et les résultats."
+    question: "Quels résultats attendre d'une stratégie Growth Hacking ?",
+    answer: "Une stratégie Growth Hacking bien menée permet d'obtenir des résultats rapides : acquisition de leads qualifiés, augmentation du trafic, amélioration du taux de conversion et croissance du chiffre d'affaires. Nos freelances Uclic s'engagent sur la performance et l'innovation."
   },
   {
     id: 6,
-    question: "Quelle est la durée minimale d'engagement ?",
-    answer: "Nous privilégions les engagements sur 6 mois minimum pour permettre la mise en place d'une stratégie efficace et mesurer des résultats concrets. Cependant, nous adaptons nos conditions en fonction de la nature du projet et des objectifs."
+    question: "Pourquoi Uclic est la référence du freelance Growth Marketing en France ?",
+    answer: "Uclic sélectionne les meilleurs freelances Growth Marketing et Growth Hackers du marché. Notre méthodologie, notre réseau d'experts et notre culture de la performance font de nous le partenaire idéal pour accélérer votre croissance digitale."
   }
 ];
 
@@ -63,7 +59,7 @@ const FAQTitle = memo(({ isDark }: { isDark: boolean }) => (
       "text-base md:text-lg w-1/2",
       isDark ? "text-white" : "text-black"
     )}>
-      Nous répondons à vos questions sur le Growth et comment bien choisir votre partenaire de croissance
+      Toutes les réponses à vos questions sur le freelance Growth Marketing, le Growth Hacking et l'accompagnement Uclic pour booster votre acquisition et votre croissance digitale.
     </p>
     <CTAButton 
       href="/contact"

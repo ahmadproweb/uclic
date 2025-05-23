@@ -18,19 +18,19 @@ const AUTOPLAY_INTERVAL = 5000;
 const steps: Step[] = [
   {
     title: "Étape 1",
-    subtitle: "Identification des leviers à fort impact de croissance",
-    description: "Nous élaborons d'abord une stratégie marketing basée sur une compréhension approfondie de votre audience cible. En utilisant le Bullseye Framework, nous passons en revue les 20 canaux de traction pour constituer une combinaison initiale de 4 à 6 canaux à tester.",
+    subtitle: "Déployez la bonne stratégie Growth avec nos freelances experts",
+    description: "Nous analysons votre audience et sélectionnons, grâce à notre expertise freelance Growth Marketing, les canaux à fort potentiel pour accélérer votre croissance.",
     hasButton: true
   },
   {
     title: "Étape 2",
-    subtitle: "Tests et validation des hypothèses",
-    description: "Nous mettons en place des expérimentations rapides pour valider ou invalider chaque canal. Notre approche data-driven nous permet d'identifier rapidement les canaux les plus prometteurs et d'optimiser nos ressources."
+    subtitle: "Testez, validez et accélérez votre acquisition avec l'A/B testing agile",
+    description: "Nos freelances Growth Marketing testent rapidement chaque canal pour valider les meilleures opportunités. Notre approche data-driven optimise vos ressources et maximise l'impact.",
   },
   {
     title: "Étape 3",
-    subtitle: "Optimisation et mise à l'échelle",
-    description: "Une fois les canaux validés, nous intensifions nos efforts sur les plus performants. Nous optimisons chaque aspect pour maximiser le ROI et mettons en place des processus d'amélioration continue."
+    subtitle: "Optimisez vos résultats et scalez avec un accompagnement sur-mesure",
+    description: "Nous intensifions les efforts sur les canaux performants et accompagnons votre croissance avec des process d'amélioration continue, pour un ROI durable.",
   }
 ];
 
@@ -123,12 +123,12 @@ const StepContent = memo(({
         }}
         aria-hidden="true"
       />
-      <h3 className="text-3xl md:text-5xl text-black mb-4 md:mb-6 font-bold tracking-[-1px]">
+      <span className="text-3xl md:text-5xl text-black mb-2 md:mb-4 font-bold tracking-[-1px] block">
         {step.title}
-      </h3>
-      <h4 className="text-xl md:text-3xl text-black mb-4 md:mb-6 font-bold">
+      </span>
+      <h3 className="text-xl md:text-3xl text-black mb-4 md:mb-6 font-bold">
         {step.subtitle}
-      </h4>
+      </h3>
       <p className="text-sm md:text-lg text-black/70 mb-6 md:mb-8 leading-relaxed">
         {step.description}
       </p>
@@ -261,14 +261,14 @@ function ProcessSteps() {
           {/* Carte noire */}
           <div className="col-span-1 lg:col-span-5 mb-8 lg:mb-0">
             <div className="bg-black rounded-2xl md:rounded-[32px] p-6 md:p-12 text-white">
-              <p className="text-white/70 text-sm md:text-base mb-2">
-                Du sur-mesure pour vos performances
-              </p>
-              <h2 className="text-2xl md:text-3xl font-normal mb-4">
-                Une approche systémique, taillée pour l&apos;impact.
+              <h2 className="text-2xl md:text-3xl font-bold mb-2">
+                Méthodologie Growth Marketing&nbsp;: un process pour votre croissance
               </h2>
+              <p className="text-white/70 text-sm md:text-base mb-4">
+                Notre process Growth Marketing maximise vos résultats grâce à une méthode structurée, orientée performance et optimisation continue.
+              </p>
               <p className="text-white/80 text-base md:text-lg leading-relaxed mb-6">
-                Nous mobilisons les bonnes ressources, au bon moment, avec une précision chirurgicale. Chaque étape de notre processus est optimisée pour des actions, mesurables et alignées sur vos objectifs. Pas de place pour l&apos;improvisation, des stratégies exécutées avec méthode et agilité.
+                Nous mobilisons les bons freelances, au bon moment, avec une précision chirurgicale. Chaque étape de notre processus est optimisée pour des actions mesurables et alignées sur vos objectifs. Pas de place pour l&apos;improvisation, des stratégies exécutées avec méthode et agilité.
               </p>
               <CTAButton 
                 href="/contact" 
