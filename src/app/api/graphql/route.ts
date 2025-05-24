@@ -1,13 +1,26 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
+
+const CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 204,
+    headers: CORS_HEADERS,
+  });
+}
 
 export async function POST(request: Request) {
   const data = await request.json();
-  
+
   // Faire suivre la requête à l'API WordPress
-  const response = await fetch('https://api.uclic.fr/graphql', {
-    method: 'POST',
+  const response = await fetch("https://api.uclic.fr/graphql", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
   });
@@ -18,7 +31,8 @@ export async function POST(request: Request) {
   return NextResponse.json(result, {
     status: 200,
     headers: {
-      'Cache-Control': 'public, max-age=0, must-revalidate',
+      ...CORS_HEADERS,
+      "Cache-Control": "public, max-age=0, must-revalidate",
     },
   });
-} 
+}
