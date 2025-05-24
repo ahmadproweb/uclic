@@ -130,27 +130,6 @@ export default function RootLayout({
           `}
         </Script>
 
-        <Script id="register-sw" strategy="afterInteractive">
-          {`
-            if ('serviceWorker' in navigator) {
-              window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js', { scope: '/' })
-                  .then(registration => {
-                    registration.addEventListener('updatefound', () => {
-                      const newWorker = registration.installing;
-                      newWorker.addEventListener('statechange', () => {
-                        if (newWorker.state === 'activated') {
-                          console.debug('SW: Activated');
-                        }
-                      });
-                    });
-                  })
-                  .catch(error => console.warn('SW:', error));
-              });
-            }
-          `}
-        </Script>
-
         <link
           rel="apple-touch-icon"
           sizes="180x180"
