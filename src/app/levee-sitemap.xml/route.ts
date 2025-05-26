@@ -18,7 +18,7 @@ async function generateLeveeSitemap() {
         <url>
           <loc>${baseUrl}/levee-de-fonds/${levee.slug}</loc>
           <lastmod>${new Date(levee.date).toISOString()}</lastmod>
-          <changefreq>monthly</changefreq>
+          <changefreq>daily</changefreq>
           <priority>0.8</priority>
         </url>
       `
