@@ -32,7 +32,7 @@ async function generateExpertiseSitemap() {
           ({ category, expertises }) => `
         <url>
           <loc>${baseUrl}/expertise/${category.slug}</loc>
-          <changefreq>weekly</changefreq>
+          <changefreq>daily</changefreq>
           <priority>0.9</priority>
         </url>
         ${expertises
