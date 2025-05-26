@@ -41,7 +41,7 @@ async function generateExpertiseSitemap() {
           <url>
             <loc>${baseUrl}/expertise/${category.slug}/${expertise.slug}</loc>
             <lastmod>${new Date(expertise.date).toISOString()}</lastmod>
-            <changefreq>monthly</changefreq>
+            <changefreq>daily</changefreq>
             <priority>1.0</priority>
           </url>
         `
