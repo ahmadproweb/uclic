@@ -24,7 +24,7 @@ async function generateBlogSitemap() {
           <url>
             <loc>${baseUrl}/blog/${slug}</loc>
             <lastmod>${postDate.toISOString()}</lastmod>
-            <changefreq>weekly</changefreq>
+            <changefreq>daily</changefreq>
             <priority>0.7</priority>
           </url>
         `;
