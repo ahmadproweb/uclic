@@ -3,13 +3,22 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
 async function generateBlogSitemap() {
+  console.log("[SITEMAP] Generating blog sitemap...");
   const headersList = await headers();
   const host = headersList.get("host") || "localhost:3000";
   const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
   const baseUrl = `${protocol}://${host}`;
 
   // Fetch a large number of posts to ensure we get most of them
-  const posts = await getLatestPosts(100);
+  let posts: WordPressPost[] = [];
+  try {
+    const result = await getLatestPosts(100);
+    posts = Array.isArray(result) ? result : result.posts || [];
+    console.log(`[SITEMAP] Fetched ${posts.length} posts for sitemap.`);
+  } catch (err) {
+    console.error("[SITEMAP] Error fetching posts:", err);
+    posts = [];
+  }
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -37,6 +46,7 @@ async function generateBlogSitemap() {
 
 export async function GET() {
   try {
+    console.log("[SITEMAP] GET /blog-sitemap.xml called");
     const sitemap = await generateBlogSitemap();
     return new NextResponse(sitemap, {
       headers: {
@@ -46,7 +56,7 @@ export async function GET() {
       },
     });
   } catch (error) {
-    console.error("Error generating blog sitemap:", error);
+    console.error("[SITEMAP] Error generating blog sitemap:", error);
     return new NextResponse("Error generating sitemap", { status: 500 });
   }
 }
