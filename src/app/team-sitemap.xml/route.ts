@@ -17,7 +17,7 @@ async function generateTeamSitemap() {
           (member) => `
         <url>
           <loc>${baseUrl}/equipe/${member.slug}</loc>
-          <changefreq>monthly</changefreq>
+          <changefreq>daily</changefreq>
           <priority>0.6</priority>
         </url>
       `
