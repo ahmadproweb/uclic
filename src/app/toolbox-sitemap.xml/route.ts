@@ -24,7 +24,7 @@ async function generateToolboxSitemap() {
         <url>
           <loc>${baseUrl}/toolbox/${tool.slug}</loc>
           <lastmod>${new Date(tool.date).toISOString()}</lastmod>
-          <changefreq>weekly</changefreq>
+          <changefreq>daily</changefreq>
           <priority>0.7</priority>
         </url>
       `
