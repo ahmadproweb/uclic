@@ -217,6 +217,11 @@ const nextConfig = {
         destination: '/',
         permanent: true,
       },
+      {
+        source: '/mentions-legales',
+        destination: '/legal/mentions-legales',
+        permanent: true, // Redirection 301 SEO
+      },
     ];
   }
 };
