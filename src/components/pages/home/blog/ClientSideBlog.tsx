@@ -86,6 +86,13 @@ const BlogPostCard = memo(({ post, index }: { post: BlogPost; index: number }) =
             height={250}
             loading="lazy"
             decoding="async"
+            onError={(e) => {
+              const target = e.currentTarget as HTMLImageElement;
+              const jpgFallback = post.featuredImage.url.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1');
+              if (target.src !== jpgFallback) {
+                target.src = jpgFallback;
+              }
+            }}
           />
           <figcaption className="absolute bottom-4 left-4 inline-block px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-sm z-10">
             {post.category}

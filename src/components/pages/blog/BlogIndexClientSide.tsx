@@ -56,12 +56,16 @@ const BlogCard = memo(
         {/* Featured Image */}
         <div className="relative w-full h-48 overflow-hidden">
           <img
-            src={`${post.featured_image_url.replace(
-              /\.(jpg|jpeg|png|gif)$/,
-              "-400x250.$1"
-            )}.webp`}
+            src={`${post.featured_image_url.replace(/\.(jpg|jpeg|png|gif)$/,'-400x250.$1')}.webp`}
             alt={capitalizeTitle(post.title)}
             className="object-cover transition-transform duration-500 group-hover:scale-105 w-full h-full"
+            onError={(e) => {
+              const target = e.currentTarget as HTMLImageElement;
+              const jpgFallback = post.featured_image_url.replace(/\.(jpg|jpeg|png|gif)$/,'-400x250.$1');
+              if (target.src !== jpgFallback) {
+                target.src = jpgFallback;
+              }
+            }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
           <span className="absolute bottom-4 left-4 inline-block px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-sm z-20">
