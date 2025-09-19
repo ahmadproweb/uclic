@@ -14,10 +14,11 @@ interface PreFooterProps {
 const LeftContent = memo(({ isDark }: { isDark: boolean }) => (
   <div className="p-8 md:p-16 relative z-10 bg-black rounded-tl-[32px] rounded-bl-[32px]">
     <h2 className="text-3xl md:text-5xl text-white font-normal mb-4 animate-fade-in-up">
-      Prêt à transformer votre marketing ?
+      Prêt à automatiser votre croissance avec l&apos;IA ?
     </h2>
-    <p className="text-white/60 text-base md:text-lg mb-8 animate-fade-in-up" style={{ animationDelay: '100ms' }}>
-      Contactez-nous pour découvrir comment nous pouvons booster vos résultats dès aujourd&apos;hui.
+    <p className="text-white text-base md:text-lg mb-8 animate-fade-in-up" style={{ animationDelay: '100ms' }}>
+      Notre collectif de freelances experts en Intelligence Artificielle automatise votre Growth Marketing 
+      pour multiplier vos résultats par 3x. Pendant que vos concurrents hésitent, vous gagnez.
     </p>
     <div className="flex flex-col md:flex-row gap-4 animate-fade-in-up" style={{ animationDelay: '200ms' }}>
       <CTAButton 

@@ -45,6 +45,36 @@ const faqItems: FAQItem[] = [
     id: 6,
     question: "Pourquoi Uclic est la référence du freelance Growth Marketing en France ?",
     answer: "Uclic sélectionne les meilleurs freelances Growth Marketing et Growth Hackers du marché. Notre méthodologie, notre réseau d'experts et notre culture de la performance font de nous le partenaire idéal pour accélérer votre croissance digitale."
+  },
+  {
+    id: 7,
+    question: "Comment l'Intelligence Artificielle booste-t-elle vos ventes ?",
+    answer: "L'Intelligence Artificielle automatise l'analyse de données, prédit les tendances et optimise vos campagnes en temps réel. Notre collectif de freelances experts en IA utilise ces outils d'automatisation pour multiplier vos résultats par 3x. L'IA remplace les méthodes manuelles par des stratégies data-driven."
+  },
+  {
+    id: 8,
+    question: "Pourquoi adopter l'automatisation IA maintenant ?",
+    answer: "Chaque jour d'attente, vos concurrents gagnent du terrain. L'Intelligence Artificielle ne fait que s'améliorer, et ceux qui adoptent l'automatisation IA maintenant créent un avantage concurrentiel décisif. Notre collectif de freelances experts vous accompagne dans cette transformation."
+  },
+  {
+    id: 9,
+    question: "Quelle est la différence entre une agence et votre collectif de freelances ?",
+    answer: "Contrairement aux agences traditionnelles, notre collectif de freelances experts en Intelligence Artificielle offre plus de flexibilité, d'expertise spécialisée et de réactivité. Chaque freelance est expert dans son domaine (IA, automatisation, Growth Marketing) et nous montons des équipes sur mesure pour vos projets."
+  },
+  {
+    id: 10,
+    question: "Comment l'automatisation IA transforme-t-elle le Growth Marketing ?",
+    answer: "L'automatisation IA révolutionne le Growth Marketing en remplaçant les tâches manuelles par des processus intelligents. Notre collectif de freelances utilise l'Intelligence Artificielle pour automatiser l'analyse de données, la création de campagnes, l'optimisation et le scaling. L'automatisation permet une croissance 24/7."
+  },
+  {
+    id: 11,
+    question: "Pourquoi choisir des freelances spécialisés en Intelligence Artificielle ?",
+    answer: "Les freelances spécialisés en Intelligence Artificielle maîtrisent les outils d'automatisation les plus avancés. Notre collectif sélectionne des experts qui combinent expertise technique et vision stratégique pour maximiser l'impact de l'IA sur votre croissance marketing."
+  },
+  {
+    id: 12,
+    question: "Comment mesurez-vous l'efficacité de l'automatisation IA ?",
+    answer: "Nous mesurons l'efficacité de l'automatisation IA à travers des KPIs précis : réduction du temps de traitement des données, amélioration du taux de conversion, optimisation du ROI des campagnes et scaling automatique. Notre collectif de freelances experts vous fournit des reportings détaillés sur l'impact de l'Intelligence Artificielle."
   }
 ];
 
@@ -59,7 +89,7 @@ const FAQTitle = memo(({ isDark }: { isDark: boolean }) => (
       "text-base md:text-lg w-1/2",
       isDark ? "text-white" : "text-black"
     )}>
-      Toutes les réponses à vos questions sur le freelance Growth Marketing, le Growth Hacking et l'accompagnement Uclic pour booster votre acquisition et votre croissance digitale.
+      Toutes les réponses à vos questions sur l'automatisation IA, le Growth Marketing spécialisé Intelligence Artificielle et comment notre collectif de freelances transforme votre croissance avec l'automatisation.
     </p>
     <CTAButton 
       href="/contact"

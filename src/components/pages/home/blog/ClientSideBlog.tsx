@@ -47,11 +47,14 @@ const BlogHeader = memo(({ isDark }: { isDark: boolean }) => (
       isDark ? "bg-[#E0FF5C]" : "bg-black"
     )}/>
     <p className={cn(
-      "text-base md:text-lg max-w-md mx-auto text-center",
+      "text-base md:text-lg max-w-2xl mx-auto text-center",
       "transition-colors duration-300",
       isDark ? "text-white" : "text-black"
     )}>
-      Découvrez nos derniers articles sur le Growth Marketing et la transformation digitale
+      Découvrez nos derniers articles sur le Growth Marketing, les actualités Growth, 
+      les startups IA et la transformation digitale. Notre collectif de freelances 
+      experts en Intelligence Artificielle partage les dernières tendances d'automatisation 
+      et les stratégies qui fonctionnent.
     </p>
   </div>
 ));
@@ -88,7 +91,8 @@ const BlogPostCard = memo(({ post, index }: { post: BlogPost; index: number }) =
             decoding="async"
             onError={(e) => {
               const target = e.currentTarget as HTMLImageElement;
-              const jpgFallback = post.featuredImage.url.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1');
+              const originalUrl = post.featuredImage.url;
+              const jpgFallback = originalUrl.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1');
               if (target.src !== jpgFallback) {
                 target.src = jpgFallback;
               }

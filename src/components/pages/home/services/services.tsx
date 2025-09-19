@@ -40,8 +40,8 @@ export default function Services() {
           "leading-[1.1]"
         )}
       >
-        Des freelances Growth flexibles et<br />
-        incroyablement efficaces
+        Collectif de freelances Growth Marketing<br />
+        spécialisés en Intelligence Artificielle
       </h2>
       
       <div 

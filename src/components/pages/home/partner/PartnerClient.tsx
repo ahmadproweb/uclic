@@ -99,9 +99,19 @@ export const PartnerClient = memo(function PartnerClient({
   };
 
   return (
-    <div className="flex flex-col space-y-6">
-      <PartnerRow partners={row1} filter={getLogoFilter()} />
-      <PartnerRow partners={row2} isReverse filter={getLogoFilter()} />
+    <div className="w-full">
+      <div className="max-w-[1250px] mx-auto px-4 mb-8">
+        <h2 className="text-2xl md:text-4xl font-normal text-center mb-4 text-black dark:text-white">
+          Nos partenaires de confiance
+        </h2>
+        <p className="text-center text-lg text-black dark:text-gray-300 max-w-2xl mx-auto">
+          Ils ont fait confiance à nos services <strong>Growth</strong>, <strong>automatisation</strong> & <strong>IA</strong>
+        </p>
+      </div>
+      <div className="flex flex-col space-y-6">
+        <PartnerRow partners={row1} filter={getLogoFilter()} />
+        <PartnerRow partners={row2} isReverse filter={getLogoFilter()} />
+      </div>
     </div>
   );
 }); 

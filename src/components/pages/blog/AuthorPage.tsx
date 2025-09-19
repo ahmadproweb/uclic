@@ -36,6 +36,14 @@ function BlogCard({ post }: { post: any }) {
           }
           className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
+          onError={(e) => {
+            const target = e.currentTarget as HTMLImageElement;
+            const originalUrl = post._embedded?.["wp:featuredmedia"]?.[0]?.source_url || "/images/default-post.jpg";
+            const jpgFallback = originalUrl.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1');
+            if (target.src !== jpgFallback) {
+              target.src = jpgFallback;
+            }
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
         {post._embedded?.["wp:term"]?.[0]?.[0] && (

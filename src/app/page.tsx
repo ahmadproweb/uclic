@@ -2,7 +2,9 @@ import MarqueeText from "@/components/pages/home/MarqueeText/marquee";
 import AndMoreService from "@/components/pages/home/andmoreservice/andmoreservice";
 import Blog from "@/components/pages/home/blog/blog";
 import CaseStudyWrapper from "@/components/pages/home/casestudy";
+import CollectifSection from "@/components/pages/home/collectif/collectif";
 import FAQ from "@/components/pages/home/faq/faq";
+import SEOContentSection from "@/components/pages/home/seo-content/seo-content";
 import Hero from "@/components/pages/home/hero/hero";
 import Partners from "@/components/pages/home/partner/partner";
 import PartnerBtoB from "@/components/pages/home/partnerbtob/partnerbtob";
@@ -18,6 +20,7 @@ export default function Home() {
       <Hero />
       <Partners />
       <Service />
+      <CollectifSection />
       <MarqueeText />
       <AndMoreService>
         <Suspense
@@ -34,6 +37,7 @@ export default function Home() {
       <ProcessSteps />
       <CaseStudyWrapper />
       <Testimonials />
+      <SEOContentSection />
       <FAQ />
       <Blog />
     </main>

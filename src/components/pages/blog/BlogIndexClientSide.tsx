@@ -61,7 +61,8 @@ const BlogCard = memo(
             className="object-cover transition-transform duration-500 group-hover:scale-105 w-full h-full"
             onError={(e) => {
               const target = e.currentTarget as HTMLImageElement;
-              const jpgFallback = post.featured_image_url.replace(/\.(jpg|jpeg|png|gif)$/,'-400x250.$1');
+              const originalUrl = post.featured_image_url;
+              const jpgFallback = originalUrl.replace(/\.(jpg|jpeg|png|gif)$/,'-400x250.$1');
               if (target.src !== jpgFallback) {
                 target.src = jpgFallback;
               }

@@ -18,19 +18,19 @@ const AUTOPLAY_INTERVAL = 5000;
 const steps: Step[] = [
   {
     title: "Étape 1",
-    subtitle: "Déployez la bonne stratégie Growth avec nos freelances experts",
-    description: "Nous analysons votre audience et sélectionnons, grâce à notre expertise freelance Growth Marketing, les canaux à fort potentiel pour accélérer votre croissance.",
+    subtitle: "Intelligence Artificielle : automatisation de l'analyse de données",
+    description: "Notre collectif de freelances experts en Intelligence Artificielle automatise l'analyse de vos données marketing. Contrairement aux agences traditionnelles qui se contentent d'intuitions, notre IA analyse 50 000+ points de données pour identifier vos leviers de croissance les plus rentables. L'automatisation remplace les suppositions par des prédictions précises basées sur l'Intelligence Artificielle. Cette approche data-driven permet d'optimiser votre ROI marketing et d'identifier les opportunités de croissance cachées que les méthodes traditionnelles manquent.",
     hasButton: true
   },
   {
     title: "Étape 2",
-    subtitle: "Testez, validez et accélérez votre acquisition avec l'A/B testing agile",
-    description: "Nos freelances Growth Marketing testent rapidement chaque canal pour valider les meilleures opportunités. Notre approche data-driven optimise vos ressources et maximise l'impact.",
+    subtitle: "Automatisation IA des campagnes Growth Marketing",
+    description: "Notre collectif de freelances Growth Marketing utilise l'Intelligence Artificielle pour automatiser vos campagnes. Contrairement au marketing traditionnel qui crée manuellement, notre IA automatise la création, l'optimisation et le déploiement de vos campagnes. L'automatisation identifie les messages qui convertissent et les déploie instantanément grâce à l'Intelligence Artificielle. Cette automatisation IA permet une personnalisation à grande échelle et une optimisation continue des performances, générant des résultats supérieurs aux méthodes manuelles des agences traditionnelles.",
   },
   {
     title: "Étape 3",
-    subtitle: "Optimisez vos résultats et scalez avec un accompagnement sur-mesure",
-    description: "Nous intensifions les efforts sur les canaux performants et accompagnons votre croissance avec des process d'amélioration continue, pour un ROI durable.",
+    subtitle: "Intelligence Artificielle : automatisation 24/7 de votre croissance",
+    description: "Notre collectif de freelances experts en Intelligence Artificielle automatise votre croissance 24h/24. Contrairement au marketing traditionnel qui s'arrête le soir, notre IA optimise vos campagnes en continu et maximise vos conversions pendant que vous dormez. L'automatisation ne prend jamais de pause : vos concurrents s'arrêtent, votre Intelligence Artificielle continue de travailler. Cette automatisation permanente garantit une croissance constante et une optimisation continue de vos performances marketing, créant un avantage concurrentiel durable grâce à l'Intelligence Artificielle.",
   }
 ];
 
@@ -262,13 +262,13 @@ function ProcessSteps() {
           <div className="col-span-1 lg:col-span-5 mb-8 lg:mb-0">
             <div className="bg-black rounded-2xl md:rounded-[32px] p-6 md:p-12 text-white">
               <h2 className="text-2xl md:text-3xl font-bold mb-2">
-                Méthodologie Growth Marketing&nbsp;: un process pour votre croissance
+                L'Intelligence Artificielle révolutionne le Growth Marketing
               </h2>
               <p className="text-white/70 text-sm md:text-base mb-4">
-                Notre process Growth Marketing maximise vos résultats grâce à une méthode structurée, orientée performance et optimisation continue.
+                Le marketing traditionnel promet de la notoriété mais échoue à générer des ventes. L'Intelligence Artificielle change tout : elle automatise vos campagnes, analyse vos données et transforme vos efforts marketing en générateurs de revenus. L'automatisation IA remplace les méthodes dépassées par des stratégies data-driven qui génèrent des résultats mesurables et un ROI supérieur.
               </p>
               <p className="text-white/80 text-base md:text-lg leading-relaxed mb-6">
-                Nous mobilisons les bons freelances, au bon moment, avec une précision chirurgicale. Chaque étape de notre processus est optimisée pour des actions mesurables et alignées sur vos objectifs. Pas de place pour l&apos;improvisation, des stratégies exécutées avec méthode et agilité.
+                Uclic est à l'avant-garde de cette transformation. Notre collectif de freelances experts en Intelligence Artificielle a fait de l'automatisation son ADN. Nous combinons expertise technique spécialisée et vision stratégique pour faire du marketing votre premier générateur de revenu. L'IA automatise tout : analyse de données, création de campagnes, optimisation continue et scaling automatique. Pendant que les agences traditionnelles utilisent des méthodes manuelles, nous automatisons avec l'Intelligence Artificielle pour créer un avantage concurrentiel durable et une croissance exponentielle.
               </p>
               <CTAButton 
                 href="/contact" 
@@ -280,14 +280,14 @@ function ProcessSteps() {
                     : ""
                 )}
               >
-                Contactez un expert
+                Découvrez nos services IA
               </CTAButton>
             </div>
           </div>
 
           {/* Timeline */}
           <div 
-            className="col-span-1 lg:col-span-7 relative min-h-[600px]"
+            className="col-span-1 lg:col-span-7 relative min-h-[700px]"
             role="tablist"
             aria-label="Étapes du processus"
           >
@@ -301,14 +301,6 @@ function ProcessSteps() {
                   isFirst={index === 0}
                   isLast={index === steps.length - 1}
                   isVisible={currentStep === index}
-                  stepIndex={index}
-                />
-              ))}
-              {steps.map((step, index) => (
-                <PreviewStep
-                  key={`preview-${step.title}`}
-                  step={step}
-                  isVisible={currentStep + 1 === index}
                   stepIndex={index}
                 />
               ))}

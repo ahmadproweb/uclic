@@ -123,6 +123,13 @@ const PortfolioCard = memo(({ portfolio, isDark }: { portfolio: Portfolio; isDar
               className="w-full h-full object-cover"
               loading="lazy"
               decoding="async"
+              onError={(e) => {
+                const target = e.currentTarget as HTMLImageElement;
+                const jpgFallback = imageUrl.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1');
+                if (target.src !== jpgFallback) {
+                  target.src = jpgFallback;
+                }
+              }}
             />
           )}
         </figure>

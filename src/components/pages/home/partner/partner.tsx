@@ -1,7 +1,4 @@
-"use client";
-
 import { PartnerClient } from './PartnerClient';
-import { useTheme } from "@/context/ThemeContext";
 
 // Données statiques avec descriptions SEO
 const row1 = [
@@ -38,9 +35,6 @@ interface PartnersProps {
 }
 
 export default function Partners({ forceBlackLogos = false }: PartnersProps) {
-  const { theme: currentTheme } = useTheme();
-  const isDark = currentTheme === 'dark';
-
   return (
     <div 
       className="w-full flex flex-col gap-0 pt-8 md:pt-12 bg-[#F3F4F6] dark:bg-black/100 overflow-hidden"

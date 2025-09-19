@@ -14,7 +14,7 @@ const MainHeading = memo(function MainHeading() {
   return (
     <>
       <h1 className="inline-flex px-3 sm:px-4 py-1.5 bg-[#9FB832]/10 dark:bg-[#E0FF5C]/10 rounded-full text-[#9FB832] dark:text-[#E0FF5C] text-sm sm:text-base font-medium relative z-10 mb-2">
-      Freelance Growth Marketing // Hacking
+      Freelance Growth / Growth Marketing spécialisé IA
       </h1>
     </>
   );
@@ -34,12 +34,11 @@ const VisionText = memo(function VisionText() {
         "whitespace-pre-line"
       )}
     >
-      {`Une vision 360°,
-des actions là où
-l'impact est `}
+      {`L'IA booste vos ventes
+pendant que vos concurrents `}
       <span className="inline-block font-bold relative">
         <span className="relative z-10 text-[#9FB832] dark:text-[#E0FF5C]">
-          maximal
+          hésitent
         </span>
         <span className="absolute bottom-[-8px] left-[10%] w-[80%] h-[6px] -z-10 bg-[#9FB832]/20 dark:bg-[#E0FF5C]/20" />
       </span>
@@ -59,9 +58,9 @@ const Description = memo(function Description() {
         "text-[#000] dark:text-[#F5F5F1]"
       )}
     >
-      Nous convertissons vos défis en leviers de croissance avec des stratégies
-      data-driven, des outils IA avancés et les meilleurs freelances
-      sélectionnés pour vos besoins.
+      Le marketing traditionnel promet de la notoriété mais échoue à générer des ventes. 
+      L'IA change tout : elle transforme vos campagnes en générateurs de revenus. 
+      Pendant que vos concurrents hésitent, vous gagnez.
     </p>
   );
 });

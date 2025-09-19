@@ -23,7 +23,7 @@ const FooterLogo = memo(({ isDark }: { isDark: boolean }) => (
       <Logo />
     </div>
     <p className={`${isDark ? 'text-white/80' : 'text-gray-700'} text-xs md:text-sm leading-relaxed max-w-[90%]`}>
-      Uclic est une agence digitale spécialisée dans la croissance des entreprises. Notre expertise en IA, SEO, et marketing digital permet d'accélérer votre développement de manière durable et mesurable.
+      Uclic est un collectif de freelances experts en Intelligence Artificielle et Growth Marketing. Notre automatisation IA transforme vos campagnes en générateurs de revenus, multipliant vos résultats par 3x grâce à l'automatisation complète de votre funnel marketing.
     </p>
   </div>
 ));

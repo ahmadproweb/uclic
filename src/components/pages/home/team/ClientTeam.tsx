@@ -195,6 +195,13 @@ const TeamMemberCard = memo(function TeamMemberCard({
               loading="eager"
               width={96}
               height={96}
+              onError={(e) => {
+                const target = e.currentTarget as HTMLImageElement;
+                const originalUrl = member.equipeFields.miniImage?.node.sourceUrl || member.equipeFields.image?.node.sourceUrl;
+                if (originalUrl && target.src !== originalUrl) {
+                  target.src = originalUrl;
+                }
+              }}
             />
             <div
               className={cn(

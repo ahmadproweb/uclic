@@ -222,6 +222,14 @@ export default function BlogCategoryClientSide({
                   alt={post.title}
                   className="object-cover w-full h-full"
                   loading="lazy"
+                  onError={(e) => {
+                    const target = e.currentTarget as HTMLImageElement;
+                    const originalUrl = post.featured_image_url;
+                    const jpgFallback = originalUrl.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1');
+                    if (target.src !== jpgFallback) {
+                      target.src = jpgFallback;
+                    }
+                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 {post.category && (
