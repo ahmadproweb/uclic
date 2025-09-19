@@ -21,7 +21,7 @@ export default function HeroExpertise({ expertise }: HeroExpertiseProps) {
   const isDark = currentTheme === "dark";
 
   return (
-    <section className="relative min-h-[calc(70vh-var(--header-height))] flex items-center pt-28 sm:pt-32 md:pt-36 overflow-hidden">
+    <section className="relative min-h-[calc(70vh-var(--header-height))] flex items-center pt-[calc(var(--header-height)+24px)] sm:pt-32 md:pt-36 overflow-hidden">
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <div className="max-w-2xl">

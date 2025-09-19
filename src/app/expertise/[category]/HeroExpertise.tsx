@@ -17,7 +17,7 @@ const HeroExpertise: React.FC<HeroExpertiseProps> = ({
   expertiseFields,
 }) => {
   return (
-    <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden pt-[calc(var(--header-height)+24px)] sm:pt-0">
       <HeroBackgroundExpertise />
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
