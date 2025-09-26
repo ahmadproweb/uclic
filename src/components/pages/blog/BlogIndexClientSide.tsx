@@ -6,6 +6,7 @@ import StickyShareButtons from "@/components/ui/StickyShareButtons";
 import { colors as theme } from "@/config/theme";
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
+import { cleanHtmlEntities } from "@/utils/string";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -74,7 +75,7 @@ const BlogCard = memo(
         <div className="relative w-full h-48 overflow-hidden">
           <img
             src={`${post.featured_image_url.replace(/\.(jpg|jpeg|png|gif)$/,'-400x250.$1')}.webp`}
-            alt={capitalizeTitle(post.title)}
+            alt={cleanHtmlEntities(capitalizeTitle(post.title))}
             className="object-cover transition-transform duration-500 group-hover:scale-105 w-full h-full"
             onError={(e) => {
               const target = e.currentTarget as HTMLImageElement;
@@ -93,7 +94,7 @@ const BlogCard = memo(
 
         <div className="p-6 space-y-3">
           <h3 className={cn("text-xl font-semibold", isDark ? "text-white" : "text-black")}>
-            {capitalizeTitle(post.title)}
+            {cleanHtmlEntities(capitalizeTitle(post.title))}
           </h3>
 
           <div className={cn("flex items-center gap-2 text-sm", isDark ? "text-white/70" : "text-black/70") }>
@@ -137,7 +138,7 @@ const FeaturedPost = memo(({ post }: { post: BlogPost }) => {
       />
       <img
         src={post.featured_image_url}
-        alt={capitalizeTitle(post.title)}
+              alt={cleanHtmlEntities(capitalizeTitle(post.title))}
         className="object-cover rounded-2xl xs:rounded-3xl w-full h-full"
       />
       {/* Readability overlays */}
@@ -154,7 +155,7 @@ const FeaturedPost = memo(({ post }: { post: BlogPost }) => {
             </span>
           </div>
           <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold max-w-4xl mb-4 text-white leading-tight">
-            {capitalizeTitle(post.title)}
+            {cleanHtmlEntities(capitalizeTitle(post.title))}
           </h2>
           <div className="text-white/85 flex flex-wrap items-center text-[12px] xs:text-sm gap-2 xs:gap-4 mt-2">
             <span>{post.author}</span>
@@ -300,7 +301,7 @@ export default function BlogIndexClientSide({
           <div className="relative w-full h-[35vh] xs:h-[40vh] sm:h-[45vh] md:h-[50vh] mb-12 xs:mb-14 sm:mb-16 rounded-2xl xs:rounded-3xl overflow-hidden shadow-xl">
             <img
               src={featuredPost.featured_image_url}
-              alt={capitalizeTitle(featuredPost.title)}
+              alt={cleanHtmlEntities(capitalizeTitle(featuredPost.title))}
               className="object-cover rounded-2xl xs:rounded-3xl w-full h-full"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
@@ -315,7 +316,7 @@ export default function BlogIndexClientSide({
                   </span>
                 </div>
                 <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold max-w-3xl mb-3 xs:mb-4 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)]">
-                  {capitalizeTitle(featuredPost.title)}
+                  {cleanHtmlEntities(capitalizeTitle(featuredPost.title))}
                 </h2>
                 <div className="text-white/80 flex flex-wrap items-center text-xs xs:text-sm space-x-2 xs:space-x-4 mt-3 xs:mt-4">
                   <span>{featuredPost.author}</span>

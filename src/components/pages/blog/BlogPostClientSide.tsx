@@ -7,7 +7,7 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { WordPressPost, getRelatedPosts, getPostCategory, getFeaturedImage, formatDate, estimateReadingTime, getLatestPosts } from '@/services/wordpress';
-import { slugify } from '@/utils/string';
+import { slugify, cleanHtmlEntities } from '@/utils/string';
 import '@/styles/wordpress-content.css';
 
 // Chargement dynamique des composants non-critiques
@@ -90,7 +90,8 @@ function RelatedPosts({
         if (!isMounted) return;
 
         setRelatedPosts(related);
-        setLatestPosts(latest.filter(post => post.id !== currentPost.id).slice(0, 6));
+        const latestArray = Array.isArray(latest) ? latest : latest.posts;
+        setLatestPosts(latestArray.filter((post: WordPressPost) => post.id !== currentPost.id).slice(0, 6));
       } catch (err) {
         if (!isMounted) return;
         console.error("[RelatedPosts] Error fetching posts:", err);
@@ -700,7 +701,7 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
           >
             <img
               src={post.featured_image_url}
-              alt={post.title}
+              alt={cleanHtmlEntities(post.title)}
               className="absolute inset-0 w-full h-full object-cover"
               width="1200"
               height="800"
@@ -747,7 +748,7 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
               <div>
                 {/* Title */}
                 <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 text-white leading-tight">
-                  {post.title}
+                  {cleanHtmlEntities(post.title)}
                 </h1>
 
                 {/* Category badge et métadonnées */}
@@ -934,7 +935,7 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
                     if (navigator.share) {
                       try {
                         await navigator.share({
-                          title: post.title,
+                          title: cleanHtmlEntities(post.title),
                           text: post.excerpt,
                           url: window.location.href,
                         });
@@ -1000,7 +1001,7 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
 
 
       {/* Boutons de partage et retour en haut */}
-      <StickyShareButtons title={post.title} url={`/blog/${post.slug}`} />
+      <StickyShareButtons title={cleanHtmlEntities(post.title)} url={`/blog/${post.slug}`} />
       <ScrollToTop />
     </article>
   );
