@@ -14,7 +14,7 @@ interface PreFooterProps {
 const LeftContent = memo(({ isDark }: { isDark: boolean }) => (
   <div
     className={cn(
-      "p-8 md:p-16 relative z-10 backdrop-blur-md",
+      "p-8 md:p-16 relative z-10 backdrop-blur-md overflow-hidden rounded-tl-[32px] rounded-bl-[32px]",
       isDark 
         ? "bg-black/20" 
         : "bg-white/20"
@@ -55,7 +55,7 @@ LeftContent.displayName = 'LeftContent';
 const RightContent = memo(({ isDark }: { isDark: boolean }) => (
   <div
     className={cn(
-      "relative h-full min-h-[400px] md:min-h-full z-10 backdrop-blur-md",
+      "relative h-full min-h-[400px] md:min-h-full z-10 backdrop-blur-md overflow-visible rounded-tr-[32px] rounded-br-[32px]",
       isDark 
         ? "bg-black/20" 
         : "bg-white/20"
@@ -96,7 +96,7 @@ const RightContent = memo(({ isDark }: { isDark: boolean }) => (
       alt="Notre équipe"
       width="516"
       height="378"
-      className="absolute inset-0 w-full h-full object-cover z-10"
+      className="absolute inset-0 w-full h-full z-10"
       loading="eager"
     />
   </div>
@@ -111,14 +111,11 @@ function PreFooter({ noBgGradient = false }: PreFooterProps) {
   return (
     <section 
       className={cn(
-        "w-full rounded-[32px] border bg-transparent",
+        "w-full rounded-[32px] border bg-transparent overflow-visible",
         isDark
-          ? "shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]"
-          : "shadow-[inset_0_0_0_1px_rgba(0,0,0,0.08)]"
+          ? "border-white/10"
+          : "border-black/10"
       )}
-      style={{
-        borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
-      }}
     >
       <div className="max-w-[1250px] mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-0 overflow-visible rounded-[32px]">
         <LeftContent isDark={isDark} />
