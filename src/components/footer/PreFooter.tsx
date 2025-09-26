@@ -120,7 +120,7 @@ function PreFooter({ noBgGradient = false }: PreFooterProps) {
         borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
       }}
     >
-      <div className="max-w-[1250px] mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-0 overflow-hidden rounded-[32px]">
+      <div className="max-w-[1250px] mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-0 overflow-visible rounded-[32px]">
         <LeftContent isDark={isDark} />
         <RightContent isDark={isDark} />
       </div>
