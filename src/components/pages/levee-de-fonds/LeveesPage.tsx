@@ -3,6 +3,7 @@
 import Pagination from "@/components/ui/Pagination";
 import ScrollToTop from "@/components/ui/ScrollToTop";
 import StickyShareButtons from "@/components/ui/StickyShareButtons";
+import PreFooter from "@/components/footer/PreFooter";
 import { colors as theme } from "@/config/theme";
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
@@ -33,68 +34,53 @@ interface LeveeCardProps {
 
 // Internal LeveeCard component for this page
 function LeveeCard({ post, index }: LeveeCardProps) {
-  // Extraire les initiales du titre
-  const initials = post.title
-    .split(" ")
-    .map((word) => word[0])
-    .join("")
-    .slice(0, 3)
-    .toUpperCase();
+  const { theme: currentTheme } = useTheme();
+  const isDark = currentTheme === "dark";
 
   return (
     <Link
       href={`/levee-de-fonds/${post.slug}`}
-      className="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl backdrop-blur-sm"
+      className="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 border backdrop-blur-md relative"
       style={{
-        background: `linear-gradient(145deg, 
-          #E0FF5C,
-          #E0FF5C
-        )`,
-        boxShadow: `0 8px 32px -4px rgba(224, 255, 92, 0.25)`,
+        background: isDark ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.4)",
+        borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+        boxShadow: "none",
       }}
     >
-      {/* Featured Image or Text Placeholder */}
-      <div className="relative h-48 overflow-hidden">
-        {post.featuredImage?.node?.sourceUrl ? (
-          <Image
-            src={post.featuredImage.node.sourceUrl}
-            alt={post.featuredImage.node.altText || post.title}
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            priority={index < 3}
-          />
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#E0FF5C] to-[#B8D44A]">
-            <span className="text-4xl font-bold text-black/80">{initials}</span>
-          </div>
-        )}
+      {/* Hover halo effect */}
+      <div 
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+        style={{
+          background: isDark
+            ? `radial-gradient(ellipse at center, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.04) 40%, transparent 70%)`
+            : `radial-gradient(ellipse at center, rgba(212,237,49,0.12) 0%, rgba(212,237,49,0.06) 40%, transparent 70%)`,
+          filter: 'blur(12px)',
+        }}
+      />
+      {/* Featured Image */}
+      <div className="relative w-full h-48 overflow-hidden">
+        <Image
+          src={post.featuredImage?.node?.sourceUrl || "/images/default-post.jpg"}
+          alt={post.featuredImage?.node?.altText || post.title}
+          fill
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          priority={index < 3}
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
         <span className="absolute bottom-4 left-4 inline-block px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-sm z-20">
           Levée de fonds
         </span>
       </div>
 
-      <div className="p-6 space-y-4">
-        <h3 className="text-xl font-semibold text-black">{post.title}</h3>
+      <div className="p-6 space-y-3">
+        <h3 className={cn("text-xl font-semibold", isDark ? "text-white" : "text-black")}>
+          {post.title}
+        </h3>
 
-        <div className="flex items-center gap-2 text-sm text-black/70">
-          <div className="w-6 h-6 rounded-full bg-black/10 flex items-center justify-center">
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+        <div className={cn("flex items-center gap-2 text-sm", isDark ? "text-white/70" : "text-black/70") }>
+          <div className={cn("w-6 h-6 rounded-full flex items-center justify-center", isDark ? "bg-white/10" : "bg-black/10") }>
+            <i className="ri-time-line text-sm" aria-hidden="true" style={{ color: isDark ? theme.colors.primary.main : undefined }} />
           </div>
           {formatDate(post.date)}
         </div>
@@ -160,47 +146,24 @@ export default function LeveesPage({
         isDark ? "bg-black" : "bg-white"
       )}
     >
-      {/* Base Background gradient */}
+      {/* Subtle top halo background */}
       <div
-        className="absolute inset-0 z-0"
+        aria-hidden="true"
+        className="pointer-events-none fixed top-0 left-0 right-0 h-[45vh] z-0"
         style={{
           background: isDark
-            ? `linear-gradient(180deg, ${theme.colors.common.black}, #E0FF5C)`
-            : `linear-gradient(180deg, ${theme.colors.common.white}, #E0FF5C)`,
-        }}
-      />
-
-      {/* Grain effect overlay */}
-      <div
-        className={cn(
-          "absolute inset-0 z-0 mix-blend-soft-light",
-          isDark ? "opacity-90" : "opacity-50"
-        )}
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.8'/%3E%3C/svg%3E\")",
-          backgroundRepeat: "repeat",
-          backgroundSize: "100px 100px",
-        }}
-      />
-
-      {/* New overlay gradient - light to transparent */}
-      <div
-        className="absolute bottom-0 left-0 right-0 z-[1]"
-        style={{
-          background: isDark
-            ? "linear-gradient(to top, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 100%)"
-            : "linear-gradient(to top, rgb(243, 244, 246) 0%, rgba(243, 244, 246, 1) 40%, rgba(243, 244, 246, 0) 100%)",
-          height: "25%",
+            ? `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.20) 0%, rgba(212,237,49,0.12) 15%, rgba(212,237,49,0.06) 35%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 75%)`
+            : `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.25) 0%, rgba(212,237,49,0.15) 18%, rgba(212,237,49,0.08) 38%, rgba(255,255,255,0.1) 58%, rgba(255,255,255,0) 78%)`,
+          filter: 'blur(20px)'
         }}
       />
 
       <div className="max-w-[1250px] mx-auto px-4 relative z-10">
         {/* Header */}
-        <div className="text-center mb-12 md:mb-16">
+        <div className="text-center mb-8 xs:mb-10 sm:mb-12 md:mb-16">
           <span
             className={cn(
-              "text-base mb-4 block font-semibold",
+              "text-sm xs:text-base mb-3 xs:mb-4 block font-semibold",
               isDark ? "text-[#E0FF5C]" : "text-black"
             )}
           >
@@ -208,35 +171,33 @@ export default function LeveesPage({
           </span>
           <h1
             className={cn(
-              "text-3xl md:text-5xl font-normal mb-4",
+              "text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-normal mb-3 xs:mb-4",
               isDark ? "text-white" : "text-black"
             )}
           >
             Découvrez les dernières
-            <br />
-            levées de fonds
+            <br className="hidden xs:block" /> levées de fonds
           </h1>
           <div
             className={cn(
-              "w-12 h-0.5 mx-auto mb-4",
+              "w-10 xs:w-12 h-0.5 mx-auto mb-3 xs:mb-4",
               isDark ? "bg-[#E0FF5C]" : "bg-black"
             )}
           />
           <p
             className={cn(
-              "text-base md:text-lg",
+              "text-sm xs:text-base md:text-lg",
               isDark ? "text-white/100" : "text-black/80"
             )}
           >
             Restez informé des investissements
-            <br />
-            dans l&apos;écosystème startup
+            <br className="hidden xs:block" /> dans l&apos;écosystème startup
           </p>
         </div>
 
         {/* Hero section with featured post */}
         {featuredPost && (
-          <div className="relative w-full h-[35vh] sm:h-[40vh] md:h-[50vh] lg:h-[60vh] mb-8 sm:mb-12 md:mb-16 rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl">
+          <div className="relative w-full h-[35vh] xs:h-[40vh] sm:h-[45vh] md:h-[50vh] mb-12 xs:mb-14 sm:mb-16 rounded-2xl xs:rounded-3xl overflow-hidden shadow-xl">
             <Image
               src={
                 featuredPost.featuredImage?.node.sourceUrl ||
@@ -246,30 +207,31 @@ export default function LeveesPage({
                 featuredPost.featuredImage?.node.altText || featuredPost.title
               }
               fill
-              className="object-cover rounded-2xl sm:rounded-3xl"
+              className="object-cover rounded-2xl xs:rounded-3xl"
               priority
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
-            <div className="absolute inset-0 flex flex-col justify-end p-4 sm:p-6 md:p-8 lg:p-14">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/60" />
+            <div className="absolute inset-0 flex flex-col justify-end p-4 xs:p-6 sm:p-8 md:p-14">
               <div className="max-w-5xl mx-auto w-full">
-                <div className="mb-2 sm:mb-4 flex flex-wrap gap-2">
-                  <span className="inline-block px-2 sm:px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-xs sm:text-sm">
+                <div className="mb-3 xs:mb-4 flex flex-wrap gap-2">
+                  <span className="inline-block px-2 xs:px-3 py-1 bg-black/80 text-[#E0FF5C] rounded-full text-[11px] xs:text-xs tracking-wide">
                     Levée de fonds
                   </span>
-                  <span className="text-xs sm:text-sm uppercase tracking-wider font-semibold inline-block px-2 sm:px-3 py-1 rounded-full bg-[#E0FF5C] text-black">
+                  <span className="text-[11px] xs:text-xs uppercase tracking-wider font-semibold inline-block px-2 xs:px-3 py-1 rounded-full bg-[#E0FF5C] text-black">
                     À la une
                   </span>
                 </div>
-                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-5xl font-bold max-w-3xl mb-2 sm:mb-4 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)]">
+                <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold max-w-4xl mb-4 text-white leading-tight">
                   {featuredPost.title}
                 </h2>
-                <div className="text-white/80 flex flex-wrap items-center text-xs sm:text-sm space-x-2 sm:space-x-4 mt-2 sm:mt-4">
+                <div className="text-white/85 flex flex-wrap items-center text-[12px] xs:text-sm gap-2 xs:gap-4 mt-2">
                   <span>{formatDate(featuredPost.date)}</span>
                 </div>
                 <Link
                   href={`/levee-de-fonds/${featuredPost.slug}`}
-                  className="px-4 sm:px-6 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium mt-4 sm:mt-8 inline-block transition-all
-                    bg-[#E0FF5C] text-black hover:bg-[#E0FF5C]/90"
+                  className="px-4 xs:px-6 py-1.5 xs:py-2 rounded-full text-xs xs:text-sm font-medium mt-4 xs:mt-6 sm:mt-8 inline-block transition-colors
+                    bg-[#E0FF5C] text-black hover:bg-[#D9FF4B]"
                 >
                   Lire l&apos;article
                 </Link>
@@ -296,11 +258,15 @@ export default function LeveesPage({
         </div>
       </div>
 
-      <ScrollToTop />
       <StickyShareButtons
         url={`https://www.uclic.fr${pathname}`}
         title="Levées de fonds"
       />
+
+      <div className="max-w-[1250px] mx-auto px-4 relative z-10">
+        <PreFooter />
+      </div>
+      <ScrollToTop />
     </section>
   );
 }

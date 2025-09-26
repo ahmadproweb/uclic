@@ -29,10 +29,63 @@ export default function TeamMemberPageLayout({
     return null;
   }
 
+  // JSON-LD Schema
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": member.title,
+    "description": member.equipeFields.extrait || `Expert chez Uclic`,
+    "url": `https://uclic.fr/equipe/${member.slug}`,
+    "image": member.equipeFields.image?.node.sourceUrl || "/images/default-profile.jpg",
+    "jobTitle": member.equipeFields.poste || "Expert",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Uclic",
+      "url": "https://uclic.fr"
+    },
+    "sameAs": [
+      member.equipeFields.linkedin,
+      member.equipeFields.twitter,
+      member.equipeFields.autre
+    ].filter(Boolean),
+    "alumniOf": member.equipeFields.ecole ? {
+      "@type": "EducationalOrganization",
+      "name": member.equipeFields.ecole
+    } : undefined,
+    "knowsAbout": member.equipeFields.expertise ? member.equipeFields.expertise.split(',').map(skill => skill.trim()) : undefined
+  };
+
   return (
-    <>
-      <section className="w-full max-w-[100vw] relative overflow-hidden pt-28 md:pt-32 pb-16">
-        <div className="max-w-[1250px] mx-auto px-4 md:px-6 relative z-10">
+    <div className={cn("min-h-screen", isDark ? "bg-black" : "bg-white")}>
+      {/* Schema JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      
+      {/* Fixed halo background */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed top-0 left-0 right-0 h-[45vh] z-0"
+        style={{
+          background: isDark
+            ? `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.20) 0%, rgba(212,237,49,0.12) 15%, rgba(212,237,49,0.06) 35%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 75%)`
+            : `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.25) 0%, rgba(212,237,49,0.15) 18%, rgba(212,237,49,0.08) 38%, rgba(255,255,255,0.1) 58%, rgba(255,255,255,0) 78%)`,
+          filter: 'blur(20px)'
+        }}
+      />
+
+      <section className="w-full max-w-[100vw] relative overflow-hidden pt-40 pb-16">
+        <div className={cn(
+          "max-w-[1250px] mx-auto px-8 md:px-12 py-8 md:py-12 relative z-10 rounded-2xl"
+        )}
+          style={{
+            boxShadow: isDark
+              ? "0 0 0 1px rgba(255,255,255,0.05), 0 8px 32px -4px rgba(0,0,0,0.3)"
+              : "0 0 0 1px rgba(0,0,0,0.03), 0 8px 32px -4px rgba(0,0,0,0.1)",
+            position: "relative"
+          }}
+        >
           {/* Navigation row */}
           <div className="flex justify-between items-center mb-10">
             {/* Breadcrumb */}
@@ -106,8 +159,10 @@ export default function TeamMemberPageLayout({
             <div className="lg:col-span-4 xl:col-span-3 relative z-20">
               <div
                 className={cn(
-                  "rounded-3xl p-8 border relative overflow-hidden",
-                  isDark ? "border-white/10" : "border-[#9FB832]/20"
+                  "rounded-3xl p-8 border relative overflow-hidden backdrop-blur-md",
+                  isDark 
+                    ? "bg-black/40 border-white/10 shadow-[0_0_0_1px_rgba(255,255,255,0.05)]" 
+                    : "bg-white/40 border-black/5 shadow-[0_0_0_1px_rgba(0,0,0,0.03)]"
                 )}
               >
                 {/* Gradient background */}
@@ -115,8 +170,8 @@ export default function TeamMemberPageLayout({
                   className="absolute inset-0 z-0"
                   style={{
                     background: isDark
-                      ? "linear-gradient(145deg, rgba(159, 184, 50, 0.1), rgba(224, 255, 92, 0.05))"
-                      : "linear-gradient(145deg, rgba(159, 184, 50, 0.1), rgba(224, 255, 92, 0.15))",
+                      ? "linear-gradient(145deg, rgba(159, 184, 50, 0.1), rgba(237 245 202, 0.05))"
+                      : "linear-gradient(145deg, rgba(159, 184, 50, 0.1), rgba(237 245 202, 0.15))",
                   }}
                 />
 
@@ -280,13 +335,22 @@ export default function TeamMemberPageLayout({
 
             {/* Right column - Content */}
             <div className="lg:col-span-8 xl:col-span-9">
-              <article
+              <div
                 className={cn(
-                  "max-w-none wp-content-styles",
-                  isDark ? "dark" : "light"
+                  "rounded-3xl p-8 border backdrop-blur-md",
+                  isDark 
+                    ? "bg-black/40 border-white/10 shadow-[0_0_0_1px_rgba(255,255,255,0.05)]" 
+                    : "bg-white/40 border-black/5 shadow-[0_0_0_1px_rgba(0,0,0,0.03)]"
                 )}
-                dangerouslySetInnerHTML={{ __html: member.content }}
-              />
+              >
+                <article
+                  className={cn(
+                    "max-w-none wp-content-styles",
+                    isDark ? "dark" : "light"
+                  )}
+                  dangerouslySetInnerHTML={{ __html: member.content }}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -295,11 +359,11 @@ export default function TeamMemberPageLayout({
       {children}
 
       {/* PreFooter Section */}
-      <div className="relative z-10 w-full overflow-hidden pt-32 pb-8">
+      <div className="relative z-10 w-full overflow-hidden pt-16 pb-16">
         <div className="max-w-[1250px] mx-auto px-4">
           <PreFooter noBgGradient />
         </div>
       </div>
-    </>
+    </div>
   );
 }

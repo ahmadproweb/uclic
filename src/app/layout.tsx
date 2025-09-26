@@ -59,7 +59,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${inter.variable} ${absans.variable} ${gmono.variable} dark`}
+      className={`${inter.variable} ${absans.variable} ${gmono.variable}`}
       suppressHydrationWarning
     >
       <head>
@@ -157,6 +157,40 @@ export default function RootLayout({
         <meta name="theme-color" content="#ffffff" />
       </head>
       <body>
+        <Script id="website-schema" type="application/ld+json" strategy="afterInteractive">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            url: "https://www.uclic.fr/",
+            name: "Uclic",
+            potentialAction: {
+              "@type": "SearchAction",
+              target: "https://www.uclic.fr/recherche?q={search_term_string}",
+              "query-input": "required name=search_term_string"
+            }
+          })}
+        </Script>
+        <Script id="org-schema" type="application/ld+json" strategy="afterInteractive">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            url: "https://www.uclic.fr/",
+            name: "Uclic",
+            logo: "/favicon/android-chrome-192x192.png",
+            sameAs: [
+              "https://www.linkedin.com/company/uclic",
+              "https://twitter.com/uclic_fr"
+            ],
+            contactPoint: [{
+              "@type": "ContactPoint",
+              contactType: "customer support",
+              email: "contact@uclic.fr",
+              telephone: "+33617125428",
+              areaServed: "FR",
+              availableLanguage: ["fr", "en"]
+            }]
+          })}
+        </Script>
         {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe

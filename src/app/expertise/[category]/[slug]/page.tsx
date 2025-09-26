@@ -16,10 +16,10 @@ import HeroExpertise from "./HeroExpertise";
 import ProcessExpertise from "./ProcessExpertise";
 
 interface ExpertisePageProps {
-  params: {
+  params: Promise<{
     category: string;
     slug: string;
-  };
+  }>;
 }
 
 export async function generateMetadata(
@@ -27,8 +27,7 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const previousMetadata = await parent;
-  const category = await Promise.resolve(params?.category);
-  const slug = await Promise.resolve(params?.slug);
+  const { category, slug } = await params;
   if (!category || !slug) return notFound();
 
   const expertise = await getExpertise(slug);
@@ -62,8 +61,7 @@ export async function generateMetadata(
 }
 
 export default async function ExpertisePage({ params }: ExpertisePageProps) {
-  const category = await Promise.resolve(params?.category);
-  const slug = await Promise.resolve(params?.slug);
+  const { category, slug } = await params;
   if (!category || !slug) return notFound();
 
   const expertise = await getExpertise(slug);

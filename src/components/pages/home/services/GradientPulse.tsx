@@ -16,15 +16,15 @@ export function GradientPulse() {
       if (gradientRef1.current && gradientRef2.current && gradientRef3.current) {
         // Premier gradient
         const opacity1 = 0.5 + Math.sin(progress * 1.5) * 0.15;
-        gradientRef1.current.style.background = `radial-gradient(at 50% 100%, rgba(224, 255, 92, ${opacity1}) 0%, rgba(224, 255, 92, ${opacity1 * 0.5}) 30%, rgba(224, 255, 92, ${opacity1 * 0.25}) 50%, transparent 70%)`;
+        gradientRef1.current.style.background = `radial-gradient(at 50% 100%, rgba(237 245 202, ${opacity1}) 0%, rgba(237 245 202, ${opacity1 * 0.5}) 30%, rgba(237 245 202, ${opacity1 * 0.25}) 50%, transparent 70%)`;
 
         // Deuxième gradient (légèrement décalé)
         const opacity2 = 0.376 + Math.sin(progress * 1.5 + 1) * 0.1;
-        gradientRef2.current.style.background = `radial-gradient(at 50% 100%, rgba(224, 255, 92, ${opacity2}) 0%, rgba(224, 255, 92, ${opacity2 * 0.5}) 40%, transparent 70%)`;
+        gradientRef2.current.style.background = `radial-gradient(at 50% 100%, rgba(237 245 202, ${opacity2}) 0%, rgba(237 245 202, ${opacity2 * 0.5}) 40%, transparent 70%)`;
 
         // Troisième gradient (encore plus décalé)
         const opacity3 = 0.565 + Math.sin(progress * 1.5 + 2) * 0.12;
-        gradientRef3.current.style.background = `radial-gradient(at 50% 100%, rgba(224, 255, 92, ${opacity3}) 0%, transparent 60%)`;
+        gradientRef3.current.style.background = `radial-gradient(at 50% 100%, rgba(237 245 202, ${opacity3}) 0%, transparent 60%)`;
       }
 
       frame = requestAnimationFrame(animate);

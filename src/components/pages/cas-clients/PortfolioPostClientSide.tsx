@@ -418,31 +418,52 @@ export default function PortfolioPostClientSide({
             />
           </div>
 
-          {/* Share & Related Posts */}
-          <div
-            className={cn(
-              "border-t py-8 mb-16",
-              isDark ? "border-white/10" : "border-black/10"
-            )}
-          >
-            <div className="flex justify-between items-center">
-              <div>
-                <h3
-                  className={cn(
-                    "text-lg font-medium mb-2",
-                    isDark ? "text-white" : "text-black"
-                  )}
-                >
-                  Partager cette réalisation
-                </h3>
-                <div className="flex space-x-3">
+          {/* Share Section */}
+          <div className="max-w-[1250px] mx-auto px-4 py-16">
+            <div
+              className="relative rounded-3xl overflow-hidden border backdrop-blur-md p-8"
+              style={{
+                background: isDark ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.4)",
+                borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+                boxShadow: isDark
+                  ? "0 0 0 1px rgba(255,255,255,0.05)"
+                  : "0 0 0 1px rgba(0,0,0,0.03)",
+              }}
+            >
+              {/* Hover halo effect */}
+              <div
+                className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
+                style={{
+                  background: `radial-gradient(ellipse at center, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.04) 40%, transparent 70%)`,
+                  filter: 'blur(12px)',
+                }}
+              />
+              <div className="flex justify-between items-center relative z-20">
+                <div>
+                  <h3 className="text-lg font-medium mb-2 text-black dark:text-white">
+                    Partager cette réalisation
+                  </h3>
                   <button
-                    className={cn(
-                      "w-10 h-10 rounded-full flex items-center justify-center transition-colors",
-                      isDark
-                        ? "bg-white/10 hover:bg-white/20"
-                        : "bg-black/5 hover:bg-black/10"
-                    )}
+                    onClick={async () => {
+                      console.log('Share button clicked');
+                      if (navigator.share) {
+                        try {
+                          await navigator.share({
+                            title: portfolio.title,
+                            text: portfolio.excerpt,
+                            url: window.location.href,
+                          });
+                        } catch (err) {
+                          console.log('Error sharing:', err);
+                        }
+                      } else {
+                        // Fallback: copy to clipboard
+                        await navigator.clipboard.writeText(window.location.href);
+                        alert('Lien copié dans le presse-papiers !');
+                      }
+                    }}
+                    className="w-10 h-10 rounded-full flex items-center justify-center bg-[#9FB832]/10 text-[#9FB832] hover:bg-[#9FB832]/20 transition-colors cursor-pointer relative z-50"
+                    style={{ position: 'relative', zIndex: 50 }}
                   >
                     <svg
                       width="18"
@@ -452,71 +473,7 @@ export default function PortfolioPostClientSide({
                       xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3V2z"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </button>
-                  <button
-                    className={cn(
-                      "w-10 h-10 rounded-full flex items-center justify-center transition-colors",
-                      isDark
-                        ? "bg-white/10 hover:bg-white/20"
-                        : "bg-black/5 hover:bg-black/10"
-                    )}
-                  >
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </button>
-                  <button
-                    className={cn(
-                      "w-10 h-10 rounded-full flex items-center justify-center transition-colors",
-                      isDark
-                        ? "bg-white/10 hover:bg-white/20"
-                        : "bg-black/5 hover:bg-black/10"
-                    )}
-                  >
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M2 9h4v12H2z"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <circle
-                        cx="4"
-                        cy="4"
-                        r="2"
+                        d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"
                         stroke="currentColor"
                         strokeWidth="2"
                         strokeLinecap="round"
@@ -525,31 +482,26 @@ export default function PortfolioPostClientSide({
                     </svg>
                   </button>
                 </div>
-              </div>
-              <Link
-                href="/cas-clients"
-                className={cn(
-                  "inline-flex items-center hover:underline transition-all",
-                  isDark
-                    ? "text-white hover:text-[#E0FF5C]"
-                    : "text-black hover:text-[#E0FF5C]"
-                )}
-              >
-                <span className="mr-2">Voir tous les cas clients</span>
-                <svg
-                  className="w-4 h-4 transform rotate-45"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
+                <Link
+                  href="/cas-clients"
+                  className="inline-flex items-center hover:underline hover:text-[#E0FF5C] text-black dark:text-white"
                 >
-                  <path
-                    d="M5 12h14M12 5l7 7-7 7"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </Link>
+                  <span className="mr-2">Voir tous les cas clients</span>
+                  <svg
+                    className="w-4 h-4 transform rotate-45"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path
+                      d="M5 12h14M12 5l7 7-7 7"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </Link>
+              </div>
             </div>
           </div>
 

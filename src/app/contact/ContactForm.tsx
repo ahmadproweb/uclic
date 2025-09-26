@@ -1,31 +1,53 @@
 "use client";
 
 import Partners from "@/components/pages/home/partner/partner";
+import PreFooter from "@/components/footer/PreFooter";
 import { CTAButton } from "@/components/ui/cta-button";
 import { UnderlinedText } from "@/components/ui/underlined-text";
 import { colors as theme } from "@/config/theme";
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 import emailjs from "@emailjs/browser";
+// merged React hooks import below
 import posthog from "posthog-js";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 emailjs.init("sNJezWZbNlGM1x_Pe");
+
+// Normalise un numéro FR en format +33XXXXXXXXX
+function normalizeToE164FR(input: string): string {
+  if (!input) return "";
+  const only = input.replace(/\s+/g, "");
+  if (only.startsWith("+")) return only;
+  const digits = input.replace(/\D/g, "");
+  const withoutLeadingZero = digits.startsWith("0") ? digits.slice(1) : digits;
+  return `+33${withoutLeadingZero}`;
+}
 
 export default function ContactForm() {
   const { theme: currentTheme } = useTheme();
   const isDark = currentTheme === "dark";
+  const [isDevPreview, setIsDevPreview] = useState(false);
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      setIsDevPreview(params.get("dev") === "true");
+    } catch {}
+  }, []);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<
     "idle" | "success" | "error"
   >("idle");
   const formRef = useRef<HTMLFormElement>(null);
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => setIsClient(true), []);
 
   const validateForm = (formData: FormData) => {
     const newErrors: { [key: string]: string } = {};
     const name = formData.get("name") as string;
     const email = formData.get("email") as string;
+    const phone = formData.get("phone") as string;
     const message = formData.get("message") as string;
 
     if (!name || name.trim().length < 2) {
@@ -34,6 +56,16 @@ export default function ContactForm() {
 
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       newErrors.email = "Veuillez entrer une adresse email valide";
+    }
+
+    if (!phone || phone.trim().length === 0) {
+      newErrors.phone = "Veuillez entrer votre numéro de téléphone";
+    } else {
+      const phoneClean = normalizeToE164FR(phone.trim());
+      const phoneRegex = /^\+?[0-9]{9,15}$/;
+      if (!phoneRegex.test(phoneClean)) {
+        newErrors.phone = "Veuillez entrer un numéro de téléphone valide";
+      }
     }
 
     const trimmedMessage = message?.trim() || "";
@@ -62,7 +94,7 @@ export default function ContactForm() {
         from_name: formData.get("name"),
         from_email: formData.get("email"),
         message: formData.get("message"),
-        phone: "N/A",
+        phone: normalizeToE164FR((formData.get("phone") as string) || "" ) || "N/A",
       });
 
       if (result.text === "OK") {
@@ -96,40 +128,179 @@ export default function ContactForm() {
     }
   };
 
+  // Schema JSON-LD pour SEO
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "Contact Uclic",
+    "description": "Contactez Uclic pour discuter de votre projet digital. Notre équipe est à votre écoute et vous garantit une réponse sous 24h.",
+    "url": "https://uclic.fr/contact",
+    "mainEntity": {
+      "@type": "Organization",
+      "name": "Uclic",
+      "url": "https://uclic.fr",
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "telephone": "+33-6-17-12-54-28",
+          "contactType": "customer service",
+          "areaServed": "FR",
+          "availableLanguage": "French"
+        },
+        {
+          "@type": "ContactPoint",
+          "email": "contact@uclic.fr",
+          "contactType": "customer service",
+          "areaServed": "FR",
+          "availableLanguage": "French"
+        }
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Paris",
+        "addressCountry": "FR"
+      },
+      "sameAs": [
+        "https://twitter.com/uclic_fr"
+      ]
+    }
+  };
+
   return (
-    <>
+    <div className={cn("min-h-screen", isDark ? "bg-black" : "bg-white")}>
+      {/* Fixed halo background */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed top-0 left-0 right-0 h-[45vh] z-0"
+        style={{
+          background: isDark
+            ? `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.20) 0%, rgba(212,237,49,0.12) 15%, rgba(212,237,49,0.06) 35%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 75%)`
+            : `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.25) 0%, rgba(212,237,49,0.15) 18%, rgba(212,237,49,0.08) 38%, rgba(255,255,255,0.1) 58%, rgba(255,255,255,0) 78%)`,
+          filter: 'blur(20px)'
+        }}
+      />
+      {/* Schema JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <section
-        className={cn("w-full relative overflow-hidden pt-40 pb-16 md:pb-24")}
+        className={cn(
+          "w-full relative overflow-hidden pt-40 pb-16 md:pb-24",
+          isDevPreview && "gradient-pulse"
+        )}
+        style={
+          isDevPreview
+            ? {
+                backgroundColor: isDark ? "#000000" : "#FFFFFF",
+                backgroundImage: `radial-gradient(ellipse at center bottom,
+                  ${isDark ? 'rgba(212,237,49,0.70)' : 'rgba(212,237,49,0.95)'} 0%,
+                  rgba(212,237,49,0.55) 18%,
+                  rgba(212,237,49,0.28) 38%,
+                  rgba(212,237,49,0.12) 58%,
+                  ${isDark ? 'rgba(0,0,0,1)' : 'rgba(255,255,255,1)'} 78%)`,
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "130% 120%",
+                backgroundPosition: "center 100%",
+              }
+            : undefined
+        }
       >
-        {/* Base Background gradient */}
-        <div
-          className="absolute inset-0 z-0"
-          style={{
-            background: isDark
-              ? `linear-gradient(180deg, ${theme.colors.common.black} 0%, ${theme.colors.common.black} 30%, ${theme.colors.primary.main}80)`
-              : `linear-gradient(180deg, ${theme.colors.common.white}, ${theme.colors.primary.main})`,
-          }}
-        />
+        {/* Background video (only in dev preview) */}
+        {false && isDevPreview && (
+          <video
+            className="absolute inset-0 w-full h-full object-cover z-0"
+            autoPlay
+            muted
+            loop
+            playsInline
+            aria-hidden="true"
+          >
+            <source src="/videos/contact-hero.mp4" type="video/mp4" />
+          </video>
+        )}
 
-        {/* Grain effect overlay */}
-        <div
-          className={cn(
-            "absolute inset-0 z-0 mix-blend-soft-light",
-            isDark ? "opacity-90" : "opacity-50"
-          )}
-          style={{
-            backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.8'/%3E%3C/svg%3E\")",
-            backgroundRepeat: "repeat",
-            backgroundSize: "100px 100px",
-          }}
-        />
 
-        <div className="max-w-[1250px] mx-auto px-4 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
+        {/* Modern curved glow (horizon) - dev preview only */}
+        {false && isDevPreview && (
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-[-5%] h-[65vh] z-0"
+            style={{
+              // Halo elliptique vert de la charte (R212,G237,B49) façon maquette
+              background: `radial-gradient(ellipse at center bottom,
+                ${isDark ? 'rgba(212,237,49,0.70)' : 'rgba(212,237,49,0.95)'} 0%,
+                rgba(212,237,49,0.55) 18%,
+                rgba(212,237,49,0.28) 38%,
+                rgba(212,237,49,0.12) 58%,
+                rgba(212,237,49,0.00) 78%)`,
+              // slight horizon shaping
+              maskImage:
+                "radial-gradient(135% 85% at 50% 105%, rgba(0,0,0,1) 28%, rgba(0,0,0,0.6) 58%, rgba(0,0,0,0) 82%)",
+              WebkitMaskImage:
+                "radial-gradient(135% 85% at 50% 105%, rgba(0,0,0,1) 28%, rgba(0,0,0,0.6) 58%, rgba(0,0,0,0) 82%)",
+              filter: 'blur(18px)'
+            }}
+          />
+        )}
+
+        {/* Subtle horizon shadow for depth */}
+        {false && isDevPreview && (
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-[-8%] h-[68vh] z-0"
+            style={{
+              background: isDark
+                ? "radial-gradient(140% 90% at 50% 125%, rgba(0,0,0,0.26) 0%, rgba(0,0,0,0.12) 46%, rgba(0,0,0,0) 75%)"
+                : "radial-gradient(140% 90% at 50% 125%, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.06) 46%, rgba(0,0,0,0) 75%)",
+            }}
+          />
+        )}
+
+        {/* Inner highlight for crisp horizon edge */}
+        {false && isDevPreview && (
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-[-2%] h-[18vh] z-0"
+            style={{
+              background:
+                isDark
+                  ? "radial-gradient(85% 30% at 50% 100%, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0.25) 42%, rgba(255,255,255,0) 75%)"
+                  : "radial-gradient(85% 30% at 50% 100%, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.35) 42%, rgba(255,255,255,0) 75%)",
+              mixBlendMode: isDark ? ("screen" as any) : ("normal" as any),
+            }}
+          />
+        )}
+
+        {/* Tiny stars (very subtle) */}
+        {isDevPreview && (
+          <div
+            className="pointer-events-none absolute inset-0 z-0"
+            style={{
+              opacity: isDark ? 0.25 : 0.12,
+              backgroundImage:
+                "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cg fill='%23ffffff'%3E%3Ccircle cx='10' cy='20' r='0.6'/%3E%3Ccircle cx='35' cy='15' r='0.8'/%3E%3Ccircle cx='70' cy='28' r='0.5'/%3E%3Ccircle cx='95' cy='12' r='0.7'/%3E%3Ccircle cx='50' cy='40' r='0.6'/%3E%3Ccircle cx='15' cy='55' r='0.7'/%3E%3Ccircle cx='85' cy='60' r='0.6'/%3E%3Ccircle cx='30' cy='75' r='0.5'/%3E%3Ccircle cx='60' cy='85' r='0.7'/%3E%3Ccircle cx='100' cy='90' r='0.6'/%3E%3Ccircle cx='45' cy='100' r='0.5'/%3E%3C/g%3E%3C/svg%3E\")",
+              backgroundSize: "700px 700px",
+              backgroundRepeat: "repeat",
+            }}
+          />
+        )}
+
+        <div
+          className="max-w-[1250px] mx-auto px-8 md:px-12 py-8 md:py-12 relative z-10 rounded-2xl"
+          style={{
+            boxShadow: isDark
+              ? "0 0 0 1px rgba(255,255,255,0.05), 0 8px 32px -4px rgba(0,0,0,0.3)"
+              : "0 0 0 1px rgba(0,0,0,0.03), 0 8px 32px -4px rgba(0,0,0,0.1)",
+            position: "relative"
+          }}
+        >
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 py-8">
             {/* Left Column - Content */}
             <div className="flex items-start">
-              <div className="max-w-xl">
+              <div className={cn(
+                "max-w-xl p-8 rounded-2xl backdrop-blur-md",
+                isDark 
+                  ? "bg-black/40" 
+                  : "bg-white/40"
+              )}>
                 <h1
                   className={cn(
                     "text-3xl sm:text-4xl md:text-5xl lg:text-[50px]",
@@ -206,17 +377,22 @@ export default function ContactForm() {
                         >
                           Email
                         </h3>
-                        <a
-                          href="mailto:contact@uclic.fr"
+                        <button
+                          type="button"
+                          onClick={() =>
+                            document
+                              .getElementById("contact-form")
+                              ?.scrollIntoView({ behavior: "smooth" })
+                          }
                           className={cn(
-                            "text-base hover:underline transition-all",
+                            "text-base hover:underline transition-all text-left",
                             isDark
                               ? "text-white hover:text-white"
                               : "text-black hover:text-black"
                           )}
                         >
-                          contact@uclic.fr
-                        </a>
+                          Écrire via le formulaire
+                        </button>
                       </div>
                     </div>
 
@@ -257,7 +433,7 @@ export default function ContactForm() {
                           Téléphone
                         </h3>
                         <a
-                          href="tel:+33123456789"
+                          href="tel:+33617125428"
                           className={cn(
                             "text-base hover:underline transition-all",
                             isDark
@@ -265,7 +441,7 @@ export default function ContactForm() {
                               : "text-black hover:text-black"
                           )}
                         >
-                          06 17 12 54 28
+                          +33 6 17 12 54 28
                         </a>
                       </div>
                     </div>
@@ -322,11 +498,10 @@ export default function ContactForm() {
 
                 <div
                   className={cn(
-                    "rounded-2xl p-6",
-                    "border backdrop-blur-sm",
+                    "rounded-2xl p-6 border backdrop-blur-md",
                     isDark
-                      ? "border-white/10 bg-white/5"
-                      : "border-black/5 bg-black/5"
+                      ? "bg-black/40 border-white/10"
+                      : "bg-white/40 border-black/5"
                   )}
                 >
                   <div className="flex items-start gap-4">
@@ -386,20 +561,32 @@ export default function ContactForm() {
             <div className="lg:sticky lg:top-32">
               <div
                 className={cn(
-                  "w-full rounded-[32px] overflow-hidden border p-8",
-                  isDark ? "bg-[#161616]" : "bg-white",
-                  isDark ? "shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1)]" : ""
+                  "w-full rounded-[32px] overflow-hidden border p-8 backdrop-blur-md",
+                  isDark
+                    ? "bg-black/40 border-white/10"
+                    : "bg-white/40 border-black/5"
                 )}
                 style={{
-                  borderColor: isDark
-                    ? "rgba(255,255,255,0.1)"
-                    : "rgba(0,0,0,0.1)",
+                  boxShadow: isDark
+                    ? "0 0 0 1px rgba(255,255,255,0.05)"
+                    : "0 0 0 1px rgba(0,0,0,0.03)"
                 }}
               >
-                <form
+              {/* Defer form render to client to avoid hydration mismatch from password managers */}
+              {!isClient && (
+                <div className="min-h-[560px]" aria-hidden="true" />
+              )}
+              <form
                   ref={formRef}
                   onSubmit={handleSubmit}
                   className="space-y-6"
+                  id="contact-form"
+                  autoComplete="off"
+                  data-lpignore="true"
+                  data-1p-ignore
+                  data-form-type="other"
+                suppressHydrationWarning
+                style={{ display: isClient ? undefined : "none" }}
                 >
                   {/* Nom */}
                   <div>
@@ -416,6 +603,10 @@ export default function ContactForm() {
                       type="text"
                       id="name"
                       name="name"
+                      autoComplete="off"
+                      inputMode="text"
+                      spellCheck={false}
+                      data-lpignore="true"
                       className={cn(
                         "w-full px-4 py-3 rounded-xl border",
                         "focus:outline-none focus:ring-2 transition-all",
@@ -432,37 +623,80 @@ export default function ContactForm() {
                     )}
                   </div>
 
-                  {/* Email */}
-                  <div>
-                    <label
-                      htmlFor="email"
-                      className={cn(
-                        "block text-sm font-medium mb-2",
-                        isDark ? "text-white/90" : "text-black/90"
+                  {/* Email + Phone (grid) */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label
+                        htmlFor="email"
+                        className={cn(
+                          "block text-sm font-medium mb-2",
+                          isDark ? "text-white/90" : "text-black/90"
+                        )}
+                      >
+                        Email <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        autoComplete="off"
+                        inputMode="email"
+                        spellCheck={false}
+                        data-lpignore="true"
+                        required
+                        className={cn(
+                          "w-full px-4 py-3 rounded-xl border",
+                          "focus:outline-none focus:ring-2 transition-all",
+                          isDark
+                            ? "border-white/10 focus:border-white/20 focus:ring-[#E0FF5C]/20 text-white bg-white/5"
+                            : "border-black/10 focus:border-black/20 focus:ring-[#E0FF5C]/40 text-black bg-black/5",
+                          errors.email &&
+                            "border-red-500 focus:border-red-500 focus:ring-red-500/20"
+                        )}
+                        placeholder="john@example.com"
+                      />
+                      {errors.email && (
+                        <p className="mt-1 text-sm text-red-500">
+                          {errors.email}
+                        </p>
                       )}
-                    >
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      className={cn(
-                        "w-full px-4 py-3 rounded-xl border",
-                        "focus:outline-none focus:ring-2 transition-all",
-                        isDark
-                          ? "border-white/10 focus:border-white/20 focus:ring-[#E0FF5C]/20 text-white bg-white/5"
-                          : "border-black/10 focus:border-black/20 focus:ring-[#E0FF5C]/40 text-black bg-black/5",
-                        errors.email &&
-                          "border-red-500 focus:border-red-500 focus:ring-red-500/20"
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="phone"
+                        className={cn(
+                          "block text-sm font-medium mb-2",
+                          isDark ? "text-white/90" : "text-black/90"
+                        )}
+                      >
+                        Téléphone <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        autoComplete="off"
+                        inputMode="tel"
+                        spellCheck={false}
+                        data-lpignore="true"
+                        required
+                        className={cn(
+                          "w-full px-4 py-3 rounded-xl border",
+                          "focus:outline-none focus:ring-2 transition-all",
+                          isDark
+                            ? "border-white/10 focus:border-white/20 focus:ring-[#E0FF5C]/20 text-white bg-white/5"
+                            : "border-black/10 focus:border-black/20 focus:ring-[#E0FF5C]/40 text-black bg-black/5",
+                          errors.phone &&
+                            "border-red-500 focus:border-red-500 focus:ring-red-500/20"
+                        )}
+                        placeholder="+33 6 12 34 56 78"
+                      />
+                      {errors.phone && (
+                        <p className="mt-1 text-sm text-red-500">
+                          {errors.phone}
+                        </p>
                       )}
-                      placeholder="john@example.com"
-                    />
-                    {errors.email && (
-                      <p className="mt-1 text-sm text-red-500">
-                        {errors.email}
-                      </p>
-                    )}
+                    </div>
                   </div>
 
                   {/* Message */}
@@ -474,12 +708,16 @@ export default function ContactForm() {
                         isDark ? "text-white/90" : "text-black/90"
                       )}
                     >
-                      Message
+                      Message <span className="text-red-500">*</span>
                     </label>
                     <textarea
                       id="message"
                       name="message"
                       rows={6}
+                      autoComplete="off"
+                      spellCheck={false}
+                      data-lpignore="true"
+                      required
                       className={cn(
                         "w-full px-4 py-3 rounded-xl border",
                         "focus:outline-none focus:ring-2 transition-all",
@@ -547,10 +785,17 @@ export default function ContactForm() {
 
       {/* Partner Section */}
       <div
-        className={cn("py-12 md:py-16", isDark ? "bg-black" : "bg-[#F3F4F6]")}
+        className={cn("pt-4 pb-12 md:pt-6 md:pb-16", isDark ? "bg-black" : "bg-white")}
       >
         <Partners />
       </div>
-    </>
+
+      {/* PreFooter Section */}
+      <div className={cn("relative z-10 w-full overflow-hidden pt-16 pb-16")}>
+        <div className="max-w-[1250px] mx-auto px-4">
+          <PreFooter noBgGradient />
+        </div>
+      </div>
+    </div>
   );
 }

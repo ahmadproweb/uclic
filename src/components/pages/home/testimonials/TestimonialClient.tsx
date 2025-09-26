@@ -131,7 +131,11 @@ function TestimonialClient({ testimonials }: TestimonialClientProps) {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
-  const testimonialSchema = {
+  const ratings = testimonials.map(t => t.reviewGivenStar).filter((v) => typeof v === 'number');
+  const reviewCount = ratings.length;
+  const average = reviewCount > 0 ? ratings.reduce((a, b) => a + b, 0) / reviewCount : 0;
+
+  const testimonialSchema: Record<string, any> = {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Uclic",
@@ -149,6 +153,15 @@ function TestimonialClient({ testimonials }: TestimonialClientProps) {
       "reviewBody": testimonial.review
     }))
   };
+
+  if (reviewCount > 0) {
+    testimonialSchema.aggregateRating = {
+      "@type": "AggregateRating",
+      "ratingValue": Number(average.toFixed(2)),
+      "reviewCount": reviewCount,
+      "bestRating": 5
+    };
+  }
 
   return (
     <section 

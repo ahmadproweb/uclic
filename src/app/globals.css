@@ -205,6 +205,22 @@
   }
 }
 
+/* Subtle breathing pulse for contact hero gradient (only when class applied) */
+@keyframes uclic-gradient-pulse {
+  0%, 100% {
+    background-size: 130% 120%;
+    filter: blur(0px);
+  }
+  50% {
+    background-size: 138% 128%;
+    filter: blur(1px);
+  }
+}
+
+.gradient-pulse {
+  animation: uclic-gradient-pulse 6s ease-in-out infinite;
+}
+
 .animate-gradient {
   animation: gradient-flow 20s ease infinite;
   background-size: 400% 400%;

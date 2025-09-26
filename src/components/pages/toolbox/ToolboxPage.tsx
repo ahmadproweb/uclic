@@ -3,6 +3,7 @@
 import Pagination from "@/components/ui/Pagination";
 import ScrollToTop from "@/components/ui/ScrollToTop";
 import StickyShareButtons from "@/components/ui/StickyShareButtons";
+import PreFooter from "@/components/footer/PreFooter";
 import { colors as theme } from "@/config/theme";
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
@@ -29,28 +30,31 @@ interface ToolboxCardProps {
 }
 
 function ToolboxCard({ post, index }: ToolboxCardProps) {
-  // Extraire les initiales du titre
-  const initials = post.title
-    .split(" ")
-    .map((word) => word[0])
-    .join("")
-    .slice(0, 3)
-    .toUpperCase();
+  const { theme: currentTheme } = useTheme();
+  const isDark = currentTheme === "dark";
 
   return (
     <Link
       href={`/toolbox/${post.slug}`}
-      className="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl backdrop-blur-sm"
+      className="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 border backdrop-blur-md relative"
       style={{
-        background: `linear-gradient(145deg, 
-          #E0FF5C,
-          #E0FF5C
-        )`,
-        boxShadow: `0 8px 32px -4px rgba(224, 255, 92, 0.25)`,
+        background: isDark ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.4)",
+        borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+        boxShadow: "none",
       }}
     >
-      {/* Featured Image or Text Placeholder */}
-      <div className="relative h-48 overflow-hidden">
+      {/* Hover halo effect */}
+      <div 
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+        style={{
+          background: isDark
+            ? `radial-gradient(ellipse at center, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.04) 40%, transparent 70%)`
+            : `radial-gradient(ellipse at center, rgba(212,237,49,0.12) 0%, rgba(212,237,49,0.06) 40%, transparent 70%)`,
+          filter: 'blur(12px)',
+        }}
+      />
+      {/* Featured Image */}
+      <div className="relative w-full h-48 overflow-hidden">
         {post.productHuntFields?.logo ? (
           <Image
             src={post.productHuntFields.logo}
@@ -62,7 +66,14 @@ function ToolboxCard({ post, index }: ToolboxCardProps) {
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#E0FF5C] to-[#B8D44A]">
-            <span className="text-4xl font-bold text-black/80">{initials}</span>
+            <span className="text-4xl font-bold text-black/80">
+              {post.title
+                .split(" ")
+                .map((word) => word[0])
+                .join("")
+                .slice(0, 3)
+                .toUpperCase()}
+            </span>
           </div>
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
@@ -70,28 +81,22 @@ function ToolboxCard({ post, index }: ToolboxCardProps) {
           Outil
         </span>
       </div>
-      <div className="p-6">
-        <h3 className="text-xl font-semibold text-black mb-2">{post.title}</h3>
-        <p className="text-black/70 text-sm mb-4">
+
+      <div className="p-6 space-y-3">
+        <h3 className={cn("text-xl font-semibold", isDark ? "text-white" : "text-black")}>
+          {post.title}
+        </h3>
+        
+        <p className={cn(
+          "line-clamp-2",
+          isDark ? "text-white/80" : "text-black/80"
+        )}>
           {post.productHuntFields?.tagline}
         </p>
-        <div className="flex items-center gap-2 text-sm text-black/70">
-          <div className="w-6 h-6 rounded-full bg-black/10 flex items-center justify-center">
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+
+        <div className={cn("flex items-center gap-2 text-sm", isDark ? "text-white/70" : "text-black/70") }>
+          <div className={cn("w-6 h-6 rounded-full flex items-center justify-center", isDark ? "bg-white/10" : "bg-black/10") }>
+            <i className="ri-tools-line text-sm" aria-hidden="true" style={{ color: isDark ? theme.colors.primary.main : undefined }} />
           </div>
           {formatDate(post.date)}
         </div>
@@ -147,47 +152,24 @@ export default function ToolboxPage({
         isDark ? "bg-black" : "bg-white"
       )}
     >
-      {/* Base Background gradient */}
+      {/* Subtle top halo background */}
       <div
-        className="absolute inset-0 z-0"
+        aria-hidden="true"
+        className="pointer-events-none fixed top-0 left-0 right-0 h-[45vh] z-0"
         style={{
           background: isDark
-            ? `linear-gradient(180deg, ${theme.colors.common.black}, #E0FF5C)`
-            : `linear-gradient(180deg, ${theme.colors.common.white}, #E0FF5C)`,
-        }}
-      />
-
-      {/* Grain effect overlay */}
-      <div
-        className={cn(
-          "absolute inset-0 z-0 mix-blend-soft-light",
-          isDark ? "opacity-90" : "opacity-50"
-        )}
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.8'/%3E%3C/svg%3E\")",
-          backgroundRepeat: "repeat",
-          backgroundSize: "100px 100px",
-        }}
-      />
-
-      {/* New overlay gradient - light to transparent */}
-      <div
-        className="absolute bottom-0 left-0 right-0 z-[1]"
-        style={{
-          background: isDark
-            ? "linear-gradient(to top, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 100%)"
-            : "linear-gradient(to top, rgb(243, 244, 246) 0%, rgba(243, 244, 246, 1) 40%, rgba(243, 244, 246, 0) 100%)",
-          height: "25%",
+            ? `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.20) 0%, rgba(212,237,49,0.12) 15%, rgba(212,237,49,0.06) 35%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 75%)`
+            : `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.25) 0%, rgba(212,237,49,0.15) 18%, rgba(212,237,49,0.08) 38%, rgba(255,255,255,0.1) 58%, rgba(255,255,255,0) 78%)`,
+          filter: 'blur(20px)'
         }}
       />
 
       <div className="max-w-[1250px] mx-auto px-4 relative z-10">
         {/* Header */}
-        <div className="text-center mb-12 md:mb-16">
+        <div className="text-center mb-8 xs:mb-10 sm:mb-12 md:mb-16">
           <span
             className={cn(
-              "text-base mb-4 block font-semibold",
+              "text-sm xs:text-base mb-3 xs:mb-4 block font-semibold",
               isDark ? "text-[#E0FF5C]" : "text-black"
             )}
           >
@@ -195,37 +177,43 @@ export default function ToolboxPage({
           </span>
           <h1
             className={cn(
-              "text-3xl md:text-5xl font-normal mb-4",
+              "text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-normal mb-3 xs:mb-4",
               isDark ? "text-white" : "text-black"
             )}
           >
-            {`Découvrez notre sélection`}
-            <br />
-            {`d'outils pour startups`}
+            Découvrez notre sélection
+            <br className="hidden xs:block" /> d&apos;outils pour startups
           </h1>
           <div
             className={cn(
-              "w-12 h-0.5 mx-auto mb-4",
+              "w-10 xs:w-12 h-0.5 mx-auto mb-3 xs:mb-4",
               isDark ? "bg-[#E0FF5C]" : "bg-black"
             )}
           />
           <p
             className={cn(
-              "text-base md:text-lg",
+              "text-sm xs:text-base md:text-lg",
               isDark ? "text-white/100" : "text-black/80"
             )}
           >
             Des ressources essentielles pour
-            <br />
-            développer votre entreprise
+            <br className="hidden xs:block" /> développer votre entreprise
           </p>
         </div>
 
-        {/* Tools grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 md:mb-16">
-          {displayedPosts.map((post, index) => (
-            <ToolboxCard key={post.id} post={post} index={index} />
-          ))}
+        {/* Growth Hacking Tools Section */}
+        <div className="mb-16">
+          <h2 className={cn(
+            "text-2xl md:text-3xl font-bold mb-8 text-center",
+            isDark ? "text-white" : "text-black"
+          )}>
+            Outils Growth Hacking
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {displayedPosts.map((post, index) => (
+              <ToolboxCard key={post.id} post={post} index={index} />
+            ))}
+          </div>
         </div>
 
         {/* Pagination */}
@@ -239,11 +227,15 @@ export default function ToolboxPage({
         </div>
       </div>
 
-      <ScrollToTop />
       <StickyShareButtons
         url={`https://www.uclic.fr${pathname}`}
         title="Boîte à outils startups"
       />
+
+      <div className="max-w-[1250px] mx-auto px-4 relative z-10">
+        <PreFooter />
+      </div>
+      <ScrollToTop />
     </section>
   );
 }

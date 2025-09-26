@@ -12,11 +12,23 @@ interface PreFooterProps {
 
 // Memoized Components
 const LeftContent = memo(({ isDark }: { isDark: boolean }) => (
-  <div className="p-8 md:p-16 relative z-10 bg-black rounded-tl-[32px] rounded-bl-[32px]">
-    <h2 className="text-3xl md:text-5xl text-white font-normal mb-4 animate-fade-in-up">
+  <div
+    className={cn(
+      "p-8 md:p-16 relative z-10 backdrop-blur-md",
+      isDark 
+        ? "bg-black/20" 
+        : "bg-white/20"
+    )}
+  >
+    <h2
+      className="text-3xl md:text-5xl font-normal mb-4 animate-fade-in-up text-black dark:text-white"
+    >
       Prêt à automatiser votre croissance avec l&apos;IA ?
     </h2>
-    <p className="text-white text-base md:text-lg mb-8 animate-fade-in-up" style={{ animationDelay: '100ms' }}>
+    <p
+      className="text-base md:text-lg mb-8 animate-fade-in-up text-black dark:text-white"
+      style={{ animationDelay: '100ms' }}
+    >
       Notre collectif de freelances experts en Intelligence Artificielle automatise votre Growth Marketing 
       pour multiplier vos résultats par 3x. Pendant que vos concurrents hésitent, vous gagnez.
     </p>
@@ -40,8 +52,15 @@ const LeftContent = memo(({ isDark }: { isDark: boolean }) => (
 
 LeftContent.displayName = 'LeftContent';
 
-const RightContent = memo(() => (
-  <div className="relative h-full min-h-[400px] md:min-h-full bg-black rounded-br-[32px] rounded-tr-[32px] z-10">
+const RightContent = memo(({ isDark }: { isDark: boolean }) => (
+  <div
+    className={cn(
+      "relative h-full min-h-[400px] md:min-h-full z-10 backdrop-blur-md",
+      isDark 
+        ? "bg-black/20" 
+        : "bg-white/20"
+    )}
+  >
     <svg 
       width="450" 
       height="100%" 
@@ -70,14 +89,14 @@ const RightContent = memo(() => (
       />
     </svg>
     
-    <div className="absolute inset-0 bg-black rounded-br-[32px] rounded-tr-[32px]" />
+    <div className="absolute inset-0" />
     
     <img
       src="/man-516x378.webp"
       alt="Notre équipe"
       width="516"
       height="378"
-      className="absolute bottom-0 right-0 h-full w-auto object-contain z-10 rounded-br-[32px] rounded-tr-[32px]"
+      className="absolute inset-0 w-full h-full object-cover z-10"
       loading="eager"
     />
   </div>
@@ -90,10 +109,20 @@ function PreFooter({ noBgGradient = false }: PreFooterProps) {
   const isDark = currentTheme === 'dark';
 
   return (
-    <section className="w-full bg-black rounded-[32px]">
-      <div className="max-w-[1250px] mx-auto grid grid-cols-1 md:grid-cols-2 items-center">
+    <section 
+      className={cn(
+        "w-full rounded-[32px] border bg-transparent",
+        isDark
+          ? "shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]"
+          : "shadow-[inset_0_0_0_1px_rgba(0,0,0,0.08)]"
+      )}
+      style={{
+        borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+      }}
+    >
+      <div className="max-w-[1250px] mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-0 overflow-hidden rounded-[32px]">
         <LeftContent isDark={isDark} />
-        <RightContent />
+        <RightContent isDark={isDark} />
       </div>
     </section>
   );

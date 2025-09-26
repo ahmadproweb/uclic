@@ -75,51 +75,70 @@ function DynamicToolboxContent({ tool }: ToolboxSingleProps) {
     return "";
   }, [content]);
 
+  // Schema JSON-LD pour SEO
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": title,
+    "description": productHuntFields?.tagline || "",
+    "url": `https://uclic.fr/toolbox/${tool.slug}`,
+    "image": productHuntFields?.logo || productHuntFields?.screenshotUrl || "",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": productHuntFields?.platforms || "",
+    "offers": {
+      "@type": "Offer",
+      "price": productHuntFields?.priceMin || "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock"
+    },
+    "aggregateRating": productHuntFields?.votesCount ? {
+      "@type": "AggregateRating",
+      "ratingValue": "4.5",
+      "ratingCount": productHuntFields.votesCount
+    } : undefined,
+    "author": {
+      "@type": "Organization",
+      "name": "Uclic"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Uclic",
+      "url": "https://uclic.fr"
+    },
+    "datePublished": productHuntFields?.day || new Date().toISOString(),
+    "dateModified": new Date().toISOString()
+  };
+
   return (
-    <section className="w-full max-w-[100vw] relative overflow-hidden pt-28 md:pt-32">
-      {/* Base Background gradient */}
+    <div className={cn("min-h-screen", isDark ? "bg-black" : "bg-white")}>
+      {/* Fixed halo background */}
       <div
-        className="absolute inset-0 z-0"
+        aria-hidden="true"
+        className="pointer-events-none fixed top-0 left-0 right-0 h-[45vh] z-0"
         style={{
           background: isDark
-            ? `linear-gradient(180deg, ${theme.colors.common.black}, #E0FF5C)`
-            : `linear-gradient(180deg, ${theme.colors.common.white}, #E0FF5C)`,
+            ? `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.20) 0%, rgba(212,237,49,0.12) 15%, rgba(212,237,49,0.06) 35%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 75%)`
+            : `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.25) 0%, rgba(212,237,49,0.15) 18%, rgba(212,237,49,0.08) 38%, rgba(255,255,255,0.1) 58%, rgba(255,255,255,0) 78%)`,
+          filter: 'blur(20px)'
         }}
       />
 
-      {/* Grain effect overlay */}
-      <div
-        className={cn(
-          "absolute inset-0 z-0 mix-blend-soft-light",
-          isDark ? "opacity-90" : "opacity-50"
-        )}
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.8'/%3E%3C/svg%3E\")",
-          backgroundRepeat: "repeat",
-          backgroundSize: "100px 100px",
-        }}
+      {/* Schema JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* New overlay gradient - black to transparent */}
-      <div
-        className="absolute bottom-0 left-0 right-0 z-[1]"
-        style={{
-          background: isDark
-            ? "linear-gradient(to top, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 100%)"
-            : "linear-gradient(to top, rgb(243, 244, 246) 0%, rgba(243, 244, 246, 1) 40%, rgba(243, 244, 246, 0) 100%)",
-          height: "25%",
-        }}
-      />
-
-      <div
-        className={cn(
-          "max-w-[1250px] mx-auto px-4 md:px-6 relative z-10 rounded-2xl",
-          isDark
-            ? "bg-black/40 backdrop-blur-md border border-white/10 shadow-[0_0_0_1px_rgba(255,255,255,0.05)]"
-            : "bg-white/40 backdrop-blur-md border border-black/5 shadow-[0_0_0_1px_rgba(0,0,0,0.03)]"
-        )}
-      >
+      <div className="mx-auto px-4 sm:px-6 relative z-10 max-w-[1250px] overflow-hidden pt-40 pb-16">
+        <div
+          className="p-8 md:p-12 relative z-10 rounded-2xl"
+          style={{
+            boxShadow: isDark
+              ? "0 0 0 1px rgba(255,255,255,0.05), 0 8px 32px -4px rgba(0,0,0,0.3)"
+              : "0 0 0 1px rgba(0,0,0,0.03), 0 8px 32px -4px rgba(0,0,0,0.1)",
+            position: "relative"
+          }}
+        >
         {/* Navigation row */}
         <div className="flex justify-between items-center mb-10 pt-8">
           {/* Breadcrumb */}
@@ -169,76 +188,86 @@ function DynamicToolboxContent({ tool }: ToolboxSingleProps) {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           {/* Left Column */}
           <div className="md:col-span-8">
-            {/* Header Card */}
-            <div
-              className="rounded-3xl overflow-hidden transition-all duration-300 backdrop-blur-sm p-8 mb-8"
-              style={{
-                background: `linear-gradient(145deg, 
-                  #E0FF5C,
-                  #E0FF5C
-                )`,
-                boxShadow: `0 8px 32px -4px rgba(224, 255, 92, 0.25)`,
-              }}
-            >
-              <div className="space-y-6">
-                {/* Logo */}
-                {productHuntFields?.logo && (
-                  <div className="flex justify-center">
-                    <div className="w-24 h-24 rounded-xl overflow-hidden bg-white/50 p-4">
-                      <img
-                        src={productHuntFields.logo}
-                        alt={title}
-                        className="w-full h-full object-contain"
-                        loading="eager"
-                      />
-                    </div>
+            {/* Header Section */}
+            <div className={cn(
+              "mb-8 p-8 rounded-2xl backdrop-blur-md border",
+              isDark 
+                ? "bg-black/40" 
+                : "bg-white/40"
+            )}
+            style={{
+              borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"
+            }}>
+              {/* Logo */}
+              {productHuntFields?.logo && (
+                <div className="flex justify-center mb-6">
+                  <div className="w-20 h-20 rounded-xl overflow-hidden bg-white/50 p-3">
+                    <img
+                      src={productHuntFields.logo}
+                      alt={title}
+                      className="w-full h-full object-contain"
+                      loading="eager"
+                    />
                   </div>
-                )}
+                </div>
+              )}
 
-                {/* Title and Tagline */}
-                <div className="text-center space-y-4">
-                  <h1
+              {/* Title and Tagline */}
+              <div className="text-center space-y-4 mb-8">
+                <h1
+                  className={cn(
+                    "text-3xl md:text-5xl font-bold leading-tight",
+                    isDark ? "text-white" : "text-black"
+                  )}
+                >
+                  {title}
+                </h1>
+
+                {productHuntFields?.tagline && (
+                  <p className={cn(
+                    "text-xl",
+                    isDark ? "text-white/80" : "text-black/80"
+                  )}>
+                    {productHuntFields.tagline}
+                  </p>
+                )}
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex justify-center gap-4">
+                {productHuntFields?.makerswebsiteUrl && (
+                  <a
+                    href={productHuntFields.makerswebsiteUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className={cn(
-                      "text-3xl md:text-5xl font-bold leading-tight",
-                      "text-black drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]"
+                      "inline-flex items-center gap-2 px-6 py-3 rounded-xl transition-all duration-300 hover:-translate-y-1",
+                      isDark
+                        ? "bg-[#E0FF5C] text-black hover:bg-[#D9FF4B]"
+                        : "bg-[#E0FF5C] text-black hover:bg-[#D9FF4B]"
                     )}
                   >
-                    {title}
-                  </h1>
+                    <ExternalLink size={20} />
+                    Visiter le site
+                  </a>
+                )}
 
-                  {productHuntFields?.tagline && (
-                    <p className="text-xl text-black/80">
-                      {productHuntFields.tagline}
-                    </p>
-                  )}
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex justify-center gap-4">
-                  {productHuntFields?.makerswebsiteUrl && (
-                    <a
-                      href={productHuntFields.makerswebsiteUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-black text-white rounded-xl hover:bg-black/90 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
-                    >
-                      <ExternalLink size={20} />
-                      Visiter le site
-                    </a>
-                  )}
-
-                  {productHuntFields?.makersTwitterUrl && (
-                    <a
-                      href={productHuntFields.makersTwitterUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-6 py-3 bg-black text-white rounded-xl hover:bg-black/90 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
-                    >
-                      <Twitter size={20} />
-                      Twitter
-                    </a>
-                  )}
-                </div>
+                {productHuntFields?.makersTwitterUrl && (
+                  <a
+                    href={productHuntFields.makersTwitterUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={cn(
+                      "inline-flex items-center gap-2 px-6 py-3 rounded-xl transition-all duration-300 hover:-translate-y-1",
+                      isDark
+                        ? "bg-white/10 text-white hover:bg-white/20"
+                        : "bg-black/10 text-black hover:bg-black/20"
+                    )}
+                  >
+                    <Twitter size={20} />
+                    Twitter
+                  </a>
+                )}
               </div>
             </div>
 
@@ -246,20 +275,23 @@ function DynamicToolboxContent({ tool }: ToolboxSingleProps) {
             {hasContent && (
               <div
                 className={cn(
-                  "mb-8 p-8 rounded-xl transition-all duration-300",
+                  "mb-8 p-6 rounded-xl transition-all duration-300 border backdrop-blur-md",
                   isDark
-                    ? "bg-white/10 hover:bg-white/15 border border-white/10"
-                    : "bg-white hover:bg-gray-50 border border-black/5 shadow-sm"
+                    ? "bg-black/40"
+                    : "bg-white/40"
                 )}
+                style={{
+                  borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"
+                }}
               >
-                <h2
-                  className={cn(
-                    "text-2xl font-bold mb-6",
-                    isDark ? "text-white" : "text-black"
-                  )}
-                >
-                  Description
-                </h2>
+                  <h2
+                    className={cn(
+                      "text-2xl font-bold mb-6",
+                      isDark ? "text-white" : "text-black"
+                    )}
+                  >
+                    Description
+                  </h2>
                 <div
                   className={cn(
                     "prose max-w-none",
@@ -267,23 +299,28 @@ function DynamicToolboxContent({ tool }: ToolboxSingleProps) {
                     "prose-p:text-base prose-p:leading-relaxed",
                     isDark
                       ? "prose-p:text-white/90"
-                      : "prose-p:text-black [&_*]:text-black",
+                      : "prose-p:text-black/90",
                     "prose-headings:text-lg prose-headings:font-semibold prose-headings:mb-4",
                     isDark
                       ? "prose-headings:text-white"
                       : "prose-headings:text-black",
                     "prose-ul:list-disc prose-ul:pl-6 prose-li:mb-2",
-                    isDark ? "prose-li:text-white/90" : "prose-li:text-black",
+                    isDark ? "prose-li:text-white/90" : "prose-li:text-black/90",
                     "prose-strong:font-semibold",
                     isDark
                       ? "prose-strong:text-white"
                       : "prose-strong:text-black",
                     "prose-a:underline prose-a:font-medium hover:prose-a:no-underline",
                     isDark ? "prose-a:text-[#E0FF5C]" : "prose-a:text-black",
-                    "prose-code:text-sm prose-code:bg-black/5 prose-code:px-1 prose-code:py-0.5 prose-code:rounded",
-                    "prose-pre:bg-black/5 prose-pre:p-4 prose-pre:rounded-lg"
+                    "prose-code:text-sm prose-code:px-1 prose-code:py-0.5 prose-code:rounded",
+                    isDark
+                      ? "prose-code:bg-white/10 prose-code:text-white"
+                      : "prose-code:bg-black/5 prose-code:text-black",
+                    "prose-pre:p-4 prose-pre:rounded-lg",
+                    isDark
+                      ? "prose-pre:bg-white/10 prose-pre:text-white"
+                      : "prose-pre:bg-black/5 prose-pre:text-black"
                   )}
-                  style={!isDark ? { color: "black" } : undefined}
                   dangerouslySetInnerHTML={{ __html: contentToDisplay }}
                 />
               </div>
@@ -291,7 +328,7 @@ function DynamicToolboxContent({ tool }: ToolboxSingleProps) {
 
             {/* Screenshot */}
             {productHuntFields?.screenshotUrl && (
-              <figure className="mb-8 relative h-[300px] md:h-[500px] w-full rounded-2xl overflow-hidden shadow-xl">
+              <figure className="mb-8 relative h-[300px] md:h-[500px] w-full rounded-2xl overflow-hidden">
                 <img
                   src={productHuntFields.screenshotUrl}
                   alt={`Capture d'écran de ${title}`}
@@ -320,10 +357,10 @@ function DynamicToolboxContent({ tool }: ToolboxSingleProps) {
                       target="_blank"
                       rel="noopener noreferrer"
                       className={cn(
-                        "inline-flex items-center gap-2 px-4 py-2 text-sm rounded-lg transition-all duration-300",
+                        "inline-flex items-center gap-2 px-4 py-2 text-sm rounded-lg transition-all duration-300 border backdrop-blur-md",
                         isDark
-                          ? "bg-white/5 hover:bg-white/10 text-white"
-                          : "bg-black/5 hover:bg-black/10 text-black"
+                          ? "bg-black/40 text-white"
+                          : "bg-white/40 text-black"
                       )}
                     >
                       <span>Voir sur Product Hunt</span>
@@ -338,10 +375,10 @@ function DynamicToolboxContent({ tool }: ToolboxSingleProps) {
                       <div
                         key={index}
                         className={cn(
-                          "p-6 rounded-xl transition-all duration-300",
-                          isDark
-                            ? "bg-white/10 hover:bg-white/15 border border-white/10"
-                            : "bg-white hover:bg-gray-50 border border-black/5 shadow-sm"
+                        "p-6 rounded-xl transition-all duration-300 border backdrop-blur-md",
+                        isDark
+                          ? "bg-black/40 hover:bg-black/60"
+                          : "bg-black/40 hover:bg-black/60"
                         )}
                       >
                         {comment.content && (
@@ -394,10 +431,10 @@ function DynamicToolboxContent({ tool }: ToolboxSingleProps) {
                   ) : (
                     <div
                       className={cn(
-                        "p-6 rounded-xl transition-all duration-300",
+                        "p-6 rounded-xl transition-all duration-300 border backdrop-blur-md",
                         isDark
-                          ? "bg-white/10 hover:bg-white/15 border border-white/10"
-                          : "bg-white hover:bg-gray-50 border border-black/5 shadow-sm"
+                          ? "bg-black/40"
+                          : "bg-white/40 hover:bg-white/60"
                       )}
                     >
                       <div
@@ -437,96 +474,48 @@ function DynamicToolboxContent({ tool }: ToolboxSingleProps) {
                 >
                   Partager cet outil
                 </h3>
-                <div className="flex space-x-3">
-                  <button
-                    className={cn(
-                      "w-10 h-10 rounded-full flex items-center justify-center transition-colors",
-                      isDark
-                        ? "bg-white/10 hover:bg-white/20 text-white"
-                        : "bg-[#E0FF5C]/20 hover:bg-[#E0FF5C]/30 text-black"
-                    )}
+                <button
+                  onClick={async () => {
+                    console.log('Share button clicked');
+                    if (navigator.share) {
+                      try {
+                        await navigator.share({
+                          title: title,
+                          text: productHuntFields?.tagline || "",
+                          url: window.location.href,
+                        });
+                      } catch (err) {
+                        console.log('Error sharing:', err);
+                      }
+                    } else {
+                      // Fallback: copy to clipboard
+                      await navigator.clipboard.writeText(window.location.href);
+                      alert('Lien copié dans le presse-papiers !');
+                    }
+                  }}
+                  className={cn(
+                    "w-10 h-10 rounded-full flex items-center justify-center transition-colors",
+                    isDark
+                      ? "bg-white/10 hover:bg-white/20 text-white"
+                      : "bg-[#E0FF5C]/20 hover:bg-[#E0FF5C]/30 text-black"
+                  )}
+                >
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3V2z"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </button>
-                  <button
-                    className={cn(
-                      "w-10 h-10 rounded-full flex items-center justify-center transition-colors",
-                      isDark
-                        ? "bg-white/10 hover:bg-white/20 text-white"
-                        : "bg-[#E0FF5C]/20 hover:bg-[#E0FF5C]/30 text-black"
-                    )}
-                  >
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </button>
-                  <button
-                    className={cn(
-                      "w-10 h-10 rounded-full flex items-center justify-center transition-colors",
-                      isDark
-                        ? "bg-white/10 hover:bg-white/20 text-white"
-                        : "bg-[#E0FF5C]/20 hover:bg-[#E0FF5C]/30 text-black"
-                    )}
-                  >
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M2 9h4v12H2z"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <circle
-                        cx="4"
-                        cy="4"
-                        r="2"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </button>
-                </div>
+                    <path
+                      d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
               </div>
             </div>
 
@@ -536,10 +525,10 @@ function DynamicToolboxContent({ tool }: ToolboxSingleProps) {
               {productHuntFields?.productState && (
                 <div
                   className={cn(
-                    "p-6 rounded-xl transition-all duration-300",
+                    "p-6 rounded-xl transition-all duration-300 border backdrop-blur-md",
                     isDark
-                      ? "bg-white/10 hover:bg-white/15 border border-white/10"
-                      : "bg-white hover:bg-gray-50 border border-black/5 shadow-sm"
+                      ? "bg-black/40"
+                      : "bg-white/40"
                   )}
                 >
                   <h3
@@ -566,10 +555,10 @@ function DynamicToolboxContent({ tool }: ToolboxSingleProps) {
                 productHuntFields?.ranking) && (
                 <div
                   className={cn(
-                    "p-6 rounded-xl transition-all duration-300",
+                    "p-6 rounded-xl transition-all duration-300 border backdrop-blur-md",
                     isDark
-                      ? "bg-white/10 hover:bg-white/15 border border-white/10"
-                      : "bg-white hover:bg-gray-50 border border-black/5 shadow-sm"
+                      ? "bg-black/40"
+                      : "bg-white/40"
                   )}
                 >
                   <h3
@@ -612,10 +601,10 @@ function DynamicToolboxContent({ tool }: ToolboxSingleProps) {
               {productHuntFields?.day && (
                 <div
                   className={cn(
-                    "p-6 rounded-xl transition-all duration-300",
+                    "p-6 rounded-xl transition-all duration-300 border backdrop-blur-md",
                     isDark
-                      ? "bg-white/10 hover:bg-white/15 border border-white/10"
-                      : "bg-white hover:bg-gray-50 border border-black/5 shadow-sm"
+                      ? "bg-black/40"
+                      : "bg-white/40"
                   )}
                 >
                   <h3
@@ -646,10 +635,10 @@ function DynamicToolboxContent({ tool }: ToolboxSingleProps) {
                 productHuntFields?.priceMax) && (
                 <div
                   className={cn(
-                    "p-6 rounded-xl transition-all duration-300",
+                    "p-6 rounded-xl transition-all duration-300 border backdrop-blur-md",
                     isDark
-                      ? "bg-white/10 hover:bg-white/15 border border-white/10"
-                      : "bg-white hover:bg-gray-50 border border-black/5 shadow-sm"
+                      ? "bg-black/40"
+                      : "bg-white/40"
                   )}
                 >
                   <h3
@@ -702,10 +691,10 @@ function DynamicToolboxContent({ tool }: ToolboxSingleProps) {
               {(productHuntFields?.topics || productHuntFields?.categories) && (
                 <div
                   className={cn(
-                    "p-6 rounded-xl transition-all duration-300",
+                    "p-6 rounded-xl transition-all duration-300 border backdrop-blur-md",
                     isDark
-                      ? "bg-white/10 hover:bg-white/15 border border-white/10"
-                      : "bg-white hover:bg-gray-50 border border-black/5 shadow-sm"
+                      ? "bg-black/40"
+                      : "bg-white/40"
                   )}
                 >
                   <h3
@@ -743,12 +732,7 @@ function DynamicToolboxContent({ tool }: ToolboxSingleProps) {
                           .map((category, index) => (
                             <span
                               key={index}
-                              className={cn(
-                                "px-3 py-1 text-sm rounded-full",
-                                isDark
-                                  ? "bg-[#E0FF5C]/20 text-[#E0FF5C]"
-                                  : "bg-[#E0FF5C]/20 text-black"
-                              )}
+                              className="px-3 py-1 text-sm rounded-full bg-[#E0FF5C]/20 text-[#E0FF5C]"
                             >
                               {category.trim()}
                             </span>
@@ -764,10 +748,10 @@ function DynamicToolboxContent({ tool }: ToolboxSingleProps) {
                 productHuntFields.platforms.trim() && (
                   <div
                     className={cn(
-                      "p-6 rounded-xl transition-all duration-300",
+                      "p-6 rounded-xl transition-all duration-300 border backdrop-blur-md",
                       isDark
-                        ? "bg-white/10 hover:bg-white/15 border border-white/10"
-                        : "bg-white hover:bg-gray-50 border border-black/5 shadow-sm"
+                        ? "bg-black/40"
+                        : "bg-white/40 hover:bg-white/60"
                     )}
                   >
                     <h3
@@ -803,10 +787,10 @@ function DynamicToolboxContent({ tool }: ToolboxSingleProps) {
                 productHuntFields.mediaGallery.trim() && (
                   <div
                     className={cn(
-                      "p-6 rounded-xl transition-all duration-300",
+                      "p-6 rounded-xl transition-all duration-300 border backdrop-blur-md",
                       isDark
-                        ? "bg-white/10 hover:bg-white/15 border border-white/10"
-                        : "bg-white hover:bg-gray-50 border border-black/5 shadow-sm"
+                        ? "bg-black/40"
+                        : "bg-white/40 hover:bg-white/60"
                     )}
                   >
                     <h3
@@ -876,10 +860,10 @@ function DynamicToolboxContent({ tool }: ToolboxSingleProps) {
                     <div
                       key={index}
                       className={cn(
-                        "p-6 rounded-xl transition-all duration-300",
+                        "p-6 rounded-xl transition-all duration-300 border backdrop-blur-md",
                         isDark
-                          ? "bg-white/10 hover:bg-white/15 border border-white/10"
-                          : "bg-white hover:bg-gray-50 border border-black/5 shadow-sm"
+                          ? "bg-black/40"
+                          : "bg-white/40 hover:bg-white/60"
                       )}
                     >
                       <h3
@@ -946,14 +930,14 @@ function DynamicToolboxContent({ tool }: ToolboxSingleProps) {
 
       {/* Related Tools Section */}
       {tool.relatedTools && tool.relatedTools.length > 0 && (
-        <div className="w-full relative overflow-hidden py-12">
+        <div className="w-full relative overflow-hidden py-6">
           <div className="max-w-[1250px] mx-auto px-0 relative z-10">
             <div
               className={cn(
-                "rounded-2xl p-8",
+                "rounded-2xl p-8 border backdrop-blur-md",
                 isDark
-                  ? "bg-black/40 backdrop-blur-md border border-white/10 shadow-[0_0_0_1px_rgba(255,255,255,0.05)]"
-                  : "bg-white/40 backdrop-blur-md border border-black/5 shadow-[0_0_0_1px_rgba(0,0,0,0.03)]"
+                  ? "bg-black/40"
+                  : "bg-white/40"
               )}
             >
               <h2
@@ -971,10 +955,10 @@ function DynamicToolboxContent({ tool }: ToolboxSingleProps) {
                     key={relatedTool.slug}
                     href={`/toolbox/${relatedTool.slug}`}
                     className={cn(
-                      "group p-6 rounded-xl transition-all duration-300",
+                      "group p-6 rounded-xl transition-all duration-300 border backdrop-blur-md",
                       isDark
-                        ? "bg-black/40 backdrop-blur-md border border-white/10 shadow-[0_0_0_1px_rgba(255,255,255,0.05)]"
-                        : "bg-white/40 backdrop-blur-md border border-black/5 shadow-[0_0_0_1px_rgba(0,0,0,0.03)]"
+                        ? "bg-black/40 border-white/10"
+                        : "bg-white/40 border-black/5"
                     )}
                   >
                     <div className="flex items-center gap-4 mb-4">
@@ -1019,12 +1003,7 @@ function DynamicToolboxContent({ tool }: ToolboxSingleProps) {
                           .map((category: string, index: number) => (
                             <span
                               key={index}
-                              className={cn(
-                                "px-2 py-1 text-xs rounded-full",
-                                isDark
-                                  ? "bg-[#E0FF5C]/20 text-[#E0FF5C]"
-                                  : "bg-[#E0FF5C]/20 text-black"
-                              )}
+                              className="px-2 py-1 text-xs rounded-full bg-[#E0FF5C]/20 text-[#E0FF5C]"
                             >
                               {category.trim()}
                             </span>
@@ -1039,12 +1018,14 @@ function DynamicToolboxContent({ tool }: ToolboxSingleProps) {
         </div>
       )}
 
+      </div>
+
       {/* PreFooter Section */}
-      <div className="relative z-10 w-full overflow-hidden pt-32 pb-8">
-        <div className="max-w-[1250px] mx-auto px-4">
+      <div className="relative z-10 w-full overflow-hidden pt-8 pb-16">
+        <div className="max-w-[1250px] mx-auto px-4 sm:px-6">
           <PreFooter noBgGradient />
         </div>
       </div>
-    </section>
+    </div>
   );
 }

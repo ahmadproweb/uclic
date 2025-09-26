@@ -13,12 +13,23 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setTheme] = useState<Theme>("light");
 
   // Initialisation du thème
   useEffect(() => {
     setMounted(true);
-    const savedTheme = (localStorage.getItem("theme") as Theme) || "dark";
+    const savedFromStorage = localStorage.getItem("theme") as Theme | null;
+    const systemPrefersDark = !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    const resolvedTheme: Theme = savedFromStorage || (systemPrefersDark ? 'dark' : 'light');
+
+    console.log('[Theme] system prefers:', systemPrefersDark ? 'dark' : 'light');
+    if (savedFromStorage) {
+      console.log('[Theme] stored preference found:', savedFromStorage);
+    } else {
+      console.log('[Theme] no stored preference, using system default');
+    }
+
+    const savedTheme = resolvedTheme;
     setTheme(savedTheme);
     applyTheme(savedTheme);
   }, []);
@@ -34,6 +45,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (mounted) {
       applyTheme(theme);
+      console.log('[Theme] active theme:', theme);
       window.dispatchEvent(new CustomEvent("themeChange", { detail: theme }));
     }
   }, [theme, mounted]);

@@ -76,6 +76,7 @@ export default function LeveePage({
   relatedPosts,
   latestPosts,
 }: LeveePageProps) {
+  
   // SSR: extract ToC
   const tocItems = extractTocItems(post.content);
   // Add IDs to headings in content for SSR ToC
@@ -90,16 +91,13 @@ export default function LeveePage({
 
   return (
     <div className="w-full max-w-[100vw] pt-28 md:pt-32 pb-16 md:pb-24 relative overflow-hidden bg-white dark:bg-black">
-      {/* Base Background gradient */}
-      <div className="absolute inset-0 z-0 transition-colors duration-300 bg-gradient-to-b from-white to-[#E0FF5C] dark:from-black dark:to-[#E0FF5C]" />
-      {/* Grain effect overlay */}
+      {/* Fixed halo background */}
       <div
-        className="absolute inset-0 z-0 mix-blend-soft-light opacity-50 dark:opacity-90"
+        aria-hidden="true"
+        className="pointer-events-none fixed top-0 left-0 right-0 h-[45vh] z-0"
         style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.8'/%3E%3C/svg%3E\")",
-          backgroundRepeat: "repeat",
-          backgroundSize: "100px 100px",
+          background: `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.20) 0%, rgba(212,237,49,0.12) 15%, rgba(212,237,49,0.06) 35%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 75%)`,
+          filter: 'blur(20px)'
         }}
       />
       {/* New overlay gradient - black to transparent */}
@@ -113,7 +111,12 @@ export default function LeveePage({
         {/* Hero section */}
         <div className="mb-6 md:mb-8 lg:mb-12 relative">
           {/* Featured image */}
-          <div className="w-full h-[45vh] sm:h-[50vh] md:h-[60vh] relative rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden">
+          <div 
+            className="w-full h-[35vh] sm:h-[40vh] md:h-[45vh] relative rounded-3xl overflow-hidden border backdrop-blur-md mb-8"
+            style={{
+              borderColor: "rgba(255,255,255,0.08)",
+            }}
+          >
             <img
               src={
                 post.featuredImage?.node.sourceUrl || "/images/default-post.jpg"
@@ -256,11 +259,21 @@ export default function LeveePage({
           {tocItems.length > 0 && (
             <div className="w-full lg:w-72 shrink-0 order-2 lg:order-1 relative">
               <div className="hidden lg:block">
-                <div className="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-black/5 dark:bg-white/5">
-                  <h4 className="text-sm sm:text-base font-medium mb-2 sm:mb-3 text-black dark:text-white">
+                <div 
+                  className="p-6 rounded-3xl border backdrop-blur-md relative bg-white/40 dark:bg-black/40 border-black/8 dark:border-white/10"
+                >
+                  {/* Hover halo effect */}
+                  <div 
+                    className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
+                    style={{
+                      background: `radial-gradient(ellipse at center, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.04) 40%, transparent 70%)`,
+                      filter: 'blur(12px)',
+                    }}
+                  />
+                  <h4 className="text-sm sm:text-base font-medium mb-2 sm:mb-3 relative z-20 text-black dark:text-white">
                     Table des matières
                   </h4>
-                  <nav className="space-y-1 sm:space-y-1.5 max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-black/10 hover:scrollbar-thumb-black/20 dark:scrollbar-thumb-white/10 dark:hover:scrollbar-thumb-white/20">
+                  <nav className="space-y-1 sm:space-y-1.5 max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-black/10 hover:scrollbar-thumb-black/20 dark:scrollbar-thumb-white/10 dark:hover:scrollbar-thumb-white/20 relative z-20">
                     {tocItems.map((item) => (
                       <a
                         key={item.id}
@@ -284,10 +297,20 @@ export default function LeveePage({
             </div>
           )}
           {/* Main content */}
-          <div className="wp-content-wrapper flex-1 order-1 lg:order-2 overflow-hidden light dark:dark">
-            <div className="wp-content-wrapper overflow-hidden light dark:dark">
+          <div className="flex-1 order-1 lg:order-2">
+            <div 
+              className="rounded-3xl border backdrop-blur-md relative p-6 sm:p-8 bg-white/40 dark:bg-black/40 border-black/8 dark:border-white/10"
+            >
+              {/* Hover halo effect */}
+              <div 
+                className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
+                style={{
+                  background: `radial-gradient(ellipse at center, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.04) 40%, transparent 70%)`,
+                  filter: 'blur(12px)',
+                }}
+              />
               <article
-                className="max-w-none wp-content-styles text-black dark:text-white"
+                className="max-w-none wp-content-styles relative z-20 text-black dark:text-white"
                 dangerouslySetInnerHTML={{ __html: processedContent }}
               />
             </div>

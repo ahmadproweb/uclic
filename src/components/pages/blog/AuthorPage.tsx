@@ -21,7 +21,7 @@ function BlogCard({ post }: { post: any }) {
       className="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl backdrop-blur-sm"
       style={{
         background: `linear-gradient(145deg, #E0FF5C, #E0FF5C)`,
-        boxShadow: `0 8px 32px -4px rgba(224, 255, 92, 0.25)`,
+        boxShadow: `0 8px 32px -4px rgba(237 245 202, 0.25)`,
       }}
     >
       <div className="relative w-full h-48 overflow-hidden">

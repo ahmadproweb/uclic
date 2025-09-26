@@ -16,42 +16,29 @@ export default function TeamPageClient({ members }: TeamPageClientProps) {
   const isDark = currentTheme === 'dark';
 
   return (
-    <section className="w-full max-w-[100vw] pt-28 md:pt-32 pb-16 md:pb-24 relative overflow-hidden">
-      {/* Base Background gradient */}
-      <div 
-        className="absolute inset-0 z-0"
-        style={{
-          background: isDark 
-            ? `linear-gradient(180deg, ${theme.colors.common.black}, ${theme.colors.primary.main})`
-            : `linear-gradient(180deg, ${theme.colors.common.white}, ${theme.colors.primary.main})`
-        }}
-      />
-
-      {/* Grain effect overlay */}
-      <div 
-        className={cn(
-          "absolute inset-0 z-0 mix-blend-soft-light",
-          isDark ? "opacity-90" : "opacity-50"
-        )}
-        style={{
-          backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.7\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\' opacity=\'0.8\'/%3E%3C/svg%3E")',
-          backgroundRepeat: 'repeat',
-          backgroundSize: '100px 100px'
-        }}
-      />
-
-      {/* New overlay gradient - black to transparent */}
-      <div 
-        className="absolute bottom-0 left-0 right-0 z-[1]"
+    <div className={cn("min-h-screen", isDark ? "bg-black" : "bg-white")}>
+      {/* Fixed halo background */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed top-0 left-0 right-0 h-[45vh] z-0"
         style={{
           background: isDark
-            ? 'linear-gradient(to top, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 100%)'
-            : 'linear-gradient(to top, rgb(243, 244, 246) 0%, rgba(243, 244, 246, 1) 40%, rgba(243, 244, 246, 0) 100%)',
-          height: '25%'
+            ? `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.20) 0%, rgba(212,237,49,0.12) 15%, rgba(212,237,49,0.06) 35%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 75%)`
+            : `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.25) 0%, rgba(212,237,49,0.15) 18%, rgba(212,237,49,0.08) 38%, rgba(255,255,255,0.1) 58%, rgba(255,255,255,0) 78%)`,
+          filter: 'blur(20px)'
         }}
       />
+
+      <section className="w-full max-w-[100vw] pt-40 pb-16 md:pb-24 relative overflow-hidden">
       
-      <div className="max-w-[1250px] mx-auto px-4 relative z-10">
+      <div className="max-w-[1250px] mx-auto px-8 md:px-12 py-8 md:py-12 relative z-10 rounded-2xl"
+        style={{
+          boxShadow: isDark
+            ? "0 0 0 1px rgba(255,255,255,0.05), 0 8px 32px -4px rgba(0,0,0,0.3)"
+            : "0 0 0 1px rgba(0,0,0,0.03), 0 8px 32px -4px rgba(0,0,0,0.1)",
+          position: "relative"
+        }}
+      >
         {/* Header */}
         <div className="text-center mb-12 md:mb-16">
           <span className={cn(
@@ -128,13 +115,14 @@ export default function TeamPageClient({ members }: TeamPageClientProps) {
           ))}
         </div>
 
-        {/* PreFooter */}
-        <div className="mt-16">
+        {/* PreFooter Section */}
+        <div className="relative z-10 w-full overflow-hidden pt-16 pb-16">
           <PreFooter noBgGradient />
         </div>
       </div>
 
       <ScrollToTop />
-    </section>
+      </section>
+    </div>
   );
 } 

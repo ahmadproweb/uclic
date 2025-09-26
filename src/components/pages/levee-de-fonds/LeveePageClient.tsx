@@ -31,15 +31,27 @@ interface LeveePageClientProps {
 }
 
 function RelatedLeveeCard({ post }: { post: LeveePost }) {
+  const { theme: currentTheme } = useTheme();
+  const isDark = currentTheme === "dark";
+  
   return (
     <Link
       href={`/levee-de-fonds/${post.slug}`}
-      className="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl backdrop-blur-sm"
+      className="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 border backdrop-blur-md relative"
       style={{
-        background: `linear-gradient(145deg, #E0FF5C, #E0FF5C)`,
-        boxShadow: `0 8px 32px -4px rgba(224, 255, 92, 0.25)`,
+        background: isDark ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.4)",
+        borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+        boxShadow: "none",
       }}
     >
+      {/* Hover halo effect */}
+      <div 
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
+        style={{
+          background: `radial-gradient(ellipse at center, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.04) 40%, transparent 70%)`,
+          filter: 'blur(12px)',
+        }}
+      />
       <div className="relative w-full h-48 overflow-hidden">
         <img
           src={post.featuredImage?.node.sourceUrl || "/images/default-post.jpg"}
@@ -55,9 +67,17 @@ function RelatedLeveeCard({ post }: { post: LeveePost }) {
           Levée de fonds
         </span>
       </div>
-      <div className="p-6 space-y-4">
-        <h3 className="text-xl font-semibold text-black">{post.title}</h3>
-        <div className="flex items-center gap-2 text-sm text-black/70">
+      <div className="p-6 space-y-3 relative z-20">
+        <h3 className={cn(
+          "text-xl font-semibold",
+          isDark ? "text-white" : "text-black"
+        )}>
+          {post.title}
+        </h3>
+        <div className={cn(
+          "flex items-center gap-2 text-sm",
+          isDark ? "text-white/70" : "text-black/70"
+        )}>
           {formatDate(post.date)}
         </div>
       </div>
@@ -199,12 +219,21 @@ function RelatedPosts({ latestPosts = [] }: { latestPosts: LeveePost[] }) {
                 <Link
                   href={`/levee-de-fonds/${post.slug}`}
                   key={post.id}
-                  className="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl backdrop-blur-sm"
+                  className="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 border backdrop-blur-md relative"
                   style={{
-                    background: `linear-gradient(145deg, #E0FF5C, #E0FF5C)`,
-                    boxShadow: `0 8px 32px -4px rgba(224, 255, 92, 0.25)`,
+                    background: isDark ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.4)",
+                    borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+                    boxShadow: "none",
                   }}
                 >
+                  {/* Hover halo effect */}
+                  <div 
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
+                    style={{
+                      background: `radial-gradient(ellipse at center, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.04) 40%, transparent 70%)`,
+                      filter: 'blur(12px)',
+                    }}
+                  />
                   <div className="relative w-full h-48 overflow-hidden">
                     <img
                       src={optimizedImageUrl}
@@ -220,11 +249,17 @@ function RelatedPosts({ latestPosts = [] }: { latestPosts: LeveePost[] }) {
                       Levée de fonds
                     </span>
                   </div>
-                  <div className="p-6 space-y-4">
-                    <h3 className="text-xl font-semibold text-black">
+                  <div className="p-6 space-y-3 relative z-20">
+                    <h3 className={cn(
+                      "text-xl font-semibold",
+                      isDark ? "text-white" : "text-black"
+                    )}>
                       {post.title}
                     </h3>
-                    <div className="flex items-center gap-2 text-sm text-black/70">
+                    <div className={cn(
+                      "flex items-center gap-2 text-sm",
+                      isDark ? "text-white/70" : "text-black/70"
+                    )}>
                       {formatDate(post.date)}
                     </div>
                   </div>
@@ -302,18 +337,52 @@ export default function LeveePageClient({
   relatedPosts,
   latestPosts,
 }: LeveePageClientProps) {
+  const { theme: currentTheme } = useTheme();
+  const isDark = currentTheme === "dark";
+
   return (
     <>
       {/* Share & Related Posts */}
-      <div className="border-t py-6 sm:py-8 mb-12 sm:mb-16 transition-colors duration-300 border-black/10">
-        <div className="flex justify-between items-center">
+      <div className="mt-12 mb-16">
+        <div 
+          className="rounded-3xl border backdrop-blur-md relative p-6 sm:p-8 bg-white/40 dark:bg-black/40 border-black/8 dark:border-white/10"
+        >
+          {/* Hover halo effect */}
+          <div 
+            className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
+            style={{
+              background: `radial-gradient(ellipse at center, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.04) 40%, transparent 70%)`,
+              filter: 'blur(12px)',
+            }}
+          />
+        <div className="flex justify-between items-center relative z-20">
           <div>
-            <h3 className="text-lg font-medium mb-2 text-black">
+            <h3 className="text-lg font-medium mb-2 text-black dark:text-white">
               Partager cet article
             </h3>
             <div className="flex space-x-3">
-              {/* Social share buttons (static for SSR) */}
-              <button className="w-10 h-10 rounded-full flex items-center justify-center bg-[#9FB832]/10 text-[#9FB832]">
+              {/* Native share button */}
+              <button 
+                onClick={async () => {
+                  console.log('Share button clicked');
+                  if (navigator.share) {
+                    try {
+                      await navigator.share({
+                        title: post.title,
+                        text: post.excerpt,
+                        url: window.location.href,
+                      });
+                    } catch (err) {
+                      console.log('Error sharing:', err);
+                    }
+                  } else {
+                    // Fallback: copy to clipboard
+                    await navigator.clipboard.writeText(window.location.href);
+                    alert('Lien copié dans le presse-papiers !');
+                  }
+                }}
+                className="w-10 h-10 rounded-full flex items-center justify-center bg-[#9FB832]/10 text-[#9FB832] hover:bg-[#9FB832]/20 transition-colors cursor-pointer relative z-30"
+              >
                 <svg
                   width="18"
                   height="18"
@@ -322,57 +391,7 @@ export default function LeveePageClient({
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3V2z"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-              <button className="w-10 h-10 rounded-full flex items-center justify-center bg-[#9FB832]/10 text-[#9FB832]">
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-              <button className="w-10 h-10 rounded-full flex items-center justify-center bg-[#9FB832]/10 text-[#9FB832]">
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M2 9h4v12H2z"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <circle
-                    cx="4"
-                    cy="4"
-                    r="2"
+                    d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"
                     stroke="currentColor"
                     strokeWidth="2"
                     strokeLinecap="round"
@@ -384,7 +403,7 @@ export default function LeveePageClient({
           </div>
           <Link
             href="/levee-de-fonds"
-            className="inline-flex items-center hover:underline text-black hover:text-[#E0FF5C]"
+            className="inline-flex items-center hover:underline hover:text-[#E0FF5C] text-black dark:text-white"
           >
             <span className="mr-2">Voir toutes les levées de fonds</span>
             <svg
@@ -402,9 +421,12 @@ export default function LeveePageClient({
             </svg>
           </Link>
         </div>
+        </div>
       </div>
       {/* Articles associés slider */}
-      <RelatedPosts latestPosts={latestPosts} />
+      <div className="mt-8 mb-16">
+        <RelatedPosts latestPosts={latestPosts} />
+      </div>
       {/* Sticky share and scroll to top */}
       <StickyShareButtons
         title={post.title}

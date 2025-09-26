@@ -124,7 +124,12 @@ function FooterUI({ legalPages, categories }: FooterUIProps) {
   ];
 
   return (
-    <footer className={`${isDark ? 'bg-black' : 'bg-gray-100'} ${isDark ? 'text-white' : 'text-gray-900'} pt-6 md:pt-12 pb-[100px] md:pb-[100px]`}>
+    <footer 
+      className={`${isDark ? 'bg-black' : 'bg-gray-100'} ${isDark ? 'text-white' : 'text-gray-900'} pt-6 md:pt-12 pb-[100px] md:pb-[100px] border-t`}
+      style={{
+        borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+      }}
+    >
       <div className="max-w-[1250px] mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 mb-8 md:mb-16">
           <FooterLogo isDark={isDark} />

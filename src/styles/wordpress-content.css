@@ -295,7 +295,7 @@
 .dark .wp-content-styles blockquote {
   border-color: var(--primary-light);
   color: rgba(255, 255, 255, 0.8);
-  background-color: rgba(224, 255, 92, 0.05);
+  background-color: rgba(237 245 202, 0.05);
 }
 
 .dark .wp-content-styles table {
@@ -303,7 +303,7 @@
 }
 
 .dark .wp-content-styles th {
-  background-color: rgba(224, 255, 92, 0.1);
+  background-color: rgba(237 245 202, 0.1);
 }
 
 .dark .wp-content-styles td {
@@ -311,7 +311,7 @@
 }
 
 .dark .wp-content-styles table:first-of-type {
-  background-color: rgba(224, 255, 92, 0.1);
+  background-color: rgba(237 245 202, 0.1);
 }
 
 .dark .wp-content-styles > p a:not([href^="#"]),
@@ -322,7 +322,7 @@
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
-  text-decoration-color: rgba(224, 255, 92, 0.3);
+  text-decoration-color: rgba(237 245 202, 0.3);
 }
 
 .dark .wp-content-styles > p a:not([href^="#"]):hover,

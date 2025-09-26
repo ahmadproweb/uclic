@@ -6,50 +6,54 @@ import { UnderlinedText } from '@/components/ui/underlined-text';
 import { colors as theme } from '@/config/theme';
 import Partners from '@/components/pages/home/partner/partner';
 import { CTAButton } from '@/components/ui/cta-button';
+import PreFooter from "@/components/footer/PreFooter";
 
 export default function AuditContent() {
   const { theme: currentTheme } = useTheme();
   const isDark = currentTheme === 'dark';
 
   return (
-    <>
+    <div className={cn("min-h-screen", isDark ? "bg-black" : "bg-white")}>
+      {/* Fixed halo background */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed top-0 left-0 right-0 h-[45vh] z-0"
+        style={{
+          background: isDark
+            ? `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.20) 0%, rgba(212,237,49,0.12) 15%, rgba(212,237,49,0.06) 35%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 75%)`
+            : `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.25) 0%, rgba(212,237,49,0.15) 18%, rgba(212,237,49,0.08) 38%, rgba(255,255,255,0.1) 58%, rgba(255,255,255,0) 78%)`,
+          filter: 'blur(20px)'
+        }}
+      />
       <section className={cn(
         "w-full relative overflow-hidden pt-40 pb-16 md:pb-24"
       )}>
-        {/* Base Background gradient */}
-        <div 
-          className="absolute inset-0 z-0"
-          style={{
-            background: isDark 
-              ? `linear-gradient(180deg, ${theme.colors.common.black} 0%, ${theme.colors.common.black} 30%, ${theme.colors.primary.main}80)`
-              : `linear-gradient(180deg, ${theme.colors.common.white}, ${theme.colors.primary.main})`
-          }}
-        />
 
-        {/* Grain effect overlay */}
-        <div 
-          className={cn(
-            "absolute inset-0 z-0 mix-blend-soft-light",
-            isDark ? "opacity-90" : "opacity-50"
-          )}
+        {/* Main content container with backdrop blur and halo */}
+        <div
+          className="max-w-[1250px] mx-auto px-10 md:px-14 py-14 md:py-18 relative z-10 rounded-2xl"
           style={{
-            backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.7\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\' opacity=\'0.8\'/%3E%3C/svg%3E")',
-            backgroundRepeat: 'repeat',
-            backgroundSize: '100px 100px'
+            boxShadow: isDark
+              ? "0 0 0 1px rgba(255,255,255,0.05), 0 8px 32px -4px rgba(0,0,0,0.3)"
+              : "0 0 0 1px rgba(0,0,0,0.03), 0 8px 32px -4px rgba(0,0,0,0.1)",
+            position: "relative"
           }}
-        />
-
-        <div className="max-w-[1250px] mx-auto px-4 relative z-10">
+        >
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
             {/* Left Column - Content */}
             <div className="flex items-start">
-              <div className="max-w-xl">
+              <div className={cn(
+                "max-w-xl p-8 rounded-2xl backdrop-blur-md",
+                isDark 
+                  ? "bg-black/40" 
+                  : "bg-white/40"
+              )}>
                 <h1 className={cn(
                   "text-3xl sm:text-4xl md:text-5xl lg:text-[50px]",
                   "font-bold tracking-[-1px]",
                   "text-black dark:text-white",
                   "leading-[1.1]",
-                  "mb-6"
+                  "mb-8"
                 )}>
                   <span className="block">Obtenez un audit stratégique</span>
                   <span className="block">
@@ -64,14 +68,14 @@ export default function AuditContent() {
                 <p className={cn(
                   "text-lg md:text-xl",
                   "text-black dark:text-white",
-                  "mb-8"
+                  "mb-10"
                 )}>
                   Découvrez comment optimiser votre présence digitale et maximiser votre impact en ligne avec nos recommandations personnalisées.
                 </p>
 
-                <div className="space-y-6 mb-8">
+                <div className="space-y-8 mb-10">
                   {/* Features Grid */}
-                  <div className="grid grid-cols-1 gap-4">
+                  <div className="grid grid-cols-1 gap-6">
                     {/* Feature 1 */}
                     <div className="flex items-start gap-4">
                       <div 
@@ -158,8 +162,8 @@ export default function AuditContent() {
                 <div 
                   className={cn(
                     "rounded-2xl p-6",
-                    "border backdrop-blur-sm",
-                    isDark ? "border-white/10 bg-white/5" : "border-black/5 bg-black/5"
+                    "border backdrop-blur-md",
+                    isDark ? "border-white/10 bg-black/40" : "border-black/5 bg-white/40"
                   )}
                 >
                   <div className="flex items-start gap-4">
@@ -196,13 +200,9 @@ export default function AuditContent() {
 
             {/* Right Column - Calendly Integration */}
             <div className={cn(
-              "w-full rounded-[32px] overflow-hidden border",
-              isDark ? "bg-[#161616]" : "bg-white",
-              isDark ? "shadow-[inset_0_0_0_1px_rgba(255,255,255,0.1)]" : ""
-            )}
-            style={{
-              borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
-            }}>
+              "w-full rounded-[32px] overflow-hidden border backdrop-blur-md",
+              isDark ? "bg-black/40 border-white/10" : "bg-white/40 border-black/5"
+            )}>
               <iframe
                 src="https://calendly.com/hello-uclic"
                 width="100%"
@@ -211,7 +211,7 @@ export default function AuditContent() {
                 className="rounded-none"
                 style={{
                   minHeight: '650px',
-                  backgroundColor: isDark ? '#161616' : 'white'
+                  backgroundColor: isDark ? 'transparent' : 'transparent'
                 }}
               />
             </div>
@@ -220,12 +220,18 @@ export default function AuditContent() {
       </section>
 
       {/* Partner Section */}
-      <div className={cn(
-        "py-12 md:py-16",
-        isDark ? "bg-black" : "bg-[#F3F4F6]"
-      )}>
+      <div
+        className={cn("pt-4 pb-12 md:pt-6 md:pb-16", isDark ? "bg-black" : "bg-white")}
+      >
         <Partners />
       </div>
-    </>
+
+      {/* PreFooter Section */}
+      <div className={cn("relative z-10 w-full overflow-hidden pt-16 pb-16")}>
+        <div className="max-w-[1250px] mx-auto px-4">
+          <PreFooter noBgGradient />
+        </div>
+      </div>
+    </div>
   );
 } 

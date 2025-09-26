@@ -2,57 +2,64 @@
 
 import PreFooter from "@/components/footer/PreFooter";
 import ScrollToTop from "@/components/ui/ScrollToTop";
+import { useTheme } from "@/context/ThemeContext";
+import { colors as theme } from "@/config/theme";
 import { cn } from "@/lib/utils";
 
 export default function CharteFreelancePage() {
-  return (
-    <main className="w-full min-h-screen relative">
-      {/* Base Background gradient */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-b from-white to-[#E0FF5C] dark:from-black dark:to-[#E0FF5C]" />
+  const { theme: currentTheme } = useTheme();
+  const isDark = currentTheme === "dark";
 
-      {/* Grain effect overlay */}
+  return (
+    <div className={cn("min-h-screen", isDark ? "bg-black" : "bg-white")}>
+      {/* Fixed halo background */}
       <div
-        className="absolute inset-0 z-0 mix-blend-soft-light opacity-50 dark:opacity-90"
+        aria-hidden="true"
+        className="pointer-events-none fixed top-0 left-0 right-0 h-[45vh] z-0"
         style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.8'/%3E%3C/svg%3E\")",
-          backgroundRepeat: "repeat",
-          backgroundSize: "100px 100px",
+          background: isDark
+            ? `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.20) 0%, rgba(212,237,49,0.12) 15%, rgba(212,237,49,0.06) 35%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 75%)`
+            : `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.25) 0%, rgba(212,237,49,0.15) 18%, rgba(212,237,49,0.08) 38%, rgba(255,255,255,0.1) 58%, rgba(255,255,255,0) 78%)`,
+          filter: 'blur(20px)'
         }}
       />
 
-      {/* Overlay gradient */}
-      <div className="absolute bottom-0 left-0 right-0 z-[1] h-[25%] bg-gradient-to-t from-[#F3F4F6] via-[#F3F4F6] to-transparent dark:from-black dark:via-black dark:to-transparent" />
+      <main className="w-full min-h-screen relative">
 
-      <section className="relative z-10 pt-28 md:pt-32 pb-16 md:pb-24">
-        <div className="max-w-[800px] mx-auto px-4">
-          {/* Header */}
-          <div className="text-center mb-12 md:mb-16">
-            <span className="text-base mb-4 block font-semibold text-black dark:text-[#E0FF5C]">
-              Notre charte
-            </span>
-            <h1 className="text-3xl md:text-5xl font-normal mb-4 text-black dark:text-white dark:drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
-              La charte du Freelance
-            </h1>
-            <div className="w-12 h-0.5 mx-auto mb-4 bg-black dark:bg-[#E0FF5C]" />
-            <p className="text-base md:text-lg text-black/70 dark:text-white/80">
-              Découvrez les valeurs qui font d&apos;Uclic
-              <br />
-              un collectif unique et transparent
-            </p>
-          </div>
-
-          {/* Letter Content */}
+      <section className="relative z-10 pt-40 pb-16 md:pb-24">
+        <div className="max-w-[1250px] mx-auto px-8 md:px-12 py-0 relative z-10"
+        >
           <div
             className={cn(
-              "space-y-8 transition-opacity duration-1000 rounded-3xl p-8",
-              "opacity-100",
-              "bg-white/10 dark:bg-black/10 backdrop-blur-sm"
+              "max-w-[800px] mx-auto px-4 py-8 rounded-2xl",
+              isDark
+                ? "bg-black/40 backdrop-blur-md border border-white/10 shadow-[0_0_0_1px_rgba(255,255,255,0.05)]"
+                : "bg-white/40 backdrop-blur-md border border-black/5 shadow-[0_0_0_1px_rgba(0,0,0,0.03)]"
             )}
-            style={{
-              boxShadow: "0 8px 32px -4px rgba(0,0,0,0.1)",
-            }}
           >
+            {/* Header */}
+            <div className="text-center mb-12 md:mb-16">
+              <span className="text-base mb-4 block font-semibold text-black dark:text-[#E0FF5C]">
+                Notre charte
+              </span>
+              <h1 className="text-3xl md:text-5xl font-normal mb-4 text-black dark:text-white">
+                La charte du Freelance
+              </h1>
+              <div className="w-12 h-0.5 mx-auto mb-4 bg-black dark:bg-[#E0FF5C]" />
+              <p className="text-base md:text-lg text-black/70 dark:text-white/80">
+                Découvrez les valeurs qui font d&apos;Uclic
+                <br />
+                un collectif unique et transparent
+              </p>
+            </div>
+
+            {/* Letter Content */}
+            <div
+              className={cn(
+                "space-y-8 transition-opacity duration-1000 rounded-3xl p-8",
+                "opacity-100"
+              )}
+            >
             <p className="text-xl md:text-2xl leading-relaxed typewriter-text delay-0 text-[#2C1810] dark:text-white">
               Cher futur membre du collectif,
             </p>
@@ -97,16 +104,18 @@ export default function CharteFreelancePage() {
               <p className="text-xl">Avec enthousiasme,</p>
               <p className="text-2xl font-bold mt-2">Le collectif Uclic</p>
             </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* PreFooter Section */}
-      <div className="relative z-10 w-full overflow-hidden pt-32 pb-8">
+      <div className="relative z-10 w-full overflow-hidden pt-16 pb-16">
         <div className="max-w-[1250px] mx-auto px-4">
           <PreFooter noBgGradient />
         </div>
       </div>
+      </main>
 
       <style jsx>{`
         .vintage-letter {
@@ -152,6 +161,6 @@ export default function CharteFreelancePage() {
         }
       `}</style>
       <ScrollToTop />
-    </main>
+    </div>
   );
 }

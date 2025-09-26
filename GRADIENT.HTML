@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Halo Vert Pur</title>
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    background: #000; /* fond noir */
+  }
+
+  body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    /* Halo elliptique centré en bas */
+    background: radial-gradient(
+      ellipse at center bottom,
+      rgba(212,237,49,0.9) 0%,   /* vert vif (R212 G237 B49) */
+      rgba(212,237,49,0.6) 15%,
+      rgba(212,237,49,0.3) 35%,
+      rgba(0,0,0,0.1) 55%,
+      rgba(0,0,0,0) 75%
+    );
+
+    filter: blur(25px); /* flou pour effet “glow” */
+  }
+</style>
+</head>
+<body>
+</body>
+</html>

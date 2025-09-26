@@ -213,12 +213,31 @@ function RelatedPosts({
 
                 return (
                   <div key={post.id} className="group">
-                    <Link href={`/blog/${post.slug}`}>
-                      <div className="rounded-xl overflow-hidden h-[250px] relative mb-4">
+                    <Link 
+                      href={`/blog/${post.slug}`}
+                      className="block rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 border backdrop-blur-md relative"
+                      style={{
+                        background: isDark ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.4)",
+                        borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+                        boxShadow: "none",
+                      }}
+                    >
+                      {/* Hover halo effect */}
+                      <div 
+                        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
+                        style={{
+                          background: isDark
+                            ? `radial-gradient(ellipse at center, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.04) 40%, transparent 70%)`
+                            : `radial-gradient(ellipse at center, rgba(212,237,49,0.12) 0%, rgba(212,237,49,0.06) 40%, transparent 70%)`,
+                          filter: 'blur(12px)',
+                        }}
+                      />
+                      
+                      <div className="relative w-full h-48 overflow-hidden">
                         <img
                           src={`${image.url.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1')}.webp`}
                           alt={capitalizeTitle(title)}
-                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          className="object-cover transition-transform duration-500 group-hover:scale-105 w-full h-full"
                           width="400"
                           height="250"
                           loading="lazy"
@@ -230,33 +249,33 @@ function RelatedPosts({
                             }
                           }}
                         />
-                        <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors"></div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
                         {category && (
-                          <span className="absolute top-3 left-3 px-3 py-1 bg-[#E0FF5C] text-black rounded-full text-xs font-medium">
+                          <span className="absolute bottom-4 left-4 inline-block px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-sm z-20">
                             {category}
                           </span>
                         )}
                       </div>
-                      <h4 className={cn(
-                        "text-base font-semibold line-clamp-2 mb-2 group-hover:underline",
-                        isDark ? "text-white" : "text-black"
-                      )}>
-                        {capitalizeTitle(title)}
-                      </h4>
+                      
+                      <div className="p-6 space-y-3">
+                        <h4 className={cn(
+                          "text-xl font-semibold",
+                          isDark ? "text-white" : "text-black"
+                        )}>
+                          {capitalizeTitle(title)}
+                        </h4>
+                        
+                        <div className={cn(
+                          "flex items-center gap-2 text-sm",
+                          isDark ? "text-white/70" : "text-black/70"
+                        )}>
+                          <div className={cn("w-6 h-6 rounded-full flex items-center justify-center", isDark ? "bg-white/10" : "bg-black/10")}>
+                            <i className="ri-time-line text-sm" aria-hidden="true" style={{ color: isDark ? theme.colors.primary.main : undefined }} />
+                          </div>
+                          {readingTime} min de lecture
+                        </div>
+                      </div>
                     </Link>
-                    <div className={cn(
-                      "flex items-center text-xs",
-                      isDark ? "text-white/70" : "text-black/70"
-                    )}>
-                      <Link 
-                        href={`/blog/author/${slugify(post._embedded?.author?.[0]?.name || '')}`}
-                        className="mr-3 hover:text-[#E0FF5C] transition-colors duration-200"
-                      >
-                        {post._embedded?.author?.[0]?.name}
-                      </Link>
-                      <span className="mr-3">{date}</span>
-                      <span>{readingTime} min de lecture</span>
-                    </div>
                   </div>
                 );
               })
@@ -344,12 +363,31 @@ function RelatedPosts({
 
               return (
                 <div key={post.id} className="group">
-                  <Link href={`/blog/${post.slug}`}>
-                    <div className="rounded-xl overflow-hidden h-[250px] relative mb-4">
+                  <Link 
+                    href={`/blog/${post.slug}`}
+                    className="block rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 border backdrop-blur-md relative"
+                    style={{
+                      background: isDark ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.4)",
+                      borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+                      boxShadow: "none",
+                    }}
+                  >
+                    {/* Hover halo effect */}
+                    <div 
+                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
+                      style={{
+                        background: isDark
+                          ? `radial-gradient(ellipse at center, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.04) 40%, transparent 70%)`
+                          : `radial-gradient(ellipse at center, rgba(212,237,49,0.12) 0%, rgba(212,237,49,0.06) 40%, transparent 70%)`,
+                        filter: 'blur(12px)',
+                      }}
+                    />
+                    
+                    <div className="relative w-full h-48 overflow-hidden">
                       <img
                         src={`${image.url.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1')}.webp`}
                         alt={capitalizeTitle(title)}
-                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="object-cover transition-transform duration-500 group-hover:scale-105 w-full h-full"
                         width="400"
                         height="250"
                         loading="lazy"
@@ -361,33 +399,33 @@ function RelatedPosts({
                           }
                         }}
                       />
-                      <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors"></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
                       {category && (
-                        <span className="absolute top-3 left-3 px-3 py-1 bg-[#E0FF5C] text-black rounded-full text-xs font-medium">
+                        <span className="absolute bottom-4 left-4 inline-block px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-sm z-20">
                           {category}
                         </span>
                       )}
                     </div>
-                    <h4 className={cn(
-                      "text-lg font-semibold line-clamp-2 mb-2 group-hover:underline",
-                      isDark ? "text-white" : "text-black"
-                    )}>
-                      {capitalizeTitle(title)}
-                    </h4>
+                    
+                    <div className="p-6 space-y-3">
+                      <h4 className={cn(
+                        "text-xl font-semibold",
+                        isDark ? "text-white" : "text-black"
+                      )}>
+                        {capitalizeTitle(title)}
+                      </h4>
+                      
+                      <div className={cn(
+                        "flex items-center gap-2 text-sm",
+                        isDark ? "text-white/70" : "text-black/70"
+                      )}>
+                        <div className={cn("w-6 h-6 rounded-full flex items-center justify-center", isDark ? "bg-white/10" : "bg-black/10")}>
+                          <i className="ri-time-line text-sm" aria-hidden="true" style={{ color: isDark ? theme.colors.primary.main : undefined }} />
+                        </div>
+                        {readingTime} min de lecture
+                      </div>
+                    </div>
                   </Link>
-                  <div className={cn(
-                    "flex items-center text-xs",
-                    isDark ? "text-white/70" : "text-black/70"
-                  )}>
-                    <Link 
-                      href={`/blog/author/${slugify(post._embedded?.author?.[0]?.name || '')}`}
-                      className="mr-3 hover:text-[#E0FF5C] transition-colors duration-200"
-                    >
-                      {post._embedded?.author?.[0]?.name}
-                    </Link>
-                    <span className="mr-3">{date}</span>
-                    <span>{readingTime} min de lecture</span>
-                  </div>
                 </div>
               );
             })}
@@ -473,13 +511,14 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
         const parser = new DOMParser();
         const doc = parser.parseFromString(content, 'text/html');
         
-        const headings = doc.querySelectorAll('h2.wp-block-heading');
+        const headings = doc.querySelectorAll('h2, h3, h4');
         const items: TocItem[] = [];
         const usedIds = new Set<string>();
 
         headings.forEach((heading) => {
           const text = heading.textContent || '';
           const id = slugify(text);
+          const level = parseInt(heading.tagName[1]);
           
           // S'assurer que l'ID est unique
           let counter = 1;
@@ -496,7 +535,7 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
           items.push({
             id: uniqueId,
             text,
-            level: 2,
+            level,
           });
         });
 
@@ -512,46 +551,6 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
     setProcessedContent(newContent);
   }, [mounted, post.content]);
 
-  // Générer la table des matières
-  useEffect(() => {
-    if (!mounted || !articleRef.current) return;
-
-    const generateTableOfContents = () => {
-      const headings = articleRef.current?.querySelectorAll('h2, h3, h4');
-      const items: TocItem[] = [];
-      const usedIds = new Set<string>();
-
-      headings?.forEach((heading) => {
-        const level = parseInt(heading.tagName[1]);
-        const text = heading.textContent || '';
-        const id = slugify(text);
-        
-        // S'assurer que l'ID est unique
-        let counter = 1;
-        let uniqueId = id;
-        while (usedIds.has(uniqueId)) {
-          uniqueId = `${id}-${counter}`;
-          counter++;
-        }
-        usedIds.add(uniqueId);
-        
-        // Assigner l'ID à l'élément heading
-        heading.setAttribute('id', uniqueId);
-
-        items.push({
-          id: uniqueId,
-          text,
-          level,
-        });
-      });
-
-      if (items.length > 0) {
-        setTocItems(items);
-      }
-    };
-
-    generateTableOfContents();
-  }, [mounted, post.content]);
 
   // Observer pour suivre les sections visibles
   useEffect(() => {
@@ -676,45 +675,29 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
       "w-full min-h-screen relative overflow-hidden pt-28 md:pt-36 lg:pt-36 pb-16",
       isDark ? "bg-black" : "bg-white"
     )}>
-      {/* Base Background gradient */}
-      <div 
-        className="absolute inset-0 z-0 transition-colors duration-300"
-        style={{
-          background: isDark 
-            ? `linear-gradient(180deg, ${themeColors.common.black}, rgba(225, 255, 92, 0.31))`
-            : `linear-gradient(180deg, ${themeColors.common.white}, rgba(225, 255, 92, 0.31))`
-        }}
-      />
-
-      {/* Grain effect overlay */}
-      <div 
-        className={cn(
-          "absolute inset-0 z-0 mix-blend-soft-light transition-opacity duration-300",
-          isDark ? "opacity-90" : "opacity-50"
-        )}
-        style={{
-          backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.7\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\' opacity=\'0.8\'/%3E%3C/svg%3E")',
-          backgroundRepeat: 'repeat',
-          backgroundSize: '100px 100px'
-        }}
-      />
-
-      {/* New overlay gradient - black to transparent */}
-      <div 
-        className="absolute bottom-0 left-0 right-0 z-[1] transition-colors duration-300"
+      {/* Fixed halo background */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed top-0 left-0 right-0 h-[45vh] z-0"
         style={{
           background: isDark
-            ? 'linear-gradient(to top, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 100%)'
-            : 'linear-gradient(to top, rgb(243, 244, 246) 0%, rgba(243, 244, 246, 1) 40%, rgba(243, 244, 246, 0) 100%)',
-          height: '25%'
+            ? `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.20) 0%, rgba(212,237,49,0.12) 15%, rgba(212,237,49,0.06) 35%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 75%)`
+            : `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.25) 0%, rgba(212,237,49,0.15) 18%, rgba(212,237,49,0.08) 38%, rgba(255,255,255,0.1) 58%, rgba(255,255,255,0) 78%)`,
+          filter: 'blur(20px)'
         }}
       />
+
 
       <div className="mx-auto px-4 sm:px-6 relative z-10 max-w-[1250px] overflow-hidden">
         {/* Hero section */}
         <div className="mb-6 md:mb-8 lg:mb-12 relative">
           {/* Featured image */}
-          <div className="w-full h-[45vh] sm:h-[50vh] md:h-[60vh] relative rounded-xl sm:rounded-2xl md:rounded-3xl overflow-hidden">
+          <div 
+            className="w-full h-[35vh] sm:h-[40vh] md:h-[45vh] relative rounded-3xl overflow-hidden border backdrop-blur-md mb-8"
+            style={{
+              borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+            }}
+          >
             <img
               src={post.featured_image_url}
               alt={post.title}
@@ -826,17 +809,27 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
             <div ref={containerRef} className="w-full lg:w-72 shrink-0 order-2 lg:order-1 relative">
               <div ref={sidebarRef} className="hidden lg:block" style={sidebarStyle}>
                 <div className={cn(
-                  "p-3 sm:p-4 rounded-lg sm:rounded-xl",
-                  isDark ? "bg-white/5" : "bg-black/5"
+                  "p-6 rounded-3xl border backdrop-blur-md relative",
+                  isDark ? "bg-black/40 border-white/10" : "bg-white/40 border-black/5"
                 )}>
+                  {/* Hover halo effect */}
+                  <div 
+                    className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
+                    style={{
+                      background: isDark
+                        ? `radial-gradient(ellipse at center, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.04) 40%, transparent 70%)`
+                        : `radial-gradient(ellipse at center, rgba(212,237,49,0.12) 0%, rgba(212,237,49,0.06) 40%, transparent 70%)`,
+                      filter: 'blur(12px)',
+                    }}
+                  />
                   <h4 className={cn(
-                    "text-sm sm:text-base font-medium mb-2 sm:mb-3",
+                    "text-sm sm:text-base font-medium mb-2 sm:mb-3 relative z-20",
                     isDark ? "text-white" : "text-black"
                   )}>
                     Table des matières
                   </h4>
                   <nav className={cn(
-                    "space-y-1 sm:space-y-1.5 max-h-[60vh] overflow-y-auto",
+                    "space-y-1 sm:space-y-1.5 max-h-[60vh] overflow-y-auto relative z-20",
                     "scrollbar-thin scrollbar-track-transparent",
                     isDark 
                       ? "scrollbar-thumb-white/10 hover:scrollbar-thumb-white/20" 
@@ -850,14 +843,21 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
                           e.preventDefault();
                           const element = document.getElementById(item.id);
                           if (element) {
-                            const headerOffset = 120;
+                            // Ajuster l'offset pour tenir compte du header et du padding
+                            const headerOffset = 140;
                             const elementPosition = element.getBoundingClientRect().top;
                             const offsetPosition = window.scrollY + elementPosition - headerOffset;
                             
+                            // Scroll vers l'élément
                             window.scrollTo({
-                              top: offsetPosition,
+                              top: Math.max(0, offsetPosition),
                               behavior: "smooth"
                             });
+                            
+                            // Mettre à jour l'ID actif après un court délai
+                            setTimeout(() => {
+                              setActiveId(item.id);
+                            }, 100);
                           }
                         }}
                         className={cn(
@@ -878,71 +878,115 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
           )}
 
           {/* Main content */}
-          <div className={themeClasses.wrapper}>
+          <div className={cn(
+            themeClasses.wrapper,
+            "rounded-3xl border backdrop-blur-md relative p-6 sm:p-8",
+            isDark ? "bg-black/40 border-white/10" : "bg-white/40 border-black/5"
+          )}>
+            {/* Hover halo effect */}
+            <div 
+              className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
+              style={{
+                background: isDark
+                  ? `radial-gradient(ellipse at center, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.04) 40%, transparent 70%)`
+                  : `radial-gradient(ellipse at center, rgba(212,237,49,0.12) 0%, rgba(212,237,49,0.06) 40%, transparent 70%)`,
+                filter: 'blur(12px)',
+              }}
+            />
             <article
               ref={articleRef}
-              className="max-w-none wp-content-styles"
+              className="max-w-none wp-content-styles relative z-20"
               dangerouslySetInnerHTML={{ __html: processedContent }}
             />
           </div>
         </div>
 
-        {/* Share & Related Posts */}
-        <div className="border-t py-6 sm:py-8 mb-12 sm:mb-16 transition-colors duration-300"
-          style={{ borderColor: isDark ? `${themeColors.common.white}1a` : `${themeColors.common.black}1a` }}>
-          <div className="flex justify-between items-center">
+        {/* Share Section */}
+        <div className="max-w-[1250px] mx-auto px-4 py-16">
+          <div 
+            className="relative rounded-3xl overflow-hidden border backdrop-blur-md p-8"
+            style={{
+              background: isDark ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.4)",
+              borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+              boxShadow: isDark
+                ? "0 0 0 1px rgba(255,255,255,0.05)"
+                : "0 0 0 1px rgba(0,0,0,0.03)",
+            }}
+          >
+            {/* Hover halo effect */}
+            <div 
+              className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
+              style={{
+                background: `radial-gradient(ellipse at center, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.04) 40%, transparent 70%)`,
+                filter: 'blur(12px)',
+              }}
+            />
+          <div className="flex justify-between items-center relative z-20">
             <div>
-              <h3 className={cn(
-                "text-lg font-medium mb-2",
-                isDark ? "text-white" : "text-black"
-              )}>Partager cet article</h3>
+              <h3 className="text-lg font-medium mb-2 text-black dark:text-white">
+                Partager cet article
+              </h3>
               <div className="flex space-x-3">
-                <button className={cn(
-                  "w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-200", 
-                  isDark 
-                    ? "bg-white/10 hover:bg-white/20 text-white" 
-                    : "bg-[#9FB832]/10 hover:bg-[#9FB832]/20 text-[#9FB832]"
-                )}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3V2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </button>
-                <button className={cn(
-                  "w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-200", 
-                  isDark 
-                    ? "bg-white/10 hover:bg-white/20 text-white" 
-                    : "bg-[#9FB832]/10 hover:bg-[#9FB832]/20 text-[#9FB832]"
-                )}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </button>
-                <button className={cn(
-                  "w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-200", 
-                  isDark 
-                    ? "bg-white/10 hover:bg-white/20 text-white" 
-                    : "bg-[#9FB832]/10 hover:bg-[#9FB832]/20 text-[#9FB832]"
-                )}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M2 9h4v12H2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <circle cx="4" cy="4" r="2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                {/* Native share button */}
+                <button 
+                  onClick={async () => {
+                    console.log('Share button clicked');
+                    if (navigator.share) {
+                      try {
+                        await navigator.share({
+                          title: post.title,
+                          text: post.excerpt,
+                          url: window.location.href,
+                        });
+                      } catch (err) {
+                        console.log('Error sharing:', err);
+                      }
+                    } else {
+                      // Fallback: copy to clipboard
+                      await navigator.clipboard.writeText(window.location.href);
+                      alert('Lien copié dans le presse-papiers !');
+                    }
+                  }}
+                  className="w-10 h-10 rounded-full flex items-center justify-center bg-[#9FB832]/10 text-[#9FB832] hover:bg-[#9FB832]/20 transition-colors cursor-pointer relative z-30"
+                >
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
                   </svg>
                 </button>
               </div>
             </div>
             <Link
               href="/blog"
-              className={cn(
-                "inline-flex items-center hover:underline transition-all",
-                isDark ? "text-white hover:text-[#E0FF5C]" : "text-black hover:text-[#E0FF5C]"
-              )}
+              className="inline-flex items-center hover:underline hover:text-[#E0FF5C] text-black dark:text-white"
             >
               <span className="mr-2">Voir tous les articles</span>
-              <svg className="w-4 h-4 transform rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round"/>
+              <svg
+                className="w-4 h-4 transform rotate-45"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  d="M5 12h14M12 5l7 7-7 7"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
             </Link>
+          </div>
           </div>
         </div>
 
@@ -953,6 +997,7 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
           initialLatestPosts={preloadedLatestPosts}
         />
       </div>
+
 
       {/* Boutons de partage et retour en haut */}
       <StickyShareButtons title={post.title} url={`/blog/${post.slug}`} />

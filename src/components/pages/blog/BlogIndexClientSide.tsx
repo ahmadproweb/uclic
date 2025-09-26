@@ -41,18 +41,35 @@ const capitalizeTitle = (title: string) => {
   return title.charAt(0).toUpperCase() + title.slice(1);
 };
 
+// Remove HTML tags to render deterministic text excerpts (avoids hydration diffs)
+const stripHtmlTags = (html: string) => html.replace(/<[^>]*>/g, "").trim();
+
 // Séparer le BlogCard en composant mémoïsé
 const BlogCard = memo(
   ({ post }: { post: BlogPost }) => {
+    const { theme: currentTheme } = useTheme();
+    const isDark = currentTheme === "dark";
+    const cleanExcerpt = stripHtmlTags(post.excerpt || "");
     return (
       <Link
         href={`/blog/${post.slug}`}
-        className="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl backdrop-blur-sm"
+        className="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 border backdrop-blur-md relative"
         style={{
-          background: `linear-gradient(145deg, #E0FF5C, #E0FF5C)`,
-          boxShadow: `0 8px 32px -4px rgba(224, 255, 92, 0.25)`,
+          background: isDark ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.4)",
+          borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+          boxShadow: "none",
         }}
       >
+        {/* Hover halo effect */}
+        <div 
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+          style={{
+            background: isDark
+              ? `radial-gradient(ellipse at center, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.04) 40%, transparent 70%)`
+              : `radial-gradient(ellipse at center, rgba(212,237,49,0.12) 0%, rgba(212,237,49,0.06) 40%, transparent 70%)`,
+            filter: 'blur(12px)',
+          }}
+        />
         {/* Featured Image */}
         <div className="relative w-full h-48 overflow-hidden">
           <img
@@ -74,20 +91,14 @@ const BlogCard = memo(
           </span>
         </div>
 
-        <div className="p-6 space-y-4">
-          <h3 className="text-xl font-semibold text-black">
+        <div className="p-6 space-y-3">
+          <h3 className={cn("text-xl font-semibold", isDark ? "text-white" : "text-black")}>
             {capitalizeTitle(post.title)}
           </h3>
 
-          <p
-            className="text-black line-clamp-2"
-            dangerouslySetInnerHTML={{ __html: post.excerpt || "" }}
-            style={{ color: "rgba(0, 0, 0, 0.9)" }}
-          />
-
-          <div className="flex items-center gap-2 text-sm text-black/70">
-            <div className="w-6 h-6 rounded-full bg-black/10 flex items-center justify-center">
-              <i className="ri-time-line text-sm" aria-hidden="true" />
+          <div className={cn("flex items-center gap-2 text-sm", isDark ? "text-white/70" : "text-black/70") }>
+            <div className={cn("w-6 h-6 rounded-full flex items-center justify-center", isDark ? "bg-white/10" : "bg-black/10") }>
+              <i className="ri-time-line text-sm" aria-hidden="true" style={{ color: isDark ? theme.colors.primary.main : undefined }} />
             </div>
             {post.reading_time} min de lecture
           </div>
@@ -103,39 +114,62 @@ BlogCard.displayName = "BlogCard";
 // Séparer le FeaturedPost en composant mémoïsé
 const FeaturedPost = memo(({ post }: { post: BlogPost }) => {
   if (!post) return null;
+  const { theme: currentTheme } = useTheme();
+  const isDark = currentTheme === "dark";
 
   return (
-    <div className="relative w-full h-[35vh] xs:h-[40vh] sm:h-[45vh] md:h-[50vh] mb-12 xs:mb-14 sm:mb-16 rounded-2xl xs:rounded-3xl overflow-hidden shadow-xl">
+    <div
+      className="relative w-full h-[35vh] xs:h-[40vh] sm:h-[45vh] md:h-[50vh] mb-12 xs:mb-14 sm:mb-16 rounded-2xl xs:rounded-3xl overflow-hidden border backdrop-blur-md group hover:-translate-y-1 transition-all duration-300"
+      style={{
+        background: isDark ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.4)",
+        borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+      }}
+    >
+      {/* Hover halo effect */}
+      <div 
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
+        style={{
+          background: isDark
+            ? `radial-gradient(ellipse at center, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.04) 40%, transparent 70%)`
+            : `radial-gradient(ellipse at center, rgba(212,237,49,0.12) 0%, rgba(212,237,49,0.06) 40%, transparent 70%)`,
+          filter: 'blur(12px)',
+        }}
+      />
       <img
         src={post.featured_image_url}
         alt={capitalizeTitle(post.title)}
         className="object-cover rounded-2xl xs:rounded-3xl w-full h-full"
       />
+      {/* Readability overlays */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/60" />
       <div className="absolute inset-0 flex flex-col justify-end p-4 xs:p-6 sm:p-8 md:p-14">
         <div className="max-w-5xl mx-auto w-full">
           <div className="mb-3 xs:mb-4 flex flex-wrap gap-2">
-            <span className="inline-block px-2 xs:px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-xs xs:text-sm">
+            <span className="inline-block px-2 xs:px-3 py-1 bg-black/80 text-[#E0FF5C] rounded-full text-[11px] xs:text-xs tracking-wide">
               {post.category || "Blog"}
             </span>
-            <span className="text-xs xs:text-sm uppercase tracking-wider font-semibold inline-block px-2 xs:px-3 py-1 rounded-full bg-[#E0FF5C] text-black">
+            <span className="text-[11px] xs:text-xs uppercase tracking-wider font-semibold inline-block px-2 xs:px-3 py-1 rounded-full bg-[#E0FF5C] text-black">
               À la une
             </span>
           </div>
-          <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold max-w-3xl mb-3 xs:mb-4 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)]">
+          <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold max-w-4xl mb-4 text-white leading-tight">
             {capitalizeTitle(post.title)}
           </h2>
-          <div className="text-white/80 flex flex-wrap items-center text-xs xs:text-sm space-x-2 xs:space-x-4 mt-3 xs:mt-4">
+          <div className="text-white/85 flex flex-wrap items-center text-[12px] xs:text-sm gap-2 xs:gap-4 mt-2">
             <span>{post.author}</span>
-            <span>•</span>
-            <span>{post.reading_time} min de lecture</span>
-            <span>•</span>
+            <span className="opacity-70">•</span>
+            <div className="flex items-center gap-1">
+              <i className="ri-time-line text-sm" aria-hidden="true" style={{ color: '#E0FF5C' }} />
+              <span>{post.reading_time} min de lecture</span>
+            </div>
+            <span className="opacity-70">•</span>
             <span>{new Date(post.date).toLocaleDateString("fr-FR")}</span>
           </div>
           <Link
             href={`/blog/${post.slug}`}
-            className="px-4 xs:px-6 py-1.5 xs:py-2 rounded-full text-xs xs:text-sm font-medium mt-4 xs:mt-6 sm:mt-8 inline-block transition-all
-              bg-[#E0FF5C] text-black hover:bg-[#E0FF5C]/90"
+            className="px-4 xs:px-6 py-1.5 xs:py-2 rounded-full text-xs xs:text-sm font-medium mt-4 xs:mt-6 sm:mt-8 inline-block transition-colors
+              bg-[#E0FF5C] text-black hover:bg-[#D9FF4B]"
           >
             Lire l&apos;article
           </Link>
@@ -211,35 +245,19 @@ export default function BlogIndexClientSide({
         isDark ? "bg-black" : "bg-white"
       )}
     >
-      {/* Base Background gradient */}
+      {/* Subtle top halo background */}
       <div
-        className="absolute inset-0 z-0"
+        aria-hidden="true"
+        className="pointer-events-none fixed top-0 left-0 right-0 h-[45vh] z-0"
         style={{
           background: isDark
-            ? `linear-gradient(180deg, ${theme.colors.common.black}, #E0FF5C)`
-            : `linear-gradient(180deg, ${theme.colors.common.white}, #E0FF5C)`,
+            ? `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.20) 0%, rgba(212,237,49,0.12) 15%, rgba(212,237,49,0.06) 35%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 75%)`
+            : `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.25) 0%, rgba(212,237,49,0.15) 18%, rgba(212,237,49,0.08) 38%, rgba(255,255,255,0.1) 58%, rgba(255,255,255,0) 78%)`,
+          filter: 'blur(20px)'
         }}
       />
-
-      {/* Grain effect overlay */}
-      <div
-        className={cn(
-          "absolute inset-0 z-0 mix-blend-soft-light bg-noise",
-          isDark ? "opacity-90" : "opacity-50"
-        )}
-      />
-
-      {/* New overlay gradient - light to transparent */}
-      <div
-        className="absolute bottom-0 left-0 right-0 z-[1]"
-        style={{
-          background: isDark
-            ? "linear-gradient(to top, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 100%)"
-            : "linear-gradient(to top, rgb(243, 244, 246) 0%, rgba(243, 244, 246, 1) 40%, rgba(243, 244, 246, 0) 100%)",
-          height: "25%",
-        }}
-      />
-
+ 
+ 
       <div className="max-w-[1250px] mx-auto px-4 relative z-10">
         {/* Header */}
         <div className="text-center mb-8 xs:mb-10 sm:mb-12 md:mb-16">
@@ -360,9 +378,11 @@ export default function BlogIndexClientSide({
       />
 
       <div className="max-w-[1250px] mx-auto px-4 relative z-10">
-        <PreFooter noBgGradient />
+        <PreFooter/>
       </div>
       <ScrollToTop />
     </section>
   );
 }
+
+

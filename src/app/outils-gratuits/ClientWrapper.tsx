@@ -88,7 +88,7 @@ export default function ClientWrapper() {
                   #E0FF5C,
                   #E0FF5C
                 )`,
-                boxShadow: `0 8px 32px -4px rgba(224, 255, 92, 0.25)`
+                boxShadow: `0 8px 32px -4px rgba(237 245 202, 0.25)`
               }}
             >
               <div className="space-y-4">

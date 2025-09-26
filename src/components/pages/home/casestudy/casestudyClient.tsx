@@ -102,12 +102,21 @@ const PortfolioCard = memo(({ portfolio, isDark }: { portfolio: Portfolio; isDar
   return (
     <article 
       className={cn(
-        "rounded-2xl md:rounded-[32px] p-5 md:p-6 group",
-        "hover:-translate-y-1 hover:shadow-xl backdrop-blur-sm",
-        isDark ? "bg-white/5 border border-white/10" : "bg-white border border-black/5",
-        "hover:bg-white/10"
+        "rounded-3xl p-6 group border backdrop-blur-md relative",
+        "hover:-translate-y-1 transition-all duration-300",
+        isDark ? "bg-black/40 border-white/10" : "bg-white/40 border-black/5"
       )}
     >
+      {/* Hover halo effect */}
+      <div 
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
+        style={{
+          background: isDark
+            ? `radial-gradient(ellipse at center, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.04) 40%, transparent 70%)`
+            : `radial-gradient(ellipse at center, rgba(212,237,49,0.12) 0%, rgba(212,237,49,0.06) 40%, transparent 70%)`,
+          filter: 'blur(12px)',
+        }}
+      />
       <Link 
         href={`/cas-clients/${portfolio.slug}`}
         className="block"
@@ -135,33 +144,31 @@ const PortfolioCard = memo(({ portfolio, isDark }: { portfolio: Portfolio; isDar
         </figure>
 
         <h3 className={cn(
-          "text-xl md:text-2xl font-medium mb-3 md:mb-4",
-          isDark 
-            ? "text-white group-hover:text-[#E0FF5C]" 
-            : "text-black group-hover:text-black"
+          "text-xl font-semibold mb-3 relative z-20",
+          isDark ? "text-white" : "text-black"
         )}>
           {decodeHTMLEntities(portfolio.title)}
         </h3>
 
         <p 
           className={cn(
-            "text-sm md:text-base mb-6 md:mb-8 line-clamp-3",
-            isDark ? "text-white/80" : "text-black/70"
+            "text-sm mb-4 line-clamp-2 relative z-20",
+            isDark ? "text-white/80" : "text-black/80"
           )}
         >
           {decodeHTMLEntities(portfolio.excerpt.replace(/<[^>]*>/g, ''))}
         </p>
 
         <span className={cn(
-          "inline-flex items-center text-sm md:text-base",
+          "inline-flex items-center text-sm relative z-20",
           isDark 
             ? "text-[#E0FF5C]" 
-            : "text-[#9FB832] group-hover:text-black"
+            : "text-[#9FB832]"
         )}>
           Découvrir
           <i className={cn(
             "ri-arrow-right-s-line ml-2 transition-transform duration-300",
-            "text-lg md:text-xl",
+            "text-lg",
             "group-hover:translate-x-1"
           )} />
         </span>

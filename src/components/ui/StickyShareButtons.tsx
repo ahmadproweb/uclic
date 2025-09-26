@@ -22,62 +22,35 @@ export default function StickyShareButtons({ url, title }: StickyShareButtonsPro
       setShareUrl(window.location.href);
     }
   }, [url]);
-  
-  // Configuration des boutons de partage avec les états
-  const networks = [
-    {
-      name: 'Twitter',
-      url: `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(title)}`,
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
-        </svg>
-      )
-    },
-    {
-      name: 'Facebook',
-      url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-        </svg>
-      )
-    },
-    {
-      name: 'LinkedIn',
-      url: `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(title)}`,
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-          <rect x="2" y="9" width="4" height="12" />
-          <circle cx="4" cy="4" r="2" />
-        </svg>
-      )
-    },
-    {
-      name: 'WhatsApp',
-      url: `https://wa.me/?text=${encodeURIComponent(title + ' ' + shareUrl)}`,
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-        </svg>
-      )
-    }
-  ];
 
+  // Détecter le scroll pour afficher/masquer les boutons
   useEffect(() => {
-    // Afficher les boutons seulement après un défilement
-    const toggleVisibility = () => {
-      if (window.scrollY > 300) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      setIsVisible(scrollTop > 300);
     };
 
-    window.addEventListener('scroll', toggleVisibility);
-    return () => window.removeEventListener('scroll', toggleVisibility);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleNativeShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: title,
+          text: title,
+          url: shareUrl,
+        });
+      } catch (err) {
+        console.log('Error sharing:', err);
+      }
+    } else {
+      // Fallback: copy to clipboard
+      await navigator.clipboard.writeText(shareUrl);
+      alert('Lien copié dans le presse-papiers !');
+    }
+  };
 
   return (
     <div 
@@ -94,25 +67,34 @@ export default function StickyShareButtons({ url, title }: StickyShareButtonsPro
           ? 'bg-black/40 border border-white/10' 
           : 'bg-white/40 border border-black/10'
       )}>
-        {networks.map((network) => (
-          <a
-            key={network.name}
-            href={network.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={cn(
-              'w-10 h-10 my-2 rounded-full flex items-center justify-center transition-all',
-              isDark 
-                ? 'text-white hover:bg-[#E0FF5C] hover:text-black' 
-                : 'text-black hover:bg-[#E0FF5C]'
-            )}
-            aria-label={`Partager sur ${network.name}`}
-            title={`Partager sur ${network.name}`}
+        <button
+          onClick={handleNativeShare}
+          className={cn(
+            'w-10 h-10 my-2 rounded-full flex items-center justify-center transition-all',
+            isDark 
+              ? 'text-white hover:bg-[#E0FF5C] hover:text-black' 
+              : 'text-black hover:bg-[#E0FF5C]'
+          )}
+          aria-label="Partager cet article"
+          title="Partager cet article"
+        >
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
           >
-            {network.icon}
-          </a>
-        ))}
+            <path
+              d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
       </div>
     </div>
   );
-} 
+}
