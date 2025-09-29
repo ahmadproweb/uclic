@@ -38,19 +38,30 @@ function ToolboxCard({ post, index }: ToolboxCardProps) {
       href={`/toolbox/${post.slug}`}
       className="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 border backdrop-blur-md relative"
       style={{
-        background: isDark ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.4)",
+        background: "transparent",
         borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
         boxShadow: "none",
       }}
     >
+      {/* Background pattern */}
+      <div
+        className="absolute inset-0 rounded-3xl z-0 pointer-events-none"
+        style={{
+          backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+          backgroundRepeat: "repeat",
+          backgroundSize: "200px",
+          opacity: isDark ? "0.4" : "0.04"
+        }}
+      />
+      
       {/* Hover halo effect */}
       <div 
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
         style={{
           background: isDark
-            ? `radial-gradient(ellipse at center, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.04) 40%, transparent 70%)`
-            : `radial-gradient(ellipse at center, rgba(212,237,49,0.12) 0%, rgba(212,237,49,0.06) 40%, transparent 70%)`,
-          filter: 'blur(12px)',
+            ? `linear-gradient(to right, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.08) 60%, rgba(212,237,49,0) 100%)`
+            : `linear-gradient(to right, rgba(212,237,49,0.10) 0%, rgba(212,237,49,0.10) 60%, rgba(212,237,49,0) 100%)`,
+          filter: 'blur(20px)',
         }}
       />
       {/* Featured Image */}
@@ -82,7 +93,7 @@ function ToolboxCard({ post, index }: ToolboxCardProps) {
         </span>
       </div>
 
-      <div className="p-6 space-y-3">
+      <div className="p-6 space-y-3 relative z-10">
         <h3 className={cn("text-xl font-semibold", isDark ? "text-white" : "text-black")}>
           {post.title}
         </h3>
@@ -148,7 +159,7 @@ export default function ToolboxPage({
   return (
     <section
       className={cn(
-        "w-full max-w-[100vw] pt-28 md:pt-32 pb-16 md:pb-24 relative overflow-hidden",
+        "w-full relative overflow-hidden pt-32 pb-16 md:pb-24 px-4 sm:px-6",
         isDark ? "bg-black" : "bg-white"
       )}
     >
@@ -164,7 +175,24 @@ export default function ToolboxPage({
         }}
       />
 
-      <div className="max-w-[1250px] mx-auto px-4 relative z-10">
+      <div
+        className={cn(
+          "max-w-[1250px] mx-auto px-4 sm:px-6 py-8 md:py-12 relative z-10 rounded-2xl border",
+          isDark ? "border-white/10" : "border-black/5"
+        )}
+      >
+        {/* Background pattern */}
+        <div className="absolute inset-0 rounded-2xl -z-10">
+          <div
+            className="absolute inset-0 rounded-2xl"
+            style={{
+              backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+              backgroundRepeat: "repeat",
+              backgroundSize: "200px",
+              opacity: isDark ? "0.25" : "0.04"
+            }}
+          />
+        </div>
         {/* Header */}
         <div className="text-center mb-8 xs:mb-10 sm:mb-12 md:mb-16">
           <span
@@ -232,8 +260,10 @@ export default function ToolboxPage({
         title="Boîte à outils startups"
       />
 
-      <div className="max-w-[1250px] mx-auto px-4 relative z-10">
-        <PreFooter />
+      <div className="relative z-10 w-full overflow-hidden mt-10 md:mt-16 pt-8 pb-16 md:pt-12 md:pb-24 px-4 sm:px-6">
+        <div className="max-w-[1250px] mx-auto">
+          <PreFooter />
+        </div>
       </div>
       <ScrollToTop />
     </section>

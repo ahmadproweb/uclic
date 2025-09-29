@@ -18,19 +18,19 @@ const AUTOPLAY_INTERVAL = 5000;
 const steps: Step[] = [
   {
     title: "Étape 1",
-    subtitle: "Intelligence Artificielle : automatisation de l'analyse de données",
-    description: "Notre collectif de freelances experts en Intelligence Artificielle automatise l'analyse de vos données marketing. Contrairement aux agences traditionnelles qui se contentent d'intuitions, notre IA analyse 50 000+ points de données pour identifier vos leviers de croissance les plus rentables. L'automatisation remplace les suppositions par des prédictions précises basées sur l'Intelligence Artificielle. Cette approche data-driven permet d'optimiser votre ROI marketing et d'identifier les opportunités de croissance cachées que les méthodes traditionnelles manquent.",
+    subtitle: "Diagnostiquer vos leviers en 48 h (data, intent, funnels)",
+    description: "Audit data‑driven: données, signaux d’intention, analyse des funnels. Nous priorisons les opportunités à fort impact pour la croissance et le SEO (pages à potentiel, parcours à corriger).",
     hasButton: true
   },
   {
     title: "Étape 2",
-    subtitle: "Automatisation IA des campagnes Growth Marketing",
-    description: "Notre collectif de freelances Growth Marketing utilise l'Intelligence Artificielle pour automatiser vos campagnes. Contrairement au marketing traditionnel qui crée manuellement, notre IA automatise la création, l'optimisation et le déploiement de vos campagnes. L'automatisation identifie les messages qui convertissent et les déploie instantanément grâce à l'Intelligence Artificielle. Cette automatisation IA permet une personnalisation à grande échelle et une optimisation continue des performances, générant des résultats supérieurs aux méthodes manuelles des agences traditionnelles.",
+    subtitle: "Lancer des campagnes qui convertissent (outbound 24/7 + inbound SEO/SEA)",
+    description: "Triggers, scoring et séquences pour l’outbound automatisé. Côté inbound: SEO technique + sémantique, contenus orientés conversion, SEA et pages qui vendent. Tests A/B/n en continu, copywriting orienté offre.",
   },
   {
     title: "Étape 3",
-    subtitle: "Intelligence Artificielle : automatisation 24/7 de votre croissance",
-    description: "Notre collectif de freelances experts en Intelligence Artificielle automatise votre croissance 24h/24. Contrairement au marketing traditionnel qui s'arrête le soir, notre IA optimise vos campagnes en continu et maximise vos conversions pendant que vous dormez. L'automatisation ne prend jamais de pause : vos concurrents s'arrêtent, votre Intelligence Artificielle continue de travailler. Cette automatisation permanente garantit une croissance constante et une optimisation continue de vos performances marketing, créant un avantage concurrentiel durable grâce à l'Intelligence Artificielle.",
+    subtitle: "Industrialiser ce qui marche (ops, agents IA, features utiles)",
+    description: "Automatisations métier et agents IA pour le reporting, l’enrichissement et les sales ops. Optimisations produit (onboarding, UX, activation) et roadmap alignée sur la demande. Résultats mesurables et scalables.",
   }
 ];
 
@@ -139,7 +139,7 @@ const StepContent = memo(({
             direction="prev"
             ariaLabel="Aller à l'étape précédente"
           >
-            Précédent
+            Étape précédente
           </NavigationButton>
         )}
         {step.hasButton && (
@@ -150,10 +150,9 @@ const StepContent = memo(({
               "text-sm md:text-base hover:bg-black hover:text-white",
               "transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-black/20"
             )}
-            aria-label="En savoir plus sur le Bullseye Framework"
+            aria-label="Voir le playbook"
           >
-            Le Bullseye Framework expliqué
-            <i className="ri-arrow-right-s-line text-xl ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+            Voir le playbook →
           </button>
         )}
         {!isLast && (
@@ -162,7 +161,7 @@ const StepContent = memo(({
             direction="next"
             ariaLabel="Aller à l'étape suivante"
           >
-            Suivant
+            Étape suivante
           </NavigationButton>
         )}
       </div>
@@ -243,8 +242,8 @@ function ProcessSteps() {
     <section 
       id="process-steps"
       className={cn(
-        "w-full py-16 md:pt-32 md:pb-16 relative",
-        "display: none md:block"
+        "w-full pt-16 pb-16 md:pt-32 md:pb-32 relative border-b border-black/5 dark:border-white/10",
+        "hidden md:block"
       )}
       style={{
         backgroundImage: `url(/backgroundstep.svg), linear-gradient(180deg, #E1FD6C 0%, #E6F98B 100%)`,
@@ -262,14 +261,22 @@ function ProcessSteps() {
           <div className="col-span-1 lg:col-span-5 mb-8 lg:mb-0">
             <div className="bg-black rounded-2xl md:rounded-[32px] p-6 md:p-12 text-white">
               <h2 className="text-2xl md:text-3xl font-bold mb-2">
-                L'Intelligence Artificielle révolutionne le Growth Marketing
+                Votre marketing devient un moteur de revenus grâce à l'IA
               </h2>
               <p className="text-white/70 text-sm md:text-base mb-4">
-                Le marketing traditionnel promet de la notoriété mais échoue à générer des ventes. L'Intelligence Artificielle change tout : elle automatise vos campagnes, analyse vos données et transforme vos efforts marketing en générateurs de revenus. L'automatisation IA remplace les méthodes dépassées par des stratégies data-driven qui génèrent des résultats mesurables et un ROI supérieur.
+                La notoriété ne paie pas les salaires. L’IA détecte l’intention, automatise vos campagnes
+                et transforme les efforts marketing en revenus mesurables.
               </p>
-              <p className="text-white/80 text-base md:text-lg leading-relaxed mb-6">
-                Uclic est à l'avant-garde de cette transformation. Notre collectif de freelances experts en Intelligence Artificielle a fait de l'automatisation son ADN. Nous combinons expertise technique spécialisée et vision stratégique pour faire du marketing votre premier générateur de revenu. L'IA automatise tout : analyse de données, création de campagnes, optimisation continue et scaling automatique. Pendant que les agences traditionnelles utilisent des méthodes manuelles, nous automatisons avec l'Intelligence Artificielle pour créer un avantage concurrentiel durable et une croissance exponentielle.
+              <p className="text-white/80 text-base md:text-lg leading-relaxed mb-4">
+                Nous combinons IA + stratégie: analyse, création, optimisation et scaling sont industrialisés
+                pour des résultats continus.
               </p>
+              {/* Proof tags */}
+              <div className="flex flex-wrap gap-2 mb-6">
+                <span className="px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white/90 border border-white/20">+35% MQL</span>
+                <span className="px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white/90 border border-white/20">-22% CAC</span>
+                <span className="px-3 py-1 rounded-full text-xs font-medium bg-white/10 text-white/90 border border-white/20">+12% NRR</span>
+              </div>
               <CTAButton 
                 href="/contact" 
                 variant="mainCTA" 
@@ -280,14 +287,14 @@ function ProcessSteps() {
                     : ""
                 )}
               >
-                Découvrez nos services IA
+                Obtenir un plan en 48 h
               </CTAButton>
             </div>
           </div>
 
           {/* Timeline */}
           <div 
-            className="col-span-1 lg:col-span-7 relative min-h-[700px]"
+            className="col-span-1 lg:col-span-7 relative"
             role="tablist"
             aria-label="Étapes du processus"
           >

@@ -151,10 +151,10 @@ function RelatedPosts({
         Articles récents
       </h3>
       
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
         {/* Carte colorée selon la charte graphique */}
         <div className={cn(
-          "rounded-xl overflow-hidden relative p-8 flex flex-col justify-between h-[320px] transition-colors duration-300",
+          "w-full rounded-xl overflow-hidden relative p-6 md:p-8 flex flex-col justify-between h-[320px] transition-colors duration-300",
           isDark 
             ? "bg-[#9FB832]/10 border-[#9FB832] border"
             : "bg-[#9FB832]/10 border-[#9FB832] border"
@@ -216,21 +216,31 @@ function RelatedPosts({
                   <div key={post.id} className="group">
                     <Link 
                       href={`/blog/${post.slug}`}
-                      className="block rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 border backdrop-blur-md relative"
+                      className="block w-full rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 border backdrop-blur-md relative"
                       style={{
-                        background: isDark ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.4)",
+                        background: "transparent",
                         borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
                         boxShadow: "none",
                       }}
                     >
+                      {/* Background pattern */}
+                      <div
+                        className="absolute inset-0 rounded-3xl z-0 pointer-events-none"
+                        style={{
+                          backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+                          backgroundRepeat: "repeat",
+                          backgroundSize: "200px",
+                          opacity: isDark ? "0.4" : "0.04"
+                        }}
+                      />
                       {/* Hover halo effect */}
                       <div 
                         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
                         style={{
                           background: isDark
-                            ? `radial-gradient(ellipse at center, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.04) 40%, transparent 70%)`
-                            : `radial-gradient(ellipse at center, rgba(212,237,49,0.12) 0%, rgba(212,237,49,0.06) 40%, transparent 70%)`,
-                          filter: 'blur(12px)',
+                            ? `linear-gradient(to right, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.08) 60%, rgba(212,237,49,0) 100%)`
+                            : `linear-gradient(to right, rgba(212,237,49,0.10) 0%, rgba(212,237,49,0.10) 60%, rgba(212,237,49,0) 100%)`,
+                          filter: 'blur(20px)',
                         }}
                       />
                       
@@ -366,21 +376,31 @@ function RelatedPosts({
                 <div key={post.id} className="group">
                   <Link 
                     href={`/blog/${post.slug}`}
-                    className="block rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 border backdrop-blur-md relative"
+                    className="block w-full rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 border backdrop-blur-md relative"
                     style={{
-                      background: isDark ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.4)",
+                      background: "transparent",
                       borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
                       boxShadow: "none",
                     }}
                   >
+                    {/* Background pattern */}
+                    <div
+                      className="absolute inset-0 rounded-3xl z-0 pointer-events-none"
+                      style={{
+                        backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+                        backgroundRepeat: "repeat",
+                        backgroundSize: "200px",
+                        opacity: isDark ? "0.4" : "0.04"
+                      }}
+                    />
                     {/* Hover halo effect */}
                     <div 
                       className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
                       style={{
                         background: isDark
-                          ? `radial-gradient(ellipse at center, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.04) 40%, transparent 70%)`
-                          : `radial-gradient(ellipse at center, rgba(212,237,49,0.12) 0%, rgba(212,237,49,0.06) 40%, transparent 70%)`,
-                        filter: 'blur(12px)',
+                          ? `linear-gradient(to right, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.08) 60%, rgba(212,237,49,0) 100%)`
+                          : `linear-gradient(to right, rgba(212,237,49,0.10) 0%, rgba(212,237,49,0.10) 60%, rgba(212,237,49,0) 100%)`,
+                        filter: 'blur(20px)',
                       }}
                     />
                     
@@ -673,7 +693,7 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
 
   return (
     <article className={cn(
-      "w-full min-h-screen relative overflow-hidden pt-28 md:pt-36 lg:pt-36 pb-16",
+      "w-full min-h-screen relative overflow-hidden pt-32 pb-16 md:pb-24 px-4 sm:px-6",
       isDark ? "bg-black" : "bg-white"
     )}>
       {/* Fixed halo background */}
@@ -689,7 +709,24 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
       />
 
 
-      <div className="mx-auto px-4 sm:px-6 relative z-10 max-w-[1250px] overflow-hidden">
+      <div
+        className={cn(
+          "max-w-[1250px] mx-auto px-4 sm:px-6 py-8 md:py-12 relative z-10 rounded-2xl border overflow-hidden",
+          isDark ? "border-white/10" : "border-black/5"
+        )}
+      >
+        {/* Background pattern */}
+        <div className="absolute inset-0 rounded-2xl -z-10">
+          <div
+            className="absolute inset-0 rounded-2xl"
+            style={{
+              backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+              backgroundRepeat: "repeat",
+              backgroundSize: "200px",
+              opacity: isDark ? "0.25" : "0.04"
+            }}
+          />
+        </div>
         {/* Hero section */}
         <div className="mb-6 md:mb-8 lg:mb-12 relative">
           {/* Featured image */}
@@ -810,9 +847,19 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
             <div ref={containerRef} className="w-full lg:w-72 shrink-0 order-2 lg:order-1 relative">
               <div ref={sidebarRef} className="hidden lg:block" style={sidebarStyle}>
                 <div className={cn(
-                  "p-6 rounded-3xl border backdrop-blur-md relative",
-                  isDark ? "bg-black/40 border-white/10" : "bg-white/40 border-black/5"
+                  "p-6 rounded-3xl border backdrop-blur-md relative bg-transparent",
+                  isDark ? "border-white/10" : "border-black/5"
                 )}>
+                  {/* Background pattern */}
+                  <div
+                    className="absolute inset-0 rounded-3xl -z-10"
+                    style={{
+                      backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+                      backgroundRepeat: "repeat",
+                      backgroundSize: "200px",
+                      opacity: isDark ? "0.4" : "0.04"
+                    }}
+                  />
                   {/* Hover halo effect */}
                   <div 
                     className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
@@ -881,9 +928,19 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
           {/* Main content */}
           <div className={cn(
             themeClasses.wrapper,
-            "rounded-3xl border backdrop-blur-md relative p-6 sm:p-8",
-            isDark ? "bg-black/40 border-white/10" : "bg-white/40 border-black/5"
+            "rounded-3xl border backdrop-blur-md relative p-6 sm:p-8 bg-transparent",
+            isDark ? "border-white/10" : "border-black/5"
           )}>
+            {/* Background pattern */}
+            <div
+              className="absolute inset-0 rounded-3xl -z-10"
+              style={{
+                backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+                backgroundRepeat: "repeat",
+                backgroundSize: "200px",
+                opacity: isDark ? "0.4" : "0.04"
+              }}
+            />
             {/* Hover halo effect */}
             <div 
               className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
@@ -903,15 +960,14 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
         </div>
 
         {/* Share Section */}
-        <div className="max-w-[1250px] mx-auto px-4 py-16">
+        <div className="max-w-[1250px] mx-auto px-0 py-16">
           <div 
-            className="relative rounded-3xl overflow-hidden border backdrop-blur-md p-8"
+            className={cn(
+              "relative rounded-2xl overflow-hidden border backdrop-blur-md p-8",
+              isDark ? "border-white/10" : "border-black/5"
+            )}
             style={{
-              background: isDark ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.4)",
-              borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
-              boxShadow: isDark
-                ? "0 0 0 1px rgba(255,255,255,0.05)"
-                : "0 0 0 1px rgba(0,0,0,0.03)",
+              background: isDark ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.4)"
             }}
           >
             {/* Hover halo effect */}

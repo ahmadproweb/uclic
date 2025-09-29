@@ -4,28 +4,66 @@ interface Service {
   text: string;
   description: string;
   keywords: string[];
+  badges?: string[];
 }
 
 export const serviceData: Service[] = [
   {
-    icon: "ri-group-line",
-    title: "Intelligence Artificielle : analyse automatique de vos données",
-    text: "Notre collectif de freelances experts en Intelligence Artificielle automatise l'analyse de vos données marketing. Contrairement aux agences traditionnelles qui se contentent d'intuitions, notre IA analyse 50 000+ points de données pour identifier vos leviers de croissance les plus rentables. L'automatisation remplace les suppositions par des prédictions précises.",
-    description: "Collectif de freelances spécialisés en Intelligence Artificielle. Automatisation de l'analyse de données marketing pour maximiser votre ROI.",
-    keywords: ["IA", "Intelligence Artificielle", "automatisation", "analyse", "données", "freelances", "collectif", "prédictions", "ROI", "croissance"]
-  },
-  {
     icon: "ri-crosshair-line",
-    title: "Automatisation IA des campagnes Growth Marketing",
-    text: "Notre collectif de freelances Growth Marketing utilise l'Intelligence Artificielle pour automatiser vos campagnes. Contrairement aux agences traditionnelles qui créent manuellement, notre IA automatise la création, l'optimisation et le déploiement de vos campagnes. L'automatisation identifie les messages qui convertissent et les déploie instantanément. Vos concurrents travaillent manuellement, vous automatisez avec l'IA.",
-    description: "Collectif de freelances Growth Marketing. Automatisation IA des campagnes pour maximiser les conversions et optimiser les performances.",
-    keywords: ["IA", "Intelligence Artificielle", "automatisation", "campagnes", "Growth Marketing", "freelances", "collectif", "création", "optimisation", "conversions"]
+    title: "Acquisition: outbound 24/7 + inbound rentable",
+    text: "Quand un prospect montre un signal d’intention (visite pricing, job change, install), la machine part: triggers, scoring, messages ultra‑pertinents. En parallèle, nous captons la demande avec un SEO/SEA orienté revenu et des landing pages qui convertissent.",
+    description: "Automatisation de l’outbound (intent data, triggers, scoring, séquences sales) + inbound SEO/SEA. Pipeline prévisible, coût d’acquisition en baisse et meilleure qualité de leads.",
+    keywords: [
+      "outbound automation",
+      "intent data",
+      "trigger",
+      "scoring",
+      "sales sequence",
+      "SEO",
+      "SEA",
+      "landing page",
+      "lead gen",
+      "pipeline",
+      "CAC"
+    ],
+    badges: ["+35% MQL", "-22% CAC", "Intent signals"]
   },
   {
     icon: "ri-flashlight-line",
-    title: "Intelligence Artificielle : automatisation 24/7 de votre croissance",
-    text: "Notre collectif de freelances experts en Intelligence Artificielle automatise votre croissance 24h/24. Contrairement aux agences traditionnelles qui s'arrêtent le soir, notre IA optimise vos campagnes en continu et maximise vos conversions pendant que vous dormez. L'automatisation ne prend jamais de pause : vos concurrents s'arrêtent, votre Intelligence Artificielle continue de travailler.",
-    description: "Collectif de freelances spécialisés en Intelligence Artificielle. Automatisation 24/7 de votre croissance marketing pour maximiser les conversions.",
-    keywords: ["IA", "Intelligence Artificielle", "automatisation", "24/7", "croissance", "freelances", "collectif", "optimisation", "conversions", "continue"]
+    title: "Activation: onboarding, UX, séquences qui convertissent",
+    text: "On raconte la valeur, pas les features. Onboarding clair, tutoriels qui guident, emails d’activation copywrités (JTBD). Nous instrumentons les funnels, supprimons les frictions et shippons les features qui font passer à l’action.",
+    description: "Product‑led growth data‑driven: recherche utilisateur, optimisation de l’onboarding et de l’UX, séquences multicanales d’activation, priorisation de features utiles. Taux d’activation en nette hausse.",
+    keywords: [
+      "product led growth",
+      "onboarding",
+      "activation rate",
+      "JTBD",
+      "UX",
+      "funnels",
+      "email activation",
+      "feature prioritization",
+      "conversion",
+      "research"
+    ],
+    badges: ["+18% activation", "-28% time‑to‑value", "JTBD emails"]
+  },
+  {
+    icon: "ri-heart-line",
+    title: "Rétention: cohorte, anti‑churn, expansion MRR",
+    text: "Garder, regagner, étendre. Nous lisons vos cohortes, détectons l’attrition avant qu’elle n’arrive (health scores, signaux d’usage), déployons des playbooks de rétention, de win‑back et d’upsell/cross‑sell.",
+    description: "Cohorte & lifecycle marketing: détection d’attrition, campagnes de rétention/win‑back personnalisées, expansion par offres d’upgrade. Voix du client pour nourrir la roadmap. MRR durablement en hausse.",
+    keywords: [
+      "retention",
+      "churn reduction",
+      "cohorts",
+      "health score",
+      "win back",
+      "upsell",
+      "cross sell",
+      "expansion",
+      "MRR",
+      "voice of customer"
+    ],
+    badges: ["-17% churn", "+12% NRR", "Cohorts"]
   }
 ]; 

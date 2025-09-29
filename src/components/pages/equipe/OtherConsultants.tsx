@@ -213,8 +213,34 @@ export function OtherConsultants({ currentMember, initialMembers = [] }: OtherCo
               <Link 
                 href={`/equipe/${member.slug}`} 
                 key={member.slug}
-                className="group relative h-[400px] rounded-3xl overflow-hidden"
+                className="group relative h-[400px] rounded-3xl overflow-hidden border backdrop-blur-md transition-all duration-300 hover:-translate-y-1"
+                style={{
+                  background: "transparent",
+                  borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+                  boxShadow: "none",
+                }}
               >
+                {/* Background pattern */}
+                <div
+                  className="absolute inset-0 rounded-3xl z-0 pointer-events-none"
+                  style={{
+                    backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+                    backgroundRepeat: "repeat",
+                    backgroundSize: "200px",
+                    opacity: isDark ? "0.4" : "0.04"
+                  }}
+                />
+                
+                {/* Hover halo effect */}
+                <div 
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-3xl"
+                  style={{
+                    background: isDark
+                      ? `linear-gradient(to right, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.08) 60%, rgba(212,237,49,0) 100%)`
+                      : `linear-gradient(to right, rgba(212,237,49,0.10) 0%, rgba(212,237,49,0.10) 60%, rgba(212,237,49,0) 100%)`,
+                    filter: 'blur(20px)',
+                  }}
+                />
                 {/* Image de fond */}
                 <div className="absolute inset-0">
                   <img
@@ -226,7 +252,7 @@ export function OtherConsultants({ currentMember, initialMembers = [] }: OtherCo
                 </div>
 
                 {/* Contenu */}
-                <div className="absolute inset-0 p-8 flex flex-col justify-end">
+                <div className="absolute inset-0 p-8 flex flex-col justify-end relative z-10">
                   {member.equipeFields.role && (
                     <span className="inline-block px-3 py-1 bg-[#E0FF5C] text-black rounded-full text-xs font-medium mb-4">
                       {member.equipeFields.role}

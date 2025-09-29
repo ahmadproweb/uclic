@@ -29,18 +29,28 @@ export default function TeamPageClient({ members }: TeamPageClientProps) {
         }}
       />
 
-      <section className="w-full max-w-[100vw] pt-40 pb-16 md:pb-24 relative overflow-hidden">
-      
-      <div className="max-w-[1250px] mx-auto px-8 md:px-12 py-8 md:py-12 relative z-10 rounded-2xl"
-        style={{
-          boxShadow: isDark
-            ? "0 0 0 1px rgba(255,255,255,0.05), 0 8px 32px -4px rgba(0,0,0,0.3)"
-            : "0 0 0 1px rgba(0,0,0,0.03), 0 8px 32px -4px rgba(0,0,0,0.1)",
-          position: "relative"
-        }}
-      >
-        {/* Header */}
-        <div className="text-center mb-12 md:mb-16">
+      <section className="w-full relative overflow-hidden pt-32 pb-16 md:pb-24 px-4 sm:px-6">
+        <div
+          className={cn(
+            "max-w-[1250px] mx-auto px-4 sm:px-6 py-8 md:py-12 relative z-10 rounded-2xl border",
+            isDark ? "border-white/10" : "border-black/5"
+          )}
+        >
+          {/* Background pattern */}
+          <div className="absolute inset-0 rounded-2xl -z-10">
+            <div
+              className="absolute inset-0 rounded-2xl"
+              style={{
+                backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+                backgroundRepeat: "repeat",
+                backgroundSize: "200px",
+                opacity: isDark ? "0.25" : "0.04"
+              }}
+            />
+          </div>
+
+          {/* Header */}
+          <div className="text-center mb-12 md:mb-16">
           <span className={cn(
             "text-base mb-4 block font-semibold",
             isDark ? "text-[#E0FF5C]" : "text-black"
@@ -72,8 +82,35 @@ export default function TeamPageClient({ members }: TeamPageClientProps) {
             >
               <Link 
                 href={`/equipe/${member.slug}`}
-                className="block relative h-[400px] rounded-3xl overflow-hidden shadow-lg"
+                className="block relative h-[400px] rounded-3xl overflow-hidden border backdrop-blur-md group transition-all duration-300 hover:-translate-y-1"
+                style={{
+                  background: "transparent",
+                  borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+                  boxShadow: "none",
+                }}
               >
+                {/* Background pattern */}
+                <div
+                  className="absolute inset-0 rounded-3xl z-0 pointer-events-none"
+                  style={{
+                    backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+                    backgroundRepeat: "repeat",
+                    backgroundSize: "200px",
+                    opacity: isDark ? "0.4" : "0.04"
+                  }}
+                />
+                
+                {/* Hover halo effect */}
+                <div 
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-3xl"
+                  style={{
+                    background: isDark
+                      ? `linear-gradient(to right, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.08) 60%, rgba(212,237,49,0) 100%)`
+                      : `linear-gradient(to right, rgba(212,237,49,0.10) 0%, rgba(212,237,49,0.10) 60%, rgba(212,237,49,0) 100%)`,
+                    filter: 'blur(20px)',
+                  }}
+                />
+
                 {/* Image de fond */}
                 <div className="absolute inset-0">
                   <img
@@ -90,7 +127,7 @@ export default function TeamPageClient({ members }: TeamPageClientProps) {
                 </div>
 
                 {/* Contenu */}
-                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 relative z-10">
                   {member.equipeFields.role && (
                     <span className="inline-block px-3 py-1 bg-[#E0FF5C] text-black rounded-full text-xs font-medium mb-4 shadow-sm">
                       {member.equipeFields.role}
@@ -114,14 +151,16 @@ export default function TeamPageClient({ members }: TeamPageClientProps) {
             </div>
           ))}
         </div>
+        </div>
 
         {/* PreFooter Section */}
-        <div className="relative z-10 w-full overflow-hidden pt-16 pb-16">
-          <PreFooter noBgGradient />
+        <div className="relative z-10 w-full overflow-hidden mt-10 md:mt-16 pt-8 pb-16 md:pt-12 md:pb-24 px-4 sm:px-6">
+          <div className="max-w-[1250px] mx-auto">
+            <PreFooter noBgGradient />
+          </div>
         </div>
-      </div>
 
-      <ScrollToTop />
+        <ScrollToTop />
       </section>
     </div>
   );

@@ -13,13 +13,23 @@ interface PreFooterProps {
 // Memoized Components
 const LeftContent = memo(({ isDark }: { isDark: boolean }) => (
   <div
-    className={cn(
-      "p-8 md:p-16 relative z-10 backdrop-blur-md overflow-hidden rounded-tl-[32px] rounded-bl-[32px]",
+  className={cn(
+      "p-8 md:p-12 relative z-10 backdrop-blur-md overflow-hidden rounded-tl-2xl rounded-bl-2xl",
       isDark 
         ? "bg-black/20" 
         : "bg-white/20"
     )}
   >
+    {/* Background pattern */}
+    <div
+      className="absolute inset-0 rounded-tl-2xl rounded-bl-2xl -z-10"
+      style={{
+        backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+        backgroundRepeat: "repeat",
+        backgroundSize: "200px",
+        opacity: isDark ? "0.25" : "0.04"
+      }}
+    />
     <h2
       className="text-3xl md:text-5xl font-normal mb-4 animate-fade-in-up text-black dark:text-white"
     >
@@ -42,7 +52,7 @@ const LeftContent = memo(({ isDark }: { isDark: boolean }) => (
       <CTAButton 
         href="/cas-clients"
         variant="simple"
-        className="group !bg-white !text-black hover:!bg-[#E0FF5C] [&_span]:!border-black [&_svg]:!stroke-black"
+        className="group !bg-white !text-black hover:!bg-[#E0FF5C] [&_span]:!border-black [&_svg]:!stroke-black border border-black/10 dark:border-white/10"
       >
         Nos études de cas
       </CTAButton>
@@ -54,13 +64,23 @@ LeftContent.displayName = 'LeftContent';
 
 const RightContent = memo(({ isDark }: { isDark: boolean }) => (
   <div
-    className={cn(
-      "relative h-full min-h-[400px] md:min-h-full z-10 backdrop-blur-md overflow-visible rounded-tr-[32px] rounded-br-[32px]",
+  className={cn(
+      "relative h-full min-h-[400px] md:min-h-full z-10 backdrop-blur-md overflow-visible rounded-tr-2xl rounded-br-2xl",
       isDark 
         ? "bg-black/20" 
         : "bg-white/20"
     )}
   >
+    {/* Background pattern */}
+    <div
+      className="absolute inset-0 rounded-tr-2xl rounded-br-2xl -z-10"
+      style={{
+        backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+        backgroundRepeat: "repeat",
+        backgroundSize: "200px",
+        opacity: isDark ? "0.25" : "0.04"
+      }}
+    />
     <svg 
       width="450" 
       height="100%" 
@@ -111,13 +131,13 @@ function PreFooter({ noBgGradient = false }: PreFooterProps) {
   return (
     <section 
       className={cn(
-        "w-full rounded-[32px] border bg-transparent overflow-visible",
+        "w-full rounded-2xl border bg-transparent overflow-visible",
         isDark
           ? "border-white/10"
           : "border-black/10"
       )}
     >
-      <div className="max-w-[1250px] mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-0 overflow-visible rounded-[32px]">
+      <div className="max-w-[1250px] mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-0 overflow-visible rounded-2xl">
         <LeftContent isDark={isDark} />
         <RightContent isDark={isDark} />
       </div>

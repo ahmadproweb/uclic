@@ -3,45 +3,53 @@
 import { cn } from "@/lib/utils";
 import { useTheme } from '@/context/ThemeContext';
 import { colors as theme } from '@/config/theme';
+import React from 'react';
 
 export default function HeroBackground() {
   const { theme: currentTheme } = useTheme();
   const isDark = currentTheme === 'dark';
+  const [haloOpacity, setHaloOpacity] = React.useState<number>(isDark ? 0.35 : 0.4);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const y = window.scrollY || 0;
+      const start = isDark ? 0.35 : 0.4; // strong at load
+      const end = isDark ? 0.12 : 0.15;  // dim target
+      const distance = 60; // very short range for a very fast progressive fade
+      const t = Math.min(Math.max(y / distance, 0), 1);
+      setHaloOpacity(start + (end - start) * t);
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isDark]);
 
   return (
     <>
-      {/* Base Background gradient */}
-      <div 
-        className="absolute inset-0 z-0"
+      {/* Section-level repeating background pattern (same technique as CaseStudy/Testimonials) */}
+      <div
+        className="absolute inset-0 z-0 pointer-events-none"
         style={{
-          background: isDark 
-            ? `linear-gradient(180deg, ${theme.colors.common.black} 0%, ${theme.colors.common.black} 30%, ${theme.colors.primary.main}80)`
-            : `linear-gradient(180deg, ${theme.colors.common.white}, ${theme.colors.primary.main}41)`
+          backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+          backgroundRepeat: "repeat",
+          backgroundSize: "200px",
+          opacity: isDark ? 0.25 : 0.04
         }}
       />
 
-      {/* Grain effect overlay */}
-      <div 
-        className={cn(
-          "absolute inset-0 z-0 mix-blend-soft-light",
-          isDark ? "opacity-90" : "opacity-50"
-        )}
-        style={{
-          backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.7\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\' opacity=\'0.8\'/%3E%3C/svg%3E")',
-          backgroundRepeat: 'repeat',
-          backgroundSize: '100px 100px'
-        }}
-      />
-
-      {/* New overlay gradient - black to transparent */}
-      <div 
-        className="absolute bottom-0 left-0 right-0 z-[1]"
+      {/* Dynamic halo: stronger on load, dims as you scroll */}
+      <div
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[1400px] h-[500px] -z-0 pointer-events-none"
         style={{
           background: isDark
-            ? 'linear-gradient(to top, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 0) 100%)'
-            : 'linear-gradient(to top, rgb(243, 244, 246) 0%, rgba(243, 244, 246, 1) 40%, rgba(243, 244, 246, 0) 100%)',
-          height: '25%'
+            ? `radial-gradient(ellipse at 50% 0%, rgba(224,255,92,0.8) 0%, rgba(224,255,92,0.35) 25%, rgba(224,255,92,0.12) 55%, transparent 75%)`
+            : `radial-gradient(ellipse at 50% 0%, rgba(224,255,92,0.7) 0%, rgba(224,255,92,0.3) 25%, rgba(224,255,92,0.12) 55%, transparent 75%)`,
+          filter: 'blur(50px)',
+          opacity: haloOpacity,
+          transition: 'opacity 0.18s linear',
         }}
+        aria-hidden="true"
       />
     </>
   );

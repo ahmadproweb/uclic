@@ -301,7 +301,7 @@ const ClientTeam = memo(function ClientTeam({
     <section
       id="team"
       className={cn(
-        "w-full rounded-2xl md:rounded-[32px] p-6 md:p-16 relative",
+        "w-full rounded-2xl md:rounded-[32px] p-6 md:p-16 relative border-b",
         isDark ? "bg-primary/20" : "bg-primary/10"
       )}
       style={{
@@ -332,7 +332,7 @@ const ClientTeam = memo(function ClientTeam({
           className="tracking-[-1px] text-3xl md:text-4xl lg:text-5xl font-light transition-colors duration-300"
           style={{ color: themeColors.common.black }}
         >
-          Des experts freelance engagés
+          Des experts engagés
           <br className="hidden md:block" />
           {' '}à vos côtés
         </h2>

@@ -6,7 +6,7 @@ import { memo } from "react";
 const CollectifSection = memo(function CollectifSection() {
   return (
     <section 
-      className="w-full py-16 md:py-24 relative overflow-hidden bg-white dark:bg-black/95"
+      className="w-full pt-20 pb-12 md:pt-20 md:pb-16 relative overflow-hidden bg-white dark:bg-black/95 border-b border-black/5 dark:border-white/10"
       aria-labelledby="collectif-title"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -14,28 +14,36 @@ const CollectifSection = memo(function CollectifSection() {
           <h2 
             id="collectif-title"
             className={cn(
+              "max-w-5xl mx-auto text-center mb-16 md:mb-20 pt-8 md:pt-0",
               "text-3xl sm:text-4xl md:text-5xl lg:text-[50px]",
-              "font-medium tracking-[-1px] mb-6",
+              "font-medium tracking-[-1px]",
               "text-black/90 dark:text-white/90",
               "leading-[1.1]"
             )}
           >
-            Pourquoi choisir notre collectif<br />
-            plutôt qu'une agence traditionnelle ?
+            Plus de revenus, moins de CAC<br />
+            Agence Growth & IA + freelances experts
           </h2>
           
-          <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
-            Nous ne sommes pas une agence traditionnelle, mais un collectif de freelances experts 
-            en Growth Marketing et Intelligence Artificielle. Notre approche unique combine 
-            l'expertise humaine de nos freelances avec la puissance de l'automatisation IA.
+          <p className="text-center text-black/70 dark:text-white/70 max-w-3xl mx-auto -mt-10 mb-12 md:mb-16 leading-relaxed">
+            Pilotage agence, expertise pointue à la demande. Un interlocuteur unique, des résultats
+            mesurables. Nous diagnostiquons vite, lançons ce qui convertit, et industrialisons ce qui marche.
           </p>
+
+          {/* Proof tags */}
+          <div className="mt-6 flex flex-wrap gap-2 justify-center">
+            <span className="px-3 py-1 rounded-full text-xs font-medium bg-black/10 dark:bg-white/10 text-black/80 dark:text-white/80 border border-black/10 dark:border-white/10">+35% MQL</span>
+            <span className="px-3 py-1 rounded-full text-xs font-medium bg-black/10 dark:bg-white/10 text-black/80 dark:text-white/80 border border-black/10 dark:border-white/10">-22% CAC</span>
+            <span className="px-3 py-1 rounded-full text-xs font-medium bg-black/10 dark:bg-white/10 text-black/80 dark:text-white/80 border border-black/10 dark:border-white/10">+12% NRR</span>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="space-y-8">
-            <div className="space-y-6 p-8 rounded-2xl border border-black/5 dark:border-white/10">
+            <div className="space-y-6 p-8 rounded-2xl border backdrop-blur-md bg-transparent border-black/5 dark:border-white/10 relative overflow-hidden">
+              <div className="pointer-events-none absolute inset-0 rounded-2xl -z-10" style={{backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')", backgroundRepeat: 'repeat', backgroundSize: '200px', opacity: 0.04}} />
               <h3 className="text-2xl md:text-3xl font-semibold text-black dark:text-white">
-                Pourquoi choisir un collectif plutôt qu'une agence ?
+                Pourquoi une agence hybride (core team + freelances) ?
               </h3>
               
               <div className="space-y-4">
@@ -45,11 +53,10 @@ const CollectifSection = memo(function CollectifSection() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-black dark:text-white mb-2">
-                      Expertise spécialisée en Intelligence Artificielle
+                      Diagnostiquer les leviers en 48 h
                     </h4>
                     <p className="text-gray-600 dark:text-gray-300">
-                      Chaque freelance de notre collectif est expert dans son domaine : 
-                      automatisation IA, analyse de données, Growth Marketing. Pas de généralistes.
+                      Données, intent, funnels — on met en lumière ce qui crée du revenu et on priorise.
                     </p>
                   </div>
                 </div>
@@ -60,11 +67,10 @@ const CollectifSection = memo(function CollectifSection() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-black dark:text-white mb-2">
-                      Flexibilité et réactivité d'un collectif
+                      Lancer des campagnes qui convertissent
                     </h4>
                     <p className="text-gray-600 dark:text-gray-300">
-                      Pas de lourdeur d'agence. Nous nous adaptons à vos besoins, 
-                      montons des équipes sur mesure et déployons l'automatisation IA rapidement.
+                      Outbound 24/7 (triggers, intent, scoring) et inbound (SEO/SEA, pages qui vendent).
                     </p>
                   </div>
                 </div>
@@ -75,11 +81,10 @@ const CollectifSection = memo(function CollectifSection() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-black dark:text-white mb-2">
-                      Automatisation IA au cœur de notre approche
+                      Industrialiser ce qui marche
                     </h4>
                     <p className="text-gray-600 dark:text-gray-300">
-                      L'Intelligence Artificielle n'est pas un gadget pour nous, c'est notre ADN. 
-                      Nous automatisons tout : analyse, création, optimisation, scaling.
+                      Ops, agents IA, features utiles — des opérations qui tournent seules et scalent.
                     </p>
                   </div>
                 </div>
@@ -88,30 +93,31 @@ const CollectifSection = memo(function CollectifSection() {
           </div>
 
           <div className="space-y-8">
-            <div className="bg-gradient-to-br from-[#9FB832]/10 to-[#E0FF5C]/10 dark:from-[#E0FF5C]/10 dark:to-[#9FB832]/10 p-8 rounded-2xl border border-black/5 dark:border-white/10">
+            <div className="p-8 rounded-2xl border backdrop-blur-md bg-transparent border-black/5 dark:border-white/10 relative overflow-hidden">
+              <div className="pointer-events-none absolute inset-0 rounded-2xl -z-10" style={{backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')", backgroundRepeat: 'repeat', backgroundSize: '200px', opacity: 0.04}} />
               <h3 className="text-xl md:text-2xl font-semibold text-black dark:text-white mb-6">
-                Notre méthodologie : Collectif + Intelligence Artificielle
+                Notre méthode: Diagnostiquer → Lancer → Industrialiser
               </h3>
               
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
                   <span className="w-8 h-8 bg-[#9FB832] dark:bg-[#E0FF5C] text-white dark:text-black rounded-full flex items-center justify-center text-sm font-semibold">1</span>
                   <span className="text-gray-700 dark:text-gray-300">
-                    <strong>Analyse IA</strong> : Notre Intelligence Artificielle analyse vos données
+                    <strong>Diagnostiquer</strong> — data, intent, funnels. Priorités en 48 h.
                   </span>
                 </div>
                 
                 <div className="flex items-center space-x-3">
                   <span className="w-8 h-8 bg-[#9FB832] dark:bg-[#E0FF5C] text-white dark:text-black rounded-full flex items-center justify-center text-sm font-semibold">2</span>
                   <span className="text-gray-700 dark:text-gray-300">
-                    <strong>Freelances experts</strong> : Sélection du meilleur profil pour votre projet
+                    <strong>Lancer</strong> — outbound 24/7 et inbound qui vend. Copy qui persuade.
                   </span>
                 </div>
                 
                 <div className="flex items-center space-x-3">
                   <span className="w-8 h-8 bg-[#9FB832] dark:bg-[#E0FF5C] text-white dark:text-black rounded-full flex items-center justify-center text-sm font-semibold">3</span>
                   <span className="text-gray-700 dark:text-gray-300">
-                    <strong>Automatisation</strong> : Déploiement et optimisation continue avec l'IA
+                    <strong>Industrialiser</strong> — ops & agents IA, features utiles. Résultats continus.
                   </span>
                 </div>
               </div>
@@ -119,13 +125,13 @@ const CollectifSection = memo(function CollectifSection() {
 
             <div className="bg-black dark:bg-white text-white dark:text-black p-6 rounded-2xl border border-black/5 dark:border-white/10">
               <h4 className="font-semibold text-lg mb-3">
-                L'avantage concurrentiel du collectif
+                Agence + freelances: le meilleur des deux mondes
               </h4>
               <p className="text-sm opacity-90">
-                Pendant que les agences traditionnelles utilisent des méthodes dépassées, 
-                notre collectif de freelances experts en Intelligence Artificielle automatise 
-                votre croissance. Plus rapide, plus efficace, plus rentable.
+                Structure d’agence pour la qualité et la responsabilité, réseau d’experts pour l’agilité.
+                Démarrage en jours, pas en mois. Résultats mesurables.
               </p>
+              <a href="/contact" className="inline-block mt-4 underline underline-offset-4 decoration-[#9FB832] dark:decoration-[#E0FF5C]">Obtenir un plan en 48 h →</a>
             </div>
           </div>
         </div>

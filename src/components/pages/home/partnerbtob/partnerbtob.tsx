@@ -61,7 +61,6 @@ const PartnerCard = memo(({ partner, isDark }: { partner: Partner; isDark: boole
 
 PartnerCard.displayName = 'PartnerCard';
 
-// Memoized Decorative Squares Component
 const DecorativeSquares = memo(({ isDark }: { isDark: boolean }) => {
   if (!isDark) return null;
   
@@ -84,7 +83,6 @@ const DecorativeSquares = memo(({ isDark }: { isDark: boolean }) => {
 
 DecorativeSquares.displayName = 'DecorativeSquares';
 
-// Memoized Plus Button Component
 const PlusButton = memo(({ isDark }: { isDark: boolean }) => (
   <div className="aspect-square flex items-center justify-center relative">
     <div className={cn(
@@ -116,7 +114,6 @@ const PlusButton = memo(({ isDark }: { isDark: boolean }) => (
 
 PlusButton.displayName = 'PlusButton';
 
-// Composant principal - rendu côté serveur par défaut
 function PartnerBtoB() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
@@ -125,27 +122,26 @@ function PartnerBtoB() {
     <section 
       id="partner-btob" 
       className={cn(
-        "w-full relative py-8 md:py-16",
+        "w-full relative pt-20 pb-12 md:pt-20 md:pb-16 border-b border-black/5 dark:border-white/10",
         isDark ? "bg-black" : "bg-white"
       )}
       aria-label="Nos partenaires B2B"
     >
       <div className="max-w-[1250px] mx-auto px-4">
         <div className="text-center">
-          <span className={cn(
+          <h2 className={cn(
+            "max-w-5xl mx-auto text-center mb-16 md:mb-20 pt-0",
             "text-3xl sm:text-4xl md:text-5xl lg:text-[50px]",
             "font-medium tracking-[-1px]",
             "text-black/90 dark:text-white/90",
-            "leading-[1.1]",
-            "mb-4 md:mb-18"
+            "leading-[1.1]"
           )}>
             Des partenaires d'excellence<br/>
             pour booster votre croissance
-          </span>            <span className="block mt-2 md:mt-4"></span>
+          </h2>
 
           <p className={cn(
-            "text-base md:text-lg max-w-2xl mx-auto mb-8 md:mb-16",
-            "text-black/70 dark:text-white/70"
+            "text-center text-black/70 dark:text-white/70 max-w-3xl mx-auto -mt-10 mb-12 md:mb-16"
           )}>
             Découvrez comment nos partenaires B2B, leaders dans leur domaine, contribuent à la réussite de vos projets de Growth Marketing. Grâce à des collaborations stratégiques et une expertise reconnue, nous maximisons la performance, l'innovation et la croissance de votre entreprise.
           </p>
@@ -153,8 +149,6 @@ function PartnerBtoB() {
           <div className="max-w-[1000px] mx-auto">
             <div className="relative">
               <DecorativeSquares isDark={isDark} />
-
-              
               <div 
                 className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-7 relative z-[2]"
                 role="list"

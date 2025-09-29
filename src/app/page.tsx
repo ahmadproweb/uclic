@@ -6,7 +6,8 @@ import CollectifSection from "@/components/pages/home/collectif/collectif";
 import FAQ from "@/components/pages/home/faq/faq";
 import SEOContentSection from "@/components/pages/home/seo-content/seo-content";
 import Hero from "@/components/pages/home/hero/hero";
-import Partners from "@/components/pages/home/partner/partner";
+import PartnersWrapper from "@/components/pages/home/partner/PartnersWrapper";
+import PartnerHome from "@/components/pages/home/partner/PartnerHome";
 import PartnerBtoB from "@/components/pages/home/partnerbtob/partnerbtob";
 import ProcessSteps from "@/components/pages/home/process/process";
 import Service from "@/components/pages/home/services/services";
@@ -18,7 +19,8 @@ export default function Home() {
   return (
     <main className="flex flex-col">
       <Hero />
-      <Partners />
+      {/* Replace legacy wrapper with PartnerHome without heading text */}
+      <PartnerHome />
       <Service />
       <CollectifSection />
       <MarqueeText />

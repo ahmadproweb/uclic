@@ -6,6 +6,7 @@ import { Logo } from "@/components/header/Logo";
 import Link from "next/link";
 import NewsletterSection from './NewsletterSection';
 import { ExpertiseGrowthCategory } from '@/lib/wordpress';
+import { cn } from "@/lib/utils";
 
 interface FooterUIProps {
   legalPages: Array<{
@@ -125,13 +126,34 @@ function FooterUI({ legalPages, categories }: FooterUIProps) {
 
   return (
     <footer 
-      className={`${isDark ? 'bg-black' : 'bg-gray-100'} ${isDark ? 'text-white' : 'text-gray-900'} pt-6 md:pt-12 pb-[100px] md:pb-[100px] border-t`}
+      className={`w-full ${isDark ? 'bg-black' : 'bg-white'} ${isDark ? 'text-white' : 'text-gray-900'} pt-8 md:pt-12 pb-[100px] md:pb-[100px] border relative rounded-t-2xl overflow-hidden`}
       style={{
         borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+        backgroundImage: `radial-gradient(ellipse at center bottom,
+          ${isDark ? 'rgba(212,237,49,0.15)' : 'rgba(212,237,49,0.20)'} 0%,
+          rgba(212,237,49,0.10) 18%,
+          rgba(212,237,49,0.06) 38%,
+          rgba(212,237,49,0.03) 58%,
+          ${isDark ? 'rgba(0,0,0,1)' : 'rgba(255,255,255,1)'} 78%)`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "130% 120%",
+        backgroundPosition: "center 100%",
       }}
     >
-      <div className="max-w-[1250px] mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 mb-8 md:mb-16">
+      {/* Background pattern - full width */}
+      <div
+        className="absolute inset-0 z-0 pointer-events-none rounded-t-2xl"
+        style={{
+          backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+          backgroundRepeat: "repeat",
+          backgroundSize: "200px",
+          opacity: isDark ? "0.25" : "0.04"
+        }}
+      />
+      
+      <div className="max-w-[1250px] mx-auto px-4 sm:px-6">
+        {/* Footer content */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 mb-8 md:mb-16 px-0">
           <FooterLogo isDark={isDark} />
           <FooterLinks isDark={isDark} title="Nos services" links={servicesLinks} />
           <FooterLinks isDark={isDark} title="Plan du site" links={siteMapLinks} />

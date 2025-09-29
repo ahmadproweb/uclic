@@ -26,17 +26,25 @@ export default function CharteFreelancePage() {
 
       <main className="w-full min-h-screen relative">
 
-      <section className="relative z-10 pt-40 pb-16 md:pb-24">
-        <div className="max-w-[1250px] mx-auto px-8 md:px-12 py-0 relative z-10"
-        >
-          <div
-            className={cn(
-              "max-w-[800px] mx-auto px-4 py-8 rounded-2xl",
-              isDark
-                ? "bg-black/40 backdrop-blur-md border border-white/10 shadow-[0_0_0_1px_rgba(255,255,255,0.05)]"
-                : "bg-white/40 backdrop-blur-md border border-black/5 shadow-[0_0_0_1px_rgba(0,0,0,0.03)]"
-            )}
-          >
+      <section className="relative z-10 w-full overflow-hidden bg-transparent pt-32 pb-0 md:pb-0 px-4 sm:px-6">
+        <div className={cn(
+          "max-w-[1250px] mx-auto px-4 sm:px-6 py-8 md:py-12 relative z-10 rounded-2xl border",
+          isDark ? "border-white/10" : "border-black/5"
+        )}>
+          {/* Background pattern */}
+          <div className="absolute inset-0 rounded-2xl -z-10"> 
+            <div
+              className="absolute inset-0 rounded-2xl"
+              style={{
+                backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+                backgroundRepeat: "repeat",
+                backgroundSize: "200px",
+                opacity: isDark ? "0.25" : "0.04"
+              }}
+            />
+          </div>
+          
+          <div className="max-w-[800px] mx-auto px-4 py-8 rounded-2xl bg-transparent">
             {/* Header */}
             <div className="text-center mb-12 md:mb-16">
               <span className="text-base mb-4 block font-semibold text-black dark:text-[#E0FF5C]">
@@ -110,8 +118,8 @@ export default function CharteFreelancePage() {
       </section>
 
       {/* PreFooter Section */}
-      <div className="relative z-10 w-full overflow-hidden pt-16 pb-16">
-        <div className="max-w-[1250px] mx-auto px-4">
+      <div className="relative z-10 w-full overflow-hidden mt-10 md:mt-16 pt-8 pb-16 md:pt-12 md:pb-24 px-4 sm:px-6">
+        <div className="max-w-[1250px] mx-auto">
           <PreFooter noBgGradient />
         </div>
       </div>

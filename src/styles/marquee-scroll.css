@@ -58,14 +58,30 @@
 }
 
 /* Pause on hover */
-.marquee-container:hover .marquee-scroll {
+.marquee-container:hover .marquee-scroll,
+.group:hover .animate-marquee {
   animation-play-state: paused;
+}
+
+/* Slower marquee for testimonials masonry */
+.animate-marquee {
+  animation: scroll-left 30s linear infinite;
+}
+
+@keyframes scroll-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - 1rem));
+  }
 }
 
 /* Respect user preferences */
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee-left,
-  .animate-marquee-right {
+  .animate-marquee-right,
+  .animate-marquee {
     animation: none;
     transform: translateX(0);
   }

@@ -1,4 +1,8 @@
+"use client";
+
 import { PartnerClient } from './PartnerClient';
+import { useTheme } from "@/context/ThemeContext";
+import { cn } from "@/lib/utils";
 
 // Données statiques avec descriptions SEO
 const row1 = [
@@ -35,11 +39,27 @@ interface PartnersProps {
 }
 
 export default function Partners({ forceBlackLogos = false }: PartnersProps) {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+
   return (
     <div 
-      className="w-full flex flex-col gap-0 pt-8 md:pt-12 pb-12 md:pb-16 bg-[#F3F4F6] dark:bg-black/100 overflow-hidden"
+      className={cn(
+        "w-full flex flex-col gap-0 pt-8 md:pt-12 pb-12 md:pb-16 overflow-hidden relative border-b",
+        isDark ? "bg-black border-white/10" : "bg-transparent border-black/5"
+      )}
       aria-label="Nos partenaires de confiance"
     >
+      {/* Background pattern */}
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+          backgroundRepeat: "repeat",
+          backgroundSize: "200px",
+          opacity: isDark ? "0.25" : "0.04"
+        }}
+      />
       <PartnerClient row1={row1} row2={row2} forceBlackLogos={forceBlackLogos} />
     </div>
   );

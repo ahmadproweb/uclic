@@ -26,27 +26,34 @@ export default function AuditContent() {
         }}
       />
       <section className={cn(
-        "w-full relative overflow-hidden pt-40 pb-16 md:pb-24"
+        "w-full relative overflow-hidden pt-32 pb-10 md:pb-16 px-4 sm:px-6"
       )}>
 
         {/* Main content container with backdrop blur and halo */}
-        <div
-          className="max-w-[1250px] mx-auto px-10 md:px-14 py-14 md:py-18 relative z-10 rounded-2xl"
-          style={{
-            boxShadow: isDark
-              ? "0 0 0 1px rgba(255,255,255,0.05), 0 8px 32px -4px rgba(0,0,0,0.3)"
-              : "0 0 0 1px rgba(0,0,0,0.03), 0 8px 32px -4px rgba(0,0,0,0.1)",
-            position: "relative"
-          }}
-        >
+         <div
+           className={cn(
+             "max-w-[1250px] mx-auto px-4 sm:px-6 py-14 md:py-18 relative z-10 rounded-2xl border",
+             isDark ? "border-white/10" : "border-black/5"
+           )}
+         >
+          {/* Background pattern (no extra border to avoid double border) */}
+          <div className={cn("absolute inset-0 rounded-2xl -z-10")}> 
+            <div
+              className="absolute inset-0 rounded-2xl"
+              style={{
+                backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+                backgroundRepeat: "repeat",
+                backgroundSize: "200px",
+                opacity: isDark ? "0.35" : "0.04"
+              }}
+            />
+          </div>
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
             {/* Left Column - Content */}
             <div className="flex items-start">
               <div className={cn(
-                "max-w-xl p-8 rounded-2xl backdrop-blur-md",
-                isDark 
-                  ? "bg-black/40" 
-                  : "bg-white/40"
+                "max-w-xl p-0 md:p-8 rounded-2xl",
+                "bg-transparent"
               )}>
                 <h1 className={cn(
                   "text-3xl sm:text-4xl md:text-5xl lg:text-[50px]",
@@ -159,14 +166,24 @@ export default function AuditContent() {
                   </div>
                 </div>
 
-                <div 
-                  className={cn(
-                    "rounded-2xl p-6",
-                    "border backdrop-blur-md",
-                    isDark ? "border-white/10 bg-black/40" : "border-black/5 bg-white/40"
-                  )}
-                >
-                  <div className="flex items-start gap-4">
+                 <div 
+                   className={cn(
+                     "rounded-2xl p-6",
+                     "border backdrop-blur-md relative overflow-hidden",
+                     "bg-transparent"
+                   )}
+                 >
+                   {/* Halo effect inside the card */}
+                   <div
+                     className="pointer-events-none absolute inset-0 rounded-2xl"
+                     style={{
+                       background: isDark
+                         ? `linear-gradient(to right, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.08) 60%, rgba(212,237,49,0) 100%)`
+                         : `linear-gradient(to right, rgba(212,237,49,0.10) 0%, rgba(212,237,49,0.10) 60%, rgba(212,237,49,0) 100%)`,
+                       filter: 'blur(20px)'
+                     }}
+                   />
+                  <div className="flex items-start gap-4 relative z-10">
                     <div 
                       className="p-3 rounded-xl"
                       style={{
@@ -201,7 +218,7 @@ export default function AuditContent() {
             {/* Right Column - Calendly Integration */}
             <div className={cn(
               "w-full rounded-[32px] overflow-hidden border backdrop-blur-md",
-              isDark ? "bg-black/40 border-white/10" : "bg-white/40 border-black/5"
+              isDark ? "bg-black border-white/10" : "bg-white border-black/5"
             )}>
               <iframe
                 src="https://calendly.com/hello-uclic"
@@ -221,14 +238,14 @@ export default function AuditContent() {
 
       {/* Partner Section */}
       <div
-        className={cn("pt-4 pb-12 md:pt-6 md:pb-16", isDark ? "bg-black" : "bg-white")}
+        className={cn("pt-0 pb-8 md:pt-0 md:pb-12", isDark ? "bg-black" : "bg-white")}
       >
         <Partners />
       </div>
 
       {/* PreFooter Section */}
-      <div className={cn("relative z-10 w-full overflow-hidden pt-16 pb-16")}>
-        <div className="max-w-[1250px] mx-auto px-4">
+      <div className={cn("relative z-10 w-full overflow-hidden pt-8 pb-16 md:pt-12 md:pb-24 px-4 sm:px-6")}>
+        <div className="max-w-[1250px] mx-auto">
           <PreFooter noBgGradient />
         </div>
       </div>

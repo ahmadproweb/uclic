@@ -6,16 +6,17 @@ import { memo } from "react";
 const SEOContentSection = memo(function SEOContentSection() {
   return (
     <section 
-      className="w-full py-16 md:py-24 relative overflow-hidden bg-gray-50 dark:bg-black"
+      className="w-full pt-20 pb-12 md:pt-20 md:pb-16 relative overflow-hidden bg-gray-50 dark:bg-black"
       aria-labelledby="seo-content-title"
     >
       <div className="max-w-[1250px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <div className="text-center">
           <h2 
             id="seo-content-title"
             className={cn(
+              "max-w-5xl mx-auto text-center mb-16 md:mb-20 pt-0",
               "text-3xl sm:text-4xl md:text-5xl lg:text-[50px]",
-              "font-medium tracking-[-1px] mb-6",
+              "font-medium tracking-[-1px]",
               "text-black/90 dark:text-white/90",
               "leading-[1.1]"
             )}
@@ -23,6 +24,9 @@ const SEOContentSection = memo(function SEOContentSection() {
             Intelligence Artificielle et Automatisation :<br />
             L'avenir du Growth Marketing
           </h2>
+          <p className="text-center text-black/70 dark:text-white/70 max-w-3xl mx-auto -mt-10 mb-12 md:mb-16">
+            Comment l’IA, l’automatisation et un contenu SEO orienté revenus créent des gains mesurables: trafic qualifié, MQL, CAC en baisse, MRR en hausse.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">

@@ -5,17 +5,77 @@ import SocialProof from "@/components/ui/SocialProof";
 import { useTheme } from "@/context/ThemeContext";
 import { useVideoPopup } from "@/context/VideoPopupContext";
 import { cn } from "@/lib/utils";
-import { Suspense, memo } from "react";
-import HeroAnimation from "./HeroAnimation";
+import React, { memo } from "react";
 import HeroBackground from "./HeroBackground";
+// Simple typewriter component
+const Typewriter = memo(function Typewriter({
+  phrases,
+  typingSpeed = 50,
+  deletingSpeed = 30,
+  pauseMs = 1000,
+  loop = true,
+}: {
+  phrases: string[];
+  typingSpeed?: number;
+  deletingSpeed?: number;
+  pauseMs?: number;
+  loop?: boolean;
+}) {
+  const [phraseIndex, setPhraseIndex] = React.useState(0);
+  const [displayText, setDisplayText] = React.useState("");
+  const [isDeleting, setIsDeleting] = React.useState(false);
+
+  React.useEffect(() => {
+    const current = phrases[phraseIndex] || "";
+    const speed = isDeleting ? deletingSpeed : typingSpeed;
+
+    const tick = () => {
+      const nextLength = displayText.length + (isDeleting ? -1 : 1);
+      const nextText = current.slice(0, Math.max(0, nextLength));
+      setDisplayText(nextText);
+
+      if (!isDeleting && nextText === current) {
+        setTimeout(() => setIsDeleting(true), pauseMs);
+        return;
+      }
+
+      if (isDeleting && nextText === "") {
+        setIsDeleting(false);
+        setPhraseIndex((prev) => {
+          const next = prev + 1;
+          return loop ? next % phrases.length : Math.min(next, phrases.length - 1);
+        });
+        return;
+      }
+    };
+
+    const t = setTimeout(tick, speed);
+    return () => clearTimeout(t);
+  }, [displayText, isDeleting, phraseIndex, phrases, typingSpeed, deletingSpeed, pauseMs, loop]);
+
+  return (
+    <span className="relative inline-flex items-baseline">
+      <span aria-live="polite" aria-atomic="true">{displayText}</span>
+      <span className="ml-[2px] w-[2px] h-[1em] bg-current/70 animate-caret" aria-hidden="true" />
+      <style jsx global>{`
+        @keyframes caret {
+          0%, 49% { opacity: 0; }
+          50%, 100% { opacity: 1; }
+        }
+        .animate-caret { animation: caret 1s step-end infinite; }
+      `}</style>
+    </span>
+  );
+});
+
 
 // Memoized main heading component
 const MainHeading = memo(function MainHeading() {
   return (
     <>
-      <h1 className="inline-flex px-3 sm:px-4 py-1.5 bg-[#9FB832]/10 dark:bg-[#E0FF5C]/10 rounded-full text-[#9FB832] dark:text-[#E0FF5C] text-sm sm:text-base font-medium relative z-10 mb-2">
-      Freelance Growth / Growth Marketing spécialisé IA
-      </h1>
+      <div className="inline-flex px-3 sm:px-4 py-1.5 bg-[#9FB832]/10 dark:bg-[#E0FF5C]/10 rounded-full text-[#9FB832] dark:text-[#E0FF5C] text-sm sm:text-base font-medium relative z-10 mb-2">
+        Agence Growth & IA orientée revenus
+      </div>
     </>
   );
 });
@@ -34,13 +94,11 @@ const VisionText = memo(function VisionText() {
         "whitespace-pre-line"
       )}
     >
-      {`L'IA booste vos ventes
-pendant que vos concurrents `}
-      <span className="inline-block font-bold relative">
-        <span className="relative z-10 text-[#9FB832] dark:text-[#E0FF5C]">
-          hésitent
-        </span>
-        <span className="absolute bottom-[-8px] left-[10%] w-[80%] h-[6px] -z-10 bg-[#9FB832]/20 dark:bg-[#E0FF5C]/20" />
+      {`Agence Growth & IA\n`}
+      {`sur‑mesure pour gagner\n`}
+      {`des `}
+      <span className="font-bold text-[#9FB832] dark:text-[#E0FF5C] whitespace-nowrap">
+        <Typewriter phrases={["visites", "prospects", "ventes", "revenus"]} typingSpeed={75} deletingSpeed={45} pauseMs={1200} />
       </span>
     </p>
   );
@@ -48,19 +106,37 @@ pendant que vos concurrents `}
 
 // Memoized description component
 const Description = memo(function Description() {
+  const { openVideoPopup } = useVideoPopup();
   return (
     <p
       className={cn(
-        "text-base md:text-lg mt-6 mb-8 md:mb-2 max-w-xl pr-4",
+        "text-base md:text-lg mt-6 mb-8 md:mb-2 max-w-2xl mx-auto text-center",
         "leading-relaxed tracking-[-0.01em]",
         "text-rendering-optimizeLegibility",
         "subpixel-antialiased",
         "text-[#000] dark:text-[#F5F5F1]"
       )}
     >
-      Le marketing traditionnel promet de la notoriété mais échoue à générer des ventes. 
-      L'IA change tout : elle transforme vos campagnes en générateurs de revenus. 
-      Pendant que vos concurrents hésitent, vous gagnez.
+      Stratégie, automatisations et agents IA.
+      Nous testons et industrialisons les leviers rentables: productivité ↑, CAC ↓, MRR ↑.
+      Plan d’actions en 48 h.
+      {" "}
+      <button
+        type="button"
+        onClick={() =>
+          openVideoPopup(
+            "GRlZO8KtB7A",
+            "Wladimir Delcros Founder de Uclic invité Podcast avec Benoit Dubos de Scalezia"
+          )
+        }
+        className={cn(
+          "underline underline-offset-4",
+          "decoration-[#9FB832] dark:decoration-[#E0FF5C]",
+          "hover:opacity-80"
+        )}
+      >
+        Voir la vidéo
+      </button>
     </p>
   );
 });
@@ -77,19 +153,6 @@ const CTAButtons = memo(function CTAButtons({ isDark }: { isDark: boolean }) {
         </CTAButton>
       </div>
       <div className="flex items-center gap-6">
-        <CTAButton
-          variant="simple"
-          simpleVariant="secondary"
-          className={cn(!isDark && "!text-black [&_svg]:!stroke-black")}
-          onClick={() =>
-            openVideoPopup(
-              "GRlZO8KtB7A",
-              "Wladimir Delcros Founder de Uclic invité Podcast avec Benoit Dubos de Scalezia"
-            )
-          }
-        >
-          Voir la vidéo
-        </CTAButton>
         <SocialProof />
       </div>
     </div>
@@ -101,25 +164,18 @@ const Hero = () => {
   const isDark = currentTheme === "dark";
 
   return (
-    <section className="relative min-h-[calc(70vh-var(--header-height))] flex items-center pt-28 sm:pt-32 md:pt-36">
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          <div className="max-w-2xl">
+    <section className={cn(
+      "relative min-h-[calc(70vh-var(--header-height))] flex items-center pt-28 sm:pt-32 md:pt-36",
+      isDark ? "bg-black" : "bg-white"
+    )}>
+      <div className="relative z-10 w-full max-w-[1250px] mx-auto px-4 sm:px-6">
+        <div className="flex flex-col items-center text-center">
+          <div className="w-full">
             <MainHeading />
             <VisionText />
             <Description />
-            <CTAButtons isDark={isDark} />
-          </div>
-
-          <div className="relative flex flex-col items-center justify-center w-full h-full">
-            <div className="w-full max-w-[600px] mx-auto relative">
-              <Suspense
-                fallback={
-                  <div className="w-full aspect-square bg-black/5 dark:bg-white/5 rounded-3xl animate-pulse" />
-                }
-              >
-                <HeroAnimation />
-              </Suspense>
+            <div className="flex justify-center mt-4 md:mt-6">
+              <CTAButtons isDark={isDark} />
             </div>
           </div>
         </div>

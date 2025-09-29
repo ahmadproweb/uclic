@@ -100,11 +100,11 @@ export const PartnerClient = memo(function PartnerClient({
 
   return (
     <div className="w-full">
-      <div className="max-w-[1250px] mx-auto px-4 mb-8">
+      <div className="max-w-[1250px] mx-auto px-4">
         <h2 className="text-2xl md:text-4xl font-normal text-center mb-4 text-black dark:text-white">
           Nos partenaires de confiance
         </h2>
-        <p className="text-center text-lg text-black dark:text-gray-300 max-w-2xl mx-auto">
+        <p className="text-center text-lg text-black dark:text-gray-300 max-w-2xl mx-auto mb-8">
           Ils ont fait confiance à nos services <strong>Growth</strong>, <strong>automatisation</strong> & <strong>IA</strong>
         </p>
       </div>

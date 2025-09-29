@@ -100,80 +100,71 @@ const PortfolioCard = memo(({ portfolio, isDark }: { portfolio: Portfolio; isDar
     : '';
 
   return (
-    <article 
-      className={cn(
-        "rounded-3xl p-6 group border backdrop-blur-md relative",
-        "hover:-translate-y-1 transition-all duration-300",
-        isDark ? "bg-black/40 border-white/10" : "bg-white/40 border-black/5"
-      )}
+    <Link
+      href={`/cas-clients/${portfolio.slug}`}
+      className="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 border backdrop-blur-md relative block w-full"
+      style={{
+        background: 'transparent',
+        borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)',
+        boxShadow: 'none',
+      }}
     >
-      {/* Hover halo effect */}
-      <div 
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
+      {/* Background pattern */}
+      <div
+        className="absolute inset-0 rounded-3xl z-0 pointer-events-none"
         style={{
-          background: isDark
-            ? `radial-gradient(ellipse at center, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.04) 40%, transparent 70%)`
-            : `radial-gradient(ellipse at center, rgba(212,237,49,0.12) 0%, rgba(212,237,49,0.06) 40%, transparent 70%)`,
-          filter: 'blur(12px)',
+          backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+          backgroundRepeat: 'repeat',
+          backgroundSize: '200px',
+          opacity: isDark ? '0.4' : '0.04'
         }}
       />
-      <Link 
-        href={`/cas-clients/${portfolio.slug}`}
-        className="block"
-      >
-        <figure className={cn(
-          "aspect-video w-full rounded-xl md:rounded-2xl mb-6 md:mb-8 overflow-hidden",
-          isDark ? "bg-white/10" : "bg-gray-100"
-        )}>
-          {imageUrl && (
-            <img
-              src={optimizedImageUrl}
-              alt={decodeHTMLEntities(portfolio.title)}
-              className="w-full h-full object-cover"
-              loading="lazy"
-              decoding="async"
-              onError={(e) => {
-                const target = e.currentTarget as HTMLImageElement;
-                const jpgFallback = imageUrl.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1');
-                if (target.src !== jpgFallback) {
-                  target.src = jpgFallback;
-                }
-              }}
-            />
-          )}
-        </figure>
+      {/* Hover halo effect */}
+      <div 
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+        style={{
+          background: isDark
+            ? `linear-gradient(to right, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.08) 60%, rgba(212,237,49,0) 100%)`
+            : `linear-gradient(to right, rgba(212,237,49,0.12) 0%, rgba(212,237,49,0.12) 60%, rgba(212,237,49,0) 100%)`,
+          filter: 'blur(20px)',
+        }}
+      />
 
-        <h3 className={cn(
-          "text-xl font-semibold mb-3 relative z-20",
-          isDark ? "text-white" : "text-black"
-        )}>
+      {/* Featured Image */}
+      <div className="relative w-full h-48 overflow-hidden">
+        {imageUrl && (
+          <img
+            src={optimizedImageUrl}
+            alt={decodeHTMLEntities(portfolio.title)}
+            className="object-cover transition-transform duration-500 group-hover:scale-105 w-full h-full"
+            loading="lazy"
+            decoding="async"
+            onError={(e) => {
+              const target = e.currentTarget as HTMLImageElement;
+              const jpgFallback = imageUrl.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1');
+              if (target.src !== jpgFallback) {
+                target.src = jpgFallback;
+              }
+            }}
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
+        <span className="absolute bottom-4 left-4 inline-block px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-sm z-20">
+          Cas client
+        </span>
+      </div>
+
+      {/* Content */}
+      <div className="p-6 space-y-3">
+        <h3 className={cn("text-xl font-semibold", isDark ? "text-white" : "text-black")}>
           {decodeHTMLEntities(portfolio.title)}
         </h3>
 
-        <p 
-          className={cn(
-            "text-sm mb-4 line-clamp-2 relative z-20",
-            isDark ? "text-white/80" : "text-black/80"
-          )}
-        >
+        <p className={cn("text-sm line-clamp-2", isDark ? "text-white/80" : "text-black/80") }>
           {decodeHTMLEntities(portfolio.excerpt.replace(/<[^>]*>/g, ''))}
         </p>
-
-        <span className={cn(
-          "inline-flex items-center text-sm relative z-20",
-          isDark 
-            ? "text-[#E0FF5C]" 
-            : "text-[#9FB832]"
-        )}>
-          Découvrir
-          <i className={cn(
-            "ri-arrow-right-s-line ml-2 transition-transform duration-300",
-            "text-lg",
-            "group-hover:translate-x-1"
-          )} />
-        </span>
-      </Link>
-    </article>
+      </div>
+    </Link>
   );
 });
 
@@ -239,54 +230,88 @@ function CaseStudy({ portfolios: initialPortfolios }: CaseStudyProps) {
       ref={sectionRef}
       id="casestudy" 
       className={cn(
-        "w-full py-12 md:py-16 relative",
-        isDark ? "bg-black/95" : "bg-white"
+        "w-full relative overflow-hidden pt-20 pb-12 md:pt-20 md:pb-16 px-4 sm:px-6 border-b border-black/5 dark:border-white/10",
+        isDark ? "bg-black" : "bg-white"
       )}
       aria-label="Études de cas"
     >
+      {/* Fixed halo background effect */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed top-0 left-0 right-0 h-[45vh] z-0"
+        style={{
+          background: isDark
+            ? `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.20) 0%, rgba(212,237,49,0.12) 15%, rgba(212,237,49,0.06) 35%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 75%)`
+            : `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.25) 0%, rgba(212,237,49,0.15) 18%, rgba(212,237,49,0.08) 38%, rgba(255,255,255,0.1) 58%, rgba(255,255,255,0) 78%)`,
+          filter: 'blur(20px)'
+        }}
+      />
+
+      {/* Section-level background pattern */}
+      <div 
+        className="absolute inset-0 -z-10"
+        style={{
+          backgroundImage: 'url("https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png")',
+          backgroundRepeat: 'repeat',
+          backgroundSize: '200px',
+          opacity: isDark ? 0.25 : 0.03
+        }}
+        aria-hidden="true"
+      />
+
       <DecorativeMouse ref={mouse1Ref} position="left" isDark={isDark} isVisible={isVisible} />
       <DecorativeMouse ref={mouse2Ref} position="right" isDark={isDark} isVisible={isVisible} />
       <DecorativeNavigation position="topleft" isDark={isDark} isVisible={isVisible} />
       <DecorativeNavigation position="bottomright" isDark={isDark} isVisible={isVisible} />
 
-      <div className="max-w-[1250px] mx-auto px-4">
-        <header className="text-center mb-8 md:mb-16">
+      {/* Invisible width container with background pattern */}
+      <div className="max-w-[1250px] mx-auto px-4 sm:px-6 relative z-10">
+
+      <header className="text-center">
           <h2 className={cn(
-            "text-3xl md:text-5xl font-normal tracking-[-1px]",
+            "max-w-5xl mx-auto text-center mb-16 md:mb-20 pt-8 md:pt-0",
+            "text-3xl sm:text-4xl md:text-5xl lg:text-[50px]",
+            "font-normal tracking-[-1px]",
             isDark ? "text-white" : "text-black"
           )}>
             Découvrez comment nos équipes ont
             <br/>
             performé avec nos clients
           </h2>
-        </header>
+          <p className={cn(
+            "text-center text-black/70 dark:text-white/70 max-w-3xl mx-auto -mt-10 mb-12 md:mb-16 leading-relaxed"
+          )}>
+            Études de cas B2B: stratégies IA et Growth concrètes, résultats mesurables. Parcourez nos
+            collaborations et les gains obtenus (MQL, CAC, MRR, rétention).
+          </p>
+      </header>
 
-        <div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
-          role="feed"
-          aria-label="Liste des études de cas"
+      <div 
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
+        role="feed"
+        aria-label="Liste des études de cas"
+      >
+        {portfolios.map((portfolio: Portfolio) => (
+          <PortfolioCard 
+            key={portfolio.id} 
+            portfolio={portfolio} 
+            isDark={isDark} 
+          />
+        ))}
+      </div>
+
+      <footer className="mt-6 md:mt-10 text-center">
+        <CTAButton
+          href="/cas-clients"
+          className={cn(
+            isDark 
+              ? "!bg-white !text-black hover:!bg-[#E0FF5C] [&_svg]:!stroke-black [&_span]:border-black hover:[&_span]:border-black hover:[&_svg]:!stroke-black"
+              : "!bg-black hover:!bg-white !text-white hover:!text-black [&_svg]:!text-white [&_svg]:!stroke-white hover:[&_svg]:!text-black hover:[&_svg]:!stroke-black [&_span]:border-white hover:[&_span]:border-black"
+          )}
         >
-          {portfolios.map((portfolio: Portfolio) => (
-            <PortfolioCard 
-              key={portfolio.id} 
-              portfolio={portfolio} 
-              isDark={isDark} 
-            />
-          ))}
-        </div>
-
-        <footer className="mt-8 md:mt-16 text-center">
-          <CTAButton
-            href="/cas-clients"
-            className={cn(
-              isDark 
-                ? "!bg-white !text-black hover:!bg-[#E0FF5C] [&_svg]:!stroke-black [&_span]:border-black hover:[&_span]:border-black hover:[&_svg]:!stroke-black"
-                : "!bg-black hover:!bg-white !text-white hover:!text-black [&_svg]:!text-white [&_svg]:!stroke-white hover:[&_svg]:!text-black hover:[&_svg]:!stroke-black [&_span]:border-white hover:[&_span]:border-black"
-            )}
-          >
-            Voir tous les cas clients
-          </CTAButton>
-        </footer>
+          Voir tous les cas clients
+        </CTAButton>
+      </footer>
       </div>
     </section>
   );

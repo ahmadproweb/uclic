@@ -37,7 +37,7 @@ export default function TeamMemberPageLayout({
     "description": member.equipeFields.extrait || `Expert chez Uclic`,
     "url": `https://uclic.fr/equipe/${member.slug}`,
     "image": member.equipeFields.image?.node.sourceUrl || "/images/default-profile.jpg",
-    "jobTitle": member.equipeFields.poste || "Expert",
+    "jobTitle": (member as any).equipeFields?.poste || "Expert",
     "worksFor": {
       "@type": "Organization",
       "name": "Uclic",
@@ -48,11 +48,11 @@ export default function TeamMemberPageLayout({
       member.equipeFields.twitter,
       member.equipeFields.autre
     ].filter(Boolean),
-    "alumniOf": member.equipeFields.ecole ? {
+    "alumniOf": (member as any).equipeFields?.ecole ? {
       "@type": "EducationalOrganization",
-      "name": member.equipeFields.ecole
+      "name": (member as any).equipeFields?.ecole
     } : undefined,
-    "knowsAbout": member.equipeFields.expertise ? member.equipeFields.expertise.split(',').map(skill => skill.trim()) : undefined
+    "knowsAbout": (member as any).equipeFields?.expertise ? (member as any).equipeFields.expertise.split(',').map((skill: string) => skill.trim()) : undefined
   };
 
   return (
@@ -75,17 +75,25 @@ export default function TeamMemberPageLayout({
         }}
       />
 
-      <section className="w-full max-w-[100vw] relative overflow-hidden pt-40 pb-16">
-        <div className={cn(
-          "max-w-[1250px] mx-auto px-8 md:px-12 py-8 md:py-12 relative z-10 rounded-2xl"
-        )}
-          style={{
-            boxShadow: isDark
-              ? "0 0 0 1px rgba(255,255,255,0.05), 0 8px 32px -4px rgba(0,0,0,0.3)"
-              : "0 0 0 1px rgba(0,0,0,0.03), 0 8px 32px -4px rgba(0,0,0,0.1)",
-            position: "relative"
-          }}
+      <section className="w-full relative overflow-hidden pt-32 pb-16 md:pb-24 px-4 sm:px-6">
+        <div
+          className={cn(
+            "max-w-[1250px] mx-auto px-4 sm:px-6 py-8 md:py-12 relative z-10 rounded-2xl border",
+            isDark ? "border-white/10" : "border-black/5"
+          )}
         >
+          {/* Background pattern */}
+          <div className="absolute inset-0 rounded-2xl -z-10">
+            <div
+              className="absolute inset-4 md:inset-0 rounded-2xl"
+              style={{
+                backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+                backgroundRepeat: "repeat",
+                backgroundSize: "200px",
+                opacity: isDark ? "0.25" : "0.04"
+              }}
+            />
+          </div>
           {/* Navigation row */}
           <div className="flex justify-between items-center mb-10">
             {/* Breadcrumb */}
@@ -161,8 +169,8 @@ export default function TeamMemberPageLayout({
                 className={cn(
                   "rounded-3xl p-8 border relative overflow-hidden backdrop-blur-md",
                   isDark 
-                    ? "bg-black/40 border-white/10 shadow-[0_0_0_1px_rgba(255,255,255,0.05)]" 
-                    : "bg-white/40 border-black/5 shadow-[0_0_0_1px_rgba(0,0,0,0.03)]"
+                    ? "bg-black/40 border-white/10" 
+                    : "bg-white/40 border-black/5"
                 )}
               >
                 {/* Gradient background */}
@@ -191,14 +199,12 @@ export default function TeamMemberPageLayout({
 
                   {/* Role badge */}
                   {member.equipeFields.role && (
-                    <div
-                      className={cn(
-                        "px-4 py-1.5 rounded-full text-sm font-medium mb-6 text-center",
-                        isDark
-                          ? "bg-primary text-black"
-                          : "bg-primary text-white"
-                      )}
-                    >
+                     <div
+                       className={cn(
+                         "px-4 py-1.5 rounded-full text-sm font-medium mb-6 text-center",
+                         "bg-black text-white"
+                       )}
+                     >
                       {member.equipeFields.role}
                     </div>
                   )}
@@ -222,9 +228,7 @@ export default function TeamMemberPageLayout({
                         rel="noopener noreferrer"
                         className={cn(
                           "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300",
-                          isDark
-                            ? "bg-primary/10 hover:bg-primary/20 text-primary"
-                            : "bg-primary hover:bg-primary/100 text-white"
+                          "bg-black hover:bg-black text-white"
                         )}
                       >
                         <svg
@@ -268,7 +272,7 @@ export default function TeamMemberPageLayout({
                           "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300",
                           isDark
                             ? "bg-primary/10 hover:bg-primary/20 text-primary"
-                            : "bg-primary hover:bg-primary/100 text-white"
+                            : "bg-black/10 hover:bg-black/20 text-black"
                         )}
                       >
                         <svg
@@ -295,7 +299,7 @@ export default function TeamMemberPageLayout({
                           "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300",
                           isDark
                             ? "bg-primary/10 hover:bg-primary/20 text-primary"
-                            : "bg-primary hover:bg-primary/100 text-white"
+                            : "bg-black/10 hover:bg-black/20 text-black"
                         )}
                       >
                         <svg
@@ -339,8 +343,8 @@ export default function TeamMemberPageLayout({
                 className={cn(
                   "rounded-3xl p-8 border backdrop-blur-md",
                   isDark 
-                    ? "bg-black/40 border-white/10 shadow-[0_0_0_1px_rgba(255,255,255,0.05)]" 
-                    : "bg-white/40 border-black/5 shadow-[0_0_0_1px_rgba(0,0,0,0.03)]"
+                    ? "bg-black/40 border-white/10" 
+                    : "bg-white/40 border-black/5"
                 )}
               >
                 <article
@@ -359,9 +363,14 @@ export default function TeamMemberPageLayout({
       {children}
 
       {/* PreFooter Section */}
-      <div className="relative z-10 w-full overflow-hidden pt-16 pb-16">
-        <div className="max-w-[1250px] mx-auto px-4">
-          <PreFooter noBgGradient />
+      <div className="relative z-10 w-full overflow-hidden mt-10 md:mt-16 pt-8 pb-16 md:pt-12 md:pb-24 px-4 sm:px-6">
+        <div className="max-w-[1250px] mx-auto">
+          <div className={cn(
+            "rounded-2xl border",
+            isDark ? "border-white/10" : "border-black/5"
+          )}>
+            <PreFooter noBgGradient />
+          </div>
         </div>
       </div>
     </div>

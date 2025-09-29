@@ -24,7 +24,7 @@ export default function Services() {
   return (
     <section 
       id="services" 
-      className="w-full py-12 md:py-20 relative overflow-hidden bg-[#f4f4f0] dark:bg-black/95"
+      className="w-full pt-20 pb-12 md:pt-20 md:pb-16 relative overflow-hidden bg-white dark:bg-black/95 border-b border-black/5 dark:border-white/10"
       aria-labelledby="services-title"
     >
       <PlusIcon />
@@ -40,9 +40,12 @@ export default function Services() {
           "leading-[1.1]"
         )}
       >
-        Collectif de freelances Growth Marketing<br />
-        spécialisés en Intelligence Artificielle
+        Agence Growth & IA orientée revenus
       </h2>
+
+      <p className="text-center text-black/70 dark:text-white/70 max-w-3xl mx-auto -mt-10 mb-12 md:mb-16">
+        Nous concevons, testons et industrialisons ce qui fait croître vos revenus&nbsp;: visites qualifiées, prospects, ventes, revenus. Des résultats mesurables, pas de bla‑bla.
+      </p>
       
       <div 
         className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-3 gap-8"
