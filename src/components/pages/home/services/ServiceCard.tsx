@@ -21,7 +21,7 @@ export const ServiceCard = memo(function ServiceCard({
   return (
     <article 
       className={cn(
-        "rounded-[32px] p-10 relative overflow-hidden h-full bg-[#E0FF5C] backdrop-blur-md shadow-service transform-gpu transition-all duration-500 ease-out hover:-translate-y-4 group",
+        "rounded-[32px] p-8 md:p-10 relative overflow-hidden h-full bg-[#E0FF5C] backdrop-blur-md shadow-service transform-gpu transition-all duration-500 ease-out hover:-translate-y-4 group",
         className
       )}
       style={style}

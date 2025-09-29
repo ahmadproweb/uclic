@@ -20,8 +20,6 @@ export default function ThemeSwitcher({
         "px-2 py-1 rounded-full cursor-pointer",
         isDark
           ? "text-white hover:bg-white/10"
-          : isMobile
-          ? "text-white hover:bg-white/10"
           : "text-black hover:bg-black/5"
       )}
       aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}

@@ -169,14 +169,13 @@ const TeamMemberCard = memo(function TeamMemberCard({
         className={cn(
           "relative rounded-2xl md:rounded-[32px] p-4 md:p-8",
           "transition-colors duration-300 flex flex-row items-start gap-4 md:gap-6",
-          "backdrop-blur-sm h-[220px] md:h-[280px]"
+          "backdrop-blur-sm h-[220px] md:h-[280px]",
+          isDark ? "bg-black/6" : "bg-black/5"
         )}
         style={{
           backgroundColor: isHovered
             ? themeColors.common.black
-            : isDark
-            ? "rgba(0, 0, 0, 0.06)"
-            : "rgba(0, 0, 0, 0.05)",
+            : undefined,
         }}
       >
         <figure className="relative w-16 md:w-24 h-16 md:h-24 flex-shrink-0">
@@ -211,11 +210,9 @@ const TeamMemberCard = memo(function TeamMemberCard({
                 "mix-blend-overlay opacity-30",
                 "group-hover/card:opacity-0 transition-opacity duration-300"
               )}
-              style={{
-                backgroundColor: isDark
-                  ? "rgba(255, 255, 255, 0.03)"
-                  : "rgba(0, 0, 0, 0.03)",
-              }}
+              className={cn(
+                isDark ? "bg-white/3" : "bg-black/3"
+              )}
               aria-hidden="true"
             />
           </div>
@@ -303,13 +300,13 @@ const ClientTeam = memo(function ClientTeam({
   return (
     <section
       id="team"
-      className="w-full rounded-2xl md:rounded-[32px] p-6 md:p-16 relative bg-primary/20"
-      style={
-        {
-          "--tw-bg-opacity": isDark ? "0.2" : "0.1",
-          backgroundColor: themeColors.primary.main,
-        } as React.CSSProperties
-      }
+      className={cn(
+        "w-full rounded-2xl md:rounded-[32px] p-6 md:p-16 relative",
+        isDark ? "bg-primary/20" : "bg-primary/10"
+      )}
+      style={{
+        backgroundColor: themeColors.primary.main,
+      }}
     >
       {/* Décorations */}
       <i

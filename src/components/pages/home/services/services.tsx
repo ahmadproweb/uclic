@@ -24,7 +24,7 @@ export default function Services() {
   return (
     <section 
       id="services" 
-      className="w-full py-0 pb-16 md:py-20 md:pb-16 relative overflow-hidden bg-[#f4f4f0] dark:bg-black/95"
+      className="w-full py-12 md:py-20 relative overflow-hidden bg-[#f4f4f0] dark:bg-black/95"
       aria-labelledby="services-title"
     >
       <PlusIcon />
@@ -33,7 +33,7 @@ export default function Services() {
       <h2 
         id="services-title"
         className={cn(
-          "max-w-5xl mx-auto text-center mb-16 pt-8 md:pt-0",
+          "max-w-5xl mx-auto text-center mb-16 md:mb-20 pt-8 md:pt-0",
           "text-3xl sm:text-4xl md:text-5xl lg:text-[50px]",
           "font-medium tracking-[-1px]",
           "text-black/90 dark:text-white/90",
@@ -45,7 +45,7 @@ export default function Services() {
       </h2>
       
       <div 
-        className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6"
+        className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-3 gap-8"
         role="list"
       >
         {serviceData.map((service, index) => (

@@ -96,7 +96,7 @@ const RightContent = memo(({ isDark }: { isDark: boolean }) => (
       alt="Notre équipe"
       width="516"
       height="378"
-      className="absolute inset-0 w-full h-full z-10"
+      className="absolute inset-0 w-full h-full z-10 object-cover md:object-contain"
       loading="eager"
     />
   </div>

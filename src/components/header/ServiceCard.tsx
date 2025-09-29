@@ -52,11 +52,12 @@ export function ServiceCard({ service, isMobile, onSelect }: ServiceCardProps) {
           "group h-full",
           isMobile ? "w-full" : "w-full",
           "px-6 py-6 relative rounded-xl hover:scale-[1.02] transition-all duration-200",
+          "backdrop-blur-md border",
           isAICard
-            ? "bg-[#E0FF5C] hover:bg-[#E2FF47]"
+            ? "bg-[#E0FF5C] hover:bg-[#E2FF47] border-transparent"
             : isDark 
-              ? "bg-white/5 hover:bg-[#E0FF5C]/100" 
-              : "bg-white hover:bg-[#E0FF5C]/100 border border-black/10"
+              ? "bg-black/40 hover:bg-[#E0FF5C]/100 border-white/10" 
+              : "bg-white/40 hover:bg-[#E0FF5C]/100 border-black/5"
         )}
       >
         <div className="flex flex-col h-full">

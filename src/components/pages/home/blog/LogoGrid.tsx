@@ -40,7 +40,7 @@ const logos: Logo[] = [
 
 const LogoGrid = memo(function LogoGrid() {
   return (
-    <section className="w-full py-0 md:py-0 pb-16 md:pb-24 relative overflow-hidden">
+    <section className="w-full py-16 md:py-24 relative overflow-hidden">
       <div className="max-w-[1250px] mx-auto px-4">
         <h2 className="text-2xl md:text-4xl font-normal text-center mb-4 text-black animate-fade-in-up">
           Nos partenaires de confiance

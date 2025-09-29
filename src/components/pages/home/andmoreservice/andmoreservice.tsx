@@ -190,7 +190,7 @@ export default function AndMoreService({ children }: AndMoreServiceProps) {
     <section 
       ref={sectionRef} 
       id="plus-de-service" 
-      className="w-full relative py-12 md:py-10 overflow-hidden"
+      className="w-full relative py-16 md:py-20 overflow-hidden"
       aria-label="Services supplémentaires"
     >
       {/* Decorative Mouse Elements with proper aria-hidden */}
