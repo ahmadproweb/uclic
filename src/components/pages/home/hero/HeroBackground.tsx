@@ -27,25 +27,16 @@ export default function HeroBackground() {
 
   return (
     <>
-      {/* Section-level repeating background pattern (same technique as CaseStudy/Testimonials) */}
-      <div
-        className="absolute inset-0 z-0 pointer-events-none"
-        style={{
-          backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
-          backgroundRepeat: "repeat",
-          backgroundSize: "200px",
-          opacity: isDark ? 0.25 : 0.04
-        }}
-      />
+      {/* Match contact page: no section-level pattern */}
 
       {/* Dynamic halo: stronger on load, dims as you scroll */}
       <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] sm:w-[1400px] h-[420px] sm:h-[500px] -z-0 pointer-events-none"
+        className="fixed top-0 left-0 right-0 h-[45vh] z-0 pointer-events-none"
         style={{
           background: isDark
             ? `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.20) 0%, rgba(212,237,49,0.12) 15%, rgba(212,237,49,0.06) 35%, rgba(0,0,0,0.10) 55%, rgba(0,0,0,0) 75%)`
             : `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.25) 0%, rgba(212,237,49,0.15) 18%, rgba(212,237,49,0.08) 38%, rgba(255,255,255,0.10) 58%, rgba(255,255,255,0) 78%)`,
-          filter: 'blur(50px)',
+          filter: 'blur(20px)',
           opacity: haloOpacity,
           transition: 'opacity 0.18s linear',
         }}
