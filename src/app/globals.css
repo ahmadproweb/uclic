@@ -337,6 +337,11 @@
   animation-play-state: paused;
 }
 
+/* Pause all marquees when hovering the wrapper */
+.marquee-wrapper:hover .animate-marquee {
+  animation-play-state: paused;
+}
+
 @keyframes marquee-left {
   0% {
     transform: translateX(0);

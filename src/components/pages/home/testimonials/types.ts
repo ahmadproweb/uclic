@@ -7,4 +7,6 @@ export interface Testimonial {
   reviewGivenStar: number;
   review: string;
   imageTesti: string | null;
+  authorProfileUrl?: string | null;
+  commentUrl?: string | null;
 } 

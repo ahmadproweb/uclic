@@ -1,6 +1,6 @@
 'use client';
 
-import { memo } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 import type { Testimonial } from './types';
@@ -12,22 +12,7 @@ interface TestimonialClientProps {
 }
 
 // Memoized Components
-const StarRating = memo(({ rating }: { rating: number }) => (
-  <div className="flex gap-1 mb-4" role="img" aria-label={`Note de ${rating} sur 5 étoiles`}>
-    {[...Array(5)].map((_, i) => (
-      <i 
-        key={i} 
-        className={cn(
-          "ri-star-fill text-xl transition-transform duration-300",
-          "animate-fade-in-up hover:scale-110",
-          i < rating ? 'text-[#E0FF5C]' : 'text-gray-300'
-        )}
-        style={{ animationDelay: `${i * 100}ms` }}
-        aria-hidden="true"
-      />
-    ))}
-  </div>
-));
+const StarRating = memo(({ rating }: { rating: number }) => null);
 
 StarRating.displayName = 'StarRating';
 
@@ -36,10 +21,11 @@ const TestimonialCard = memo(({ testimonial, isDark, index, isMasonry = false }:
   isDark: boolean;
   index: number;
   isMasonry?: boolean;
-}) => (
+}) => {
+  return (
   <article 
     className={cn(
-      "rounded-2xl md:rounded-[32px] p-4 md:p-5",
+      "rounded-2xl md:rounded-[24px] p-4 md:p-5",
       "hover:-translate-y-1 hover:shadow-xl backdrop-blur-sm",
       "animate-fade-in-up group h-full flex flex-col",
       isDark ? "bg-white/5 border border-white/10" : "bg-white border border-black/5",
@@ -52,28 +38,42 @@ const TestimonialCard = memo(({ testimonial, isDark, index, isMasonry = false }:
   >
     <div className="flex-1 flex flex-col">
       <StarRating rating={testimonial.reviewGivenStar} />
+      <a
+        href={testimonial.commentUrl ?? undefined}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="no-underline"
+        aria-label="Voir la preuve du commentaire"
+      >
       <blockquote 
         className={cn(
-          "text-sm md:text-base mb-4 flex-1",
+          "text-sm md:text-[15px] leading-relaxed mb-4 flex-1",
           isDark ? "text-white" : "text-black",
-          isMasonry && "line-clamp-3"
+          isMasonry && "md:line-clamp-4"
         )}
         itemProp="reviewBody"
       >
         {testimonial.review}
       </blockquote>
+      </a>
     </div>
     <footer className="flex items-center gap-2 md:gap-3 mt-auto">
-      <figure className={cn(
-        "w-9 h-9 md:w-10 md:h-10 rounded-full overflow-hidden relative",
-        "flex items-center justify-center",
-        isDark ? "bg-white/10" : "bg-black/10"
-      )}>
+      <a
+        href={testimonial.authorProfileUrl ?? undefined}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={cn(
+          "w-10 h-10 md:w-12 md:h-12 aspect-square rounded-full overflow-hidden relative shrink-0",
+          "flex items-center justify-center",
+          isDark ? "bg-white/10 ring-1 ring-white/15" : "bg-black/10 ring-1 ring-black/10"
+        )}
+        aria-label={`Voir le profil de ${testimonial.title}`}
+      >
         {testimonial.imageTesti && (
           <img 
             src={testimonial.imageTesti} 
             alt={`Photo de ${testimonial.title}`}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover rounded-full block"
             loading="lazy"
             itemProp="image"
           />
@@ -86,11 +86,11 @@ const TestimonialCard = memo(({ testimonial, isDark, index, isMasonry = false }:
           )}
           aria-hidden="true"
         />
-      </figure>
+      </a>
       <div itemProp="author" itemScope itemType="https://schema.org/Person">
         <cite 
           className={cn(
-            "text-sm md:text-base font-medium not-italic",
+            "text-sm md:text-[15px] font-medium not-italic",
             isDark ? "text-white" : "text-black"
           )}
           itemProp="name"
@@ -99,8 +99,8 @@ const TestimonialCard = memo(({ testimonial, isDark, index, isMasonry = false }:
         </cite>
         <div 
           className={cn(
-            "text-xs md:text-sm",
-            isDark ? "text-white/60" : "text-black/60"
+            "text-[11px] md:text-xs line-clamp-1",
+            isDark ? "text-white/60" : "text-black/70"
           )}
           itemProp="jobTitle"
         >
@@ -109,29 +109,31 @@ const TestimonialCard = memo(({ testimonial, isDark, index, isMasonry = false }:
       </div>
     </footer>
   </article>
-));
+)});
+
+// (Deprecated grid-masonry) — we fallback to CSS columns masonry for reliability
 
 TestimonialCard.displayName = 'TestimonialCard';
 
 const TestimonialHeader = memo(({ isDark, average, reviewCount }: { isDark: boolean; average: number; reviewCount: number }) => (
   <header className="text-center">
     <h2 className={cn(
-      "max-w-5xl mx-auto text-center mb-16 md:mb-20 pt-8 md:pt-0",
-      "text-3xl sm:text-4xl md:text-5xl lg:text-[50px]",
+      "max-w-5xl mx-auto text-center mb-10 md:mb-14 pt-6 md:pt-0",
+      "text-2xl sm:text-3xl md:text-4xl lg:text-[40px]",
       "font-medium tracking-[-1px]",
       isDark ? "text-white/90" : "text-black/90",
       "leading-[1.1]"
     )}>
-      Ils nous confient leur croissance
+      Une communauté de +23.000 personnes suit Uclic pour parler Growth
     </h2>
     <p className={cn(
-      "text-center text-black/70 dark:text-white/70 max-w-3xl mx-auto -mt-10 mb-12 md:mb-16"
+      "text-center text-black/70 dark:text-white/70 max-w-3xl mx-auto -mt-6 mb-10 md:mb-12"
     )}>
-      Note moyenne {average.toFixed(1)}/5 sur {reviewCount} avis · IA & Growth orientés résultats (MQL, CAC, MRR, rétention).
+      Réservez un audit et repartez avec des tips de croissance actionnables (IA & Growth) pour booster MQL, baisser le CAC et augmenter le MRR.
     </p>
     <div className="flex flex-wrap gap-2 justify-center -mt-6 mb-8 md:mb-10">
-      <span className="px-3 py-1 rounded-full text-xs font-medium bg-black/10 dark:bg-white/10 text-black/80 dark:text-white/80 border border-black/10 dark:border-white/10">+35% MQL</span>
-      <span className="px-3 py-1 rounded-full text-xs font-medium bg-black/10 dark:bg-white/10 text-black/80 dark:text-white/80 border border-black/10 dark:border-white/10">-22% CAC</span>
+      <span className="px-3 py-1 rounded-full text-xs font-medium bg-black/10 dark:bg-white/10 text-black/80 dark:text-white/80 border border-black/10 dark:border-white/10">+35% MQL moyen</span>
+      <span className="px-3 py-1 rounded-full text-xs font-medium bg-black/10 dark:bg-white/10 text-black/80 dark:text-white/80 border border-black/10 dark:border-white/10">−22% CAC</span>
       <span className="px-3 py-1 rounded-full text-xs font-medium bg-black/10 dark:bg-white/10 text-black/80 dark:text-white/80 border border-black/10 dark:border-white/10">+12% NRR</span>
     </div>
   </header>
@@ -175,6 +177,15 @@ function TestimonialClient({ testimonials }: TestimonialClientProps) {
     };
   }
 
+  // Build three distinct rows by rotating the base array
+  const rotate = <T,>(arr: T[], offset: number): T[] => {
+    if (arr.length === 0) return arr;
+    const k = ((offset % arr.length) + arr.length) % arr.length;
+    return arr.slice(k).concat(arr.slice(0, k));
+  };
+  const len = testimonials.length;
+  const row1 = testimonials;
+
   return (
     <section 
       id="testimonials" 
@@ -200,53 +211,27 @@ function TestimonialClient({ testimonials }: TestimonialClientProps) {
       </div>
       
       {/* Full width marquee section with multi-row masonry layout */}
-      <div className="w-full overflow-hidden relative -mx-4 sm:-mx-6">
+      <div className="w-full overflow-visible relative px-4 sm:px-6 marquee-wrapper">
         {/* Row 1 */}
-        <div className="group">
-          <div className="flex animate-marquee gap-4" style={{ animationDuration: '28s' }}>
-            {[...testimonials, ...testimonials].map((testimonial, index) => {
-              return (
-                <div key={`r1-${testimonial.id}-${index}`} className={`flex-shrink-0 w-72`}>
-                  <TestimonialCard testimonial={testimonial} isDark={isDark} index={index} isMasonry={true} />
-                </div>
-              );
-            })}
+        <div className="overflow-visible">
+          <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 2xl:columns-6 [column-gap:1rem] w-full pr-4 sm:pr-6">
+            {row1.map((testimonial, index) => (
+              <div key={`r1-${testimonial.id}-${index}`} className="mb-4 break-inside-avoid">
+                <TestimonialCard testimonial={testimonial} isDark={isDark} index={index} isMasonry={true} />
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Row 2 - reverse direction, offset */}
-        <div className="group mt-6">
-          <div className="flex animate-marquee gap-4" style={{ animationDuration: '34s', animationDirection: 'reverse' }}>
-            {[...testimonials, ...testimonials].map((testimonial, index) => {
-              return (
-                <div key={`r2-${testimonial.id}-${index}`} className={`flex-shrink-0 w-72`}>
-                  <TestimonialCard testimonial={testimonial} isDark={isDark} index={index} isMasonry={true} />
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Row 3 */}
-        <div className="group mt-6">
-          <div className="flex animate-marquee gap-4" style={{ animationDuration: '31s' }}>
-            {[...testimonials, ...testimonials].map((testimonial, index) => {
-              return (
-                <div key={`r3-${testimonial.id}-${index}`} className={`flex-shrink-0 w-72`}>
-                  <TestimonialCard testimonial={testimonial} isDark={isDark} index={index} isMasonry={true} />
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        {/* Single block only – other rows removed */}
         {/* Strong vignette overlay applied only over sliders */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-20"
+          className="pointer-events-none absolute inset-0 z-20 hidden md:block"
           style={{
             background: isDark
-              ? 'radial-gradient(ellipse at center, rgba(0,0,0,0) 12%, rgba(0,0,0,0.82) 58%, rgba(0,0,0,0.98) 88%, rgba(0,0,0,1) 100%), linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 22%, rgba(0,0,0,0) 78%, rgba(0,0,0,0.7) 100%)'
-              : 'radial-gradient(ellipse at center, rgba(255,255,255,0) 12%, rgba(255,255,255,0.8) 58%, rgba(255,255,255,0.96) 88%, rgba(255,255,255,1) 100%), linear-gradient(to bottom, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 22%, rgba(255,255,255,0) 78%, rgba(255,255,255,0.7) 100%)'
+              ? 'radial-gradient(ellipse at center, rgba(0,0,0,0) 35%, rgba(0,0,0,0.45) 72%, rgba(0,0,0,0.75) 96%), linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0) 28%, rgba(0,0,0,0) 72%, rgba(0,0,0,0.25) 100%)'
+              : 'radial-gradient(ellipse at center, rgba(255,255,255,0) 35%, rgba(255,255,255,0.35) 72%, rgba(255,255,255,0.6) 96%), linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 28%, rgba(255,255,255,0) 72%, rgba(255,255,255,0.2) 100%)'
           }}
         />
       </div>
