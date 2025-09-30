@@ -162,8 +162,8 @@ const Header = () => {
           <Logo />
 
           <DesktopNav
-            isDirectlyOverHero={!isScrolled}
             isOverHero={!isScrolled}
+            isDirectlyOverHero={!isScrolled}
             isMegaMenuOpen={isMegaMenuOpen}
             setIsMegaMenuOpen={setIsMegaMenuOpen}
           />
