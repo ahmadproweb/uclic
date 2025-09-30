@@ -1,4 +1,5 @@
 import { useTheme } from "@/context/ThemeContext";
+import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
 import {
   ExpertiseByCategory,
@@ -6,23 +7,27 @@ import {
   getAllExpertiseGrowthCategoriesForMenu,
   getExpertisesByCategory,
 } from "@/lib/wordpress";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ServiceCard } from "./ServiceCard";
 
 interface MegaMenuProps {
   isOpen: boolean;
   setIsMegaMenuOpen: (value: boolean) => void;
+  headerRef?: React.RefObject<HTMLElement | HTMLDivElement>;
 }
 
 interface CategoryWithExpertises extends ExpertiseGrowthCategory {
   expertises: ExpertiseByCategory[];
 }
 
-export function MegaMenu({ isOpen, setIsMegaMenuOpen }: MegaMenuProps) {
+export function MegaMenu({ isOpen, setIsMegaMenuOpen, headerRef }: MegaMenuProps) {
   const { theme: currentTheme } = useTheme();
   const isDark = currentTheme === "dark";
   const [categories, setCategories] = useState<CategoryWithExpertises[]>([]);
   const [loading, setLoading] = useState(true);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,16 +55,41 @@ export function MegaMenu({ isOpen, setIsMegaMenuOpen }: MegaMenuProps) {
     }
   }, [isOpen, loading]);
 
-  return (
+  // Close on outside click (outside header and menu)
+  useEffect(() => {
+    if (!isOpen) return;
+    const handler = (e: MouseEvent | TouchEvent) => {
+      const target = e.target as Node | null;
+      const headerEl = headerRef?.current as Node | null;
+      const menuEl = menuRef.current as Node | null;
+      if (target && (menuEl?.contains(target) || headerEl?.contains(target))) {
+        return;
+      }
+      setIsMegaMenuOpen(false);
+    };
+    document.addEventListener('mousedown', handler, true);
+    document.addEventListener('touchstart', handler, true);
+    return () => {
+      document.removeEventListener('mousedown', handler, true);
+      document.removeEventListener('touchstart', handler, true);
+    };
+  }, [isOpen, setIsMegaMenuOpen, headerRef]);
+
+  if (!mounted) return null;
+
+  return createPortal(
     <div
       className={cn(
-        "fixed top-24 left-0 right-0 w-full z-40",
+        "fixed left-0 right-0 w-full z-[1000] pointer-events-auto",
         isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
       )}
+      style={{ top: "calc(var(--header-height) + 32px)" }}
       onMouseEnter={() => setIsMegaMenuOpen(true)}
       onMouseLeave={() => setIsMegaMenuOpen(false)}
+      ref={menuRef}
     >
-      <div className="max-w-[1400px] mx-auto px-4 h-full relative mt-2">
+      {/* No-JS fallback is handled by nav link; this menu is JS only */}
+      <div className="max-w-[1250px] mx-auto px-6 md:px-8 h-full relative mt-0 z-[1001] pointer-events-auto">
         <div
           className={cn(
             "backdrop-blur-2xl shadow-2xl border rounded-[15px]",
@@ -78,9 +108,9 @@ export function MegaMenu({ isOpen, setIsMegaMenuOpen }: MegaMenuProps) {
                 ]
           )}
         >
-          <div className="p-6">
+          <div className="p-6 md:p-8">
             {!loading && (
-              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-7">
                 {categories.map((category) => (
                   <ServiceCard
                     key={category.slug}
@@ -101,6 +131,7 @@ export function MegaMenu({ isOpen, setIsMegaMenuOpen }: MegaMenuProps) {
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

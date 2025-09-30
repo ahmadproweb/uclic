@@ -161,6 +161,13 @@ const Header = () => {
         >
           <Logo />
 
+          {/* No-JS fallback: simple link to expertise index for SEO and users without JS */}
+          <div className="no-js-only hidden md:block">
+            <a href="/expertise" className="font-bold">
+              Nos expertises
+            </a>
+          </div>
+
           <DesktopNav
             isOverHero={!isScrolled}
             isDirectlyOverHero={!isScrolled}
@@ -178,7 +185,7 @@ const Header = () => {
         </nav>
       </header>
 
-      <MegaMenu isOpen={isMegaMenuOpen} setIsMegaMenuOpen={setIsMegaMenuOpen} />
+      <MegaMenu isOpen={isMegaMenuOpen} setIsMegaMenuOpen={setIsMegaMenuOpen} headerRef={headerRef as unknown as React.RefObject<HTMLElement | HTMLDivElement>} />
 
       <MobileMenu
         isOpen={isMobileMenuOpen}

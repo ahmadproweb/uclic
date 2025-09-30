@@ -103,14 +103,12 @@ export const DesktopNav = memo(
       [isMegaMenuOpen, setIsMegaMenuOpen]
     );
 
-    const handleItemMouseEnter = useCallback(
-      (item: (typeof navItems)[0]) => {
-        if (item.hasMegaMenu) {
-          setIsMegaMenuOpen(true);
-        }
-      },
-      [setIsMegaMenuOpen]
-    );
+    // Hover opens the mega menu when pointing the item
+    const handleItemMouseEnter = useCallback((item: (typeof navItems)[0]) => {
+      if (item.hasMegaMenu) {
+        setIsMegaMenuOpen(true);
+      }
+    }, [setIsMegaMenuOpen]);
 
     const handleNavMouseLeave = useCallback(() => {
       setIsMegaMenuOpen(false);
@@ -119,6 +117,7 @@ export const DesktopNav = memo(
     return (
       <div
         className="hidden md:flex items-center gap-4 absolute left-1/2 -translate-x-1/2"
+        onMouseLeave={handleNavMouseLeave}
       >
         {navItems.map((item) => (
           <NavItem
