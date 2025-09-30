@@ -24,7 +24,7 @@ export default function Services() {
   return (
     <section 
       id="services" 
-      className="w-full pt-20 pb-12 md:pt-20 md:pb-16 relative overflow-hidden bg-white dark:bg-black/95 border-b border-black/5 dark:border-white/10"
+      className="w-full pt-20 pb-12 md:pt-20 md:pb-16 relative z-[10] overflow-hidden bg-white dark:bg-black/95 border-b border-black/5 dark:border-white/10"
       aria-labelledby="services-title"
     >
       <PlusIcon />
@@ -63,14 +63,7 @@ export default function Services() {
         ))}
       </div>
 
-      <div 
-        className="fixed inset-0 w-full h-full opacity-20 mix-blend-overlay pointer-events-none"
-        aria-hidden="true"
-        style={{ 
-          willChange: 'transform',
-          backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.80' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")"
-        }}
-      />
+      {/* Removed background noise overlay */}
     </section>
   );
 } 

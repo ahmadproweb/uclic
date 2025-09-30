@@ -179,38 +179,18 @@ function TestimonialClient({ testimonials }: TestimonialClientProps) {
     <section 
       id="testimonials" 
       className={cn(
-        "w-full relative overflow-hidden pt-20 pb-20 md:pt-20 md:pb-20 px-4 sm:px-6 border-b border-black/5 dark:border-white/10",
+        "w-full relative z-[10] overflow-hidden pt-20 pb-20 md:pt-20 md:pb-20 px-4 sm:px-6 border-b border-black/5 dark:border-white/10",
         isDark ? "bg-black" : "bg-white"
       )}
       aria-label="Témoignages clients"
     >
-      {/* Section-scoped halo background */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-[45vh] z-0"
-        style={{
-          background: isDark
-            ? `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.20) 0%, rgba(212,237,49,0.12) 15%, rgba(212,237,49,0.06) 35%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 75%)`
-            : `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.25) 0%, rgba(212,237,49,0.15) 18%, rgba(212,237,49,0.08) 38%, rgba(255,255,255,0.1) 58%, rgba(255,255,255,0) 78%)`,
-          filter: 'blur(20px)'
-        }}
-      />
+      {/* Local halo disabled */}
 
       <Script id="testimonial-schema" type="application/ld+json">
         {JSON.stringify(testimonialSchema)}
       </Script>
 
-      {/* Section-level background pattern */}
-      <div 
-        className="absolute inset-0 z-0 pointer-events-none"
-        style={{
-          backgroundImage: 'url("https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png")',
-          backgroundRepeat: 'repeat',
-          backgroundSize: '200px',
-          opacity: isDark ? 0.25 : 0.15
-        }}
-        aria-hidden="true"
-      />
+      {/* Background repeat disabled */}
 
       <div className="max-w-[1250px] mx-auto px-4 sm:px-6 relative z-10">
 
@@ -259,6 +239,16 @@ function TestimonialClient({ testimonials }: TestimonialClientProps) {
             })}
           </div>
         </div>
+        {/* Strong vignette overlay applied only over sliders */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-20"
+          style={{
+            background: isDark
+              ? 'radial-gradient(ellipse at center, rgba(0,0,0,0) 12%, rgba(0,0,0,0.82) 58%, rgba(0,0,0,0.98) 88%, rgba(0,0,0,1) 100%), linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 22%, rgba(0,0,0,0) 78%, rgba(0,0,0,0.7) 100%)'
+              : 'radial-gradient(ellipse at center, rgba(255,255,255,0) 12%, rgba(255,255,255,0.8) 58%, rgba(255,255,255,0.96) 88%, rgba(255,255,255,1) 100%), linear-gradient(to bottom, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 22%, rgba(255,255,255,0) 78%, rgba(255,255,255,0.7) 100%)'
+          }}
+        />
       </div>
       
       {/* Reopen container for any additional content */}

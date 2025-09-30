@@ -38,9 +38,9 @@ const CollectifSection = memo(function CollectifSection() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10">
           <div className="space-y-8">
-            <div className="space-y-6 p-8 rounded-2xl border backdrop-blur-md bg-transparent border-black/5 dark:border-white/10 relative overflow-hidden">
+            <div className="space-y-6 p-8 rounded-2xl border backdrop-blur-md bg-white/80 dark:bg-black/60 border-black/5 dark:border-white/10 relative z-10 overflow-hidden">
               <div className="pointer-events-none absolute inset-0 rounded-2xl -z-10" style={{backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')", backgroundRepeat: 'repeat', backgroundSize: '200px', opacity: 0.04}} />
               <h3 className="text-2xl md:text-3xl font-semibold text-black dark:text-white">
                 Pourquoi une agence hybride (core team + freelances) ?
@@ -93,7 +93,7 @@ const CollectifSection = memo(function CollectifSection() {
           </div>
 
           <div className="space-y-8">
-            <div className="p-8 rounded-2xl border backdrop-blur-md bg-transparent border-black/5 dark:border-white/10 relative overflow-hidden">
+            <div className="p-8 rounded-2xl border backdrop-blur-md bg-white/80 dark:bg-black/60 border-black/5 dark:border-white/10 relative z-10 overflow-hidden">
               <div className="pointer-events-none absolute inset-0 rounded-2xl -z-10" style={{backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')", backgroundRepeat: 'repeat', backgroundSize: '200px', opacity: 0.04}} />
               <h3 className="text-xl md:text-2xl font-semibold text-black dark:text-white mb-6">
                 Notre méthode: Diagnostiquer → Lancer → Industrialiser
@@ -123,7 +123,7 @@ const CollectifSection = memo(function CollectifSection() {
               </div>
             </div>
 
-            <div className="bg-black dark:bg-white text-white dark:text-black p-6 rounded-2xl border border-black/5 dark:border-white/10">
+            <div className="bg-black dark:bg-white text-white dark:text-black p-6 rounded-2xl border border-black/5 dark:border-white/10 relative z-10">
               <h4 className="font-semibold text-lg mb-3">
                 Agence + freelances: le meilleur des deux mondes
               </h4>

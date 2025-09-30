@@ -23,7 +23,7 @@ export default function HeroBackground() {
       {/* Halo gradient overlay */}
       <div
         aria-hidden="true"
-        className="pointer-events-none fixed top-0 left-0 right-0 h-[45vh] z-0"
+        className="pointer-events-none fixed top-0 left-0 right-0 h-[45vh] z-[1]"
         style={{
           background: isDark
             ? `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.20) 0%, rgba(212,237,49,0.12) 15%, rgba(212,237,49,0.06) 35%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 75%)`

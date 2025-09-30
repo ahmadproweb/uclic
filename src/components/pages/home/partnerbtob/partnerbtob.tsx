@@ -122,7 +122,7 @@ function PartnerBtoB() {
     <section 
       id="partner-btob" 
       className={cn(
-        "w-full relative pt-20 pb-12 md:pt-20 md:pb-16 border-b border-black/5 dark:border-white/10",
+        "w-full relative z-[10] pt-20 pb-12 md:pt-20 md:pb-16 border-b border-black/5 dark:border-white/10",
         isDark ? "bg-black" : "bg-white"
       )}
       aria-label="Nos partenaires B2B"

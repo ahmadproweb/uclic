@@ -79,12 +79,13 @@ export function MegaMenu({ isOpen, setIsMegaMenuOpen, headerRef, armed = false, 
   }, [isOpen, setIsMegaMenuOpen, headerRef]);
 
   if (!mounted) return null;
+  // Do not render at all unless explicit open + armed
+  if (!(isOpen && armed)) return null;
 
   return createPortal(
     <div
       className={cn(
-        "fixed left-0 right-0 w-full z-[1000] pointer-events-auto",
-        isOpen && armed ? "opacity-100" : "opacity-0 pointer-events-none"
+        "fixed left-0 right-0 w-full z-[1000] pointer-events-auto opacity-100"
       )}
       style={{ top: "calc(var(--header-height) + 32px)" }}
       onMouseEnter={() => { setIsMegaMenuOpen(true); }}
