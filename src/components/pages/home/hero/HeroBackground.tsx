@@ -43,8 +43,8 @@ export default function HeroBackground() {
         className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] sm:w-[1400px] h-[420px] sm:h-[500px] -z-0 pointer-events-none"
         style={{
           background: isDark
-            ? `radial-gradient(ellipse at 50% 0%, rgba(224,255,92,0.8) 0%, rgba(224,255,92,0.35) 25%, rgba(224,255,92,0.12) 55%, transparent 75%)`
-            : `radial-gradient(ellipse at 50% 0%, rgba(224,255,92,0.7) 0%, rgba(224,255,92,0.3) 25%, rgba(224,255,92,0.12) 55%, transparent 75%)`,
+            ? `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.20) 0%, rgba(212,237,49,0.12) 15%, rgba(212,237,49,0.06) 35%, rgba(0,0,0,0.10) 55%, rgba(0,0,0,0) 75%)`
+            : `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.25) 0%, rgba(212,237,49,0.15) 18%, rgba(212,237,49,0.08) 38%, rgba(255,255,255,0.10) 58%, rgba(255,255,255,0) 78%)`,
           filter: 'blur(50px)',
           opacity: haloOpacity,
           transition: 'opacity 0.18s linear',
