@@ -14,13 +14,15 @@ interface MegaMenuProps {
   isOpen: boolean;
   setIsMegaMenuOpen: (value: boolean) => void;
   headerRef?: React.RefObject<HTMLElement | HTMLDivElement>;
+  armed?: boolean; // only open/keep open when armed by nav hover
+  disarm?: () => void;
 }
 
 interface CategoryWithExpertises extends ExpertiseGrowthCategory {
   expertises: ExpertiseByCategory[];
 }
 
-export function MegaMenu({ isOpen, setIsMegaMenuOpen, headerRef }: MegaMenuProps) {
+export function MegaMenu({ isOpen, setIsMegaMenuOpen, headerRef, armed = false, disarm }: MegaMenuProps) {
   const { theme: currentTheme } = useTheme();
   const isDark = currentTheme === "dark";
   const [categories, setCategories] = useState<CategoryWithExpertises[]>([]);
@@ -55,7 +57,7 @@ export function MegaMenu({ isOpen, setIsMegaMenuOpen, headerRef }: MegaMenuProps
     }
   }, [isOpen, loading]);
 
-  // Close on outside click (outside header and menu)
+  // Close on outside click (outside header and menu) and prevent reopen unless armed
   useEffect(() => {
     if (!isOpen) return;
     const handler = (e: MouseEvent | TouchEvent) => {
@@ -66,6 +68,7 @@ export function MegaMenu({ isOpen, setIsMegaMenuOpen, headerRef }: MegaMenuProps
         return;
       }
       setIsMegaMenuOpen(false);
+      disarm?.();
     };
     document.addEventListener('mousedown', handler, true);
     document.addEventListener('touchstart', handler, true);
@@ -81,11 +84,11 @@ export function MegaMenu({ isOpen, setIsMegaMenuOpen, headerRef }: MegaMenuProps
     <div
       className={cn(
         "fixed left-0 right-0 w-full z-[1000] pointer-events-auto",
-        isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        isOpen && armed ? "opacity-100" : "opacity-0 pointer-events-none"
       )}
       style={{ top: "calc(var(--header-height) + 32px)" }}
-      onMouseEnter={() => setIsMegaMenuOpen(true)}
-      onMouseLeave={() => setIsMegaMenuOpen(false)}
+      onMouseEnter={() => { setIsMegaMenuOpen(true); }}
+      onMouseLeave={() => { setIsMegaMenuOpen(false); disarm?.(); }}
       ref={menuRef}
     >
       {/* No-JS fallback is handled by nav link; this menu is JS only */}

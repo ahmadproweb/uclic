@@ -7,6 +7,7 @@ import { HeaderThemeProps } from "./types";
 interface DesktopNavProps extends HeaderThemeProps {
   isMegaMenuOpen: boolean;
   setIsMegaMenuOpen: (value: boolean) => void;
+  onArmMegaMenu?: (armed: boolean) => void;
 }
 
 // Memoized Components
@@ -93,6 +94,7 @@ export const DesktopNav = memo(
     isOverHero,
     isMegaMenuOpen,
     setIsMegaMenuOpen,
+    onArmMegaMenu,
   }: DesktopNavProps) => {
     const handleItemClick = useCallback(
       (item: (typeof navItems)[0]) => {
@@ -107,17 +109,13 @@ export const DesktopNav = memo(
     const handleItemMouseEnter = useCallback((item: (typeof navItems)[0]) => {
       if (item.hasMegaMenu) {
         setIsMegaMenuOpen(true);
+        onArmMegaMenu?.(true);
       }
-    }, [setIsMegaMenuOpen]);
-
-    const handleNavMouseLeave = useCallback(() => {
-      setIsMegaMenuOpen(false);
     }, [setIsMegaMenuOpen]);
 
     return (
       <div
         className="hidden md:flex items-center gap-4 absolute left-1/2 -translate-x-1/2"
-        onMouseLeave={handleNavMouseLeave}
       >
         {navItems.map((item) => (
           <NavItem

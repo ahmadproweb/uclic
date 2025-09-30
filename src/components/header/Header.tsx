@@ -74,6 +74,7 @@ DesktopActions.displayName = "DesktopActions";
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
+  const [isMegaMenuArmed, setIsMegaMenuArmed] = useState(false);
   const [isServiceMenuOpen, setIsServiceMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -173,6 +174,7 @@ const Header = () => {
             isDirectlyOverHero={!isScrolled}
             isMegaMenuOpen={isMegaMenuOpen}
             setIsMegaMenuOpen={setIsMegaMenuOpen}
+            onArmMegaMenu={setIsMegaMenuArmed}
           />
 
           <DesktopActions isDark={isDark} />
@@ -185,7 +187,13 @@ const Header = () => {
         </nav>
       </header>
 
-      <MegaMenu isOpen={isMegaMenuOpen} setIsMegaMenuOpen={setIsMegaMenuOpen} headerRef={headerRef as unknown as React.RefObject<HTMLElement | HTMLDivElement>} />
+      <MegaMenu 
+        isOpen={isMegaMenuOpen} 
+        setIsMegaMenuOpen={setIsMegaMenuOpen} 
+        headerRef={headerRef as unknown as React.RefObject<HTMLElement | HTMLDivElement>}
+        armed={isMegaMenuArmed}
+        disarm={() => setIsMegaMenuArmed(false)}
+      />
 
       <MobileMenu
         isOpen={isMobileMenuOpen}
