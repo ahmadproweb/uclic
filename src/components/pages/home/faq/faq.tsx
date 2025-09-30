@@ -18,28 +18,28 @@ interface FAQItem {
 const faqItems: FAQItem[] = [
   {
     id: 1,
-    question: "Pourquoi choisir un freelance Growth Marketing pour votre croissance ?",
-    answer: "Un freelance Growth Marketing vous apporte une expertise pointue, une grande réactivité et une approche sur-mesure pour accélérer vos résultats. Chez Uclic, nos freelances sont sélectionnés pour leur expérience en Growth Hacking et leur capacité à générer une croissance rapide et durable pour votre entreprise."
+    question: "Quels résultats concrets puis-je attendre ?",
+    answer: "Nos clients voient des améliorations mesurables sur leurs KPIs clés : plus de leads qualifiés, réduction du coût d'acquisition client et augmentation des revenus récurrents. Nous mesurons chaque KPI et vous fournissons des reportings réguliers pour garantir la transparence totale sur vos résultats."
   },
   {
     id: 2,
-    question: "Qu'est-ce que le Growth Hacking et comment Uclic l'applique ?",
-    answer: "Le Growth Hacking consiste à utiliser des techniques innovantes et des outils digitaux pour booster rapidement l'acquisition et la rétention client. Uclic combine l'expertise de freelances spécialisés et des stratégies de Growth Marketing éprouvées pour maximiser votre ROI à chaque étape du funnel."
+    question: "Combien coûte votre service ?",
+    answer: "Nos missions démarrent à partir de 2 500€/mois. Contrairement aux agences traditionnelles qui facturent 8-15k€/mois, nous offrons des tarifs transparents sans engagement long terme. Nos clients voient généralement un retour sur investissement positif rapidement grâce à nos méthodes optimisées."
   },
   {
     id: 3,
-    question: "Quels sont les avantages d'une équipe de freelances Growth Marketing ?",
-    answer: "Faire appel à une équipe de freelances Growth Marketing, c'est bénéficier d'une flexibilité totale, d'une expertise multi-canal et d'une capacité à s'adapter rapidement à vos enjeux business. Nos experts Uclic interviennent sur le SEO, SEA, Social Ads, Emailing, Automation et bien plus pour une croissance à 360°."
+    question: "Comment l'IA va-t-elle révolutionner mon marketing ?",
+    answer: "L'IA automatise une grande partie des tâches manuelles (segmentation, personnalisation, optimisation) pour vous faire gagner du temps précieux. Nos outils IA analysent des milliers de points de données pour prédire les meilleures actions marketing et générer plus de conversions que les méthodes traditionnelles."
   },
   {
     id: 4,
-    question: "Comment se déroule une mission Growth Marketing avec Uclic ?",
-    answer: "Après un audit de vos besoins, nous constituons une équipe de freelances Growth Marketing adaptée à vos objectifs. Nous définissons ensemble la stratégie, mettons en place les actions prioritaires et suivons les résultats avec des reportings réguliers pour optimiser en continu."
+    question: "Pourquoi choisir Uclic plutôt qu'une agence traditionnelle ?",
+    answer: "Agences traditionnelles : tarifs élevés (8-15k€/mois), délais longs (3-6 mois), équipes généralistes. Uclic : tarifs compétitifs (à partir de 2.5k€/mois), résultats rapides, experts IA spécialisés. Nos freelances sont plus réactifs, moins chers et transparents sur les KPIs. Pas d'engagement long terme."
   },
   {
     id: 5,
-    question: "Quels résultats attendre d'une stratégie Growth Hacking ?",
-    answer: "Une stratégie Growth Hacking bien menée permet d'obtenir des résultats rapides : acquisition de leads qualifiés, augmentation du trafic, amélioration du taux de conversion et croissance du chiffre d'affaires. Nos freelances Uclic s'engagent sur la performance et l'innovation."
+    question: "Quel est votre processus de mise en place ?",
+    answer: "Semaine 1 : Audit IA gratuit + stratégie personnalisée. Semaine 2-3 : Mise en place des outils et campagnes. Semaine 4+ : Optimisation continue et reporting régulier. Premiers résultats visibles rapidement, retour sur investissement positif généralement obtenu dans les premières semaines."
   },
   {
     id: 6,
@@ -79,27 +79,90 @@ const faqItems: FAQItem[] = [
 ];
 
 // Memoized Components
+interface FAQItemProps {
+  item: FAQItem;
+  isOpen: boolean;
+  onToggle: () => void;
+  isDark: boolean;
+  index: number;
+}
+
 const FAQTitle = memo(({ isDark }: { isDark: boolean }) => (
-  <header className="space-y-6 animate-fade-in-up">
-    <h2 className={cn(
-      "text-5xl md:text-6xl lg:text-7xl font-normal",
-      isDark ? "text-white" : "text-black"
-    )}>FAQ</h2>
-    <p className={cn(
-      "text-base md:text-lg w-1/2",
-      isDark ? "text-white" : "text-black"
-    )}>
-      Toutes les réponses à vos questions sur l'automatisation IA, le Growth Marketing spécialisé Intelligence Artificielle et comment notre collectif de freelances transforme votre croissance avec l'automatisation.
-    </p>
-    <CTAButton 
-      href="/contact"
+  <header className="animate-fade-in-up">
+    <div className="mb-4">
+      <span className={cn(
+        "inline-flex items-center px-3 py-1 rounded-full text-sm font-medium",
+        "bg-[#E0FF5C]/20 text-[#E0FF5C] border border-[#E0FF5C]/30"
+      )}>
+        ✨ Expertise IA prouvée
+      </span>
+    </div>
+    
+    <h2
       className={cn(
-        "!bg-[#E0FF5C] !text-black hover:!bg-[#E0FF5C]/90",
-        "[&_span]:!border-black [&_svg]:!stroke-black"
+        "mb-6 md:mb-8 pt-0",
+        "text-3xl sm:text-4xl md:text-5xl lg:text-[50px]",
+        "font-medium tracking-[-1px] leading-[1.1]",
+        isDark ? "text-white/90" : "text-black/90"
       )}
     >
-      Discutons de votre projet
-    </CTAButton>
+      Comment multiplier vos revenus avec l'IA ?
+    </h2>
+    
+    <p
+      className={cn(
+        "text-base md:text-lg max-w-lg mb-6",
+        isDark ? "text-white/70" : "text-black/70"
+      )}
+    >
+      Découvrez comment nos freelances experts en IA et Growth Marketing transforment votre acquisition client et boostent vos revenus de manière mesurable.
+    </p>
+
+    {/* Social proof badges */}
+    <div className="flex flex-wrap gap-2 mb-6">
+      <span className={cn(
+        "px-3 py-1 rounded-full text-xs font-medium border",
+        isDark 
+          ? "bg-white/5 border-white/10 text-white/80" 
+          : "bg-black/5 border-black/10 text-black/80"
+      )}>
+        🚀 Freelances experts
+      </span>
+      <span className={cn(
+        "px-3 py-1 rounded-full text-xs font-medium border",
+        isDark 
+          ? "bg-white/5 border-white/10 text-white/80" 
+          : "bg-black/5 border-black/10 text-black/80"
+      )}>
+        ⚡ Résultats rapides
+      </span>
+      <span className={cn(
+        "px-3 py-1 rounded-full text-xs font-medium border",
+        isDark 
+          ? "bg-white/5 border-white/10 text-white/80" 
+          : "bg-black/5 border-black/10 text-black/80"
+      )}>
+        💰 Tarifs transparents
+      </span>
+    </div>
+
+    <div className="mt-6">
+      <CTAButton
+        href="/contact"
+        className={cn(
+          "!bg-[#E0FF5C] !text-black hover:!bg-[#E0FF5C]/90",
+          "[&_span]:!border-black [&_svg]:!stroke-black"
+        )}
+      >
+        Obtenir votre audit gratuit
+      </CTAButton>
+      <p className={cn(
+        "text-xs mt-2",
+        isDark ? "text-white/50" : "text-black/50"
+      )}>
+        🔥 Audit personnalisé + stratégie IA rapide
+      </p>
+    </div>
   </header>
 ));
 
@@ -128,9 +191,15 @@ function FAQItem({ item, isOpen, onToggle, isDark, index }: FAQItemProps) {
   return (
     <div 
       className={cn(
-        "border-b border-black/10 dark:border-white/10 pb-4",
-        isOpen && "pb-6"
+        "rounded-xl md:rounded-2xl p-4 md:p-5 mb-4",
+        "backdrop-blur-sm border transition-all duration-300",
+        "hover:-translate-y-1",
+        isDark 
+          ? "bg-white/5 border-white/10 hover:bg-white/10" 
+          : "bg-white border-black/5 hover:bg-white/80",
+        "animate-fade-in-up"
       )}
+      style={{ animationDelay: `${index * 100}ms` }}
       role="listitem"
     >
       <h3>
@@ -140,14 +209,17 @@ function FAQItem({ item, isOpen, onToggle, isDark, index }: FAQItemProps) {
           aria-controls={`faq-answer-${item.id}`}
           onClick={onToggle}
           className={cn(
-            "group flex w-full items-center justify-between py-6 text-left",
+            "group flex w-full items-center justify-between py-2 text-left",
             isDark ? "text-white" : "text-black"
           )}
         >
-          <span className="text-xl font-medium pr-6">{item.question}</span>
+          <span className="text-lg md:text-xl font-medium pr-4">{item.question}</span>
           <span className={cn(
-            "ml-6 flex h-7 w-7 shrink-0 items-center justify-center rounded-full",
-            isDark ? "bg-white/10" : "bg-black/10",
+            "ml-4 flex h-8 w-8 shrink-0 items-center justify-center rounded-full",
+            "border transition-all duration-200",
+            isDark 
+              ? "bg-white/10 border-white/20 hover:bg-white/20" 
+              : "bg-black/10 border-black/20 hover:bg-black/20",
             "transform transition-transform duration-200",
             isOpen && "rotate-45"
           )}>
@@ -161,7 +233,7 @@ function FAQItem({ item, isOpen, onToggle, isDark, index }: FAQItemProps) {
         aria-labelledby={`faq-question-${item.id}`}
         className={cn(
           "overflow-hidden transition-all duration-300",
-          isOpen ? "max-h-96" : "max-h-0"
+          isOpen ? "max-h-96 mt-2" : "max-h-0"
         )}
       >
         <div className={cn(
@@ -196,40 +268,88 @@ function FAQ() {
   };
 
   return (
-    <section 
+    <section
+      id="faq"
       className={cn(
-        "w-full pt-16 md:pt-24 pb-8 md:pb-12 relative overflow-hidden",
-        isDark ? "bg-black/95" : "bg-white"
+        "w-full relative overflow-hidden pt-20 pb-20 md:pt-20 md:pb-20 px-4 sm:px-6 border-b border-black/5 dark:border-white/10",
+        isDark ? "bg-black" : "bg-white"
       )}
+      aria-label="Questions fréquemment posées"
     >
+      {/* Fixed halo background effect */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed top-0 left-0 right-0 h-[45vh] z-0"
+        style={{
+          background: isDark
+            ? `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.20) 0%, rgba(212,237,49,0.12) 15%, rgba(212,237,49,0.06) 35%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 75%)`
+            : `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.25) 0%, rgba(212,237,49,0.15) 18%, rgba(212,237,49,0.08) 38%, rgba(255,255,255,0.1) 58%, rgba(255,255,255,0) 78%)`,
+          filter: 'blur(20px)'
+        }}
+      />
+
       <Script id="faq-schema" type="application/ld+json">
         {JSON.stringify(faqSchema)}
       </Script>
 
-      <div className="max-w-[1250px] mx-auto px-4 md:px-6 relative z-10">
+      {/* Section-level background pattern */}
+      <div
+        className="absolute inset-0 z-0 pointer-events-none"
+        style={{
+          backgroundImage: 'url("https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png")',
+          backgroundRepeat: 'repeat',
+          backgroundSize: '200px',
+          opacity: isDark ? 0.25 : 0.15
+        }}
+        aria-hidden="true"
+      />
+
+      <div className="max-w-[1250px] mx-auto px-4 sm:px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           <BackgroundSpiral isDark={isDark} />
 
           <div className="col-span-1 lg:col-span-5 lg:sticky lg:top-8 lg:self-start relative z-10">
-            <FAQTitle isDark={isDark} />
+            <div className={cn(
+              "rounded-2xl md:rounded-[32px] p-6 md:p-8",
+              "backdrop-blur-sm border",
+              "transition-all duration-300",
+              isDark 
+                ? "bg-white/5 border-white/10 hover:bg-white/10" 
+                : "bg-white border-black/5 hover:bg-white/50",
+              "animate-fade-in-up"
+            )}>
+              <FAQTitle isDark={isDark} />
+            </div>
           </div>
 
           <div className="col-span-1 lg:col-span-7 relative z-10">
             <div 
-              className="space-y-4"
+              className={cn(
+                "h-[400px] md:h-[500px] overflow-y-auto pr-2",
+                "scrollbar-thin scrollbar-track-transparent",
+                isDark 
+                  ? "scrollbar-thumb-white/30 hover:scrollbar-thumb-white/50" 
+                  : "scrollbar-thumb-black/30 hover:scrollbar-thumb-black/50"
+              )}
+              style={{
+                scrollbarWidth: 'thin',
+                scrollbarColor: isDark ? 'rgba(255,255,255,0.3) transparent' : 'rgba(0,0,0,0.3) transparent',
+              }}
               role="list"
               aria-label="Questions fréquemment posées"
             >
-              {faqItems.map((item, index) => (
-                <FAQItem
-                  key={item.id}
-                  item={item}
-                  isOpen={openItem === item.id}
-                  onToggle={() => setOpenItem(openItem === item.id ? null : item.id)}
-                  isDark={isDark}
-                  index={index}
-                />
-              ))}
+              <div>
+                {faqItems.map((item, index) => (
+                  <FAQItem
+                    key={item.id}
+                    item={item}
+                    isOpen={openItem === item.id}
+                    onToggle={() => setOpenItem(openItem === item.id ? null : item.id)}
+                    isDark={isDark}
+                    index={index}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>

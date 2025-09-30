@@ -126,17 +126,17 @@ const Header = () => {
   return (
     <div
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 px-4 py-4 font-heading",
+        "fixed top-0 left-0 right-0 z-50 px-4 py-4 font-heading overflow-x-clip",
         "transform will-change-transform transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
       )}
       ref={headerRef}
     >
       <header
         className={cn(
-          "max-w-7xl mx-auto rounded-2xl",
+          "w-full max-w-[1250px] mx-auto rounded-2xl box-border",
           "border backdrop-blur-md",
           "will-change-[background-color,box-shadow,transform] transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]",
-          "py-4 px-8 scale-100 translate-y-0 shadow-none",
+          "py-3 px-4 md:py-4 md:px-8 scale-100 translate-y-0 shadow-none",
           isDark
             ? [
                 "bg-black/40 border-white/10 text-white",
@@ -155,7 +155,7 @@ const Header = () => {
         aria-label="En-tête du site"
       >
         <nav
-          className="flex items-center justify-between h-[45px]"
+          className="flex items-center justify-between h-[48px] md:h-[56px]"
           role="navigation"
           aria-label="Navigation principale"
         >

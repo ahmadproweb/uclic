@@ -2,14 +2,44 @@
 
 import { cn } from "@/lib/utils";
 import { memo } from "react";
+import { useTheme } from "@/context/ThemeContext";
 
 const SEOContentSection = memo(function SEOContentSection() {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+
   return (
     <section 
-      className="w-full pt-20 pb-12 md:pt-20 md:pb-16 relative overflow-hidden bg-gray-50 dark:bg-black"
+      className={cn(
+        "w-full pt-20 pb-12 md:pt-20 md:pb-16 relative overflow-hidden",
+        isDark ? "bg-black" : "bg-white"
+      )}
       aria-labelledby="seo-content-title"
     >
-      <div className="max-w-[1250px] mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Fixed halo background effect */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed top-0 left-0 right-0 h-[45vh] z-0"
+        style={{
+          background: isDark
+            ? `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.20) 0%, rgba(212,237,49,0.12) 15%, rgba(212,237,49,0.06) 35%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 75%)`
+            : `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.25) 0%, rgba(212,237,49,0.15) 18%, rgba(212,237,49,0.08) 38%, rgba(255,255,255,0.1) 58%, rgba(255,255,255,0) 78%)`,
+          filter: 'blur(20px)'
+        }}
+      />
+
+      {/* Section-level background pattern */}
+      <div 
+        className="absolute inset-0 z-0 pointer-events-none"
+        style={{
+          backgroundImage: 'url("https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png")',
+          backgroundRepeat: 'repeat',
+          backgroundSize: '200px',
+          opacity: isDark ? 0.25 : 0.15
+        }}
+        aria-hidden="true"
+      />
+      <div className="max-w-[1250px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center">
           <h2 
             id="seo-content-title"

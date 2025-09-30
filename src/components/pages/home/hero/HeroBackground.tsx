@@ -40,7 +40,7 @@ export default function HeroBackground() {
 
       {/* Dynamic halo: stronger on load, dims as you scroll */}
       <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[1400px] h-[500px] -z-0 pointer-events-none"
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] sm:w-[1400px] h-[420px] sm:h-[500px] -z-0 pointer-events-none"
         style={{
           background: isDark
             ? `radial-gradient(ellipse at 50% 0%, rgba(224,255,92,0.8) 0%, rgba(224,255,92,0.35) 25%, rgba(224,255,92,0.12) 55%, transparent 75%)`

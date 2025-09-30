@@ -179,7 +179,7 @@ function TestimonialClient({ testimonials }: TestimonialClientProps) {
     <section 
       id="testimonials" 
       className={cn(
-        "w-full relative overflow-hidden pt-20 pb-12 md:pt-20 md:pb-16 px-4 sm:px-6 border-b border-black/5 dark:border-white/10",
+        "w-full relative overflow-hidden pt-20 pb-20 md:pt-20 md:pb-20 px-4 sm:px-6 border-b border-black/5 dark:border-white/10",
         isDark ? "bg-black" : "bg-white"
       )}
       aria-label="Témoignages clients"
@@ -207,7 +207,7 @@ function TestimonialClient({ testimonials }: TestimonialClientProps) {
           backgroundImage: 'url("https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png")',
           backgroundRepeat: 'repeat',
           backgroundSize: '200px',
-          opacity: isDark ? 0.25 : 0.04
+          opacity: isDark ? 0.25 : 0.15
         }}
         aria-hidden="true"
       />
@@ -262,7 +262,7 @@ function TestimonialClient({ testimonials }: TestimonialClientProps) {
       </div>
       
       {/* Reopen container for any additional content */}
-      <div className="max-w-[1250px] mx-auto px-4 sm:px-6 py-8 md:py-12 relative z-10" />
+      <div className="max-w-[1250px] mx-auto px-4 sm:px-6 py-4 md:py-6 relative z-10" />
     </section>
   );
 }
