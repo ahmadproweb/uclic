@@ -190,7 +190,11 @@ export default function AndMoreService({ children }: AndMoreServiceProps) {
     <section 
       ref={sectionRef} 
       id="plus-de-service" 
-      className="w-full relative py-16 md:py-20 overflow-hidden border-b border-black/5 dark:border-white/10"
+      className={cn(
+        "w-full relative py-16 md:py-20 overflow-hidden",
+        isDark ? "bg-black" : "bg-white"
+      )}
+      style={{ backgroundColor: isDark ? '#000000' : '#ffffff' }}
       aria-label="Services supplémentaires"
     >
       {/* Decorative Mouse Elements with proper aria-hidden */}
@@ -228,24 +232,28 @@ export default function AndMoreService({ children }: AndMoreServiceProps) {
         <i className="ri-navigation-fill text-5xl" style={{ color: `${themeColors.primary.main}83` }} />
       </div>
 
-      {/* Gradient background with memoized style */}
-      <div 
-        className="absolute inset-0 z-0 transition-colors duration-300"
-        style={backgroundStyle}
+      {/* Halo gradient en bas (inversé du Hero) */}
+      <div
         aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[45vh] z-0"
+        style={{
+          background: isDark
+            ? `radial-gradient(ellipse at center 80%, rgba(212,237,49,0.20) 0%, rgba(212,237,49,0.12) 15%, rgba(212,237,49,0.06) 35%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 75%)`
+            : `radial-gradient(ellipse at center 80%, rgba(212,237,49,0.25) 0%, rgba(212,237,49,0.15) 18%, rgba(212,237,49,0.08) 38%, rgba(255,255,255,0.1) 58%, rgba(255,255,255,0) 78%)`,
+          filter: 'blur(20px)'
+        }}
       />
 
-      {/* Grain effect overlay */}
+      {/* Background grain texture */}
       <div 
-        className={cn(
-          "absolute inset-0 z-0 mix-blend-soft-light",
-          isDark ? "opacity-90" : "opacity-50"
-        )}
+        className="absolute inset-0 z-0"
         style={{
-          backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.7\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\' opacity=\'0.8\'/%3E%3C/svg%3E")',
+          backgroundImage: 'url("https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png")',
           backgroundRepeat: 'repeat',
-          backgroundSize: '100px 100px'
+          backgroundSize: '200px',
+          opacity: 0.04
         }}
+        aria-hidden="true"
       />
 
       {/* Content */}

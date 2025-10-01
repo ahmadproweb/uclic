@@ -102,12 +102,12 @@ const PortfolioCard = memo(({ portfolio, isDark }: { portfolio: Portfolio; isDar
   return (
     <Link
       href={`/cas-clients/${portfolio.slug}`}
-      className="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 border backdrop-blur-md relative block w-full"
-      style={{
-        background: 'transparent',
-        borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)',
-        boxShadow: 'none',
-      }}
+      className={cn(
+        "group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 border backdrop-blur-md relative block w-full",
+        isDark 
+          ? "bg-black/40 border-white/10 hover:border-white/20" 
+          : "bg-white/50 border-black/8 hover:border-black/10"
+      )}
     >
       {/* Background pattern */}
       <div
@@ -116,7 +116,7 @@ const PortfolioCard = memo(({ portfolio, isDark }: { portfolio: Portfolio; isDar
           backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
           backgroundRepeat: 'repeat',
           backgroundSize: '200px',
-          opacity: isDark ? '0.4' : '0.04'
+          opacity: isDark ? '0.25' : '0.04'
         }}
       />
       {/* Hover halo effect */}
@@ -149,7 +149,12 @@ const PortfolioCard = memo(({ portfolio, isDark }: { portfolio: Portfolio; isDar
           />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
-        <span className="absolute bottom-4 left-4 inline-block px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-sm z-20">
+        <span className={cn(
+          "absolute bottom-4 left-4 inline-block px-3 py-1 rounded-full text-sm z-20 font-semibold",
+          isDark 
+            ? "bg-white text-black" 
+            : "bg-black text-[#E0FF5C]"
+        )}>
           Cas client
         </span>
       </div>
@@ -160,7 +165,7 @@ const PortfolioCard = memo(({ portfolio, isDark }: { portfolio: Portfolio; isDar
           {decodeHTMLEntities(portfolio.title)}
         </h3>
 
-        <p className={cn("text-sm line-clamp-2", isDark ? "text-white/80" : "text-black/80") }>
+        <p className={cn("text-sm line-clamp-2", isDark ? "text-white/80" : "text-black/80")}>
           {decodeHTMLEntities(portfolio.excerpt.replace(/<[^>]*>/g, ''))}
         </p>
       </div>
@@ -230,23 +235,12 @@ function CaseStudy({ portfolios: initialPortfolios }: CaseStudyProps) {
       ref={sectionRef}
       id="casestudy" 
       className={cn(
-        "w-full relative overflow-hidden pt-20 pb-12 md:pt-20 md:pb-16 px-4 sm:px-6 border-b border-black/5 dark:border-white/10",
-        isDark ? "bg-black" : "bg-white"
+        "w-full relative overflow-hidden pt-20 pb-12 md:pt-20 md:pb-16 px-4 sm:px-6 border-t border-b z-10",
+        isDark ? "bg-black border-white/10" : "bg-white border-black/5"
       )}
+      style={{ backgroundColor: isDark ? '#000000' : '#ffffff' }}
       aria-label="Études de cas"
     >
-      {/* Section-scoped halo background */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-[45vh] z-0"
-        style={{
-          background: isDark
-            ? `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.20) 0%, rgba(212,237,49,0.12) 15%, rgba(212,237,49,0.06) 35%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 75%)`
-            : `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.25) 0%, rgba(212,237,49,0.15) 18%, rgba(212,237,49,0.08) 38%, rgba(255,255,255,0.1) 58%, rgba(255,255,255,0) 78%)`,
-          filter: 'blur(20px)'
-        }}
-      />
-
       {/* Section-level background pattern */}
       <div 
         className="absolute inset-0 -z-10"
@@ -254,7 +248,7 @@ function CaseStudy({ portfolios: initialPortfolios }: CaseStudyProps) {
           backgroundImage: 'url("https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png")',
           backgroundRepeat: 'repeat',
           backgroundSize: '200px',
-          opacity: isDark ? 0.25 : 0.03
+          opacity: isDark ? 0.25 : 0.04
         }}
         aria-hidden="true"
       />
@@ -268,21 +262,26 @@ function CaseStudy({ portfolios: initialPortfolios }: CaseStudyProps) {
       <div className="max-w-[1250px] mx-auto px-4 sm:px-6 relative z-10">
 
       <header className="text-center">
+          <div className={cn(
+            "inline-flex px-4 py-2 border rounded-full mb-6",
+            isDark 
+              ? "border-white/10 bg-white/5" 
+              : "border-black/10 bg-black/5"
+          )}>
+            <span className={cn("font-medium text-sm", isDark ? "text-white" : "text-black")}>📊 Portfolio Clients</span>
+          </div>
           <h2 className={cn(
-            "max-w-5xl mx-auto text-center mb-16 md:mb-20 pt-8 md:pt-0",
-            "text-3xl sm:text-4xl md:text-5xl lg:text-[50px]",
-            "font-normal tracking-[-1px]",
+            "max-w-5xl mx-auto text-center mb-6 text-3xl sm:text-4xl md:text-5xl lg:text-[50px] font-bold tracking-[-1px]",
             isDark ? "text-white" : "text-black"
           )}>
-            Découvrez comment nos équipes ont
-            <br/>
-            performé avec nos clients
+            Notre agence Growth IA a transformé<br/>
+            leur acquisition et multiplié leurs résultats
           </h2>
           <p className={cn(
-            "text-center text-black/70 dark:text-white/70 max-w-3xl mx-auto -mt-10 mb-12 md:mb-16 leading-relaxed"
+            "text-center max-w-3xl mx-auto mb-12 md:mb-16 text-base md:text-lg leading-relaxed",
+            isDark ? "text-white/70" : "text-black/70"
           )}>
-            Études de cas B2B: stratégies IA et Growth concrètes, résultats mesurables. Parcourez nos
-            collaborations et les gains obtenus (MQL, CAC, MRR, rétention).
+            De +300% de trafic qualifié à -60% de CAC : découvrez comment notre agence Growth Marketing a aidé nos clients à dominer leur marché avec l'IA. Stratégies actionnables, automatisation complète, ROI mesurable.
           </p>
       </header>
 
@@ -305,8 +304,8 @@ function CaseStudy({ portfolios: initialPortfolios }: CaseStudyProps) {
           href="/cas-clients"
           className={cn(
             isDark 
-              ? "!bg-white !text-black hover:!bg-[#E0FF5C] [&_svg]:!stroke-black [&_span]:border-black hover:[&_span]:border-black hover:[&_svg]:!stroke-black"
-              : "!bg-black hover:!bg-white !text-white hover:!text-black [&_svg]:!text-white [&_svg]:!stroke-white hover:[&_svg]:!text-black hover:[&_svg]:!stroke-black [&_span]:border-white hover:[&_span]:border-black"
+              ? "!bg-white !text-black hover:!bg-[#E0FF5C] hover:!text-black [&_svg]:!stroke-black [&_span]:border-black hover:[&_span]:border-black"
+              : "!bg-black hover:!bg-[#E0FF5C] !text-white hover:!text-black [&_svg]:!text-white [&_svg]:!stroke-white hover:[&_svg]:!text-black hover:[&_svg]:!stroke-black [&_span]:border-white hover:[&_span]:border-black"
           )}
         >
           Voir tous les cas clients

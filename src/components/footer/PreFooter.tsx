@@ -129,15 +129,15 @@ function PreFooter({ noBgGradient = false }: PreFooterProps) {
   const isDark = currentTheme === 'dark';
 
   return (
-    <section 
-      className={cn(
-        "w-full rounded-2xl border bg-transparent overflow-visible",
-        isDark
-          ? "border-white/10"
-          : "border-black/10"
-      )}
-    >
-      <div className="max-w-[1250px] mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-0 overflow-visible rounded-2xl">
+    <section className="w-full px-4">
+      <div 
+        className={cn(
+          "max-w-[1250px] mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-0 overflow-visible rounded-2xl border bg-transparent",
+          isDark
+            ? "border-white/10"
+            : "border-black/10"
+        )}
+      >
         <LeftContent isDark={isDark} />
         <RightContent isDark={isDark} />
       </div>

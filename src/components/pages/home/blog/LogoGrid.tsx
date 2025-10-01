@@ -1,6 +1,8 @@
 'use client';
 
 import { memo } from 'react';
+import { useTheme } from "@/context/ThemeContext";
+import { cn } from "@/lib/utils";
 
 // Types
 interface Logo {
@@ -35,33 +37,55 @@ const logos: Logo[] = [
   { name: "Beertime", image: "/partners/beertime.png", alt: "Logo Beertime, partenaire de recrutement tech" },
   { name: "Breega", image: "/partners/breega.png", alt: "Logo Breega, fonds d'investissement tech" },
   { name: "ESG", image: "/partners/esg.png", alt: "Logo ESG, école supérieure de gestion" },
-  { name: "BUT", image: "/partners/but.png", alt: "Logo BUT, enseigne de mobilier et électroménager" }
+  { name: "BUT", image: "/partners/but.png", alt: "Logo BUT, enseigne de mobilier et électroménager" },
+  { name: "Isai", image: "/partners/isai.png", alt: "Logo Isai, fonds d'investissement" }
 ];
 
 const LogoGrid = memo(function LogoGrid() {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+
   return (
-    <section className="w-full py-16 md:py-24 relative overflow-hidden">
+    <section className={cn(
+      "w-full pt-16 md:pt-20 pb-16 md:pb-24 relative overflow-hidden border-t",
+      isDark ? "border-white/10" : "border-black/5"
+    )}>
       <div className="max-w-[1250px] mx-auto px-4">
-        <h2 className="text-2xl md:text-4xl font-normal text-center mb-4 text-black animate-fade-in-up">
-          Nos partenaires de confiance
-          <span className="sr-only"> - Découvrez les entreprises qui nous font confiance</span>
-        </h2>
-        <p className="text-center text-lg text-black dark:text-black max-w-2xl mx-auto mb-8">
-          Ils ont fait confiance à nos services <strong>Growth</strong>, <strong>automatisation</strong> & <strong>IA</strong>
-        </p>
+        <div className="text-center mb-12 md:mb-14 animate-fade-in-up">
+          <div className={cn(
+            "inline-flex px-4 py-2 border rounded-full mb-6",
+            isDark 
+              ? "bg-[#E0FF5C]/10 border-[#E0FF5C]/20" 
+              : "bg-[#E0FF5C]/20 border-[#E0FF5C]/30"
+          )}>
+            <span className={cn("font-medium text-sm", isDark ? "text-[#E0FF5C]" : "text-[#9FB832]")}>🤝 Ils nous font confiance</span>
+          </div>
+          <h2 className={cn(
+            "text-2xl md:text-4xl font-bold text-center mb-6",
+            isDark ? "text-white" : "text-black"
+          )}>
+            Scale-ups et grands groupes<br/>qui nous font confiance
+          </h2>
+          <p className={cn(
+            "text-center text-base md:text-lg max-w-2xl mx-auto leading-relaxed",
+            isDark ? "text-white/90" : "text-black/80"
+          )}>
+            De Louis Vuitton à Agicap : ils ont choisi notre agence pour <strong>automatiser leur croissance avec l'IA</strong> et multiplier leurs résultats
+          </p>
+        </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6" role="list">
           {logos.map((logo, index) => (
             <div
               key={logo.name}
-              className="aspect-[3/2] rounded-2xl p-8 flex items-center justify-center bg-black/5 animate-fade-in-up"
+              className="aspect-[3/2] rounded-2xl p-8 flex items-center justify-center bg-black/5 dark:bg-white/5 animate-fade-in-up"
               style={{ animationDelay: `${index * 50}ms` }}
               role="listitem"
             >
               <img
                 src={logo.image}
                 alt={logo.alt}
-                className="w-full h-full object-contain brightness-0"
+                className="w-full h-full object-contain brightness-0 dark:invert"
                 loading="lazy"
                 decoding="async"
               />

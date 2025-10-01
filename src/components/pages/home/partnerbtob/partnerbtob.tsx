@@ -122,28 +122,50 @@ function PartnerBtoB() {
     <section 
       id="partner-btob" 
       className={cn(
-        "w-full relative z-[10] pt-20 pb-12 md:pt-20 md:pb-16 border-b border-black/5 dark:border-white/10",
-        isDark ? "bg-black" : "bg-white"
+        "w-full relative z-10 pt-20 pb-12 md:pt-20 md:pb-16 border-t",
+        isDark ? "bg-black border-white/10" : "bg-white border-black/5"
       )}
+      style={{ backgroundColor: isDark ? '#000000' : '#ffffff' }}
       aria-label="Nos partenaires B2B"
     >
-      <div className="max-w-[1250px] mx-auto px-4">
+      {/* Background grain texture */}
+      <div 
+        className="absolute inset-0 -z-10"
+        style={{
+          backgroundImage: 'url("https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png")',
+          backgroundRepeat: 'repeat',
+          backgroundSize: '200px',
+          opacity: isDark ? 0.25 : 0.04
+        }}
+        aria-hidden="true"
+      />
+
+      <div className="max-w-[1250px] mx-auto px-4 sm:px-6">
         <div className="text-center">
+          <div className={cn(
+            "inline-flex px-4 py-2 border rounded-full mb-6",
+            isDark 
+              ? "border-white/10 bg-white/5" 
+              : "border-black/10 bg-black/5"
+          )}>
+            <span className={cn("font-medium text-sm", isDark ? "text-white" : "text-black")}>🤝 Stack Partenaires</span>
+          </div>
           <h2 className={cn(
-            "max-w-5xl mx-auto text-center mb-16 md:mb-20 pt-0",
+            "max-w-5xl mx-auto text-center mb-6",
             "text-3xl sm:text-4xl md:text-5xl lg:text-[50px]",
-            "font-medium tracking-[-1px]",
-            "text-black/90 dark:text-white/90",
+            "font-bold tracking-[-1px]",
+            isDark ? "text-white" : "text-black",
             "leading-[1.1]"
           )}>
-            Des partenaires d'excellence<br/>
-            pour booster votre croissance
+            Notre stack technologique :<br/>
+            les meilleurs outils pour votre croissance
           </h2>
 
           <p className={cn(
-            "text-center text-black/70 dark:text-white/70 max-w-3xl mx-auto -mt-10 mb-12 md:mb-16"
+            "text-center max-w-3xl mx-auto mb-12 md:mb-16 text-base md:text-lg leading-relaxed",
+            isDark ? "text-white/70" : "text-black/70"
           )}>
-            Découvrez comment nos partenaires B2B, leaders dans leur domaine, contribuent à la réussite de vos projets de Growth Marketing. Grâce à des collaborations stratégiques et une expertise reconnue, nous maximisons la performance, l'innovation et la croissance de votre entreprise.
+            Notre agence Growth déploie la meilleure stack IA du marché : automatisation, analytics, outbound, CRM, SEO. Chaque outil est choisi pour maximiser votre ROI et scaler votre acquisition.
           </p>
           
           <div className="max-w-[1000px] mx-auto">

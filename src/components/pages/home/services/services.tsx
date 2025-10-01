@@ -24,31 +24,52 @@ export default function Services() {
   return (
     <section 
       id="services" 
-      className="w-full pt-20 pb-12 md:pt-20 md:pb-16 relative z-[10] overflow-hidden bg-white dark:bg-black/95 border-b border-black/5 dark:border-white/10"
+      className="w-full pt-20 pb-12 md:pt-20 md:pb-16 relative z-10 overflow-hidden bg-white dark:bg-black border-b border-black/5 dark:border-white/10"
       aria-labelledby="services-title"
     >
+      {/* Background grain texture */}
+      <div 
+        className="absolute inset-0 -z-10"
+        style={{
+          backgroundImage: 'url("https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png")',
+          backgroundRepeat: 'repeat',
+          backgroundSize: '200px',
+          opacity: 0.04
+        }}
+        aria-hidden="true"
+      />
+
       <PlusIcon />
       <ClientPulseEffect />
       
-      <h2 
-        id="services-title"
-        className={cn(
-          "max-w-5xl mx-auto text-center mb-16 md:mb-20 pt-8 md:pt-0",
-          "text-3xl sm:text-4xl md:text-5xl lg:text-[50px]",
-          "font-medium tracking-[-1px]",
-          "text-black/90 dark:text-white/90",
-          "leading-[1.1]"
-        )}
-      >
-        Agence Growth & IA orientée revenus
-      </h2>
+      <div className="max-w-[1250px] mx-auto px-4 sm:px-6">
+        <div className="text-center mb-12 md:mb-16">
+          <div className="inline-flex px-4 py-2 border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 rounded-full mb-6">
+            <span className="font-medium text-sm text-black dark:text-white">🎯 Nos Services</span>
+          </div>
+          
+          <h2 
+            id="services-title"
+            className={cn(
+              "max-w-5xl mx-auto text-center mb-6",
+              "text-3xl sm:text-4xl md:text-5xl lg:text-[50px]",
+              "font-bold tracking-[-1px]",
+              "text-black dark:text-white",
+              "leading-[1.1]"
+            )}
+          >
+            Agence Growth & IA<br/>
+            orientée revenus, pas notoriété
+          </h2>
 
-      <p className="text-center text-black/70 dark:text-white/70 max-w-3xl mx-auto -mt-10 mb-12 md:mb-16">
-        Nous concevons, testons et industrialisons ce qui fait croître vos revenus&nbsp;: visites qualifiées, prospects, ventes, revenus. Des résultats mesurables, pas de bla‑bla.
-      </p>
+          <p className="text-center text-black/70 dark:text-white/70 max-w-3xl mx-auto mb-12 md:mb-16 text-base md:text-lg leading-relaxed">
+            Notre agence ne vend pas de la visibilité. Nous déployons une stack IA complète qui transforme votre marketing en machine de revenus : acquisition qualifiée, conversion optimisée, scaling automatisé. Résultats mesurables, pas de blabla.
+          </p>
+        </div>
+      </div>
       
       <div 
-        className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-3 gap-8"
+        className="max-w-[1250px] mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
         role="list"
       >
         {serviceData.map((service, index) => (

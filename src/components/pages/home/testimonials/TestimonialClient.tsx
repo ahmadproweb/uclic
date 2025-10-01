@@ -1,10 +1,11 @@
 'use client';
 
-import { memo, useEffect, useRef } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
-import type { Testimonial } from './types';
+import { CTAButton } from "@/components/ui/cta-button";
 import Script from 'next/script';
+import type { Testimonial } from './types';
 
 // Types
 interface TestimonialClientProps {
@@ -25,11 +26,12 @@ const TestimonialCard = memo(({ testimonial, isDark, index, isMasonry = false }:
   return (
   <article 
     className={cn(
-      "rounded-2xl md:rounded-[24px] p-4 md:p-5",
-      "hover:-translate-y-1 hover:shadow-xl backdrop-blur-sm",
-      "animate-fade-in-up group h-full flex flex-col",
-      isDark ? "bg-white/5 border border-white/10" : "bg-white border border-black/5",
-      "hover:bg-white/10",
+      "rounded-3xl p-5 md:p-6",
+      "hover:-translate-y-1 backdrop-blur-md border",
+      "animate-fade-in-up group h-full flex flex-col transition-all duration-300 relative",
+      isDark 
+        ? "bg-black/40 border-white/10 hover:border-white/20" 
+        : "bg-white/40 border-black/5 hover:border-black/10",
       isMasonry && "justify-between"
     )}
     style={{ animationDelay: `${index * 150}ms` }}
@@ -116,34 +118,345 @@ const TestimonialCard = memo(({ testimonial, isDark, index, isMasonry = false }:
 TestimonialCard.displayName = 'TestimonialCard';
 
 const TestimonialHeader = memo(({ isDark, average, reviewCount }: { isDark: boolean; average: number; reviewCount: number }) => (
-  <header className="text-center">
+  <header className="text-center mb-12 md:mb-16 animate-fade-in-up">
+    <div className={cn(
+      "inline-flex px-4 py-2 border rounded-full mb-6",
+      isDark 
+        ? "border-white/10 bg-white/5" 
+        : "border-black/10 bg-black/5"
+    )}>
+      <span className={cn("font-medium text-sm", isDark ? "text-white" : "text-black")}>💡 Tips & Réactions</span>
+    </div>
+    
     <h2 className={cn(
-      "max-w-5xl mx-auto text-center mb-10 md:mb-14 pt-6 md:pt-0",
-      "text-2xl sm:text-3xl md:text-4xl lg:text-[40px]",
-      "font-medium tracking-[-1px]",
-      isDark ? "text-white/90" : "text-black/90",
+      "max-w-5xl mx-auto text-center mb-6",
+      "text-2xl sm:text-3xl md:text-4xl lg:text-5xl",
+      "font-bold tracking-[-1px]",
+      isDark ? "text-white" : "text-black",
       "leading-[1.1]"
     )}>
-      Une communauté de +23.000 personnes suit Uclic pour parler Growth
+      +30.000 professionnels réagissent<br/>aux tips Growth & IA de Wladimir
     </h2>
+    
     <p className={cn(
-      "text-center text-black/70 dark:text-white/70 max-w-3xl mx-auto -mt-6 mb-10 md:mb-12"
+      "text-center max-w-3xl mx-auto mb-6 text-base md:text-lg leading-relaxed",
+      isDark ? "text-white/80" : "text-black/80"
     )}>
-      Réservez un audit et repartez avec des tips de croissance actionnables (IA & Growth) pour booster MQL, baisser le CAC et augmenter le MRR.
+      Fondateur d'Uclic, Wladimir partage quotidiennement ses stratégies de croissance et d'automatisation IA sur LinkedIn. Ci-dessous, découvrez les <strong className={cn("font-semibold", isDark ? "text-white" : "text-black")}>réactions vérifiées de CMOs, founders et Growth Hackers</strong> qui appliquent ses conseils — chaque commentaire est cliquable.
     </p>
-    <div className="flex flex-wrap gap-2 justify-center -mt-6 mb-8 md:mb-10">
-      <span className="px-3 py-1 rounded-full text-xs font-medium bg-black/10 dark:bg-white/10 text-black/80 dark:text-white/80 border border-black/10 dark:border-white/10">+35% MQL moyen</span>
-      <span className="px-3 py-1 rounded-full text-xs font-medium bg-black/10 dark:bg-white/10 text-black/80 dark:text-white/80 border border-black/10 dark:border-white/10">−22% CAC</span>
-      <span className="px-3 py-1 rounded-full text-xs font-medium bg-black/10 dark:bg-white/10 text-black/80 dark:text-white/80 border border-black/10 dark:border-white/10">+12% NRR</span>
+    
+    <div className="flex flex-wrap gap-2 justify-center mb-10 md:mb-12">
+      <span className={cn(
+        "px-4 py-2 rounded-full text-xs font-semibold border backdrop-blur-md",
+        isDark 
+          ? "bg-black/40 border-white/10 text-white" 
+          : "bg-white/40 border-black/5 text-black"
+      )}>📈 +20M de vues LinkedIn</span>
+      <span className={cn(
+        "px-4 py-2 rounded-full text-xs font-semibold border backdrop-blur-md",
+        isDark 
+          ? "bg-black/40 border-white/10 text-white" 
+          : "bg-white/40 border-black/5 text-black"
+      )}>💬 +10.000 commentaires positifs</span>
+      <span className={cn(
+        "px-4 py-2 rounded-full text-xs font-semibold border backdrop-blur-md",
+        isDark 
+          ? "bg-black/40 border-white/10 text-white" 
+          : "bg-white/40 border-black/5 text-black"
+      )}>👥 +30.000 Followers</span>
     </div>
   </header>
 ));
 
 TestimonialHeader.displayName = 'TestimonialHeader';
 
+const SpotifyEpisodeCard = memo(({ isDark }: { isDark: boolean }) => (
+  <div className="mb-12 md:mb-16 animate-fade-in-up">
+    <div className={cn(
+      "rounded-3xl p-6 md:p-8 backdrop-blur-md border relative overflow-hidden",
+      "transition-all duration-300 hover:scale-[1.02]",
+      isDark 
+        ? "bg-[#1DB954]/10 border-[#1DB954]/30 shadow-lg shadow-[#1DB954]/10" 
+        : "bg-[#1DB954]/10 border-[#1DB954]/30 shadow-lg shadow-[#1DB954]/10"
+    )}>
+      {/* Halo Spotify vert */}
+      <div
+        className="pointer-events-none absolute inset-0 z-0 rounded-3xl"
+        style={{
+          background: `radial-gradient(circle at 50% 50%, rgba(29,185,84,0.15) 0%, rgba(29,185,84,0.05) 50%, rgba(0,0,0,0) 100%)`,
+          filter: 'blur(20px)'
+        }}
+      />
+      
+      <div className="relative z-10">
+        <img 
+          src="https://cdn.prod.website-files.com/6356415ed6b8bbc9002c05ff/636299de87c6ff697d22ed29_WMlogo-black.svg"
+          alt="Logo Wild Marketer"
+          className={cn("h-6 w-auto mb-4", isDark && "brightness-0 invert")}
+        />
+        <div className="inline-flex px-3 py-1 bg-[#1DB954]/20 border border-[#1DB954]/30 rounded-full mb-3">
+          <span className="text-[#1DB954] font-semibold text-xs">🎙️ Podcast Spotify</span>
+        </div>
+        <h3 className={cn("text-lg md:text-xl font-bold mb-2", isDark ? "text-white" : "text-black")}>
+          Wladimir Delcros avec Alexandre Brengues : Automatiser à 100% sa Lead Generation B2B
+        </h3>
+        <p className={cn("text-sm mb-4 leading-relaxed", isDark ? "text-white/70" : "text-black/70")}>
+          Head of Growth chez CodinGame partage tout son workflow d'automatisation avec des outils No-Code avec Alexandre Brengues (Wild Marketer). 
+          1h06 de stratégies actionnables.
+        </p>
+        
+        {/* Spotify Embed */}
+        <div className="mb-4 rounded-2xl overflow-hidden">
+          <iframe 
+            src="https://open.spotify.com/embed/episode/6oN7OBOaooqdFnT0czddrc?utm_source=generator&theme=0" 
+            width="100%" 
+            height="232" 
+            frameBorder="0" 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+            loading="lazy"
+            className="rounded-2xl"
+          />
+        </div>
+        
+        {/* Invité par */}
+        <div className="flex items-center gap-3 pl-1">
+          <span className={cn("text-xs font-medium", isDark ? "text-white/60" : "text-black/60")}>
+            Invité par :
+          </span>
+          <div className="flex items-center gap-2">
+            <div className="relative">
+              <img 
+                src="https://media.licdn.com/dms/image/v2/D4E03AQG6UAytpiLqHg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1708605179714?e=1762387200&v=beta&t=CT_FSdVNEKxeCErSUzNII-yDIce7UXaGoP-T5bYikiY"
+                alt="Alexandre Brengues"
+                className="w-10 h-10 rounded-full border-2 border-[#1DB954]/30 object-cover"
+              />
+              <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-[#1DB954] rounded-full border-2 border-white dark:border-black" />
+            </div>
+            <span className={cn("text-sm font-semibold", isDark ? "text-white" : "text-black")}>
+              Alexandre Brengues
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+));
+
+SpotifyEpisodeCard.displayName = 'SpotifyEpisodeCard';
+
+const YouTubeVideoCard = memo(({ isDark }: { isDark: boolean }) => (
+  <div className="mb-4 break-inside-avoid animate-fade-in-up">
+    <div className={cn(
+      "rounded-3xl p-6 md:p-8 backdrop-blur-md border relative overflow-hidden",
+      "transition-all duration-300 hover:scale-[1.02]",
+      isDark 
+        ? "bg-[#FF0000]/10 border-[#FF0000]/30 shadow-lg shadow-[#FF0000]/10" 
+        : "bg-[#FF0000]/10 border-[#FF0000]/30 shadow-lg shadow-[#FF0000]/10"
+    )}>
+      {/* Halo YouTube rouge */}
+      <div
+        className="pointer-events-none absolute inset-0 z-0 rounded-3xl"
+        style={{
+          background: `radial-gradient(circle at 50% 50%, rgba(255,0,0,0.15) 0%, rgba(255,0,0,0.05) 50%, rgba(0,0,0,0) 100%)`,
+          filter: 'blur(20px)'
+        }}
+      />
+      
+      <div className="relative z-10">
+        <img 
+          src="https://cdn.prod.website-files.com/644bc804ad8e925fa8a932d1/644fa08cb2061af9c7c8ebdb_logo-scalezia.svg"
+          alt="Logo Scalezia"
+          className={cn("h-6 w-auto mb-4", isDark && "brightness-0 invert")}
+        />
+        <div className="inline-flex px-3 py-1 bg-[#FF0000]/20 border border-[#FF0000]/30 rounded-full mb-3">
+          <span className="text-[#FF0000] font-semibold text-xs">🎱 Vidéo YouTube</span>
+        </div>
+        <h3 className={cn("text-lg md:text-xl font-bold mb-2", isDark ? "text-white" : "text-black")}>
+          Wladimir Delcros avec Benoit Dubos : Contacter les prospects au bon moment
+        </h3>
+        <p className={cn("text-sm mb-4 leading-relaxed", isDark ? "text-white/70" : "text-black/70")}>
+          Wladimir Delcros et Benoit Dubos (Scalezia) partagent leurs stratégies pour automatiser votre prospection et contacter vos leads au moment optimal.
+        </p>
+        
+        {/* YouTube Embed */}
+        <div className="mb-4 rounded-2xl overflow-hidden">
+          <iframe 
+            width="100%" 
+            height="315" 
+            src="https://www.youtube.com/embed/GRlZO8KtB7A" 
+            title="Wladimir Delcros avec Benoit Dubos : Contacter les prospects au bon moment" 
+            frameBorder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerPolicy="strict-origin-when-cross-origin" 
+            allowFullScreen
+            className="rounded-2xl aspect-video"
+          />
+        </div>
+        
+        {/* Invité par */}
+        <div className="flex items-center gap-3 pl-1">
+          <span className={cn("text-xs font-medium", isDark ? "text-white/60" : "text-black/60")}>
+            Invité par :
+          </span>
+          <div className="flex items-center gap-2">
+            <div className="relative">
+              <img 
+                src="https://media.licdn.com/dms/image/v2/D4D03AQEoC1DbTOyABA/profile-displayphoto-shrink_200_200/B4DZd9Rcx0GYAY-/0/1750153416386?e=1762387200&v=beta&t=sI0-T64Xn9p8w7VhfFgMoOJraMhSZLeU1iBRLc7_ApE"
+                alt="Benoit Dubos"
+                className="w-10 h-10 rounded-full border-2 border-[#FF0000]/30 object-cover"
+              />
+              <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-[#FF0000] rounded-full border-2 border-white dark:border-black" />
+            </div>
+            <span className={cn("text-sm font-semibold", isDark ? "text-white" : "text-black")}>
+              Benoit Dubos
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+));
+
+YouTubeVideoCard.displayName = 'YouTubeVideoCard';
+
+const LinkedInVideoCard = memo(({ isDark }: { isDark: boolean }) => (
+  <div className="mb-4 break-inside-avoid animate-fade-in-up">
+    <div className={cn(
+      "rounded-3xl p-6 md:p-8 backdrop-blur-md border relative overflow-hidden",
+      "transition-all duration-300 hover:scale-[1.02]",
+      isDark 
+        ? "bg-[#0A66C2]/10 border-[#0A66C2]/30 shadow-lg shadow-[#0A66C2]/10" 
+        : "bg-[#0A66C2]/10 border-[#0A66C2]/30 shadow-lg shadow-[#0A66C2]/10"
+    )}>
+      {/* Halo LinkedIn bleu */}
+      <div
+        className="pointer-events-none absolute inset-0 z-0 rounded-3xl"
+        style={{
+          background: `radial-gradient(circle at 50% 50%, rgba(10,102,194,0.15) 0%, rgba(10,102,194,0.05) 50%, rgba(0,0,0,0) 100%)`,
+          filter: 'blur(20px)'
+        }}
+      />
+      
+      <div className="relative z-10">
+        <div className="inline-flex px-3 py-1 bg-[#0A66C2]/20 border border-[#0A66C2]/30 rounded-full mb-3">
+          <span className="text-[#0A66C2] font-semibold text-xs">📹 Vidéo LinkedIn</span>
+        </div>
+        <h3 className={cn("text-lg md:text-xl font-bold mb-2", isDark ? "text-white" : "text-black")}>
+          Jean Bonnenfant parle de Wladimir Delcros et son expertise Growth
+        </h3>
+        <p className={cn("text-sm mb-4 leading-relaxed", isDark ? "text-white/70" : "text-black/70")}>
+          Jean Bonnenfant partage son retour d'expérience sur l'expertise de Wladimir en automatisation et Growth Marketing.
+        </p>
+        
+        {/* Video Player */}
+        <div className="mb-4 rounded-2xl overflow-hidden">
+          <video 
+            controls 
+            className="w-full aspect-video object-cover"
+            preload="metadata"
+          >
+            <source src="/webinar-growthhacking-linkedin-linkedintips-linkedin-wladimir-delcros.mp4#t=0.1" type="video/mp4" />
+            Votre navigateur ne supporte pas la lecture de vidéos.
+          </video>
+        </div>
+        
+        {/* Publié par */}
+        <div className="flex items-center gap-3 pl-1">
+          <span className={cn("text-xs font-medium", isDark ? "text-white/60" : "text-black/60")}>
+            Publié par :
+          </span>
+          <div className="flex items-center gap-2">
+            <div className="relative">
+              <img 
+                src="https://media.licdn.com/dms/image/v2/C4E03AQFJfjmIIQBvxw/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1605084585589?e=1762387200&v=beta&t=n886zJyIfK2OyLJ-U9U5fMbiXeQYmKUq1vmP7ONTmY0"
+                alt="Jean Bonnenfant"
+                className="w-10 h-10 rounded-full border-2 border-[#0A66C2]/30 object-cover"
+              />
+              <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-[#0A66C2] rounded-full border-2 border-white dark:border-black" />
+            </div>
+            <span className={cn("text-sm font-semibold", isDark ? "text-white" : "text-black")}>
+              Jean Bonnenfant
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+));
+
+LinkedInVideoCard.displayName = 'LinkedInVideoCard';
+
+const LaGrowthMachineVideoCard = memo(({ isDark }: { isDark: boolean }) => (
+  <div className="mb-4 break-inside-avoid animate-fade-in-up">
+    <div className={cn(
+      "rounded-3xl p-6 md:p-8 backdrop-blur-md border relative overflow-hidden",
+      "transition-all duration-300 hover:scale-[1.02]",
+      isDark 
+        ? "bg-purple-600/10 border-purple-500/30 shadow-lg shadow-purple-500/10" 
+        : "bg-purple-600/10 border-purple-500/30 shadow-lg shadow-purple-500/10"
+    )}>
+      {/* Halo violet La Growth Machine */}
+      <div
+        className="pointer-events-none absolute inset-0 z-0 rounded-3xl"
+        style={{
+          background: `radial-gradient(circle at 50% 50%, rgba(147,51,234,0.15) 0%, rgba(147,51,234,0.05) 50%, rgba(0,0,0,0) 100%)`,
+          filter: 'blur(20px)'
+        }}
+      />
+      
+      <div className="relative z-10">
+        <div className="inline-flex px-3 py-1 bg-purple-600/20 border border-purple-500/30 rounded-full mb-3">
+          <span className="text-purple-600 dark:text-purple-400 font-semibold text-xs">🎬 Interview exclusive</span>
+        </div>
+        <h3 className={cn("text-lg md:text-xl font-bold mb-2", isDark ? "text-white" : "text-black")}>
+          Brice Maurin (CEO La Growth Machine) parle de Wladimir Delcros
+        </h3>
+        <p className={cn("text-sm mb-4 leading-relaxed", isDark ? "text-white/70" : "text-black/70")}>
+          Le CEO de La Growth Machine partage son retour d'expérience sur l'expertise de Wladimir en automatisation et Growth.
+        </p>
+        
+        {/* Video Player */}
+        <div className="mb-4 rounded-2xl overflow-hidden">
+          <video 
+            controls 
+            className="w-full aspect-video object-cover"
+            preload="metadata"
+          >
+            <source src="/lagrowthmachine-wladimir-delcros.mp4#t=20" type="video/mp4" />
+            Votre navigateur ne supporte pas la lecture de vidéos.
+          </video>
+        </div>
+        
+        {/* Présenté par */}
+        <div className="flex items-center gap-3 pl-1">
+          <span className={cn("text-xs font-medium", isDark ? "text-white/60" : "text-black/60")}>
+            Présenté par :
+          </span>
+          <div className="flex items-center gap-2">
+            <div className="relative">
+              <img 
+                src="/hero/brice-maurin.webp"
+                alt="Brice Maurin"
+                className="w-10 h-10 rounded-full border-2 border-purple-500/30 object-cover"
+              />
+              <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-purple-600 rounded-full border-2 border-white dark:border-black" />
+            </div>
+            <span className={cn("text-sm font-semibold", isDark ? "text-white" : "text-black")}>
+              Brice Maurin
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+));
+
+LaGrowthMachineVideoCard.displayName = 'LaGrowthMachineVideoCard';
+
 function TestimonialClient({ testimonials }: TestimonialClientProps) {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
+  const [displayCount, setDisplayCount] = useState(40);
 
   const ratings = testimonials.map(t => t.reviewGivenStar).filter((v) => typeof v === 'number');
   const reviewCount = ratings.length;
@@ -184,7 +497,12 @@ function TestimonialClient({ testimonials }: TestimonialClientProps) {
     return arr.slice(k).concat(arr.slice(0, k));
   };
   const len = testimonials.length;
-  const row1 = testimonials;
+  const row1 = testimonials.slice(0, displayCount);
+  const hasMore = displayCount < testimonials.length;
+  
+  const loadMore = () => {
+    setDisplayCount((prev) => Math.min(prev + 20, testimonials.length));
+  };
 
   return (
     <section 
@@ -195,13 +513,32 @@ function TestimonialClient({ testimonials }: TestimonialClientProps) {
       )}
       aria-label="Témoignages clients"
     >
-      {/* Local halo disabled */}
+      {/* Dotted background pattern (same as Hero), scrolls with content */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0"
+        style={{
+          backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+          backgroundRepeat: 'repeat',
+          backgroundSize: '200px',
+          opacity: isDark ? 0.12 : 0.04
+        }}
+      />
+      {/* Halo gradient overlay (same as Hero) */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute top-0 left-0 right-0 h-[45vh] z-[1]"
+        style={{
+          background: isDark
+            ? `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.20) 0%, rgba(212,237,49,0.12) 15%, rgba(212,237,49,0.06) 35%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 75%)`
+            : `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.25) 0%, rgba(212,237,49,0.15) 18%, rgba(212,237,49,0.08) 38%, rgba(255,255,255,0.1) 58%, rgba(255,255,255,0) 78%)`,
+          filter: 'blur(20px)'
+        }}
+      />
 
       <Script id="testimonial-schema" type="application/ld+json">
         {JSON.stringify(testimonialSchema)}
       </Script>
-
-      {/* Background repeat disabled */}
 
       <div className="max-w-[1250px] mx-auto px-4 sm:px-6 relative z-10">
 
@@ -214,30 +551,60 @@ function TestimonialClient({ testimonials }: TestimonialClientProps) {
       <div className="w-full overflow-visible relative px-4 sm:px-6 marquee-wrapper">
         {/* Row 1 */}
         <div className="overflow-visible">
-          <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 2xl:columns-6 [column-gap:1rem] w-full pr-4 sm:pr-6">
+          <div 
+            className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4 w-full"
+          >
             {row1.map((testimonial, index) => (
-              <div key={`r1-${testimonial.id}-${index}`} className="mb-4 break-inside-avoid">
-                <TestimonialCard testimonial={testimonial} isDark={isDark} index={index} isMasonry={true} />
-              </div>
+              <>
+                 <div key={`r1-${testimonial.id}-${index}`} className="mb-4 break-inside-avoid">
+                   <TestimonialCard 
+                     testimonial={testimonial} 
+                     isDark={isDark} 
+                     index={index} 
+                     isMasonry={true}
+                   />
+                 </div>
+                {/* Insert La Growth Machine video (after ~5 testimonials) */}
+                {index === 4 && (
+                  <LaGrowthMachineVideoCard isDark={isDark} />
+                )}
+                {/* Insert LinkedIn card (after ~12 testimonials) */}
+                {index === 11 && (
+                  <LinkedInVideoCard isDark={isDark} />
+                )}
+                {/* Insert Spotify card in the middle (after ~22 testimonials) */}
+                {index === 21 && (
+                  <SpotifyEpisodeCard isDark={isDark} />
+                )}
+                {/* Insert YouTube card in the middle (after ~32 testimonials) */}
+                {index === 31 && (
+                  <YouTubeVideoCard isDark={isDark} />
+                )}
+              </>
             ))}
           </div>
         </div>
 
-        {/* Single block only – other rows removed */}
-        {/* Strong vignette overlay applied only over sliders */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-20 hidden md:block"
-          style={{
-            background: isDark
-              ? 'radial-gradient(ellipse at center, rgba(0,0,0,0) 35%, rgba(0,0,0,0.45) 72%, rgba(0,0,0,0.75) 96%), linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0) 28%, rgba(0,0,0,0) 72%, rgba(0,0,0,0.25) 100%)'
-              : 'radial-gradient(ellipse at center, rgba(255,255,255,0) 35%, rgba(255,255,255,0.35) 72%, rgba(255,255,255,0.6) 96%), linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 28%, rgba(255,255,255,0) 72%, rgba(255,255,255,0.2) 100%)'
-          }}
-        />
       </div>
       
-      {/* Reopen container for any additional content */}
-      <div className="max-w-[1250px] mx-auto px-4 sm:px-6 py-4 md:py-6 relative z-10" />
+      {/* Load more CTA */}
+      {hasMore && (
+        <div className="max-w-[1250px] mx-auto px-4 sm:px-6 pt-8 md:pt-12 relative z-10">
+          <div className="text-center">
+            <CTAButton 
+              onClick={loadMore}
+              className={cn(
+                "group",
+                isDark 
+                  ? "!bg-[#E0FF5C] !text-black hover:!bg-[#E0FF5C]/90 [&_span]:!border-black [&_svg]:!stroke-black"
+                  : "!bg-black !text-white hover:!bg-[#E0FF5C] hover:!text-black [&_span]:!border-white hover:[&_span]:!border-black [&_svg]:!stroke-white hover:[&_svg]:!stroke-black"
+              )}
+            >
+              Voir plus de témoignages (+{testimonials.length - displayCount})
+            </CTAButton>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

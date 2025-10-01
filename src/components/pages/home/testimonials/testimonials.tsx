@@ -4,11 +4,10 @@ import type { Testimonial } from './types';
 
 export default async function Testimonials() {
   // Map local JSON to Testimonial shape
-  // Randomize order and limit to 40 entries
+  // Randomize order - pass all testimonials, client will handle pagination
   const mapped: Testimonial[] = (testi as any[])
     .filter((t) => Boolean(t?.text))
     .sort(() => Math.random() - 0.5)
-    .slice(0, 40)
     .map((t, idx) => ({
       id: String(t.comment_id ?? idx),
       title: String(t.author_name ?? 'Anonyme'),

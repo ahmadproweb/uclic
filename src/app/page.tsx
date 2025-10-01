@@ -2,7 +2,6 @@ import MarqueeText from "@/components/pages/home/MarqueeText/marquee";
 import AndMoreService from "@/components/pages/home/andmoreservice/andmoreservice";
 import Blog from "@/components/pages/home/blog/blog";
 import CaseStudyWrapper from "@/components/pages/home/casestudy";
-import CollectifSection from "@/components/pages/home/collectif/collectif";
 import FAQ from "@/components/pages/home/faq/faq";
 import SEOContentSection from "@/components/pages/home/seo-content/seo-content";
 import Hero from "@/components/pages/home/hero/hero";
@@ -22,7 +21,6 @@ export default function Home() {
       {/* Replace legacy wrapper with PartnerHome without heading text */}
       <PartnerHome />
       <Service />
-      <CollectifSection />
       <MarqueeText />
       <AndMoreService>
         <Suspense

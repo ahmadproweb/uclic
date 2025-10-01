@@ -69,7 +69,7 @@ export default async function MarqueeText() {
 
   return (
     <section 
-      className="w-full bg-white dark:bg-black overflow-hidden py-8 will-change-transform border-b border-black/5 dark:border-white/10"
+      className="w-full bg-white dark:bg-black overflow-hidden py-8 will-change-transform border-b border-black/5 dark:border-white/10 relative z-10"
       aria-label="Nos services d'Agence Growth Marketing"
     >
       <ServicesList services={allServices} />

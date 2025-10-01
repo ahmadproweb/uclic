@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import { memo } from "react";
 import { useTheme } from "@/context/ThemeContext";
+import { CTAButton } from "@/components/ui/cta-button";
 
 const SEOContentSection = memo(function SEOContentSection() {
   const { theme } = useTheme();
@@ -11,139 +12,142 @@ const SEOContentSection = memo(function SEOContentSection() {
   return (
     <section 
       className={cn(
-        "w-full pt-20 pb-12 md:pt-20 md:pb-16 relative overflow-hidden",
+        "w-full pt-20 pb-12 md:pt-20 md:pb-16 relative overflow-hidden z-10",
         isDark ? "bg-black" : "bg-white"
       )}
       aria-labelledby="seo-content-title"
+      style={{
+        backgroundColor: isDark ? '#000000' : '#ffffff'
+      }}
     >
-      {/* Section-scoped halo background */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-[45vh] z-0"
-        style={{
-          background: isDark
-            ? `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.20) 0%, rgba(212,237,49,0.12) 15%, rgba(212,237,49,0.06) 35%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 75%)`
-            : `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.25) 0%, rgba(212,237,49,0.15) 18%, rgba(212,237,49,0.08) 38%, rgba(255,255,255,0.1) 58%, rgba(255,255,255,0) 78%)`,
-          filter: 'blur(20px)'
-        }}
-      />
-
-      {/* Section-level background pattern */}
-      <div 
-        className="absolute inset-0 z-0 pointer-events-none"
-        style={{
-          backgroundImage: 'url("https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png")',
-          backgroundRepeat: 'repeat',
-          backgroundSize: '200px',
-          opacity: isDark ? 0.25 : 0.15
-        }}
-        aria-hidden="true"
-      />
       <div className="max-w-[1250px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center">
+        <div className="text-center mb-12 md:mb-16">
+          <div className={cn(
+            "inline-flex px-4 py-2 border rounded-full mb-6",
+            isDark 
+              ? "border-white/10 bg-white/5" 
+              : "border-black/10 bg-black/5"
+          )}>
+            <span className={cn("font-medium text-sm", isDark ? "text-white" : "text-black")}>✨ Intelligence Artificielle</span>
+          </div>
           <h2 
             id="seo-content-title"
             className={cn(
-              "max-w-5xl mx-auto text-center mb-16 md:mb-20 pt-0",
+              "max-w-5xl mx-auto text-center mb-6",
               "text-3xl sm:text-4xl md:text-5xl lg:text-[50px]",
               "font-medium tracking-[-1px]",
               "text-black/90 dark:text-white/90",
               "leading-[1.1]"
             )}
           >
-            Intelligence Artificielle et Automatisation :<br />
-            L'avenir du Growth Marketing
+            L'IA au service de votre croissance :<br />
+            Automatisez, Optimisez, Dominez
           </h2>
-          <p className="text-center text-black/70 dark:text-white/70 max-w-3xl mx-auto -mt-10 mb-12 md:mb-16">
-            Comment l’IA, l’automatisation et un contenu SEO orienté revenus créent des gains mesurables: trafic qualifié, MQL, CAC en baisse, MRR en hausse.
+          <p className="text-center text-black/70 dark:text-white/70 max-w-3xl mx-auto mb-12 md:mb-16 text-base md:text-lg leading-relaxed">
+            Pendant que vos concurrents perdent du temps sur des tâches manuelles, notre agence automatise votre machine de croissance avec l'IA. Résultat : +300% de trafic qualifié, -60% de CAC, et un MRR qui explose.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 mb-12 md:mb-16">
           <div className="space-y-8">
-            <div className="bg-white dark:bg-black/50 p-8 rounded-2xl border border-black/5 dark:border-white/10">
-              <h3 className="text-2xl font-semibold text-black dark:text-white mb-6">
-                Pourquoi l'Intelligence Artificielle révolutionne le marketing ?
+            <div className="bg-white dark:bg-black p-8 md:p-10 rounded-3xl border border-black/5 dark:border-white/10 hover:border-black/10 dark:hover:border-white/20 transition-all duration-300">
+              <div className={cn(
+                "inline-flex px-3 py-1.5 rounded-full mb-4 border",
+                isDark 
+                  ? "bg-[#E0FF5C]/10 border-[#E0FF5C]/20" 
+                  : "bg-[#9FB832]/10 border-[#9FB832]/20"
+              )}>
+                <span className={cn("text-xs font-semibold", isDark ? "text-[#E0FF5C]" : "text-[#9FB832]")}>💡 Transformation IA</span>
+              </div>
+              <h3 className="text-2xl font-semibold text-black dark:text-white mb-6 leading-tight">
+                Pourquoi l'IA transforme votre marketing en machine à revenus
               </h3>
               
-              <div className="space-y-4 text-black dark:text-white">
+              <div className="space-y-5 text-black/80 dark:text-white/80 text-[15px] leading-relaxed">
                 <p>
-                  L'<strong>Intelligence Artificielle</strong> transforme radicalement le paysage du Growth Marketing. 
-                  Contrairement aux méthodes traditionnelles qui reposent sur l'intuition, l'<strong>automatisation IA </strong> 
-                  analyse des millions de points de données pour identifier les leviers de croissance les plus rentables.
+                  <strong>Fini l'intuition, place à la data.</strong> L'<strong>Intelligence Artificielle</strong> analyse 
+                  des millions de signaux en temps réel pour identifier exactement ce qui convertit. Résultat ? Vos budgets 
+                  marketing deviennent enfin rentables, votre CAC dégringole et vos équipes se concentrent sur ce qui compte vraiment : 
+                  la stratégie et la croissance.
                 </p>
                 
                 <p>
-                  Notre <strong>collectif de freelances</strong> experts en <strong>Intelligence Artificielle</strong> 
-                  utilise des outils d'<strong>automatisation</strong> avancés : <strong>n8n</strong> pour l'orchestration 
-                  des workflows, <strong>Cursor</strong> pour le développement de processus internes personnalisés, 
-                  et des scripts sur mesure pour automatiser vos campagnes Outbound et Ads. Nous maîtrisons 
-                  <strong> OpenAI</strong>, <strong>Gemini</strong>, <strong>Claude</strong> et autres modèles IA.
+                  Notre <strong>agence</strong> sélectionne et pilote les <strong>meilleurs freelances experts IA</strong> pour déployer 
+                  une stack complète : <strong>n8n</strong> pour orchestrer vos workflows de A à Z, <strong>Cursor</strong> pour développer 
+                  des outils sur mesure, et des scripts d'automatisation qui pilotent vos campagnes Outbound et Ads 24/7. Nous maîtrisons 
+                  <strong>OpenAI</strong>, <strong>Gemini</strong>, <strong>Claude</strong> et tous les modèles IA pour créer votre avantage concurrentiel.
                 </p>
                 
                 <p>
-                  L'<strong>automatisation IA</strong> révolutionne la création de contenu : <strong>VEO3 </strong> 
-                  pour les vidéos, <strong>KingIA</strong> et <strong>Elevenlabs</strong> pour les visuels Ads, 
-                  images et audio. Nous utilisons aussi le <strong>RAG</strong> (Retrieval-Augmented Generation) 
-                  et la vectorisation de bases de données pour optimiser vos données. Cette <strong>automatisation </strong> 
-                  complète de votre funnel marketing génère des résultats mesurables et un ROI supérieur aux méthodes manuelles.
+                  <strong>Créez 10x plus vite, pour 10x moins cher.</strong> <strong>VEO3</strong> génère vos vidéos Ads en 
+                  quelques minutes, <strong>KingIA</strong> et <strong>Elevenlabs</strong> produisent visuels et audio de niveau 
+                  professionnel, le <strong>RAG</strong> vectorise vos bases de données pour des campagnes hyper-personnalisées. 
+                  Pendant que vos concurrents recrutent des armées de créatifs, vous dominez avec l'IA.
                 </p>
               </div>
             </div>
           </div>
 
           <div className="space-y-8">
-            <div className="bg-gradient-to-br from-[#9FB832]/10 to-[#E0FF5C]/10 dark:from-[#E0FF5C]/10 dark:to-[#9FB832]/10 p-8 rounded-2xl border border-black/5 dark:border-white/10">
-              <h3 className="text-2xl font-semibold text-black dark:text-white mb-6">
-                Collectif de freelances vs Agence traditionnelle
+            <div className="bg-gradient-to-br from-[#E0FF5C]/20 to-[#9FB832]/15 dark:from-[#E0FF5C]/15 dark:to-[#9FB832]/10 p-8 md:p-10 rounded-3xl border border-black/5 dark:border-white/10 hover:border-[#9FB832]/20 dark:hover:border-[#E0FF5C]/20 transition-all duration-300 relative overflow-hidden">
+              <div className={cn("absolute inset-0 -z-10", isDark ? "bg-black" : "bg-white")} />
+              <div className={cn(
+                "inline-flex px-3 py-1.5 rounded-full mb-4 border",
+                isDark 
+                  ? "bg-[#E0FF5C]/10 border-[#E0FF5C]/20" 
+                  : "bg-[#9FB832]/10 border-[#9FB832]/20"
+              )}>
+                <span className={cn("text-xs font-semibold", isDark ? "text-[#E0FF5C]" : "text-[#9FB832]")}>🚀 Avantage Uclic</span>
+              </div>
+              <h3 className="text-2xl font-semibold text-black dark:text-white mb-6 leading-tight">
+                Pourquoi les scale-ups choisissent notre agence
               </h3>
               
-              <div className="space-y-6">
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-8 h-8 bg-[#9FB832] dark:bg-[#E0FF5C] rounded-full flex items-center justify-center">
-                    <i className="ri-check-line text-white dark:text-black text-sm"></i>
+              <div className="space-y-5">
+                <div className="flex items-start space-x-4 group">
+                  <div className="flex-shrink-0 w-10 h-10 bg-[#9FB832] dark:bg-[#E0FF5C] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <i className="ri-check-line text-white dark:text-black text-lg"></i>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-black dark:text-white mb-2">
-                      Expertise spécialisée en Intelligence Artificielle
+                    <h4 className="font-semibold text-black dark:text-white mb-2 text-base">
+                      Des experts pointus, pas des juniors polyvalents
                     </h4>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm">
-                      Chaque freelance de notre collectif est expert dans son domaine : 
-                      <strong> automatisation IA</strong> avec n8n, développement avec Cursor, 
-                      analyse de données, Growth Marketing. Pas de généralistes comme dans les agences traditionnelles.
+                    <p className="text-gray-600 dark:text-gray-300 text-[15px] leading-relaxed">
+                      Notre <strong>agence</strong> sélectionne uniquement des <strong>freelances experts IA</strong> dans leur domaine : 
+                      automatisation avec n8n, développement avec Cursor, data science, growth hacking. 
+                      <strong>Vous payez pour de l'expertise pointue, pas pour former des juniors d'agence.</strong>
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-8 h-8 bg-[#9FB832] dark:bg-[#E0FF5C] rounded-full flex items-center justify-center">
-                    <i className="ri-check-line text-white dark:text-black text-sm"></i>
+                <div className="flex items-start space-x-4 group">
+                  <div className="flex-shrink-0 w-10 h-10 bg-[#9FB832] dark:bg-[#E0FF5C] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <i className="ri-check-line text-white dark:text-black text-lg"></i>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-black dark:text-white mb-2">
-                      Flexibilité et réactivité de l'automatisation
+                    <h4 className="font-semibold text-black dark:text-white mb-2 text-base">
+                      On déploie en jours, pas en mois
                     </h4>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm">
-                      Notre <strong>collectif de freelances</strong> s'adapte à vos besoins, 
-                      monte des équipes sur mesure et déploie l'<strong>automatisation IA </strong> 
-                      rapidement avec n8n, Cursor et scripts personnalisés. Pas de lourdeur d'agence.
+                    <p className="text-gray-600 dark:text-gray-300 text-[15px] leading-relaxed">
+                      <strong>Zéro bureaucratie.</strong> Notre agence mobilise une dream team de freelances experts 
+                      en 48h et déploie l'automatisation IA en une semaine avec n8n, Cursor et scripts custom. 
+                      Les agences traditionnelles mettent 3 mois pour faire la même chose.
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-8 h-8 bg-[#9FB832] dark:bg-[#E0FF5C] rounded-full flex items-center justify-center">
-                    <i className="ri-check-line text-white dark:text-black text-sm"></i>
+                <div className="flex items-start space-x-4 group">
+                  <div className="flex-shrink-0 w-10 h-10 bg-[#9FB832] dark:bg-[#E0FF5C] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <i className="ri-check-line text-white dark:text-black text-lg"></i>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-black dark:text-white mb-2">
-                      Automatisation IA au cœur de notre approche
+                    <h4 className="font-semibold text-black dark:text-white mb-2 text-base">
+                      L'IA n'est pas un bonus, c'est notre ADN
                     </h4>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm">
-                      L'<strong>Intelligence Artificielle</strong> n'est pas un gadget pour nous, 
-                      c'est notre ADN. Nous <strong>automatisons</strong> tout : analyse avec OpenAI/Gemini/Claude, 
-                      création de visuels avec VEO3/KingIA/Elevenlabs, RAG et vectorisation de DB, 
-                      campagnes Outbound/Ads avec scripts personnalisés.
+                    <p className="text-gray-600 dark:text-gray-300 text-[15px] leading-relaxed">
+                      Pendant que les agences "testent" l'IA, nous <strong>automatisons tout depuis 2 ans</strong> : 
+                      analyse prédictive (OpenAI/Gemini/Claude), création de contenu (VEO3/KingIA/Elevenlabs), 
+                      personnalisation massive (RAG + vectorisation), et orchestration complète de vos campagnes.
                     </p>
                   </div>
                 </div>
@@ -151,48 +155,120 @@ const SEOContentSection = memo(function SEOContentSection() {
             </div>
           </div>
         </div>
+      </div>
 
-        <div className="bg-white dark:bg-white text-black dark:text-black p-8 md:p-12 rounded-2xl border border-black/5 dark:border-white/10">
-          <div className="max-w-4xl mx-auto text-center">
-            <h3 className="text-2xl md:text-3xl font-bold mb-6 text-black dark:text-black">
-              L'automatisation IA : votre avantage concurrentiel
+      {/* Full width stats section */}
+      <div className="w-full mt-12 md:mt-16">
+        <div className={cn(
+          "backdrop-blur-xl py-12 md:py-16 lg:py-20 px-4 relative overflow-hidden border-t border-b",
+          isDark 
+            ? "bg-black/60 border-white/10" 
+            : "bg-white/60 border-black/5"
+        )}>
+          {/* Halo effect */}
+          <div 
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-[45vh] z-0"
+            style={{
+              background: isDark
+                ? `radial-gradient(ellipse at center 10%, rgba(212,237,49,0.20) 0%, rgba(212,237,49,0.12) 15%, rgba(212,237,49,0.06) 35%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 75%)`
+                : `radial-gradient(ellipse at center 10%, rgba(212,237,49,0.25) 0%, rgba(212,237,49,0.15) 18%, rgba(212,237,49,0.08) 38%, rgba(255,255,255,0.1) 58%, rgba(255,255,255,0) 78%)`,
+              filter: 'blur(20px)'
+            }}
+          />
+          
+          {/* Texture grain subtile */}
+          <div 
+            className="absolute inset-0 pointer-events-none opacity-[0.03] z-0"
+            style={{
+              backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+              backgroundRepeat: "repeat",
+              backgroundSize: "200px"
+            }}
+          />
+          
+          <div className="max-w-6xl mx-auto text-center relative z-10">
+            <div className={cn(
+              "inline-flex px-4 py-2 border rounded-full mb-6",
+              isDark 
+                ? "border-white/10 bg-white/5" 
+                : "border-black/10 bg-black/5"
+            )}>
+              <span className={cn("font-medium text-sm", isDark ? "text-white" : "text-black")}>📊 Résultats clients réels</span>
+            </div>
+            <h3 className={cn(
+              "text-2xl md:text-3xl lg:text-4xl font-bold mb-12 md:mb-16",
+              isDark ? "text-white" : "text-black"
+            )}>
+              Scalez pendant que vos concurrents recrutent
             </h3>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-[#9FB832] dark:text-[#E0FF5C] mb-2">
-                  50 000+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-10 md:mb-12">
+              <div className={cn(
+                "text-center p-6 md:p-8 rounded-3xl backdrop-blur-md border transition-all duration-300 hover:scale-[1.02]",
+                isDark 
+                  ? "bg-black/40 border-white/10 hover:border-[#E0FF5C]/40" 
+                  : "bg-white/40 border-black/5 hover:border-[#9FB832]/40"
+              )}>
+                <div className="text-5xl mb-4">📈</div>
+                <div className={cn("text-5xl md:text-6xl lg:text-7xl font-bold mb-4", isDark ? "text-[#E0FF5C]" : "text-[#9FB832]")}>
+                  +300%
                 </div>
-                <div className="text-sm opacity-90 text-black dark:text-black">
-                  Points de données analysés par l'<strong>Intelligence Artificielle</strong>
+                <div className={cn("text-sm md:text-base font-medium leading-snug", isDark ? "text-white/90" : "text-black/90")}>
+                  de trafic qualifié<br/>en 6 mois
                 </div>
               </div>
               
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-[#9FB832] dark:text-[#E0FF5C] mb-2">
+              <div className={cn(
+                "text-center p-6 md:p-8 rounded-3xl backdrop-blur-md border transition-all duration-300 hover:scale-[1.02]",
+                isDark 
+                  ? "bg-black/40 border-white/10 hover:border-[#E0FF5C]/40" 
+                  : "bg-white/40 border-black/5 hover:border-[#9FB832]/40"
+              )}>
+                <div className="text-5xl mb-4">💰</div>
+                <div className={cn("text-5xl md:text-6xl lg:text-7xl font-bold mb-4", isDark ? "text-[#E0FF5C]" : "text-[#9FB832]")}>
+                  -60%
+                </div>
+                <div className={cn("text-sm md:text-base font-medium leading-snug", isDark ? "text-white/90" : "text-black/90")}>
+                  de CAC grâce<br/>à l'IA
+                </div>
+              </div>
+              
+              <div className={cn(
+                "text-center p-6 md:p-8 rounded-3xl backdrop-blur-md border transition-all duration-300 hover:scale-[1.02]",
+                isDark 
+                  ? "bg-black/40 border-white/10 hover:border-[#E0FF5C]/40" 
+                  : "bg-white/40 border-black/5 hover:border-[#9FB832]/40"
+              )}>
+                <div className="text-5xl mb-4">⚡</div>
+                <div className={cn("text-5xl md:text-6xl lg:text-7xl font-bold mb-4", isDark ? "text-[#E0FF5C]" : "text-[#9FB832]")}>
                   24/7
                 </div>
-                <div className="text-sm opacity-90 text-black dark:text-black">
-                  <strong>Automatisation</strong> continue de vos campagnes
-                </div>
-              </div>
-              
-              <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-[#9FB832] dark:text-[#E0FF5C] mb-2">
-                  3x
-                </div>
-                <div className="text-sm opacity-90 text-black dark:text-black">
-                  Amélioration des performances grâce à l'<strong>IA</strong>
+                <div className={cn("text-sm md:text-base font-medium leading-snug", isDark ? "text-white/90" : "text-black/90")}>
+                  Automatisation<br/>non-stop
                 </div>
               </div>
             </div>
             
-            <p className="text-lg opacity-90 leading-relaxed text-black dark:text-black">
-              Pendant que les agences traditionnelles utilisent des méthodes dépassées, 
-              notre <strong>collectif de freelances</strong> experts en <strong>Intelligence Artificielle</strong> 
-              <strong> automatise</strong> votre croissance avec n8n, Cursor, VEO3, KingIA, Elevenlabs, 
-              RAG, vectorisation de DB, OpenAI, Gemini, Claude et des scripts personnalisés. Plus rapide, plus efficace, plus rentable.
+            <p className={cn(
+              "text-base md:text-lg leading-relaxed max-w-4xl mx-auto mb-8",
+              isDark ? "text-white/90" : "text-black/90"
+            )}>
+              <strong>Arrêtez de payer 15k€/mois pour des résultats moyens.</strong> Notre agence déploie une stack IA complète 
+              qui automatise votre croissance de bout en bout. <strong>Résultat : vous scalez à 2x le taux de croissance, pour 3x moins cher.</strong>
             </p>
+            
+            <CTAButton 
+              href="/audit"
+              className={cn(
+                "group",
+                isDark 
+                  ? "!bg-[#E0FF5C] !text-black hover:!bg-[#E0FF5C]/90 [&_span]:!border-black [&_svg]:!stroke-black"
+                  : "!bg-black !text-white hover:!bg-[#E0FF5C] hover:!text-black [&_span]:!border-white hover:[&_span]:!border-black [&_svg]:!stroke-white hover:[&_svg]:!stroke-black"
+              )}
+            >
+              Démarrer mon audit IA gratuit
+            </CTAButton>
           </div>
         </div>
       </div>

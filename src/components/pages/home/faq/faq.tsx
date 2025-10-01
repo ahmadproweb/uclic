@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, memo } from 'react';
+import { useState, memo, useRef, useEffect } from 'react';
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 import { colors as theme } from '@/config/theme';
@@ -89,78 +89,52 @@ interface FAQItemProps {
 
 const FAQTitle = memo(({ isDark }: { isDark: boolean }) => (
   <header className="animate-fade-in-up">
-    <div className="mb-4">
-      <span className={cn(
-        "inline-flex items-center px-3 py-1 rounded-full text-sm font-medium",
-        "bg-[#E0FF5C]/20 text-[#E0FF5C] border border-[#E0FF5C]/30"
-      )}>
-        ✨ Expertise IA prouvée
-      </span>
+    <div className={cn(
+      "inline-flex px-4 py-2 border rounded-full mb-6",
+      isDark 
+        ? "border-white/10 bg-white/5" 
+        : "border-black/10 bg-black/5"
+    )}>
+      <span className={cn("font-medium text-sm", isDark ? "text-white" : "text-black")}>❓ Questions fréquentes</span>
     </div>
     
     <h2
       className={cn(
-        "mb-6 md:mb-8 pt-0",
-        "text-3xl sm:text-4xl md:text-5xl lg:text-[50px]",
-        "font-medium tracking-[-1px] leading-[1.1]",
-        isDark ? "text-white/90" : "text-black/90"
+        "mb-6 pt-0",
+        "text-2xl sm:text-3xl md:text-4xl",
+        "font-bold tracking-[-1px] leading-[1.2]",
+        isDark ? "text-white" : "text-black"
       )}
     >
-      Comment multiplier vos revenus avec l'IA ?
+      Tout ce que vous devez<br/>savoir sur notre agence
     </h2>
     
     <p
       className={cn(
-        "text-base md:text-lg max-w-lg mb-6",
-        isDark ? "text-white/70" : "text-black/70"
+        "text-sm md:text-base max-w-lg mb-8 leading-relaxed",
+        isDark ? "text-white/80" : "text-black/80"
       )}
     >
-      Découvrez comment nos freelances experts en IA et Growth Marketing transforment votre acquisition client et boostent vos revenus de manière mesurable.
+      Notre agence mobilise les meilleurs experts IA et Growth Marketing pour automatiser votre acquisition et multiplier vos revenus.
     </p>
-
-    {/* Social proof badges */}
-    <div className="flex flex-wrap gap-2 mb-6">
-      <span className={cn(
-        "px-3 py-1 rounded-full text-xs font-medium border",
-        isDark 
-          ? "bg-white/5 border-white/10 text-white/80" 
-          : "bg-black/5 border-black/10 text-black/80"
-      )}>
-        🚀 Freelances experts
-      </span>
-      <span className={cn(
-        "px-3 py-1 rounded-full text-xs font-medium border",
-        isDark 
-          ? "bg-white/5 border-white/10 text-white/80" 
-          : "bg-black/5 border-black/10 text-black/80"
-      )}>
-        ⚡ Résultats rapides
-      </span>
-      <span className={cn(
-        "px-3 py-1 rounded-full text-xs font-medium border",
-        isDark 
-          ? "bg-white/5 border-white/10 text-white/80" 
-          : "bg-black/5 border-black/10 text-black/80"
-      )}>
-        💰 Tarifs transparents
-      </span>
-    </div>
 
     <div className="mt-6">
       <CTAButton
-        href="/contact"
+        href="/audit"
         className={cn(
-          "!bg-[#E0FF5C] !text-black hover:!bg-[#E0FF5C]/90",
-          "[&_span]:!border-black [&_svg]:!stroke-black"
+          "group w-full",
+          isDark 
+            ? "!bg-[#E0FF5C] !text-black hover:!bg-[#E0FF5C]/90 [&_span]:!border-black [&_svg]:!stroke-black"
+            : "!bg-black !text-white hover:!bg-[#E0FF5C] hover:!text-black [&_span]:!border-white hover:[&_span]:!border-black [&_svg]:!stroke-white hover:[&_svg]:!stroke-black"
         )}
       >
-        Obtenir votre audit gratuit
+        Démarrer mon audit IA gratuit
       </CTAButton>
       <p className={cn(
-        "text-xs mt-2",
-        isDark ? "text-white/50" : "text-black/50"
+        "text-xs mt-3 text-center",
+        isDark ? "text-white/60" : "text-black/60"
       )}>
-        🔥 Audit personnalisé + stratégie IA rapide
+        ✅ Gratuit · ✅ 30 min · ✅ Conseils actionnables
       </p>
     </div>
   </header>
@@ -191,12 +165,12 @@ function FAQItem({ item, isOpen, onToggle, isDark, index }: FAQItemProps) {
   return (
     <div 
       className={cn(
-        "rounded-xl md:rounded-2xl p-4 md:p-5 mb-4",
-        "backdrop-blur-sm border transition-all duration-300",
+        "rounded-3xl p-4 md:p-5 mb-4",
+        "backdrop-blur-md border transition-all duration-300",
         "hover:-translate-y-1",
         isDark 
-          ? "bg-white/5 border-white/10 hover:bg-white/10" 
-          : "bg-white border-black/5 hover:bg-white/80",
+          ? "bg-black/40 border-white/10 hover:bg-black/50 hover:border-white/20" 
+          : "bg-white/40 border-black/5 hover:bg-white/50 hover:border-black/10",
         "animate-fade-in-up"
       )}
       style={{ animationDelay: `${index * 100}ms` }}
@@ -213,13 +187,13 @@ function FAQItem({ item, isOpen, onToggle, isDark, index }: FAQItemProps) {
             isDark ? "text-white" : "text-black"
           )}
         >
-          <span className="text-lg md:text-xl font-medium pr-4">{item.question}</span>
+          <span className="text-base md:text-lg font-semibold pr-4 flex-1">{item.question}</span>
           <span className={cn(
-            "ml-4 flex h-8 w-8 shrink-0 items-center justify-center rounded-full",
-            "border transition-all duration-200",
+            "ml-4 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl",
+            "border transition-all duration-200 text-xl font-light",
             isDark 
-              ? "bg-white/10 border-white/20 hover:bg-white/20" 
-              : "bg-black/10 border-black/20 hover:bg-black/20",
+              ? "bg-black/40 border-white/10 hover:bg-white/10 text-white" 
+              : "bg-white/40 border-black/10 hover:bg-black/10 text-black",
             "transform transition-transform duration-200",
             isOpen && "rotate-45"
           )}>
@@ -253,6 +227,8 @@ function FAQ() {
   const [openItem, setOpenItem] = useState<number | null>(1);
   const { theme: currentTheme } = useTheme();
   const isDark = currentTheme === 'dark';
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isPaused, setIsPaused] = useState(false);
 
   const faqSchema = {
     "@context": "https://schema.org",
@@ -267,42 +243,50 @@ function FAQ() {
     }))
   };
 
+  // Auto-scroll effect
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container || isPaused) return;
+
+    let animationId: number;
+    let scrollSpeed = 0.5; // pixels par frame
+
+    const autoScroll = () => {
+      if (container && !isPaused) {
+        container.scrollTop += scrollSpeed;
+        
+        // Quand on arrive en bas, revenir en haut
+        if (container.scrollTop >= container.scrollHeight - container.clientHeight) {
+          container.scrollTop = 0;
+        }
+      }
+      animationId = requestAnimationFrame(autoScroll);
+    };
+
+    animationId = requestAnimationFrame(autoScroll);
+
+    return () => {
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
+    };
+  }, [isPaused]);
+
   return (
     <section
       id="faq"
       className={cn(
-        "w-full relative overflow-hidden pt-20 pb-20 md:pt-20 md:pb-20 px-4 sm:px-6 border-b border-black/5 dark:border-white/10",
+        "w-full relative overflow-hidden pt-20 pb-20 md:pt-20 md:pb-20 px-4 sm:px-6 border-b border-black/5 dark:border-white/10 z-10",
         isDark ? "bg-black" : "bg-white"
       )}
       aria-label="Questions fréquemment posées"
+      style={{
+        backgroundColor: isDark ? '#000000' : '#ffffff'
+      }}
     >
-      {/* Section-scoped halo background */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-[45vh] z-0"
-        style={{
-          background: isDark
-            ? `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.20) 0%, rgba(212,237,49,0.12) 15%, rgba(212,237,49,0.06) 35%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 75%)`
-            : `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.25) 0%, rgba(212,237,49,0.15) 18%, rgba(212,237,49,0.08) 38%, rgba(255,255,255,0.1) 58%, rgba(255,255,255,0) 78%)`,
-          filter: 'blur(20px)'
-        }}
-      />
-
       <Script id="faq-schema" type="application/ld+json">
         {JSON.stringify(faqSchema)}
       </Script>
-
-      {/* Section-level background pattern */}
-      <div
-        className="absolute inset-0 z-0 pointer-events-none"
-        style={{
-          backgroundImage: 'url("https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png")',
-          backgroundRepeat: 'repeat',
-          backgroundSize: '200px',
-          opacity: isDark ? 0.25 : 0.15
-        }}
-        aria-hidden="true"
-      />
 
       <div className="max-w-[1250px] mx-auto px-4 sm:px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
@@ -310,12 +294,12 @@ function FAQ() {
 
           <div className="col-span-1 lg:col-span-5 lg:sticky lg:top-8 lg:self-start relative z-10">
             <div className={cn(
-              "rounded-2xl md:rounded-[32px] p-6 md:p-8",
-              "backdrop-blur-sm border",
+              "rounded-3xl p-6 md:p-8",
+              "backdrop-blur-md border",
               "transition-all duration-300",
               isDark 
-                ? "bg-white/5 border-white/10 hover:bg-white/10" 
-                : "bg-white border-black/5 hover:bg-white/50",
+                ? "bg-black/40 border-white/10 hover:border-white/20" 
+                : "bg-white/40 border-black/5 hover:border-black/10",
               "animate-fade-in-up"
             )}>
               <FAQTitle isDark={isDark} />
@@ -324,9 +308,13 @@ function FAQ() {
 
           <div className="col-span-1 lg:col-span-7 relative z-10">
             <div 
+              ref={scrollContainerRef}
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
               className={cn(
                 "h-[400px] md:h-[500px] overflow-y-auto pr-2",
                 "scrollbar-thin scrollbar-track-transparent",
+                "transition-all duration-300",
                 isDark 
                   ? "scrollbar-thumb-white/30 hover:scrollbar-thumb-white/50" 
                   : "scrollbar-thumb-black/30 hover:scrollbar-thumb-black/50"
@@ -334,6 +322,7 @@ function FAQ() {
               style={{
                 scrollbarWidth: 'thin',
                 scrollbarColor: isDark ? 'rgba(255,255,255,0.3) transparent' : 'rgba(0,0,0,0.3) transparent',
+                scrollBehavior: isPaused ? 'smooth' : 'auto'
               }}
               role="list"
               aria-label="Questions fréquemment posées"

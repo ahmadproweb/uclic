@@ -17,8 +17,6 @@ export default function PartnerHome() {
       <div className="partner-home-scope">
         <Partners />
       </div>
-      {/* Header-like border at the bottom */}
-      <div className="border-b border-black/5 dark:border-white/10" />
     </div>
   );
 }

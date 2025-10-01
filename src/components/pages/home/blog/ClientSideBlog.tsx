@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { memo } from 'react';
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
+import { cleanHtmlEntities } from "@/utils/string";
 import PreFooter from '@/components/footer/PreFooter';
 import { CTAButton } from '@/components/ui/cta-button';
 import LogoGrid from './LogoGrid';
@@ -32,136 +33,116 @@ interface ClientSideBlogProps {
 // Memoized Components
 const BlogHeader = memo(({ isDark }: { isDark: boolean }) => (
   <div className="text-center mb-12 md:mb-16 animate-fade-in-up">
-    <span className={cn(
-      "text-base mb-4 block font-semibold",
-      isDark ? "text-[#E0FF5C]" : "text-black"
-    )}>Blog</span>
+    <div className={cn(
+      "inline-flex px-4 py-2 border rounded-full mb-6",
+      isDark 
+        ? "border-white/10 bg-white/5" 
+        : "border-black/10 bg-black/5"
+    )}>
+      <span className={cn("font-medium text-sm", isDark ? "text-white" : "text-black")}>📝 Blog Growth & IA</span>
+    </div>
     <h2 className={cn(
-      "text-3xl md:text-5xl font-normal mb-4",
+      "text-3xl md:text-5xl font-bold mb-6",
       isDark ? "text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]" : "text-black"
     )}>
-      Découvrez nos dernières<br/>actualités
+      Les stratégies qui font<br/>vraiment croître les startups
     </h2>
-    <div className={cn(
-      "w-12 h-0.5 mx-auto mb-4",
-      isDark ? "bg-[#E0FF5C]" : "bg-black"
-    )}/>
     <p className={cn(
-      "text-base md:text-lg max-w-2xl mx-auto text-center",
+      "text-base md:text-lg max-w-2xl mx-auto text-center leading-relaxed",
       "transition-colors duration-300",
-      isDark ? "text-white" : "text-black"
+      isDark ? "text-white/90" : "text-black/80"
     )}>
-      Découvrez nos derniers articles sur le Growth Marketing, les actualités Growth, 
-      les startups IA et la transformation digitale. Notre collectif de freelances 
-      experts en Intelligence Artificielle partage les dernières tendances d'automatisation 
-      et les stratégies qui fonctionnent.
+      Growth Marketing, IA et automatisation : notre agence partage les tactiques concrètes 
+      qui font x3 le trafic, -60% le CAC et exploser le MRR. Du concret, pas de blabla.
     </p>
   </div>
 ));
 
 BlogHeader.displayName = 'BlogHeader';
 
-const BlogPostCard = memo(({ post, index }: { post: BlogPost; index: number }) => {
+const BlogPostCard = memo(({ post, index, isDark }: { post: BlogPost; index: number; isDark: boolean }) => {
   const capitalizeTitle = (title: string) => {
     return title.charAt(0).toUpperCase() + title.slice(1).toLowerCase();
   };
 
   return (
-    <article
+    <Link
+      href={`/blog/${post.slug}`}
       className={cn(
         "group rounded-3xl overflow-hidden",
         "transition-all duration-300",
-        "hover:-translate-y-1 hover:shadow-xl",
-        "bg-[#E0FF5C]",
+        "hover:-translate-y-1 border backdrop-blur-md relative",
         "animate-fade-in-up"
       )}
       style={{
-        animationDelay: `${index * 100}ms`
+        animationDelay: `${index * 100}ms`,
+        background: "transparent",
+        borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+        boxShadow: "none"
       }}
     >
-      <Link href={`/blog/${post.slug}`} className="block">
-        <figure className="relative w-full h-48 overflow-hidden">
-          <img
-            src={`${post.featuredImage.url.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1')}.webp`}
-            alt={post.featuredImage.alt}
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            width={400}
-            height={250}
-            loading="lazy"
-            decoding="async"
-            onError={(e) => {
-              const target = e.currentTarget as HTMLImageElement;
-              const originalUrl = post.featuredImage.url;
-              const jpgFallback = originalUrl.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1');
-              if (target.src !== jpgFallback) {
-                target.src = jpgFallback;
-              }
-            }}
-          />
-          <figcaption className="absolute bottom-4 left-4 inline-block px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-sm z-10">
-            {post.category}
-          </figcaption>
-        </figure>
-        
-        <div className="p-6">
-          <h3 className="text-xl font-semibold text-black normal-case">
-            {capitalizeTitle(post.title)}
-          </h3>
-          
-          <p className="text-black/80 mt-4 ">
-            {post.description}
-          </p>
+      {/* Background pattern */}
+      <div
+        className="absolute inset-0 rounded-3xl z-0 pointer-events-none"
+        style={{
+          backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+          backgroundRepeat: "repeat",
+          backgroundSize: "200px",
+          opacity: isDark ? "0.4" : "0.04"
+        }}
+      />
+      {/* Hover halo effect */}
+      <div 
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
+        style={{
+          background: isDark
+            ? `linear-gradient(to right, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.08) 60%, rgba(212,237,49,0) 100%)`
+            : `linear-gradient(to right, rgba(212,237,49,0.12) 0%, rgba(212,237,49,0.12) 60%, rgba(212,237,49,0) 100%)`,
+          filter: 'blur(20px)',
+        }}
+      />
+      
+      <div className="relative w-full h-48 overflow-hidden">
+        <img
+          src={`${post.featuredImage.url.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1')}.webp`}
+          alt={post.featuredImage.alt}
+          className="object-cover transition-transform duration-500 group-hover:scale-105 w-full h-full"
+          loading="lazy"
+          decoding="async"
+          onError={(e) => {
+            const target = e.currentTarget as HTMLImageElement;
+            const originalUrl = post.featuredImage.url;
+            const jpgFallback = originalUrl.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1');
+            if (target.src !== jpgFallback) {
+              target.src = jpgFallback;
+            }
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
+        <span className="absolute bottom-4 left-4 inline-block px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-sm z-20">
+          {post.category}
+        </span>
+      </div>
+      
+      <div className="p-6 space-y-3 relative z-10">
+        <h3 className={cn("text-xl font-semibold", isDark ? "text-white" : "text-black")}>
+          {cleanHtmlEntities(capitalizeTitle(post.title))}
+        </h3>
 
-          <time className="flex items-center text-xs text-black/60 mt-4">
-            <span className="w-6 h-6 rounded-full bg-black/10 flex items-center justify-center mr-2">
-              <i className="ri-time-line text-sm" aria-hidden="true" />
-            </span>
-            {post.readTime} min de lecture
-          </time>
+        <div className={cn("flex items-center gap-2 text-sm", isDark ? "text-white/70" : "text-black/70")}>
+          <div className={cn("w-6 h-6 rounded-full flex items-center justify-center", isDark ? "bg-white/10" : "bg-black/10")}>
+            <i className="ri-time-line text-sm" aria-hidden="true" />
+          </div>
+          {post.readTime} min de lecture
         </div>
-      </Link>
-    </article>
+      </div>
+    </Link>
   );
 });
 
 BlogPostCard.displayName = 'BlogPostCard';
 
-const BackgroundEffects = memo(({ isDark }: { isDark: boolean }) => (
-  <>
-    {/* Base Background gradient */}
-    <div 
-      className="absolute inset-0 z-0"
-      style={{
-        background: isDark 
-          ? 'linear-gradient(180deg, #000000 0%, #88954e 30%, #acbf59 50%, rgb(143 157 81) 80%, #000000 100%)'
-          : 'linear-gradient(180deg, #ffffff 0%, #E3FC76 30%, #E3FC76 50%, rgb(230 255 119) 80%, #ffffff 100%)'
-      }}
-    />
-
-    {/* Grain effect overlay */}
-    <div 
-      className={cn(
-        "absolute inset-0 z-0 mix-blend-soft-light",
-        isDark ? "opacity-90" : "opacity-50"
-      )}
-      style={{
-        backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.7\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\' opacity=\'0.8\'/%3E%3C/svg%3E")',
-        backgroundRepeat: 'repeat',
-        backgroundSize: '100px 100px'
-      }}
-    />
-
-    {/* New overlay gradient - black to transparent */}
-    <div 
-      className="absolute bottom-0 left-0 right-0 h-[25%] z-[2]"
-      style={{
-        background: isDark
-          ? 'linear-gradient(to top, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 0) 100%)'
-          : 'linear-gradient(to top, rgb(243, 244, 246) 0%, rgba(243, 244, 246, 1) 40%, rgba(243, 244, 246, 0) 100%)'
-      }}
-    />
-  </>
-));
+const BackgroundEffects = memo(({ isDark }: { isDark: boolean }) => null);
 
 BackgroundEffects.displayName = 'BackgroundEffects';
 
@@ -170,9 +151,22 @@ function ClientSideBlog({ blogPosts }: ClientSideBlogProps) {
   const isDark = currentTheme === 'dark';
 
   return (
-    <section className="w-full pt-16 md:pt-20 pb-16 md:pb-24 relative overflow-hidden">
-      <BackgroundEffects isDark={isDark} />
-
+    <section className={cn(
+      "w-full pt-16 md:pt-20 pb-16 md:pb-20 relative overflow-hidden border-b border-black/5 dark:border-white/10",
+      isDark ? "bg-black" : "bg-white"
+    )}>
+      {/* Section-level background pattern */}
+      <div 
+        className="absolute inset-0 z-0 pointer-events-none"
+        style={{
+          backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+          backgroundRepeat: "repeat",
+          backgroundSize: "200px",
+          opacity: isDark ? 0.25 : 0.04
+        }}
+        aria-hidden="true"
+      />
+      
       <div className="max-w-[1250px] mx-auto px-4 relative z-10">
         <BlogHeader isDark={isDark} />
 
@@ -182,20 +176,22 @@ function ClientSideBlog({ blogPosts }: ClientSideBlogProps) {
               key={post.id}
               post={post}
               index={index}
+              isDark={isDark}
             />
           ))}
         </div>
 
-        <div className="text-center mb-24">
+        <div className="text-center mb-20">
           <CTAButton 
             href="/blog" 
             className={cn(
+              "group",
               isDark 
-                ? "!bg-white !text-black hover:!bg-[#E0FF5C] [&_svg]:!stroke-black [&_span]:border-black hover:[&_span]:border-black hover:[&_svg]:!stroke-black"
-                : "!bg-black hover:!bg-white !text-white hover:!text-black [&_svg]:!text-white [&_svg]:!stroke-white hover:[&_svg]:!text-black hover:[&_svg]:!stroke-black [&_span]:border-white hover:[&_span]:border-black"
+                ? "!bg-[#E0FF5C] !text-black hover:!bg-[#E0FF5C]/90 [&_span]:!border-black [&_svg]:!stroke-black"
+                : "!bg-black !text-white hover:!bg-[#E0FF5C] hover:!text-black [&_span]:!border-white hover:[&_span]:!border-black [&_svg]:!stroke-white hover:[&_svg]:!stroke-black"
             )}
           >
-            Voir tous les articles
+            Lire tous nos articles Growth & IA
           </CTAButton>
         </div>
       </div>
