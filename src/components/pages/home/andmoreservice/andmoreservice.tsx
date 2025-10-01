@@ -251,7 +251,7 @@ export default function AndMoreService({ children }: AndMoreServiceProps) {
           backgroundImage: 'url("https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png")',
           backgroundRepeat: 'repeat',
           backgroundSize: '200px',
-          opacity: 0.04
+          opacity: isDark ? 0.15 : 0.08
         }}
         aria-hidden="true"
       />

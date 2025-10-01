@@ -27,17 +27,7 @@ export default function Services() {
       className="w-full pt-20 pb-12 md:pt-20 md:pb-16 relative z-10 overflow-hidden bg-white dark:bg-black border-b border-black/5 dark:border-white/10"
       aria-labelledby="services-title"
     >
-      {/* Background grain texture */}
-      <div 
-        className="absolute inset-0 -z-10"
-        style={{
-          backgroundImage: 'url("https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png")',
-          backgroundRepeat: 'repeat',
-          backgroundSize: '200px',
-          opacity: 0.04
-        }}
-        aria-hidden="true"
-      />
+      {/* Removed background grain texture to match Hero background */}
 
       <PlusIcon />
       <ClientPulseEffect />

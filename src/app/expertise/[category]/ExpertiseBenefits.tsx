@@ -2,8 +2,8 @@
 
 import { memo } from 'react';
 import { cn } from "@/lib/utils";
-import { UnderlinedText } from '@/components/ui/underlined-text';
 import { ClientPulseEffect } from '@/components/pages/home/services/ClientPulseEffect';
+import { useTheme } from "@/context/ThemeContext";
 
 const PlusIcon = memo(function PlusIcon() {
   return (
@@ -36,6 +36,9 @@ export default function ExpertiseBenefits({
   titrebox3,
   description3
 }: ExpertiseBenefitsProps) {
+  const { theme: currentTheme } = useTheme();
+  const isDark = currentTheme === 'dark';
+
   if (!h21 || !titrebox1 || !titrebox2 || !titrebox3) return null;
 
   const benefits = [
@@ -43,42 +46,56 @@ export default function ExpertiseBenefits({
       icon: "ri-checkbox-circle-line",
       title: titrebox1,
       text: description1,
+      badges: ["Expertise", "Qualité"]
     },
     {
       icon: "ri-checkbox-circle-line",
       title: titrebox2,
       text: description2,
+      badges: ["Performance", "Innovation"]
     },
     {
       icon: "ri-checkbox-circle-line",
       title: titrebox3,
       text: description3,
+      badges: ["ROI", "Résultats"]
     }
   ];
 
   return (
     <section 
-      className="w-full py-0 pb-16 md:py-20 md:pb-16 relative overflow-hidden bg-[#f4f4f0] dark:bg-black/95"
+      className="w-full pt-20 pb-12 md:pt-20 md:pb-16 relative z-10 overflow-hidden border-b border-black/5 dark:border-white/10"
       aria-labelledby="benefits-title"
+      style={{ 
+        isolation: 'isolate',
+        backgroundColor: isDark ? '#000000' : '#ffffff'
+      }}
     >
       <PlusIcon />
       <ClientPulseEffect />
       
-      <h2 
-        id="benefits-title"
-        className={cn(
-          "max-w-5xl mx-auto text-center mb-16 pt-8 md:pt-0",
-          "text-3xl sm:text-4xl md:text-5xl lg:text-[50px]",
-          "font-medium tracking-[-1px]",
-          "text-black/90 dark:text-white/90",
-          "leading-[1.1]"
-        )}
-      >
-        {h21}
-      </h2>
-      
+      <div className="max-w-[1250px] mx-auto px-4 sm:px-6">
+        <div className="text-center">
+          <div className="inline-flex px-4 py-2 border border-black/10 dark:border-white/10 bg-black/5 dark:bg.white/5 rounded-full mb-6">
+            <span className="font-medium text-sm text-black dark:text-white">✨ Nos Avantages</span>
+          </div>
+          <h2 
+            id="benefits-title"
+            className={cn(
+              "max-w-5xl mx-auto text-center mb-6",
+              "text-3xl sm:text-4xl md:text-5xl lg:text-[50px]",
+              "font-bold tracking-[-1px]",
+              "text-black dark:text-white",
+              "leading-[1.1]"
+            )}
+          >
+            {h21}
+          </h2>
+        </div>
+      </div>
+
       <div 
-        className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6"
+        className="max-w-[1250px] mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
         role="list"
       >
         {benefits.map((benefit, index) => (
@@ -104,18 +121,22 @@ export default function ExpertiseBenefits({
             <p className="text-base leading-relaxed text-black/80">
               {benefit.text}
             </p>
+            {benefit.badges && benefit.badges.length > 0 && (
+              <div className="flex flex-wrap gap-2 mt-6">
+                {benefit.badges.map((badge, i) => (
+                  <span
+                    key={`${badge}-${i}`}
+                    className="px-3 py-1 rounded-full text-xs font-medium bg-black/10 text-black/80 border border-black/15"
+                  >
+                    {badge}
+                  </span>
+                ))}
+              </div>
+            )}
           </article>
         ))}
       </div>
 
-      <div 
-        className="fixed inset-0 w-full h-full opacity-20 mix-blend-overlay pointer-events-none"
-        aria-hidden="true"
-        style={{ 
-          willChange: 'transform',
-          backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.80' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")"
-        }}
-      />
     </section>
   );
 }

@@ -122,7 +122,7 @@ const FAQTitle = memo(({ isDark }: { isDark: boolean }) => (
       <CTAButton
         href="/audit"
         className={cn(
-          "group w-full",
+          "group",
           isDark 
             ? "!bg-[#E0FF5C] !text-black hover:!bg-[#E0FF5C]/90 [&_span]:!border-black [&_svg]:!stroke-black"
             : "!bg-black !text-white hover:!bg-[#E0FF5C] hover:!text-black [&_span]:!border-white hover:[&_span]:!border-black [&_svg]:!stroke-white hover:[&_svg]:!stroke-black"
@@ -131,7 +131,7 @@ const FAQTitle = memo(({ isDark }: { isDark: boolean }) => (
         Démarrer mon audit IA gratuit
       </CTAButton>
       <p className={cn(
-        "text-xs mt-3 text-center",
+        "text-xs mt-3 text-left",
         isDark ? "text-white/60" : "text-black/60"
       )}>
         ✅ Gratuit · ✅ 30 min · ✅ Conseils actionnables

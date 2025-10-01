@@ -65,7 +65,7 @@ LeftContent.displayName = 'LeftContent';
 const RightContent = memo(({ isDark }: { isDark: boolean }) => (
   <div
   className={cn(
-      "relative h-full min-h-[400px] md:min-h-full z-10 backdrop-blur-md overflow-visible rounded-tr-2xl rounded-br-2xl",
+      "relative h-full min-h-[400px] md:min-h-full z-10 backdrop-blur-md overflow-visible rounded-tr-2xl rounded-br-2xl px-4 sm:px-6",
       isDark 
         ? "bg-black/20" 
         : "bg-white/20"
@@ -129,7 +129,7 @@ function PreFooter({ noBgGradient = false }: PreFooterProps) {
   const isDark = currentTheme === 'dark';
 
   return (
-    <section className="w-full px-4">
+    <section className="w-full">
       <div 
         className={cn(
           "max-w-[1250px] mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-0 overflow-visible rounded-2xl border bg-transparent",
@@ -137,6 +137,7 @@ function PreFooter({ noBgGradient = false }: PreFooterProps) {
             ? "border-white/10"
             : "border-black/10"
         )}
+        style={{ width: '100%' }}
       >
         <LeftContent isDark={isDark} />
         <RightContent isDark={isDark} />

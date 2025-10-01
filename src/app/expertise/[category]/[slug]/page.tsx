@@ -2,6 +2,7 @@ import AndMoreService from "@/components/pages/home/andmoreservice/andmoreservic
 import Blog from "@/components/pages/home/blog/blog";
 import CaseStudyWrapper from "@/components/pages/home/casestudy";
 import Partners from "@/components/pages/home/partner/partner";
+import ExpertisePartners from "./ExpertisePartners";
 import TeamSection from "@/components/pages/home/team/team-section";
 import Testimonials from "@/components/pages/home/testimonials/testimonials";
 import { cn } from "@/lib/utils";
@@ -14,6 +15,11 @@ import ExpertiseMarquee from "./ExpertiseMarquee";
 import FAQExpertise from "./FAQExpertise";
 import HeroExpertise from "./HeroExpertise";
 import ProcessExpertise from "./ProcessExpertise";
+
+function formatFr(input?: string) {
+  if (!input) return "";
+  return input.replace(/\s([;:!?])/g, "\u00A0$1").replace(/ \?/g, "\u00A0?");
+}
 
 interface ExpertisePageProps {
   params: Promise<{
@@ -118,10 +124,11 @@ export default async function ExpertisePage({ params }: ExpertisePageProps) {
                   "font-medium tracking-[-1px]",
                   "text-black/90 dark:text-white/90",
                   "leading-[1.1]",
-                  "mb-8 md:mb-16"
+                  "mb-8 md:mb-16",
+                  "text-balance"
                 )}
               >
-                {expertise.expertiseFields?.h22}
+                {formatFr(expertise.expertiseFields?.h22)}
               </h2>
 
               <div className="max-w-[800px] mx-auto">
@@ -130,10 +137,11 @@ export default async function ExpertisePage({ params }: ExpertisePageProps) {
                     "text-base md:text-lg",
                     "leading-relaxed",
                     "text-black/70 dark:text-white/70",
-                    "whitespace-pre-line"
+                    "whitespace-pre-line",
+                    "text-pretty"
                   )}
                 >
-                  {expertise.expertiseFields?.content2}
+                  {formatFr(expertise.expertiseFields?.content2)}
                 </p>
               </div>
             </div>
@@ -166,41 +174,10 @@ export default async function ExpertisePage({ params }: ExpertisePageProps) {
           <TeamSection />
         </Suspense>
       </AndMoreService>
-      <section
-        className={cn(
-          "w-full relative py-8 md:py-16",
-          "bg-[#f4f4f0] dark:bg-black/95"
-        )}
-      >
-        <div className="max-w-[1250px] mx-auto px-4">
-          <div className="text-center">
-            <h2
-              className={cn(
-                "text-3xl sm:text-4xl md:text-5xl lg:text-[50px]",
-                "font-medium tracking-[-1px]",
-                "text-black/90 dark:text-white/90",
-                "leading-[1.1]",
-                "mb-8 md:mb-16"
-              )}
-            >
-              {expertise.expertiseFields?.h22}
-            </h2>
-
-            <div className="max-w-[800px] mx-auto">
-              <p
-                className={cn(
-                  "text-base md:text-lg",
-                  "leading-relaxed",
-                  "text-black/70 dark:text-white/70",
-                  "whitespace-pre-line"
-                )}
-              >
-                {expertise.expertiseFields?.content2}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ExpertisePartners 
+        title={formatFr(expertise.expertiseFields?.h22)}
+        subtitle={formatFr(expertise.expertiseFields?.content2)}
+      />
       <ProcessExpertise expertiseFields={expertise.expertiseFields} />
       <CaseStudyWrapper />
       <Testimonials />

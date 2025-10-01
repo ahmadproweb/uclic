@@ -57,7 +57,7 @@ export default function Partners({ forceBlackLogos = false }: PartnersProps) {
           backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
           backgroundRepeat: "repeat",
           backgroundSize: "200px",
-          opacity: isDark ? "0.25" : "0.04"
+          opacity: isDark ? 0.12 : 0.04
         }}
       />
       <PartnerClient row1={row1} row2={row2} forceBlackLogos={forceBlackLogos} />

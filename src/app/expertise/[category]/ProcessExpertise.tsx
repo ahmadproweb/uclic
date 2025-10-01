@@ -23,59 +23,15 @@ interface ProcessExpertiseProps {
     descriptionTitre1: string;
     descriptionTitre2: string;
     descriptionTitre3: string;
+    processBadge?: string;
+    processCtaTitle?: string;
+    processCtaDescription?: string;
+    processCtaButton?: string;
   };
 }
 
 // Constants
 const AUTOPLAY_INTERVAL = 5000;
-
-// Memoized Components
-const GrainEffect = memo(() => (
-  <div 
-    className="absolute inset-0 mix-blend-soft-light opacity-50"
-    style={{
-      backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 150 150' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-      backgroundRepeat: 'repeat',
-      backgroundSize: '100px 100px'
-    }}
-    aria-hidden="true"
-  />
-));
-
-GrainEffect.displayName = 'GrainEffect';
-
-const NavigationButton = memo(({ 
-  onClick, 
-  direction, 
-  children,
-  ariaLabel
-}: { 
-  onClick: () => void; 
-  direction: 'prev' | 'next';
-  children: React.ReactNode;
-  ariaLabel: string;
-}) => (
-  <button 
-    onClick={onClick}
-    aria-label={ariaLabel}
-    className={cn(
-      "w-full md:w-auto group flex items-center justify-center",
-      "text-black bg-black/5 rounded-full py-3 md:py-4 px-4 md:px-6",
-      "text-sm md:text-base hover:bg-black hover:text-white",
-      "transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-black/20"
-    )}
-  >
-    {direction === 'prev' && (
-      <i className="ri-arrow-left-s-line text-xl mr-2 group-hover:-translate-x-1 transition-transform duration-300" />
-    )}
-    {children}
-    {direction === 'next' && (
-      <i className="ri-arrow-right-s-line text-xl ml-2 group-hover:translate-x-1 transition-transform duration-300" />
-    )}
-  </button>
-));
-
-NavigationButton.displayName = 'NavigationButton';
 
 const StepContent = memo(({ 
   step, 
@@ -84,7 +40,9 @@ const StepContent = memo(({
   isFirst, 
   isLast,
   isVisible,
-  stepIndex
+  stepIndex,
+  isDark,
+  currentStep
 }: { 
   step: Step;
   onPrev: () => void;
@@ -93,63 +51,92 @@ const StepContent = memo(({
   isLast: boolean;
   isVisible: boolean;
   stepIndex: number;
-}) => (
+  isDark: boolean;
+  currentStep: number;
+}) => {
+  // Calculer la position du bullet en fonction de l'étape active
+  const bulletTopPosition = 32 + (currentStep * 200); // 32px initial + 200px par étape
+  
+  return (
   <div
     role="tabpanel"
     id={`step-${stepIndex}-content`}
     aria-labelledby={`step-${stepIndex}-tab`}
     className={cn(
-      "absolute top-0 left-0 w-full pl-0 md:pl-12 transition-all duration-500",
+      "absolute top-0 left-0 w-full transition-all duration-500",
       isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8 pointer-events-none"
     )}
     hidden={!isVisible}
   >
-    <div className="p-4 md:p-8">
-      <div 
-        className="hidden md:block absolute left-0 top-10 w-4 h-4 rounded-full bg-black"
-        aria-hidden="true"
-      />
-      <div 
-        className="hidden md:block absolute left-[7px] top-[60px] w-[2px] h-[400px] bg-transparent"
-        style={{
-          backgroundImage: 'linear-gradient(to bottom, black 2px, transparent 2px)',
-          backgroundSize: '2px 16px'
-        }}
-        aria-hidden="true"
-      />
-      <h3 className="text-3xl md:text-5xl text-black mb-4 md:mb-6 font-bold tracking-[-1px]">
+      <div className={cn(
+        "p-6 md:p-8 rounded-3xl backdrop-blur-md border transition-all duration-300 relative",
+        isDark 
+          ? "bg-black/40 border-white/10 hover:border-white/20" 
+          : "bg-white/50 border-black/5 hover:border-black/10"
+      )}>
+      {/* Emoji dollar animé le long de la ligne - grossit à chaque étape */}
+      {isVisible && (
+        <div 
+          className="hidden lg:block absolute transition-all duration-700 ease-in-out"
+          style={{ 
+            left: '-52px',
+            top: `${bulletTopPosition}px`,
+            transform: `scale(${1 + (currentStep * 0.15)})`
+          }}
+          aria-hidden="true"
+        >
+          <span className="text-3xl">💰</span>
+        </div>
+      )}
+      <span className={cn("text-2xl md:text-4xl mb-2 md:mb-3 font-bold tracking-[-1px] block", isDark ? "text-white" : "text-black")}>
         {step.title}
-      </h3>
-      <h4 className="text-xl md:text-3xl text-black mb-4 md:mb-6 font-bold">
+      </span>
+      <h3 className={cn("text-lg md:text-2xl mb-3 md:mb-5 font-bold leading-tight", isDark ? "text-white" : "text-black")}>
         {step.subtitle}
-      </h4>
-      <p className="text-sm md:text-lg text-black/70 mb-4 md:mb-6 leading-relaxed">
+      </h3>
+      <p className={cn("text-sm md:text-base mb-6 md:mb-8 leading-relaxed", isDark ? "text-white/70" : "text-black/70")}>
         {step.description}
       </p>
-      
-      <div className="flex gap-2 justify-center md:justify-start">
+      <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 md:gap-4">
         {!isFirst && (
-          <NavigationButton 
-            onClick={onPrev} 
-            direction="prev"
-            ariaLabel="Aller à l'étape précédente"
+          <button 
+            onClick={onPrev}
+            aria-label="Aller à l'étape précédente"
+            className={cn(
+              "w-full md:w-auto group inline-flex items-center justify-center gap-2",
+              "rounded-full py-3 px-6 border text-sm font-semibold",
+              "transition-all duration-300 focus:outline-none focus:ring-2",
+              isDark
+                ? "text-white bg-black/60 border-white/10 hover:bg-white hover:text-black hover:border-white focus:ring-white/20"
+                : "text-black bg-white/80 border-black/10 hover:bg-black hover:text-white hover:border-black focus:ring-black/20"
+            )}
           >
-            Précédent
-          </NavigationButton>
+            <i className="ri-arrow-left-s-line text-lg group-hover:-translate-x-1 transition-transform" />
+            Étape précédente
+          </button>
         )}
         {!isLast && (
-          <NavigationButton 
-            onClick={onNext} 
-            direction="next"
-            ariaLabel="Aller à l'étape suivante"
+          <button 
+            onClick={onNext}
+            aria-label="Aller à l'étape suivante"
+            className={cn(
+              "w-full md:w-auto group inline-flex items-center justify-center gap-2",
+              "rounded-full py-3 px-6 border text-sm font-semibold",
+              "transition-all duration-300 focus:outline-none focus:ring-2",
+              isDark
+                ? "text-white bg-black/60 border-white/10 hover:bg-white hover:text-black hover:border-white focus:ring-white/20"
+                : "text-black bg-white/80 border-black/10 hover:bg-black hover:text-white hover:border-black focus:ring-black/20"
+            )}
           >
-            Suivant
-          </NavigationButton>
+            Étape suivante
+            <i className="ri-arrow-right-s-line text-lg group-hover:translate-x-1 transition-transform" />
+          </button>
         )}
       </div>
     </div>
   </div>
-));
+  );
+});
 
 StepContent.displayName = 'StepContent';
 
@@ -163,7 +150,7 @@ const PreviewStep = memo(({ step, isVisible, stepIndex }: {
     id={`step-${stepIndex}-preview`}
     aria-labelledby={`step-${stepIndex}-tab`}
     className={cn(
-      "hidden md:block absolute top-[400px] left-0 w-full pl-12 pointer-events-none transition-all duration-500",
+      "hidden md:block absolute top-[350px] left-0 w-full pl-12 pointer-events-none transition-all duration-500",
       isVisible ? "opacity-30 translate-y-12" : "opacity-0 translate-y-24"
     )}
     hidden={!isVisible}
@@ -192,11 +179,13 @@ function ProcessExpertise({ expertiseFields }: ProcessExpertiseProps) {
   const { theme: currentTheme } = useTheme();
   const isDark = currentTheme === 'dark';
 
+  // Créer les steps dynamiquement à partir des données
   const steps: Step[] = [
     {
       title: "Étape 1",
       subtitle: expertiseFields.processTitre1,
       description: expertiseFields.descriptionTitre1,
+      hasButton: false
     },
     {
       title: "Étape 2",
@@ -242,75 +231,151 @@ function ProcessExpertise({ expertiseFields }: ProcessExpertiseProps) {
     <section 
       id="process-steps"
       className={cn(
-        "w-full py-16 md:pt-32 md:pb-16 relative",
-        "display: none md:block"
+        "w-full pt-20 pb-0 md:pt-20 relative border-t z-10",
+        "hidden md:block",
+        isDark ? "bg-black border-white/10" : "bg-white border-black/5"
       )}
       style={{
-        backgroundImage: `url(/backgroundstep.svg), linear-gradient(180deg, #E1FD6C 0%, #E6F98B 100%)`,
-        backgroundPosition: 'right top, center',
-        backgroundRepeat: 'no-repeat, no-repeat',
-        backgroundSize: '30% auto, cover',
-        backgroundBlendMode: 'normal',
+        backgroundColor: isDark ? '#000000' : '#ffffff',
+        backgroundImage: isDark ? 'none' : `url(/backgroundstep.svg)`,
+        backgroundPosition: 'right top',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: '30% auto'
       }}
     >
-      <GrainEffect />
+      {/* Overlay pour rendre la souris visible en dark */}
+      {isDark && (
+        <div 
+          className="absolute inset-0 pointer-events-none z-0"
+          style={{
+            backgroundImage: `url(/backgroundstep.svg)`,
+            backgroundPosition: 'right top',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: '30% auto',
+            opacity: 0.4,
+            filter: 'invert(1) brightness(1.5)'
+          }}
+          aria-hidden="true"
+        />
+      )}
       
-      <div className="max-w-[1250px] mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-start relative z-10">
-          {/* Carte noire */}
-          <div className="col-span-1 lg:col-span-5 mb-8 lg:mb-0">
-            <div className="bg-black rounded-2xl md:rounded-[32px] p-6 md:p-12 text-white">
-              <p className="text-white/70 text-sm md:text-base mb-2">
-                {expertiseFields.processLittleTitle}
-              </p>
-              <h2 className="text-2xl md:text-3xl font-normal mb-4">
-                {expertiseFields.processTitle}
-              </h2>
-              <p className="text-white/80 text-base md:text-lg leading-relaxed mb-6">
-                {expertiseFields.processDescription}
-              </p>
-              <CTAButton
-                href="/contact" 
-                variant="mainCTA" 
-                size="l"
-                className={cn(
-                  mounted && !isDark
-                    ? "!bg-white !text-black hover:!bg-[#E0FF5C] hover:!text-black [&_svg]:!stroke-black [&_span]:border-black hover:[&_span]:border-black"
-                    : ""
-                )}
-              >
-                Contactez un expert
-              </CTAButton>
-            </div>
+      <div className="max-w-[1250px] mx-auto px-4 sm:px-6">
+        {/* Header */}
+        <div className="text-center mb-12 md:mb-16">
+          <div className={cn(
+            "inline-flex px-4 py-2 border rounded-full mb-6",
+            isDark 
+              ? "border-white/10 bg-white/5" 
+              : "border-black/10 bg-black/5"
+          )}>
+            <span className={cn("font-medium text-sm", isDark ? "text-white" : "text-black")}>
+              {expertiseFields.processBadge || "🚀 Notre Processus"}
+            </span>
+          </div>
+          <h2 className={cn(
+            "max-w-5xl mx-auto text-center mb-6 text-3xl sm:text-4xl md:text-5xl lg:text-[50px] font-bold tracking-[-1px] leading-[1.1]",
+            isDark ? "text-white" : "text-black"
+          )}>
+            {expertiseFields.processTitle}
+          </h2>
+          <p className={cn(
+            "text-center max-w-3xl mx-auto mb-12 text-base md:text-lg leading-relaxed",
+            isDark ? "text-white/70" : "text-black/70"
+          )}>
+            {expertiseFields.processDescription}
+          </p>
+        </div>
+
+        <div className="relative max-w-[1400px] mx-auto pb-12 md:pb-16">
+          {/* Ligne verticale centrale qui continue jusqu'en bas */}
+          <div className="hidden lg:block absolute left-1/2 top-0 -translate-x-1/2 z-0" style={{ height: 'calc(100% + 100px)' }}>
+            <div 
+              className="w-px h-full"
+              style={{
+                backgroundImage: isDark
+                  ? 'linear-gradient(to bottom, #E0FF5C 4px, transparent 4px)'
+                  : 'linear-gradient(to bottom, #9FB832 4px, transparent 4px)',
+                backgroundSize: '1px 20px'
+              }}
+            />
           </div>
 
-          {/* Timeline */}
-          <div 
-            className="col-span-1 lg:col-span-7 relative min-h-[600px]"
-            role="tablist"
-            aria-label="Étapes du processus"
-          >
-            <div className="relative">
-              {steps.map((step, index) => (
-                <StepContent
-                  key={step.title}
-                  step={step}
-                  onPrev={handlePrev}
-                  onNext={handleNext}
-                  isFirst={index === 0}
-                  isLast={index === steps.length - 1}
-                  isVisible={currentStep === index}
-                  stepIndex={index}
-                />
-              ))}
-              {steps.map((step, index) => (
-                <PreviewStep
-                  key={`preview-${step.title}`}
-                  step={step}
-                  isVisible={currentStep + 1 === index}
-                  stepIndex={index}
-                />
-              ))}
+          {/* 2 colonnes égales */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start relative z-10">
+            
+            {/* Colonne gauche - Carte résumé sticky */}
+            <div className="flex justify-end">
+              <div className={cn(
+                "rounded-3xl p-6 md:p-10 sticky top-24 w-full max-w-[500px]",
+                isDark ? "bg-white text-black" : "bg-black text-white"
+              )}>
+                <p className={cn("text-sm md:text-base mb-2", isDark ? "text-black/70" : "text-white/70")}>
+                  {expertiseFields.processLittleTitle}
+                </p>
+                <h3 className="text-xl md:text-2xl font-bold mb-4">
+                  {expertiseFields.processCtaTitle || "De l'audit au scale : 48h pour démarrer"}
+                </h3>
+                <p className={cn("text-sm md:text-base leading-relaxed mb-6", isDark ? "text-black/80" : "text-white/80")}>
+                  {expertiseFields.processCtaDescription || "Notre agence ne vend pas du conseil. Nous déployons votre machine de croissance IA : diagnostic express, campagnes automatisées 24/7, et industrialisation pour scaler sans limite."}
+                </p>
+                {/* Proof tags */}
+                <div className="flex flex-wrap gap-2 mb-6">
+                  <span className={cn(
+                    "px-4 py-2 rounded-full text-xs font-semibold backdrop-blur-md",
+                    isDark 
+                      ? "bg-black/10 text-black border border-black/20" 
+                      : "bg-white/10 text-white border border-white/20"
+                  )}>📈 +300% MQL</span>
+                  <span className={cn(
+                    "px-4 py-2 rounded-full text-xs font-semibold backdrop-blur-md",
+                    isDark 
+                      ? "bg-black/10 text-black border border-black/20" 
+                      : "bg-white/10 text-white border border-white/20"
+                  )}>💰 -60% CAC</span>
+                  <span className={cn(
+                    "px-4 py-2 rounded-full text-xs font-semibold backdrop-blur-md",
+                    isDark 
+                      ? "bg-black/10 text-black border border-black/20" 
+                      : "bg-white/10 text-white border border-white/20"
+                  )}>⚡ Scale 24/7</span>
+                </div>
+                <CTAButton 
+                  href="/contact" 
+                  variant="mainCTA" 
+                  size="l"
+                  className={cn(
+                    isDark
+                      ? "!bg-black !text-white hover:!bg-[#E0FF5C] hover:!text-black [&_svg]:!stroke-white hover:[&_svg]:!stroke-black [&_span]:border-white hover:[&_span]:border-black"
+                      : "!bg-white !text-black hover:!bg-[#E0FF5C] hover:!text-black [&_svg]:!stroke-black [&_span]:border-black hover:[&_span]:border-black"
+                  )}
+                >
+                  {expertiseFields.processCtaButton || "Démarrer en 48h"}
+                </CTAButton>
+              </div>
+            </div>
+
+            {/* Colonne droite - Timeline des étapes */}
+            <div 
+              className="relative"
+              role="tablist"
+              aria-label="Étapes du processus"
+            >
+              <div className="relative max-w-[500px]">
+                {steps.map((step, index) => (
+                  <StepContent
+                    key={step.title}
+                    step={step}
+                    onPrev={handlePrev}
+                    onNext={handleNext}
+                    isFirst={index === 0}
+                    isLast={index === steps.length - 1}
+                    isVisible={currentStep === index}
+                    stepIndex={index}
+                    isDark={isDark}
+                    currentStep={currentStep}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>

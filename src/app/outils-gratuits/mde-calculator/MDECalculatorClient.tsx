@@ -7,10 +7,15 @@ import MDECalculator from '@/components/calculators/MDECalculator';
 import PreFooter from '@/components/footer/PreFooter';
 import ScrollToTop from '@/components/ui/ScrollToTop';
 import StickyShareButtons from '@/components/ui/StickyShareButtons';
+import { useEffect, useState } from 'react';
 
 export default function MDECalculatorClient() {
   const { theme: currentTheme } = useTheme();
   const isDark = currentTheme === 'dark';
+  const [shareUrl, setShareUrl] = useState('');
+  useEffect(() => {
+    setShareUrl(window.location.href);
+  }, []);
 
   return (
     <div className={cn("min-h-screen", isDark ? "bg-black" : "bg-white")}>
@@ -30,18 +35,23 @@ export default function MDECalculatorClient() {
       
       <div
         className={cn(
-          "max-w-[1250px] mx-auto px-8 md:px-12 py-8 md:py-12 rounded-2xl",
-          isDark
-            ? "bg-black/40 backdrop-blur-md border border-white/10 shadow-[0_0_0_1px_rgba(255,255,255,0.05)]"
-            : "bg-white/40 backdrop-blur-md border border-black/5 shadow-[0_0_0_1px_rgba(0,0,0,0.03)]"
+          "max-w-[1250px] mx-auto py-8 md:py-12 relative z-10 rounded-2xl border",
+          isDark ? "border-white/10" : "border-black/5"
         )}
-        style={{
-          boxShadow: isDark
-            ? "0 0 0 1px rgba(255,255,255,0.05), 0 8px 32px -4px rgba(0,0,0,0.3)"
-            : "0 0 0 1px rgba(0,0,0,0.03), 0 8px 32px -4px rgba(0,0,0,0.1)",
-          position: "relative"
-        }}
+        style={{ width: '100%' }}
       >
+        {/* Background pattern to match parent page */}
+        <div className="absolute inset-0 rounded-2xl -z-10">
+          <div
+            className="absolute inset-0 rounded-2xl"
+            style={{
+              backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+              backgroundRepeat: "repeat",
+              backgroundSize: "200px",
+              opacity: isDark ? "0.25" : "0.04"
+            }}
+          />
+        </div>
         {/* Header */}
         <div className="text-center mb-12 md:mb-16">
           <span className={cn(
@@ -162,7 +172,7 @@ export default function MDECalculatorClient() {
 
       {/* UI Elements */}
       <ScrollToTop />
-      <StickyShareButtons />
+      <StickyShareButtons url={shareUrl} title="A/B Testing Confidence" />
       </section>
     </div>
   );

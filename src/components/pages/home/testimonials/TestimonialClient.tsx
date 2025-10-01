@@ -1,11 +1,12 @@
 'use client';
 
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState, Fragment, useMemo } from 'react';
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 import { CTAButton } from "@/components/ui/cta-button";
 import Script from 'next/script';
 import type { Testimonial } from './types';
+import '@/styles/testimonials-columns.css';
 
 // Types
 interface TestimonialClientProps {
@@ -457,6 +458,9 @@ function TestimonialClient({ testimonials }: TestimonialClientProps) {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
   const [displayCount, setDisplayCount] = useState(40);
+  const [numColumns, setNumColumns] = useState(1);
+  const gridRef = useRef<HTMLDivElement | null>(null);
+  const itemRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   const ratings = testimonials.map(t => t.reviewGivenStar).filter((v) => typeof v === 'number');
   const reviewCount = ratings.length;
@@ -504,6 +508,73 @@ function TestimonialClient({ testimonials }: TestimonialClientProps) {
     setDisplayCount((prev) => Math.min(prev + 20, testimonials.length));
   };
 
+  // Build mixed items (testimonials + video cards) in a single sequence
+  type MixedItem = 
+    | { type: 'testimonial'; data: Testimonial }
+    | { type: 'video'; data: 'lagrowth' | 'linkedin' | 'spotify' | 'youtube' };
+
+  const mixedItems: MixedItem[] = useMemo(() => {
+    const items: MixedItem[] = [];
+    const insertAfter: Record<number, MixedItem> = {
+      4: { type: 'video', data: 'lagrowth' },
+      11: { type: 'video', data: 'linkedin' },
+      21: { type: 'video', data: 'spotify' },
+      31: { type: 'video', data: 'youtube' }
+    };
+    for (let i = 0; i < row1.length; i++) {
+      items.push({ type: 'testimonial', data: row1[i] });
+      if (insertAfter[i]) items.push(insertAfter[i]);
+    }
+    return items;
+  }, [row1]);
+
+  // Determine number of columns based on viewport width
+  useEffect(() => {
+    const computeColumns = () => {
+      const width = window.innerWidth;
+      if (width >= 1280) return 5;
+      if (width >= 1024) return 4;
+      if (width >= 768) return 3;
+      if (width >= 640) return 2;
+      return 1;
+    };
+    const handleResize = () => setNumColumns(computeColumns());
+    setNumColumns(computeColumns());
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Masonry grid row span calculation using ResizeObserver
+  useEffect(() => {
+    const rowHeight = 8; // Must match CSS grid-auto-rows
+    const gap = 12; // Must match CSS gap
+    const updateSpan = (el: HTMLDivElement) => {
+      const content = el.querySelector('[data-masonry-content]') as HTMLElement | null;
+      const target = content ?? el;
+      const height = target.getBoundingClientRect().height;
+      const span = Math.ceil((height + gap) / (rowHeight + gap));
+      el.style.gridRowEnd = `span ${span}`;
+    };
+
+    const ro = new ResizeObserver(() => {
+      itemRefs.current.forEach((el) => el && updateSpan(el));
+    });
+    itemRefs.current.forEach((el) => el && ro.observe(el));
+    window.addEventListener('load', () => {
+      itemRefs.current.forEach((el) => el && updateSpan(el));
+    });
+    const onResize = () => {
+      itemRefs.current.forEach((el) => el && updateSpan(el));
+    };
+    window.addEventListener('resize', onResize);
+    // Initial calc
+    setTimeout(() => itemRefs.current.forEach((el) => el && updateSpan(el)), 0);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', onResize);
+    };
+  }, [mixedItems]);
+
   return (
     <section 
       id="testimonials" 
@@ -547,44 +618,39 @@ function TestimonialClient({ testimonials }: TestimonialClientProps) {
         {/* Marquee container - full width outside the main container */}
       </div>
       
-      {/* Full width marquee section with multi-row masonry layout */}
+      {/* True Masonry section without visual columns; videos wider */}
       <div className="w-full overflow-visible relative px-4 sm:px-6 marquee-wrapper">
-        {/* Row 1 */}
-        <div className="overflow-visible">
-          <div 
-            className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4 w-full"
-          >
-            {row1.map((testimonial, index) => (
-              <>
-                 <div key={`r1-${testimonial.id}-${index}`} className="mb-4 break-inside-avoid">
-                   <TestimonialCard 
-                     testimonial={testimonial} 
-                     isDark={isDark} 
-                     index={index} 
-                     isMasonry={true}
-                   />
-                 </div>
-                {/* Insert La Growth Machine video (after ~5 testimonials) */}
-                {index === 4 && (
+        <div ref={gridRef} className="masonry-grid">
+          {mixedItems.map((item, i) => (
+            <div
+              key={`masonry-item-${i}`}
+              ref={(el) => { itemRefs.current[i] = el; }}
+              className={cn(
+                "masonry-item",
+                item.type === 'video' && "masonry-item-wide"
+              )}
+            >
+              <div data-masonry-content>
+                {item.type === 'testimonial' ? (
+                  <TestimonialCard 
+                    testimonial={item.data}
+                    isDark={isDark}
+                    index={i}
+                    isMasonry={true}
+                  />
+                ) : item.data === 'lagrowth' ? (
                   <LaGrowthMachineVideoCard isDark={isDark} />
-                )}
-                {/* Insert LinkedIn card (after ~12 testimonials) */}
-                {index === 11 && (
+                ) : item.data === 'linkedin' ? (
                   <LinkedInVideoCard isDark={isDark} />
-                )}
-                {/* Insert Spotify card in the middle (after ~22 testimonials) */}
-                {index === 21 && (
+                ) : item.data === 'spotify' ? (
                   <SpotifyEpisodeCard isDark={isDark} />
-                )}
-                {/* Insert YouTube card in the middle (after ~32 testimonials) */}
-                {index === 31 && (
+                ) : (
                   <YouTubeVideoCard isDark={isDark} />
                 )}
-              </>
-            ))}
-          </div>
+              </div>
+            </div>
+          ))}
         </div>
-
       </div>
       
       {/* Load more CTA */}
