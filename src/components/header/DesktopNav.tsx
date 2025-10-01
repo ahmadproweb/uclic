@@ -5,6 +5,7 @@ import { navItems } from "./NavItems";
 import { HeaderThemeProps } from "./types";
 
 interface DesktopNavProps extends HeaderThemeProps {
+  isDark?: boolean;
   isMegaMenuOpen: boolean;
   setIsMegaMenuOpen: (value: boolean) => void;
   onArmMegaMenu?: (armed: boolean) => void;
@@ -16,6 +17,7 @@ const NavItem = memo(
     item,
     isDirectlyOverHero,
     isOverHero,
+    isDark,
     isMegaMenuOpen,
     onMouseEnter,
     onClick,
@@ -23,6 +25,7 @@ const NavItem = memo(
     item: (typeof navItems)[0];
     isDirectlyOverHero: boolean;
     isOverHero: boolean;
+    isDark?: boolean;
     isMegaMenuOpen: boolean;
     onMouseEnter: () => void;
     onClick: () => void;
@@ -32,7 +35,7 @@ const NavItem = memo(
     return (
       <div
         key={item.href}
-        className="relative"
+        className="relative group"
         style={{
           whiteSpace: "nowrap",
           ...(isMegaMenu ? { cursor: "pointer" } : {}),
@@ -61,7 +64,17 @@ const NavItem = memo(
             : `Accéder à ${item.label}`
         }
       >
-        <p className="m-0 inline-flex items-center font-bold">
+        <p className={cn(
+          "m-0 inline-flex items-center font-bold relative",
+           // Styles de base - Noir en light, blanc en dark
+           isDark ? "text-white" : "text-black",
+          // Transition pour le hover
+          "transition-all duration-300 ease-in-out",
+           // Effet hover avec trait vert fluo - adapté selon le thème
+           isDark ? "group-hover:text-[#E0FF5C]" : "group-hover:text-black",
+          "after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-0.5 after:bg-[#E0FF5C] after:transition-all after:duration-300 after:ease-in-out",
+          "group-hover:after:w-full"
+        )}>
           {item.label}
           {isMegaMenu && (
             <i
@@ -92,6 +105,7 @@ export const DesktopNav = memo(
   ({
     isDirectlyOverHero,
     isOverHero,
+    isDark,
     isMegaMenuOpen,
     setIsMegaMenuOpen,
     onArmMegaMenu,
@@ -123,6 +137,7 @@ export const DesktopNav = memo(
             item={item}
             isDirectlyOverHero={isDirectlyOverHero}
             isOverHero={isOverHero}
+            isDark={isDark}
             isMegaMenuOpen={!!item.hasMegaMenu && isMegaMenuOpen}
             onMouseEnter={() => handleItemMouseEnter(item)}
             onClick={() => handleItemClick(item)}

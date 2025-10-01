@@ -73,7 +73,8 @@ const Typewriter = memo(function Typewriter({
 const MainHeading = memo(function MainHeading() {
   return (
     <>
-      <div className="inline-flex px-3 sm:px-4 py-1.5 bg-[#9FB832]/10 dark:bg-[#E0FF5C]/10 rounded-full text-[#9FB832] dark:text-[#E0FF5C] text-sm sm:text-base font-medium relative z-10 mb-2">
+      <div className="inline-flex items-center px-3 sm:px-4 py-1.5 bg-[#9FB832]/10 dark:bg-[#E0FF5C]/10 rounded-full text-[#9FB832] dark:text-[#E0FF5C] text-sm sm:text-base font-medium relative z-10 mb-2">
+        <span className="w-2 h-2 bg-[#9FB832] dark:bg-[#E0FF5C] rounded-full mr-2 animate-pulse"></span>
         Agence Growth & IA orientée revenus
       </div>
     </>
