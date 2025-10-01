@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import OutilsGratuitsClient from "./OutilsGratuitsClient";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "Outils Gratuits Growth Hacking",
@@ -31,6 +32,26 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
+      {/* JSON-LD: BreadcrumbList */}
+      <Script id="ld-breadcrumb-tools" type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.uclic.fr/" },
+            { "@type": "ListItem", position: 2, name: "Outils gratuits", item: "https://www.uclic.fr/outils-gratuits" }
+          ]
+        })}
+      </Script>
+      {/* JSON-LD: CollectionPage of tools */}
+      <Script id="ld-collection-tools" type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "Outils Gratuits Growth Hacking",
+          url: "https://www.uclic.fr/outils-gratuits"
+        })}
+      </Script>
       {/* SSR Content */}
       <div className="hidden">
         <h1>Outils Gratuits Growth Hacking</h1>

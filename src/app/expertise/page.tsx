@@ -5,14 +5,14 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Expertise Growth Marketing & Sales | Agence Growth",
   description:
-    "Découvrez nos expertises en Growth Marketing, Sales Ops et Product Marketing. Une équipe de freelances certifiés pour optimiser votre croissance et vos processus commerciaux.",
+    "Découvrez nos expertises en Growth Marketing, Sales Ops et Product Marketing. Notre agence d'experts certifiés optimise votre croissance et vos processus commerciaux.",
   alternates: {
     canonical: "https://www.uclic.fr/expertise",
   },
   openGraph: {
     title: "Expertise Growth Marketing & Sales | Agence Growth",
     description:
-      "Découvrez nos expertises en Growth Marketing, Sales Ops et Product Marketing. Une équipe de freelances certifiés pour optimiser votre croissance et vos processus commerciaux.",
+      "Découvrez nos expertises en Growth Marketing, Sales Ops et Product Marketing. Notre agence d'experts certifiés optimise votre croissance et vos processus commerciaux.",
     url: "https://www.uclic.fr/expertise",
     type: "website",
     locale: "fr_FR",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Expertise Growth Marketing & Sales | Agence Growth",
     description:
-      "Découvrez nos expertises en Growth Marketing, Sales Ops et Product Marketing. Une équipe de freelances certifiés pour optimiser votre croissance et vos processus commerciaux.",
+      "Découvrez nos expertises en Growth Marketing, Sales Ops et Product Marketing. Notre agence d'experts certifiés optimise votre croissance et vos processus commerciaux.",
     site: "@uclic_fr",
   },
 };
@@ -68,19 +68,19 @@ export default async function ExpertisePage() {
           </p>
         </div>
 
-        {/* Freelance Section */}
+        {/* Expert Section */}
         <div className="mb-16 md:mb-24 bg-white dark:bg-black/40 rounded-3xl p-8 md:p-12">
           <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
             <div>
               <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-gray-900 dark:text-white">
-                Freelances Certifiés en
+                Experts Certifiés en
                 <br />
                 <span className="text-[#E0FF5C] dark:text-[#E0FF5C]">
                   Growth Marketing & Sales
                 </span>
               </h2>
               <p className="text-gray-600 dark:text-gray-400 mb-6">
-                Notre équipe de freelances experts combine expertise technique
+                Notre équipe d'experts combine expertise technique
                 et vision stratégique pour maximiser votre croissance. Certifiés
                 par les plus grands acteurs du marché, ils maîtrisent les
                 derniers outils et méthodologies du Growth Marketing.
@@ -125,7 +125,7 @@ export default async function ExpertisePage() {
                   +50
                 </div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">
-                  Freelances
+                  Experts
                   <br />
                   certifiés
                 </div>

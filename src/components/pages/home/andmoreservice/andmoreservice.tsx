@@ -101,7 +101,7 @@ const ServiceCard = memo(({
               style={{
                 color: hoveredId === service.slug ? themeColors.common.black : (isDark ? themeColors.common.white : themeColors.common.black)
               }}>
-              <span className="sr-only">Freelance </span>{service.name}
+              <span className="sr-only">Expert </span>{service.name}
             </h3>
             <p className="text-sm line-clamp-3 md:line-clamp-none transition-colors duration-300 flex-grow"
               style={{

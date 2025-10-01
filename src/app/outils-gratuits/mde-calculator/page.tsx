@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import MDECalculatorClient from "./MDECalculatorClient";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "A/B Testing Confidence - Calculateur Taille d'échantillon",
@@ -32,6 +33,31 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
+      {/* JSON-LD: BreadcrumbList */}
+      <Script id="ld-breadcrumb-mde" type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.uclic.fr/" },
+            { "@type": "ListItem", position: 2, name: "Outils gratuits", item: "https://www.uclic.fr/outils-gratuits" },
+            { "@type": "ListItem", position: 3, name: "MDE Calculator", item: "https://www.uclic.fr/outils-gratuits/mde-calculator" }
+          ]
+        })}
+      </Script>
+      {/* JSON-LD: SoftwareApplication */}
+      <Script id="ld-software-mde" type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: "MDE Calculator - Uclic",
+          operatingSystem: "Any",
+          applicationCategory: "BusinessApplication",
+          offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
+          url: "https://www.uclic.fr/outils-gratuits/mde-calculator",
+          publisher: { "@type": "Organization", name: "Uclic" }
+        })}
+      </Script>
       {/* SSR Content */}
       <div className="hidden">
         <h1>A/B Testing Confidence - Calculateur Taille d'échantillon</h1>

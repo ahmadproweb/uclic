@@ -3,7 +3,7 @@ import { Inter, Roboto_Mono } from "next/font/google";
 
 export const absans = localFont({
   src: "../../public/absans-regular.woff",
-  display: "block",
+  display: "swap",
   variable: "--font-absans",
   preload: true,
   fallback: ["system-ui", "arial"],

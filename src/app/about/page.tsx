@@ -2,16 +2,16 @@ import AboutContent from "@/components/pages/about/AboutContent";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "À Propos | Freelances Growth & Sales Ops",
+  title: "À Propos | Agence Growth Marketing & Sales Ops",
   description:
-    "Découvrez l'équipe de freelances experts en Growth Marketing, Sales Ops et Product Marketing. Une approche data-driven pour maximiser votre croissance.",
+    "Découvrez notre agence Growth Marketing & Sales Ops. Une équipe d'experts en marketing digital pour maximiser votre croissance avec une approche data-driven.",
   alternates: {
     canonical: "https://www.uclic.fr/about",
   },
   openGraph: {
-    title: "À Propos | Freelances Growth & Sales Ops",
+    title: "À Propos | Agence Growth Marketing & Sales Ops",
     description:
-      "Découvrez l'équipe de freelances experts en Growth Marketing, Sales Ops et Product Marketing. Une approche data-driven pour maximiser votre croissance.",
+      "Découvrez notre agence Growth Marketing & Sales Ops. Une équipe d'experts en marketing digital pour maximiser votre croissance avec une approche data-driven.",
     url: "https://www.uclic.fr/about",
     type: "website",
     locale: "fr_FR",
@@ -19,9 +19,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "À Propos | Freelances Growth & Sales Ops",
+    title: "À Propos | Agence Growth Marketing & Sales Ops",
     description:
-      "Découvrez l'équipe de freelances experts en Growth Marketing, Sales Ops et Product Marketing. Une approche data-driven pour maximiser votre croissance.",
+      "Découvrez notre agence Growth Marketing & Sales Ops. Une équipe d'experts en marketing digital pour maximiser votre croissance avec une approche data-driven.",
     site: "@uclic_fr",
   },
 };

@@ -6,6 +6,7 @@ import {
 } from "@/lib/wordpress";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Script from "next/script";
 
 // JSON-LD Types
 interface JsonLdImage {
@@ -184,6 +185,18 @@ export default async function Page({ params }: LeveePostParams) {
 
   return (
     <>
+      {/* JSON-LD: BreadcrumbList for levee post */}
+      <Script id="ld-breadcrumb-levee-post" type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.uclic.fr/" },
+            { "@type": "ListItem", position: 2, name: "Levée de fonds", item: "https://www.uclic.fr/levee-de-fonds" },
+            { "@type": "ListItem", position: 3, name: post.title, item: `https://www.uclic.fr/levee-de-fonds/${post.slug}` }
+          ]
+        })}
+      </Script>
       <JsonLd data={jsonLd} />
       <LeveePage
         post={post}

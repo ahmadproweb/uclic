@@ -17,8 +17,8 @@ const ServicesList = memo(function ServicesList({ services }: { services: Servic
         {services.map((service) => (
           <li key={service.href} role="listitem">
             <h3 className="text-inherit font-inherit inline">
-              <Link href={service.href} aria-label={`freelance ${service.text} - ${service.description}`}>
-                <span className="sr-only">Freelance </span>{service.text}
+              <Link href={service.href} aria-label={`expert ${service.text} - ${service.description}`}>
+                <span className="sr-only">Expert </span>{service.text}
               </Link>
             </h3>
           </li>

@@ -72,7 +72,7 @@ const SEOContentSection = memo(function SEOContentSection() {
                 </p>
                 
                 <p>
-                  Notre <strong>agence</strong> sélectionne et pilote les <strong>meilleurs freelances experts IA</strong> pour déployer 
+                  Notre <strong>agence</strong> sélectionne et pilote les <strong>meilleurs experts IA</strong> pour déployer 
                   une stack complète : <strong>n8n</strong> pour orchestrer vos workflows de A à Z, <strong>Cursor</strong> pour développer 
                   des outils sur mesure, et des scripts d'automatisation qui pilotent vos campagnes Outbound et Ads 24/7. Nous maîtrisons 
                   <strong>OpenAI</strong>, <strong>Gemini</strong>, <strong>Claude</strong> et tous les modèles IA pour créer votre avantage concurrentiel.
@@ -113,7 +113,7 @@ const SEOContentSection = memo(function SEOContentSection() {
                       Des experts pointus, pas des juniors polyvalents
                     </h4>
                     <p className="text-gray-600 dark:text-gray-300 text-[15px] leading-relaxed">
-                      Notre <strong>agence</strong> sélectionne uniquement des <strong>freelances experts IA</strong> dans leur domaine : 
+                      Notre <strong>agence</strong> sélectionne uniquement des <strong>experts IA</strong> dans leur domaine : 
                       automatisation avec n8n, développement avec Cursor, data science, growth hacking. 
                       <strong>Vous payez pour de l'expertise pointue, pas pour former des juniors d'agence.</strong>
                     </p>
@@ -129,7 +129,7 @@ const SEOContentSection = memo(function SEOContentSection() {
                       On déploie en jours, pas en mois
                     </h4>
                     <p className="text-gray-600 dark:text-gray-300 text-[15px] leading-relaxed">
-                      <strong>Zéro bureaucratie.</strong> Notre agence mobilise une dream team de freelances experts 
+                      <strong>Zéro bureaucratie.</strong> Notre agence mobilise une dream team d'experts 
                       en 48h et déploie l'automatisation IA en une semaine avec n8n, Cursor et scripts custom. 
                       Les agences traditionnelles mettent 3 mois pour faire la même chose.
                     </p>

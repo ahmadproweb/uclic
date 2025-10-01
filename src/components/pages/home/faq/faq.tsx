@@ -34,7 +34,7 @@ const faqItems: FAQItem[] = [
   {
     id: 4,
     question: "Pourquoi choisir Uclic plutôt qu'une agence traditionnelle ?",
-    answer: "Agences traditionnelles : tarifs élevés (8-15k€/mois), délais longs (3-6 mois), équipes généralistes. Uclic : tarifs compétitifs (à partir de 2.5k€/mois), résultats rapides, experts IA spécialisés. Nos freelances sont plus réactifs, moins chers et transparents sur les KPIs. Pas d'engagement long terme."
+    answer: "Agences traditionnelles : tarifs élevés (8-15k€/mois), délais longs (3-6 mois), équipes généralistes. Uclic : tarifs compétitifs (à partir de 2.5k€/mois), résultats rapides, experts IA spécialisés. Notre équipe est plus réactive, moins chère et transparente sur les KPIs. Pas d'engagement long terme."
   },
   {
     id: 5,
@@ -43,38 +43,38 @@ const faqItems: FAQItem[] = [
   },
   {
     id: 6,
-    question: "Pourquoi Uclic est la référence du freelance Growth Marketing en France ?",
-    answer: "Uclic sélectionne les meilleurs freelances Growth Marketing et Growth Hackers du marché. Notre méthodologie, notre réseau d'experts et notre culture de la performance font de nous le partenaire idéal pour accélérer votre croissance digitale."
+    question: "Pourquoi Uclic est la référence de l'agence Growth Marketing en France ?",
+    answer: "Uclic sélectionne les meilleurs experts Growth Marketing et Growth Hackers du marché. Notre méthodologie, notre réseau d'experts et notre culture de la performance font de nous le partenaire idéal pour accélérer votre croissance digitale."
   },
   {
     id: 7,
     question: "Comment l'Intelligence Artificielle booste-t-elle vos ventes ?",
-    answer: "L'Intelligence Artificielle automatise l'analyse de données, prédit les tendances et optimise vos campagnes en temps réel. Notre collectif de freelances experts en IA utilise ces outils d'automatisation pour multiplier vos résultats par 3x. L'IA remplace les méthodes manuelles par des stratégies data-driven."
+    answer: "L'Intelligence Artificielle automatise l'analyse de données, prédit les tendances et optimise vos campagnes en temps réel. Notre équipe d'experts en IA utilise ces outils d'automatisation pour multiplier vos résultats par 3x. L'IA remplace les méthodes manuelles par des stratégies data-driven."
   },
   {
     id: 8,
     question: "Pourquoi adopter l'automatisation IA maintenant ?",
-    answer: "Chaque jour d'attente, vos concurrents gagnent du terrain. L'Intelligence Artificielle ne fait que s'améliorer, et ceux qui adoptent l'automatisation IA maintenant créent un avantage concurrentiel décisif. Notre collectif de freelances experts vous accompagne dans cette transformation."
+    answer: "Chaque jour d'attente, vos concurrents gagnent du terrain. L'Intelligence Artificielle ne fait que s'améliorer, et ceux qui adoptent l'automatisation IA maintenant créent un avantage concurrentiel décisif. Notre équipe d'experts vous accompagne dans cette transformation."
   },
   {
     id: 9,
-    question: "Quelle est la différence entre une agence et votre collectif de freelances ?",
-    answer: "Contrairement aux agences traditionnelles, notre collectif de freelances experts en Intelligence Artificielle offre plus de flexibilité, d'expertise spécialisée et de réactivité. Chaque freelance est expert dans son domaine (IA, automatisation, Growth Marketing) et nous montons des équipes sur mesure pour vos projets."
+    question: "Quelle est la différence entre une agence traditionnelle et Uclic ?",
+    answer: "Contrairement aux agences traditionnelles, notre équipe d'experts en Intelligence Artificielle offre plus de flexibilité, d'expertise spécialisée et de réactivité. Chaque expert maîtrise son domaine (IA, automatisation, Growth Marketing) et nous montons des équipes sur mesure pour vos projets."
   },
   {
     id: 10,
     question: "Comment l'automatisation IA transforme-t-elle le Growth Marketing ?",
-    answer: "L'automatisation IA révolutionne le Growth Marketing en remplaçant les tâches manuelles par des processus intelligents. Notre collectif de freelances utilise l'Intelligence Artificielle pour automatiser l'analyse de données, la création de campagnes, l'optimisation et le scaling. L'automatisation permet une croissance 24/7."
+    answer: "L'automatisation IA révolutionne le Growth Marketing en remplaçant les tâches manuelles par des processus intelligents. Notre équipe utilise l'Intelligence Artificielle pour automatiser l'analyse de données, la création de campagnes, l'optimisation et le scaling. L'automatisation permet une croissance 24/7."
   },
   {
     id: 11,
-    question: "Pourquoi choisir des freelances spécialisés en Intelligence Artificielle ?",
-    answer: "Les freelances spécialisés en Intelligence Artificielle maîtrisent les outils d'automatisation les plus avancés. Notre collectif sélectionne des experts qui combinent expertise technique et vision stratégique pour maximiser l'impact de l'IA sur votre croissance marketing."
+    question: "Pourquoi choisir des experts spécialisés en Intelligence Artificielle ?",
+    answer: "Les experts spécialisés en Intelligence Artificielle maîtrisent les outils d'automatisation les plus avancés. Notre équipe sélectionne des experts qui combinent expertise technique et vision stratégique pour maximiser l'impact de l'IA sur votre croissance marketing."
   },
   {
     id: 12,
     question: "Comment mesurez-vous l'efficacité de l'automatisation IA ?",
-    answer: "Nous mesurons l'efficacité de l'automatisation IA à travers des KPIs précis : réduction du temps de traitement des données, amélioration du taux de conversion, optimisation du ROI des campagnes et scaling automatique. Notre collectif de freelances experts vous fournit des reportings détaillés sur l'impact de l'Intelligence Artificielle."
+    answer: "Nous mesurons l'efficacité de l'automatisation IA à travers des KPIs précis : réduction du temps de traitement des données, amélioration du taux de conversion, optimisation du ROI des campagnes et scaling automatique. Notre équipe d'experts vous fournit des reportings détaillés sur l'impact de l'Intelligence Artificielle."
   }
 ];
 

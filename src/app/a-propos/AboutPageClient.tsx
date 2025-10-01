@@ -77,7 +77,7 @@ export default function AboutPageClient() {
                 </p>
 
                 <p className="text-lg md:text-xl leading-relaxed typewriter-text delay-2 text-[#2C1810] dark:text-white/90">
-                  Notre collectif de freelances experts s&apos;unit autour d&apos;une vision commune : 
+                  Notre équipe d'experts s&apos;unit autour d&apos;une vision commune : 
                   créer des solutions digitales qui ont du sens, qui touchent et qui transforment 
                   réellement les entreprises et leurs utilisateurs.
                 </p>

@@ -14,7 +14,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: `Uclic: Freelance Growth Marketing / Hacking : Sales, Ops, Produit`,
+    default: `Uclic: Agence Growth Marketing / Hacking : Sales, Ops, Produit`,
     template: `%s | Uclic`,
   },
   alternates: {
@@ -24,6 +24,17 @@ export const metadata: Metadata = {
     "Uclic conçoit et optimise vos opérations commerciales pour maximiser chaque interaction. Avec des workflows CRM avancés et des processus de vente automatisés.",
   metadataBase: new URL("https://www.uclic.fr"),
   manifest: "/manifest.json",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
+    },
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
@@ -34,17 +45,25 @@ export const metadata: Metadata = {
   },
   applicationName: "Uclic",
   openGraph: {
-    title: "Freelance Growth Marketing / Hacking : Sales, Ops, Produit",
+    title: "Agence Growth Marketing / Hacking : Sales, Ops, Produit",
     description:
       "Uclic conçoit et optimise vos opérations commerciales pour maximiser chaque interaction. Avec des workflows CRM avancés et des processus de vente automatisés.",
     url: "https://www.uclic.fr",
     type: "website",
     locale: "fr_FR",
     siteName: "Uclic",
+    images: [
+      {
+        url: "https://www.uclic.fr/open.png",
+        width: 1200,
+        height: 630,
+        alt: "Uclic - Agence Growth Marketing & IA",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Freelance Growth Marketing / Hacking : Sales, Ops, Produit",
+    title: "Agence Growth Marketing / Hacking : Sales, Ops, Produit",
     description:
       "Uclic conçoit et optimise vos opérations commerciales pour maximiser chaque interaction. Avec des workflows CRM avancés et des processus de vente automatisés.",
     site: "@uclic_fr",
@@ -63,6 +82,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta httpEquiv="x-dns-prefetch-control" content="on" />
         <link rel="dns-prefetch" href="https://www.uclic.fr" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -71,6 +91,8 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
+        <link rel="preload" href="/fonts/absans-regular.woff" as="font" type="font/woff" crossOrigin="anonymous" />
+        <link rel="preload" href="/logo.svg" as="image" />
 
         <Script id="performance-optimizations" strategy="afterInteractive">
           {`
@@ -154,7 +176,8 @@ export default function RootLayout({
           color="#5bbad5"
         />
         <meta name="msapplication-TileColor" content="#da532c" />
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+        <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
       </head>
       <body className="overflow-x-hidden">
         <Script id="website-schema" type="application/ld+json" strategy="afterInteractive">
@@ -178,7 +201,7 @@ export default function RootLayout({
             name: "Uclic",
             logo: "/favicon/android-chrome-192x192.png",
             sameAs: [
-              "https://www.linkedin.com/company/uclic",
+              "https://www.linkedin.com/company/uclic-growth-marketing/",
               "https://twitter.com/uclic_fr"
             ],
             contactPoint: [{
@@ -189,6 +212,26 @@ export default function RootLayout({
               areaServed: "FR",
               availableLanguage: ["fr", "en"]
             }]
+          })}
+        </Script>
+        <Script id="local-business-schema" type="application/ld+json" strategy="afterInteractive">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            name: "Uclic",
+            url: "https://www.uclic.fr/",
+            address: {
+              "@type": "PostalAddress",
+              addressLocality: "Paris",
+              addressCountry: "FR"
+            },
+            geo: {
+              "@type": "GeoCoordinates",
+              latitude: "48.8566",
+              longitude: "2.3522"
+            },
+            telephone: "+33617125428",
+            email: "contact@uclic.fr"
           })}
         </Script>
         {/* Google Tag Manager (noscript) */}

@@ -39,7 +39,7 @@ const LeftContent = memo(({ isDark }: { isDark: boolean }) => (
       className="text-base md:text-lg mb-8 animate-fade-in-up text-black dark:text-white"
       style={{ animationDelay: '100ms' }}
     >
-      Notre collectif de freelances experts en Intelligence Artificielle automatise votre Growth Marketing 
+      Notre agence d'experts en Intelligence Artificielle automatise votre Growth Marketing 
       pour multiplier vos résultats par 3x. Pendant que vos concurrents hésitent, vous gagnez.
     </p>
     <div className="flex flex-col md:flex-row gap-4 animate-fade-in-up" style={{ animationDelay: '200ms' }}>

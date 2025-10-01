@@ -72,19 +72,17 @@ const Typewriter = memo(function Typewriter({
 // Memoized main heading component
 const MainHeading = memo(function MainHeading() {
   return (
-    <>
-      <div className="inline-flex items-center px-3 sm:px-4 py-1.5 bg-[#9FB832]/10 dark:bg-[#E0FF5C]/10 rounded-full text-[#9FB832] dark:text-[#E0FF5C] text-sm sm:text-base font-medium relative z-10 mb-2">
-        <span className="w-2 h-2 bg-[#9FB832] dark:bg-[#E0FF5C] rounded-full mr-2 animate-pulse"></span>
-        Agence Growth & IA orientée revenus
-      </div>
-    </>
+    <h1 className="inline-flex items-center px-3 sm:px-4 py-1.5 bg-[#9FB832]/10 dark:bg-[#E0FF5C]/10 rounded-full text-[#9FB832] dark:text-[#E0FF5C] text-sm sm:text-base font-medium relative z-10 mb-2">
+      <span className="w-2 h-2 bg-[#9FB832] dark:bg-[#E0FF5C] rounded-full mr-2 animate-pulse"></span>
+      Agence Growth & IA orientée revenus
+    </h1>
   );
 });
 
 // Memoized vision text component
 const VisionText = memo(function VisionText() {
   return (
-    <p
+    <h2
       className={cn(
         "text-4xl sm:text-4xl md:text-5xl lg:text-[64px]",
         "font-semibold mb-4 sm:mb-6 leading-[1.1]",
@@ -101,7 +99,7 @@ const VisionText = memo(function VisionText() {
       <span className="font-bold text-[#9FB832] dark:text-[#E0FF5C] whitespace-nowrap">
         <Typewriter phrases={["visites", "prospects", "ventes", "revenus"]} typingSpeed={75} deletingSpeed={45} pauseMs={1200} />
       </span>
-    </p>
+    </h2>
   );
 });
 

@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import ABTestCalculatorClient from "./ABTestCalculatorClient";
 import { metadata as sharedMetadata } from "./metadata";
+import Script from "next/script";
 
 export const metadata: Metadata = sharedMetadata;
 
@@ -8,6 +9,31 @@ export const metadata: Metadata = sharedMetadata;
 export default function Page() {
   return (
     <>
+      {/* JSON-LD: BreadcrumbList */}
+      <Script id="ld-breadcrumb-abtest" type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.uclic.fr/" },
+            { "@type": "ListItem", position: 2, name: "Outils gratuits", item: "https://www.uclic.fr/outils-gratuits" },
+            { "@type": "ListItem", position: 3, name: "Calculateur A/B Test", item: "https://www.uclic.fr/outils-gratuits/ab-test-calculator" }
+          ]
+        })}
+      </Script>
+      {/* JSON-LD: SoftwareApplication */}
+      <Script id="ld-software-abtest" type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: "Calculateur A/B Test - Uclic",
+          operatingSystem: "Any",
+          applicationCategory: "BusinessApplication",
+          offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
+          url: "https://www.uclic.fr/outils-gratuits/ab-test-calculator",
+          publisher: { "@type": "Organization", name: "Uclic" }
+        })}
+      </Script>
       {/* SSR Content */}
       <div className="hidden">
         <h1>Calculateur A/B Test - Test de Signification Statistique</h1>

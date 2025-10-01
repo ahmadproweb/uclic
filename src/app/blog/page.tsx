@@ -7,6 +7,7 @@ import {
 } from "@/services/wordpress";
 import { Metadata } from "next";
 import { Suspense } from "react";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "Blog Growth Marketing & Sales | Conseils d'Experts",
@@ -60,7 +61,42 @@ export default async function BlogPage() {
   }));
 
   return (
-    <Suspense
+    <>
+      {/* JSON-LD: BreadcrumbList */}
+      <Script id="ld-breadcrumb-blog" type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Accueil",
+              item: "https://www.uclic.fr/"
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Blog",
+              item: "https://www.uclic.fr/blog"
+            }
+          ]
+        })}
+      </Script>
+      {/* JSON-LD: ItemList of blog posts */}
+      <Script id="ld-itemlist-blog" type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          itemListElement: transformedPosts.slice(0, POSTS_PER_PAGE).map((p, idx) => ({
+            "@type": "ListItem",
+            position: idx + 1,
+            url: `https://www.uclic.fr/blog/${p.slug}`,
+            name: p.title
+          }))
+        })}
+      </Script>
+      <Suspense
       fallback={
         <div className="p-12 text-center">Chargement des articles...</div>
       }
@@ -71,5 +107,6 @@ export default async function BlogPage() {
         totalPages={totalPages}
       />
     </Suspense>
+    </>
   );
 }

@@ -48,7 +48,7 @@ export async function generateMetadata({ params }: TeamMemberPageProps) {
       "membre",
       "expert",
       "consultant",
-      "freelance",
+      "expert",
       "growth marketing",
       "intelligence artificielle",
       member.title,

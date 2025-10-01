@@ -11,14 +11,14 @@ export default async function TeamPage() {
 export const metadata: Metadata = {
   title: "Équipe Growth Marketing & Sales | Uclic",
   description:
-    "Découvrez notre équipe de freelances experts en Growth Marketing, Sales Ops et Product Marketing. Une équipe passionnée au service de votre croissance.",
+    "Découvrez notre équipe d'experts en Growth Marketing, Sales Ops et Product Marketing. Une agence passionnée au service de votre croissance.",
   alternates: {
     canonical: "https://www.uclic.fr/equipe",
   },
   openGraph: {
     title: "Équipe Growth Marketing & Sales | Uclic",
     description:
-      "Découvrez notre équipe de freelances experts en Growth Marketing, Sales Ops et Product Marketing. Une équipe passionnée au service de votre croissance.",
+      "Découvrez notre équipe d'experts en Growth Marketing, Sales Ops et Product Marketing. Une agence passionnée au service de votre croissance.",
     url: "https://www.uclic.fr/equipe",
     type: "website",
     locale: "fr_FR",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Équipe Growth Marketing & Sales | Uclic",
     description:
-      "Découvrez notre équipe de freelances experts en Growth Marketing, Sales Ops et Product Marketing. Une équipe passionnée au service de votre croissance.",
+      "Découvrez notre équipe d'experts en Growth Marketing, Sales Ops et Product Marketing. Une agence passionnée au service de votre croissance.",
     site: "@uclic_fr",
   },
 };

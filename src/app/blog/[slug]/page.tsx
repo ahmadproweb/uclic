@@ -10,6 +10,7 @@ import {
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import Script from "next/script";
 
 // JSON-LD Types
 interface JsonLdImage {
@@ -194,6 +195,18 @@ export default async function BlogPostPage({ params }: BlogPostParams) {
 
   return (
     <>
+      {/* JSON-LD: BreadcrumbList for blog post */}
+      <Script id="ld-breadcrumb-blogpost" type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.uclic.fr/" },
+            { "@type": "ListItem", position: 2, name: "Blog", item: "https://www.uclic.fr/blog" },
+            { "@type": "ListItem", position: 3, name: transformedPost.title, item: `https://www.uclic.fr/blog/${transformedPost.slug}` }
+          ]
+        })}
+      </Script>
       <JsonLd data={jsonLd} />
       <Suspense
         fallback={
