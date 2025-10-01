@@ -40,11 +40,11 @@ const MobileMenuButton = memo(
   }) => (
     <button
       className={cn(
-        "md:hidden relative z-50 p-2",
+        "md:hidden relative z-[120] p-2 pointer-events-auto",
         isMobileMenuOpen && "fixed right-6 top-6",
         isDark
-          ? "text-white hover:text-[#00E6A7]"
-          : "text-black/80 hover:text-[#00E6A7]"
+          ? "text-white hover:text-[#E0FF5C]"
+          : "text-black/80 hover:text-[#E0FF5C]"
       )}
       onClick={onClick}
       aria-label="Toggle menu"
@@ -160,7 +160,9 @@ const Header = () => {
           role="navigation"
           aria-label="Navigation principale"
         >
-          <Logo />
+          <div className={cn(isMobileMenuOpen && "md:block hidden")}>
+            <Logo />
+          </div>
 
           {/* No-JS fallback: simple link to expertise index for SEO and users without JS */}
           <div className="no-js-only hidden md:block">

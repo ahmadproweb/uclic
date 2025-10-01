@@ -4,7 +4,9 @@ import { useTheme } from "@/context/ThemeContext";
 import { useNavItems } from "@/hooks/useNavItems";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { memo, useCallback, useEffect } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+import { Logo } from "./Logo";
 import { ServiceCard } from "./ServiceCard";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { MainMenuProps, MobileMenuProps, ServiceMenuProps } from "./types";
@@ -22,29 +24,45 @@ const MenuHeader = memo(
     return (
         <div
           className={cn(
-            "fixed top-0 left-0 right-0 flex items-center justify-between px-6 py-4 z-50 backdrop-blur-md border rounded-b-2xl",
+            "fixed top-0 left-0 right-0 flex items-center justify-between px-6 py-4 z-[110] backdrop-blur-md border rounded-b-2xl",
             isDark 
               ? "border-white/10 bg-black/40"
               : "border-black/5 bg-white/40"
           )}
         >
-        <div
-          className={cn(
-            "flex items-center gap-2 p-1.5 px-4 rounded-lg cursor-pointer",
-            isDark ? "bg-white/20" : "bg-black/20"
-          )}
-          onClick={handleThemeClick}
-        >
-          <ThemeSwitcher isMobile={true} />
-          <span className={cn("text-sm font-medium truncate", isDark ? "text-white" : "text-black")}>Thème</span>
+        <Logo />
+        <div className="flex items-center gap-3">
+          <div
+            className={cn(
+              "flex items-center gap-2 p-1.5 px-4 rounded-lg cursor-pointer transition-all duration-200 border backdrop-blur-md",
+              isDark 
+                ? "bg-black/40 hover:bg-black/50 text-white border-white/10" 
+                : "bg-white/40 hover:bg-white/50 text-black border-black/5"
+            )}
+            onClick={handleThemeClick}
+          >
+            <i
+              className={cn(
+                isDark ? "ri-sun-line" : "ri-moon-line",
+                "text-lg"
+              )}
+              aria-hidden="true"
+            />
+            <span className={cn("text-sm font-medium truncate")}>Thème</span>
+          </div>
+          <button
+            onClick={onClose}
+            className={cn(
+              "p-2 rounded-lg transition-all duration-200 hover:text-[#E0FF5C] active:scale-95",
+              isDark 
+                ? "text-white hover:bg-white/10" 
+                : "text-black hover:bg-black/10"
+            )}
+            aria-label="Fermer le menu"
+          >
+            <i className="ri-close-line text-2xl" aria-hidden="true" />
+          </button>
         </div>
-        <button
-          onClick={onClose}
-          className={cn("p-2 rounded-lg transition-all duration-200 hover:text-[#00E6A7] hover:bg-black/10 active:scale-95", isDark ? "text-white" : "text-black")}
-          aria-label="Fermer le menu"
-        >
-          <i className="ri-close-line text-2xl" aria-hidden="true" />
-        </button>
       </div>
     );
   }
@@ -112,7 +130,10 @@ const MainMenu = memo(
             return item.hasMegaMenu ? (
               <button
                 key={item.href}
-                className={`backdrop-blur-md hover:bg-[#E0FF5C] hover:text-black hover:scale-[1.02] active:scale-[0.98] rounded-xl py-4 px-6 flex items-center justify-between w-full text-left border transition-all duration-200 ease-out shadow-sm hover:shadow-md ${isDark ? "bg-black/40 border-white/10 text-white" : "bg-white/40 border-black/5 text-black"}`}
+                className={cn(
+                  "backdrop-blur-md hover:bg-[#E0FF5C] hover:text-black hover:scale-[1.02] active:scale-[0.98] rounded-xl py-4 px-6 flex items-center justify-between w-full text-left border transition-all duration-200 ease-out",
+                  isDark ? "bg-black/40 border-white/10 text-white" : "bg-white/40 border-black/5 text-black"
+                )}
                 onClick={onServiceMenuOpen}
               >
                 <div className="flex items-center gap-3">
@@ -125,7 +146,10 @@ const MainMenu = memo(
               <Link
                 key={item.href}
                 href={item.href}
-                className={`backdrop-blur-md hover:bg-[#E0FF5C] hover:text-black hover:scale-[1.02] active:scale-[0.98] rounded-xl py-4 px-6 flex items-center justify-between border transition-all duration-200 ease-out shadow-sm hover:shadow-md group ${isDark ? "bg-black/40 border-white/10 text-white" : "bg-white/40 border-black/5 text-black"}`}
+                className={cn(
+                  "backdrop-blur-md hover:bg-[#E0FF5C] hover:text-black hover:scale-[1.02] active:scale-[0.98] rounded-xl py-4 px-6 flex items-center justify-between border transition-all duration-200 ease-out group",
+                  isDark ? "bg-black/40 border-white/10 text-white" : "bg-white/40 border-black/5 text-black"
+                )}
                 onClick={() => {
                   // Réinitialiser le style du body avant la navigation
                   document.body.style.overflow = "";
@@ -238,6 +262,12 @@ export const MobileMenu = memo(
     const { theme: currentTheme } = useTheme();
     const isDark = currentTheme === "dark";
     const { navItems, serviceItems, loading } = useNavItems();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+      setMounted(true);
+      return () => setMounted(false);
+    }, []);
 
     // Effet pour gérer le overflow du body quand le menu est ouvert/fermé
     useEffect(() => {
@@ -272,86 +302,102 @@ export const MobileMenu = memo(
       document.body.style.overflow = "";
     }, [setIsServiceMenuOpen, setIsMobileMenuOpen]);
 
-    if (loading) {
-      return (
-        <div
-          className={cn(
-            "fixed inset-0 z-40 transition-all duration-300 md:hidden",
-            isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-          )}
-        >
-          {/* Menu panel */}
-          <div
-            className={cn(
-              "fixed left-0 top-0 h-full w-full transition-all duration-300 ease-out flex flex-col min-h-screen overflow-y-auto",
-              isOpen
-                ? "translate-x-0"
-                : "-translate-x-full"
-            )}
-            style={{
-              background: isDark ? "rgba(0, 0, 0, 0.4)" : "rgba(255, 255, 255, 0.4)",
-              backdropFilter: "blur(12px)",
-              WebkitBackdropFilter: "blur(12px)",
-            }}
-          >
-            <MenuHeader isDark={isDark} onClose={handleClose} />
-            <div className="flex items-center justify-center h-full">
-              <div className={cn("animate-spin rounded-full h-8 w-8 border-t-2 border-b-2", isDark ? "border-white" : "border-black")}></div>
-            </div>
-          </div>
-        </div>
-      );
-    }
+    if (!mounted) return null;
 
-    return (
+    const menuContent = loading ? (
       <div
         className={cn(
-          "fixed inset-0 z-40 transition-all duration-300 md:hidden",
+          "fixed inset-0 z-[100] transition-all duration-300 md:hidden",
+          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        )}
+      >
+        {/* Menu panel */}
+        <div
+          className={cn(
+            "fixed left-0 top-0 h-full w-full transition-all duration-300 ease-out flex flex-col min-h-screen overflow-y-auto",
+            isOpen
+              ? "translate-x-0"
+              : "-translate-x-full"
+          )}
+          style={{
+            background: isDark ? "rgba(0, 0, 0, 0.4)" : "rgba(255, 255, 255, 0.4)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+          }}
+        >
+          <MenuHeader isDark={isDark} onClose={handleClose} />
+          <div className="flex items-center justify-center h-full">
+            <div className={cn("animate-spin rounded-full h-8 w-8 border-t-2 border-b-2", isDark ? "border-white" : "border-black")}></div>
+          </div>
+        </div>
+      </div>
+    ) : (
+      <div
+        className={cn(
+          "fixed inset-0 z-[100] transition-all duration-300 md:hidden",
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         )}
       >
         {/* Halo background effect */}
         <div 
-          className="fixed inset-0"
+          className="fixed inset-0 pointer-events-none"
           style={{
             background: isDark 
-              ? "radial-gradient(circle at 50% 50%, rgba(0, 230, 167, 0.15) 0%, rgba(0, 0, 0, 0.8) 70%)"
-              : "radial-gradient(circle at 50% 50%, rgba(0, 230, 167, 0.1) 0%, rgba(255, 255, 255, 0.8) 70%)"
+              ? "radial-gradient(circle at 50% 50%, rgba(0, 230, 167, 0.15) 0%, rgba(0, 0, 0, 0.9) 70%)"
+              : "radial-gradient(circle at 50% 50%, rgba(0, 230, 167, 0.1) 0%, rgba(255, 255, 255, 0.95) 70%)"
           }}
         />
         
         {/* Blur overlay for better readability */}
-        <div className="fixed inset-0 min-h-screen backdrop-blur-lg bg-black/40" />
+        <div className={cn(
+          "fixed inset-0 min-h-screen backdrop-blur-lg pointer-events-none",
+          isDark ? "bg-black/50" : "bg-white/60"
+        )} />
         
         {/* Menu panel */}
         <div
             className={cn(
-              "fixed left-0 top-0 h-full w-full transition-all duration-300 ease-out flex flex-col min-h-screen overflow-y-auto bg-transparent",
+              "fixed left-0 top-0 h-full w-full transition-all duration-300 ease-out flex flex-col min-h-screen overflow-y-auto bg-transparent pointer-events-auto relative",
               isOpen
                 ? "translate-x-0"
                 : "-translate-x-full"
             )}
       >
+          {/* Texture grain background */}
+          <div 
+            className="pointer-events-none absolute inset-0 z-0" 
+            style={{
+              backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')", 
+              backgroundRepeat: 'repeat', 
+              backgroundSize: '200px', 
+              opacity: isDark ? 0.03 : 0.04
+            }} 
+          />
+          
           <MenuHeader isDark={isDark} onClose={handleClose} />
 
-          {isServiceMenuOpen ? (
-            <ServiceMenu
-              isDark={isDark}
-              onBack={handleServiceMenuClose}
-              onServiceSelect={handleServiceSelect}
-              serviceItems={serviceItems}
-            />
-          ) : (
-            <MainMenu
-              isDark={isDark}
-              onServiceMenuOpen={handleServiceMenuOpen}
-              onClose={handleClose}
-              navItems={navItems}
-            />
-          )}
+          <div className="relative z-10">
+            {isServiceMenuOpen ? (
+              <ServiceMenu
+                isDark={isDark}
+                onBack={handleServiceMenuClose}
+                onServiceSelect={handleServiceSelect}
+                serviceItems={serviceItems}
+              />
+            ) : (
+              <MainMenu
+                isDark={isDark}
+                onServiceMenuOpen={handleServiceMenuOpen}
+                onClose={handleClose}
+                navItems={navItems}
+              />
+            )}
+          </div>
         </div>
       </div>
     );
+
+    return createPortal(menuContent, document.body);
   }
 );
 
