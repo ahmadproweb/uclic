@@ -15,7 +15,7 @@ export default function PartnerHome() {
         .partner-home-scope h2, .partner-home-scope p { display: none !important; }
       `}</style>
       <div className="partner-home-scope">
-        <Partners />
+        <Partners noTopBorder />
       </div>
     </div>
   );

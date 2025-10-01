@@ -22,35 +22,40 @@ export default function AuthorsArchiveClientSide({
   return (
     <div
       className={cn(
-        "w-full min-h-screen relative overflow-hidden pt-28 md:pt-36 lg:pt-36 pb-16",
+        "w-full min-h-screen relative overflow-hidden pt-32 pb-16 md:pb-24 px-4 sm:px-6",
         isDark ? "bg-black" : "bg-white"
       )}
     >
-      {/* Base Background gradient */}
+      {/* Fixed halo background */}
       <div
-        className="absolute inset-0 z-0 transition-colors duration-300"
+        aria-hidden="true"
+        className="pointer-events-none fixed top-0 left-0 right-0 h-[45vh] z-0"
         style={{
           background: isDark
-            ? `linear-gradient(180deg, ${themeColors.common.black}, rgba(225, 255, 92, 0.31))`
-            : `linear-gradient(180deg, ${themeColors.common.white}, rgba(225, 255, 92, 0.31))`,
+            ? `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.20) 0%, rgba(212,237,49,0.12) 15%, rgba(212,237,49,0.06) 35%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 75%)`
+            : `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.25) 0%, rgba(212,237,49,0.15) 18%, rgba(212,237,49,0.08) 38%, rgba(255,255,255,0.1) 58%, rgba(255,255,255,0) 78%)`,
+          filter: 'blur(20px)'
         }}
       />
 
-      {/* Grain effect overlay */}
       <div
         className={cn(
-          "absolute inset-0 z-0 mix-blend-soft-light transition-opacity duration-300",
-          isDark ? "opacity-90" : "opacity-50"
+          "max-w-[1250px] mx-auto px-4 sm:px-6 py-8 md:py-12 relative z-10 rounded-2xl border overflow-hidden",
+          isDark ? "border-white/10" : "border-black/5"
         )}
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.8'/%3E%3C/svg%3E\")",
-          backgroundRepeat: "repeat",
-          backgroundSize: "100px 100px",
-        }}
-      />
-
-      <div className="mx-auto px-4 sm:px-6 relative z-10 max-w-[1250px]">
+      >
+        {/* Background pattern */}
+        <div className="absolute inset-0 rounded-2xl -z-10">
+          <div
+            className="absolute inset-0 rounded-2xl"
+            style={{
+              backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+              backgroundRepeat: "repeat",
+              backgroundSize: "200px",
+              opacity: isDark ? "0.25" : "0.04"
+            }}
+          />
+        </div>
         {/* Header */}
         <div className="mb-12">
           <h1
@@ -78,13 +83,33 @@ export default function AuthorsArchiveClientSide({
               key={author.id}
               href={`/blog/author/${slugify(author.name)}`}
               className={cn(
-                "group p-6 rounded-xl transition-colors duration-200",
+                "group p-6 rounded-xl transition-all duration-300 hover:-translate-y-1 border backdrop-blur-md relative",
                 isDark
-                  ? "bg-white/5 hover:bg-white/10"
-                  : "bg-black/5 hover:bg-black/10"
+                  ? "bg-transparent border-white/10 hover:bg-white/5"
+                  : "bg-transparent border-black/5 hover:bg-black/5"
               )}
             >
-              <div className="flex items-start gap-4">
+              {/* Background pattern */}
+              <div
+                className="absolute inset-0 rounded-xl -z-10"
+                style={{
+                  backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+                  backgroundRepeat: "repeat",
+                  backgroundSize: "200px",
+                  opacity: isDark ? "0.4" : "0.04"
+                }}
+              />
+              {/* Hover halo effect */}
+              <div 
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
+                style={{
+                  background: isDark
+                    ? `radial-gradient(ellipse at center, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.04) 40%, transparent 70%)`
+                    : `radial-gradient(ellipse at center, rgba(212,237,49,0.12) 0%, rgba(212,237,49,0.06) 40%, transparent 70%)`,
+                  filter: 'blur(12px)',
+                }}
+              />
+              <div className="flex items-start gap-4 relative z-20">
                 {/* Author Avatar */}
                 <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-[#E0FF5C]">
                   <img
@@ -125,8 +150,8 @@ export default function AuthorsArchiveClientSide({
       </div>
 
       {/* PreFooter Section */}
-      <div className="relative z-10 w-full overflow-hidden pt-32 pb-8">
-        <div className="max-w-[1250px] mx-auto px-4">
+      <div className="relative z-10 w-full overflow-hidden pt-16 pb-16">
+        <div className="max-w-[1250px] mx-auto px-4 sm:px-6">
           <PreFooter noBgGradient />
         </div>
       </div>

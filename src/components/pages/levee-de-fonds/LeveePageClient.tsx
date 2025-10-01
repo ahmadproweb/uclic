@@ -1,6 +1,5 @@
 "use client";
 
-import PreFooter from "@/components/footer/PreFooter";
 import ScrollToTop from "@/components/ui/ScrollToTop";
 import StickyShareButtons from "@/components/ui/StickyShareButtons";
 import { colors as theme } from "@/config/theme";
@@ -343,9 +342,12 @@ export default function LeveePageClient({
   return (
     <>
       {/* Share & Related Posts */}
-      <div className="mt-12 mb-16">
+      <div className="max-w-[1250px] mx-auto px-0 py-16">
         <div 
-          className="rounded-3xl border backdrop-blur-md relative p-6 sm:p-8 bg-white/40 dark:bg-black/40 border-black/8 dark:border-white/10"
+          className="relative rounded-2xl overflow-hidden border backdrop-blur-md p-8 border-black/5 dark:border-white/10"
+          style={{
+            background: "rgba(255,255,255,0.4)"
+          }}
         >
           {/* Hover halo effect */}
           <div 
@@ -369,7 +371,7 @@ export default function LeveePageClient({
                     try {
                       await navigator.share({
                         title: post.title,
-                        text: post.excerpt,
+                        text: post.content.substring(0, 150) + "...",
                         url: window.location.href,
                       });
                     } catch (err) {
@@ -433,8 +435,6 @@ export default function LeveePageClient({
         url={`/levee-de-fonds/${post.slug}`}
       />
       <ScrollToTop />
-
-      <PreFooter noBgGradient />
     </>
   );
 }

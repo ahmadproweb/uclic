@@ -31,7 +31,7 @@ export default function MDECalculatorClient() {
         }}
       />
 
-      <section className="w-full max-w-[100vw] pt-40 pb-16 md:pb-24 relative overflow-hidden">
+      <section className="w-full max-w-[100vw] pt-40 pb-0 md:pb-0 relative overflow-hidden">
       
       <div
         className={cn(

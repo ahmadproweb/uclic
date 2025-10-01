@@ -13,7 +13,7 @@ export default function OutilsGratuitsClient() {
 
   return (
     <section className={cn(
-      "w-full relative overflow-hidden pt-32 pb-16 md:pb-24 px-4 sm:px-6",
+      "w-full relative overflow-hidden pt-32 pb-0 md:pb-0 px-4 sm:px-6",
       isDark ? "bg-black" : "bg-white"
     )}>
       {/* Subtle top halo background */}

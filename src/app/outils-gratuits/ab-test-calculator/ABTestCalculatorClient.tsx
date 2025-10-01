@@ -44,7 +44,7 @@ export default function ABTestCalculatorClient() {
         }}
       />
 
-      <section className="w-full max-w-[100vw] pt-40 pb-16 md:pb-24 relative overflow-hidden">
+      <section className="w-full max-w-[100vw] pt-40 pb-0 md:pb-0 relative overflow-hidden">
 
       {/* Content */}
       <div
@@ -566,9 +566,9 @@ export default function ABTestCalculatorClient() {
         </div>
       </div>
 
-      {/* PreFooter Section */}
-      <div className="relative z-10 w-full overflow-hidden pt-16 pb-16">
-        <div className="max-w-[1250px] mx-auto px-4">
+       {/* PreFooter Section */}
+       <div className={cn("relative z-10 w-full overflow-hidden pt-8 pb-16 md:pt-12 md:pb-24 px-4 sm:px-6")}>
+        <div className="max-w-[1250px] mx-auto">
           <PreFooter noBgGradient />
         </div>
       </div>

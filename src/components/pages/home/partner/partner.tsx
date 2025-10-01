@@ -36,16 +36,18 @@ const row2 = [
 
 interface PartnersProps {
   forceBlackLogos?: boolean;
+  noTopBorder?: boolean;
 }
 
-export default function Partners({ forceBlackLogos = false }: PartnersProps) {
+export default function Partners({ forceBlackLogos = false, noTopBorder = false }: PartnersProps) {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
   return (
     <div 
       className={cn(
-        "w-full flex flex-col gap-0 pt-8 md:pt-12 pb-12 md:pb-16 overflow-hidden relative border-b",
+        "w-full flex flex-col gap-0 pt-8 md:pt-12 pb-12 md:pb-16 overflow-hidden relative",
+        noTopBorder ? "border-b" : "border-y",
         isDark ? "bg-black border-white/10" : "bg-transparent border-black/5"
       )}
       aria-label="Nos partenaires de confiance"

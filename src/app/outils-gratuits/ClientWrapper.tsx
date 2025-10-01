@@ -115,9 +115,11 @@ export default function ClientWrapper() {
         </div>
 
         {/* PreFooter Section */}
-        <div className="relative z-10">
+      <div className={cn("relative z-10 w-full overflow-hidden pt-8 pb-16 md:pt-12 md:pb-24 px-4 sm:px-6")}>
+        <div className="max-w-[1250px] mx-auto">
           <PreFooter noBgGradient />
         </div>
+      </div>
       </div>
     </section>
   );

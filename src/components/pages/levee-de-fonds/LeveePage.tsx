@@ -90,7 +90,10 @@ export default function LeveePage({
   });
 
   return (
-    <div className="w-full max-w-[100vw] pt-28 md:pt-32 pb-16 md:pb-24 relative overflow-hidden bg-white dark:bg-black">
+    <article className={cn(
+      "w-full min-h-screen relative overflow-hidden pt-32 pb-16 md:pb-24 px-4 sm:px-6",
+      "bg-white dark:bg-black"
+    )}>
       {/* Fixed halo background */}
       <div
         aria-hidden="true"
@@ -100,14 +103,26 @@ export default function LeveePage({
           filter: 'blur(20px)'
         }}
       />
-      {/* New overlay gradient - black to transparent */}
+
+
       <div
-        className="absolute bottom-0 left-0 right-0 z-[1] transition-colors duration-300 bg-gradient-to-t from-[#F3F4F6] via-[#F3F4F6] to-transparent dark:from-black dark:via-black dark:to-transparent"
-        style={{
-          height: "25%",
-        }}
-      />
-      <div className="max-w-[1250px] mx-auto px-4 relative z-10">
+        className={cn(
+          "max-w-[1250px] mx-auto px-4 sm:px-6 py-8 md:py-12 relative z-10 rounded-2xl border overflow-hidden",
+          "border-black/5 dark:border-white/10"
+        )}
+      >
+        {/* Background pattern */}
+        <div className="absolute inset-0 rounded-2xl -z-10">
+          <div
+            className="absolute inset-0 rounded-2xl"
+            style={{
+              backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+              backgroundRepeat: "repeat",
+              backgroundSize: "200px",
+              opacity: "0.04"
+            }}
+          />
+        </div>
         {/* Hero section */}
         <div className="mb-6 md:mb-8 lg:mb-12 relative">
           {/* Featured image */}
@@ -260,8 +275,18 @@ export default function LeveePage({
             <div className="w-full lg:w-72 shrink-0 order-2 lg:order-1 relative">
               <div className="hidden lg:block">
                 <div 
-                  className="p-6 rounded-3xl border backdrop-blur-md relative bg-white/40 dark:bg-black/40 border-black/8 dark:border-white/10"
+                  className="p-6 rounded-3xl border backdrop-blur-md relative bg-transparent border-black/5 dark:border-white/10"
                 >
+                  {/* Background pattern */}
+                  <div
+                    className="absolute inset-0 rounded-3xl -z-10"
+                    style={{
+                      backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+                      backgroundRepeat: "repeat",
+                      backgroundSize: "200px",
+                      opacity: "0.04"
+                    }}
+                  />
                   {/* Hover halo effect */}
                   <div 
                     className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
@@ -299,8 +324,18 @@ export default function LeveePage({
           {/* Main content */}
           <div className="flex-1 order-1 lg:order-2">
             <div 
-              className="rounded-3xl border backdrop-blur-md relative p-6 sm:p-8 bg-white/40 dark:bg-black/40 border-black/8 dark:border-white/10"
+              className="rounded-3xl border backdrop-blur-md relative p-6 sm:p-8 bg-transparent border-black/5 dark:border-white/10"
             >
+              {/* Background pattern */}
+              <div
+                className="absolute inset-0 rounded-3xl -z-10"
+                style={{
+                  backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+                  backgroundRepeat: "repeat",
+                  backgroundSize: "200px",
+                  opacity: "0.04"
+                }}
+              />
               {/* Hover halo effect */}
               <div 
                 className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
@@ -323,6 +358,6 @@ export default function LeveePage({
           latestPosts={latestPosts}
         />
       </div>
-    </div>
+    </article>
   );
 }

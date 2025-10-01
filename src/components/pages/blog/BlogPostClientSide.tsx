@@ -208,7 +208,7 @@ function RelatedPosts({
               visiblePosts.map((post) => {
                 const category = getPostCategory(post);
                 const image = getFeaturedImage(post);
-                const title = post.title.rendered;
+                const title = cleanHtmlEntities(post.title.rendered);
                 const date = formatDate(post.date);
                 const readingTime = estimateReadingTime(post.content.rendered);
 
@@ -368,7 +368,7 @@ function RelatedPosts({
             {relatedPosts.slice(0, 3).map((post) => {
               const category = getPostCategory(post);
               const image = getFeaturedImage(post);
-              const title = post.title.rendered;
+              const title = cleanHtmlEntities(post.title.rendered);
               const date = formatDate(post.date);
               const readingTime = estimateReadingTime(post.content.rendered);
 
@@ -569,7 +569,7 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
     };
 
     const newContent = processContent(post.content);
-    setProcessedContent(newContent);
+    setProcessedContent(cleanHtmlEntities(newContent));
   }, [mounted, post.content]);
 
 
