@@ -294,6 +294,32 @@ const nextConfig = {
         destination: '/legal/mentions-legales',
         permanent: true, // Redirection 301 SEO
       },
+      // Redirections pour les 404 vers la home
+      {
+        source: '/levee-de-fonds/ceibo-leve-30m-series-b-funding',
+        destination: '/',
+        permanent: false, // Redirection 302 temporaire
+      },
+      {
+        source: '/toolbox/attrack',
+        destination: '/',
+        permanent: false,
+      },
+      {
+        source: '/toolbox/civet-2',
+        destination: '/',
+        permanent: false,
+      },
+      {
+        source: '/toolbox/tapto',
+        destination: '/',
+        permanent: false,
+      },
+      {
+        source: '/expertise/bi-reporting',
+        destination: '/',
+        permanent: false,
+      },
     ];
   }
 };
