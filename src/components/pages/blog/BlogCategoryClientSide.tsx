@@ -1,23 +1,206 @@
 "use client";
 
-import PreFooter from "@/components/footer/PreFooter";
 import Pagination from "@/components/ui/Pagination";
 import ScrollToTop from "@/components/ui/ScrollToTop";
 import StickyShareButtons from "@/components/ui/StickyShareButtons";
 import { colors as theme } from "@/config/theme";
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
-import { BlogPost } from "@/types/blog";
+import { cleanHtmlEntities } from "@/utils/string";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 
-// Fonction pour décoder les caractères HTML
-function decodeHTMLEntities(text: string) {
-  const textarea = document.createElement("textarea");
-  textarea.innerHTML = text;
-  return textarea.value;
+// Chargement dynamique des composants non-essentiels
+const PreFooter = dynamic(() => import("@/components/footer/PreFooter"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-[300px] animate-pulse bg-gray-100 dark:bg-gray-800 rounded-lg" />
+  ),
+});
+
+// Define the blog post interface
+export interface BlogPost {
+  id: number;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  date: string;
+  author: string;
+  author_link?: string;
+  featured_image_url: string;
+  reading_time: string;
+  tags?: string[];
+  category?: string;
 }
+
+// Fonction pour capitaliser la première lettre
+const capitalizeTitle = (title: string) => {
+  if (!title) return "";
+  return title.charAt(0).toUpperCase() + title.slice(1);
+};
+
+// Remove HTML tags to render deterministic text excerpts (avoids hydration diffs)
+const stripHtmlTags = (html: string) => html.replace(/<[^>]*>/g, "").trim();
+
+// Séparer le BlogCard en composant mémoïsé
+const BlogCard = memo(
+  ({ post }: { post: BlogPost }) => {
+    const { theme: currentTheme } = useTheme();
+    const isDark = currentTheme === "dark";
+    const cleanExcerpt = stripHtmlTags(post.excerpt || "");
+    return (
+      <Link
+        href={`/blog/${post.slug}`}
+        className="group rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 border backdrop-blur-md relative"
+        style={{
+          background: "transparent",
+          borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+          boxShadow: "none",
+        }}
+      >
+        {/* Background pattern */}
+        <div
+          className="absolute inset-0 rounded-3xl z-0 pointer-events-none"
+          style={{
+            backgroundImage: "url('/backgroundeffect.png')",
+            backgroundRepeat: "repeat",
+            backgroundSize: "200px",
+            opacity: isDark ? "0.4" : "0.04"
+          }}
+        />
+        {/* Hover halo effect */}
+        <div 
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+          style={{
+            background: isDark
+              ? `linear-gradient(to right, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.08) 60%, rgba(212,237,49,0) 100%)`
+              : `linear-gradient(to right, rgba(212,237,49,0.12) 0%, rgba(212,237,49,0.12) 60%, rgba(212,237,49,0) 100%)`,
+            filter: 'blur(20px)',
+          }}
+        />
+        {/* Featured Image */}
+        <div className="relative w-full h-48 overflow-hidden">
+          <img
+            src={`${post.featured_image_url.replace(/\.(jpg|jpeg|png|gif)$/,'-400x250.$1')}.webp`}
+            alt={cleanHtmlEntities(capitalizeTitle(post.title))}
+            className="object-cover transition-transform duration-500 group-hover:scale-105 w-full h-full"
+            onError={(e) => {
+              const target = e.currentTarget as HTMLImageElement;
+              const originalUrl = post.featured_image_url;
+              const jpgFallback = originalUrl.replace(/\.(jpg|jpeg|png|gif)$/,'-400x250.$1');
+              if (target.src !== jpgFallback) {
+                target.src = jpgFallback;
+              }
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
+          <span className="absolute bottom-4 left-4 inline-block px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-sm z-20">
+            {post.category || "Blog"}
+          </span>
+        </div>
+
+        <div className="p-6 space-y-3">
+          <h3 className={cn("text-xl font-semibold", isDark ? "text-white" : "text-black")}>
+            {cleanHtmlEntities(capitalizeTitle(post.title))}
+          </h3>
+
+          <div className={cn("flex items-center gap-2 text-sm", isDark ? "text-white/70" : "text-black/70") }>
+            <div className={cn("w-6 h-6 rounded-full flex items-center justify-center", isDark ? "bg-white/10" : "bg-black/10") }>
+              <i className="ri-time-line text-sm" aria-hidden="true" style={{ color: isDark ? theme.colors.primary.main : undefined }} />
+            </div>
+            {post.reading_time} min de lecture
+          </div>
+        </div>
+      </Link>
+    );
+  },
+  (prevProps, nextProps) => prevProps.post.id === nextProps.post.id
+);
+
+BlogCard.displayName = "BlogCard";
+
+// Séparer le FeaturedPost en composant mémoïsé
+const FeaturedPost = memo(({ post }: { post: BlogPost }) => {
+  if (!post) return null;
+  const { theme: currentTheme } = useTheme();
+  const isDark = currentTheme === "dark";
+
+  return (
+    <div
+      className="relative w-full h-[35vh] xs:h-[40vh] sm:h-[45vh] md:h-[50vh] mb-12 xs:mb-14 sm:mb-16 rounded-2xl xs:rounded-3xl overflow-hidden border backdrop-blur-md group hover:-translate-y-1 transition-all duration-300"
+      style={{
+        background: "transparent",
+        borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
+      }}
+    >
+      {/* Background pattern */}
+      <div
+        className="absolute inset-0 rounded-2xl xs:rounded-3xl z-0 pointer-events-none"
+        style={{
+          backgroundImage: "url('/backgroundeffect.png')",
+          backgroundRepeat: "repeat",
+          backgroundSize: "200px",
+          opacity: isDark ? "0.4" : "0.04"
+        }}
+      />
+      {/* Hover halo effect */}
+      <div 
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
+        style={{
+          background: isDark
+            ? `linear-gradient(to right, rgba(212,237,49,0.08) 0%, rgba(212,237,49,0.08) 60%, rgba(212,237,49,0) 100%)`
+            : `linear-gradient(to right, rgba(212,237,49,0.12) 0%, rgba(212,237,49,0.12) 60%, rgba(212,237,49,0) 100%)`,
+          filter: 'blur(20px)',
+        }}
+      />
+      <img
+        src={post.featured_image_url}
+              alt={cleanHtmlEntities(capitalizeTitle(post.title))}
+        className="object-cover rounded-2xl xs:rounded-3xl w-full h-full"
+      />
+      {/* Readability overlays */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/60" />
+      <div className="absolute inset-0 flex flex-col justify-end p-4 xs:p-6 sm:p-8 md:p-14">
+        <div className="max-w-5xl mx-auto w-full">
+          <div className="mb-3 xs:mb-4 flex flex-wrap gap-2">
+            <span className="inline-block px-2 xs:px-3 py-1 bg-black/80 text-[#E0FF5C] rounded-full text-[11px] xs:text-xs tracking-wide">
+              {post.category || "Blog"}
+            </span>
+            <span className="text-[11px] xs:text-xs uppercase tracking-wider font-semibold inline-block px-2 xs:px-3 py-1 rounded-full bg-[#E0FF5C] text-black">
+              À la une
+            </span>
+          </div>
+          <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold max-w-4xl mb-4 text-white leading-tight">
+            {cleanHtmlEntities(capitalizeTitle(post.title))}
+          </h2>
+          <div className="text-white/85 flex flex-wrap items-center text-[12px] xs:text-sm gap-2 xs:gap-4 mt-2">
+            <span>{post.author}</span>
+            <span className="opacity-70">•</span>
+            <div className="flex items-center gap-1">
+              <i className="ri-time-line text-sm" aria-hidden="true" style={{ color: '#E0FF5C' }} />
+              <span>{post.reading_time} min de lecture</span>
+            </div>
+            <span className="opacity-70">•</span>
+            <span>{new Date(post.date).toLocaleDateString("fr-FR")}</span>
+          </div>
+          <Link
+            href={`/blog/${post.slug}`}
+            className="px-4 xs:px-6 py-1.5 xs:py-2 rounded-full text-xs xs:text-sm font-medium mt-4 xs:mt-6 sm:mt-8 inline-block transition-colors
+              bg-[#E0FF5C] text-black hover:bg-[#D9FF4B]"
+          >
+            Lire l&apos;article
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+});
+
+FeaturedPost.displayName = "FeaturedPost";
 
 interface BlogCategoryClientSideProps {
   posts: BlogPost[];
@@ -30,7 +213,7 @@ interface BlogCategoryClientSideProps {
 }
 
 export default function BlogCategoryClientSide({
-  posts: blogPosts,
+  posts: initialPosts,
   category,
   initialPage = 1,
   totalPages,
@@ -39,15 +222,17 @@ export default function BlogCategoryClientSide({
   const isDark = currentTheme === "dark";
   const router = useRouter();
 
-  const featuredPost = blogPosts && blogPosts.length > 0 ? blogPosts[0] : null;
-
+  // États pour la gestion des posts et du chargement
   const [currentPage, setCurrentPage] = useState(initialPage);
+  const [displayedPosts, setDisplayedPosts] = useState<BlogPost[]>(initialPosts);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Ajout de logs pour le débogage
-  console.log("Total posts:", blogPosts.length);
-  console.log("Total pages:", totalPages);
-  console.log("Current page:", currentPage);
+  // Featured post est toujours le premier article de la première page
+  const featuredPost = useMemo(
+    () =>
+      currentPage === 1 && initialPosts.length > 0 ? initialPosts[0] : null,
+    [currentPage, initialPosts]
+  );
 
   // Construire l'URL de base pour la pagination
   const baseUrl = `/blog/category/${category.name
@@ -72,83 +257,86 @@ export default function BlogCategoryClientSide({
     [router, baseUrl]
   );
 
-  if (!blogPosts || blogPosts.length === 0) {
+  // Mettre à jour les posts affichés quand initialPosts change
+  useEffect(() => {
+    setDisplayedPosts(initialPosts);
+  }, [initialPosts]);
+
+  if (!initialPosts?.length) {
     return (
-      <div className="text-center py-20">
+      <div className="text-center py-20 text-black dark:text-white">
         Aucun article trouvé dans cette catégorie.
       </div>
     );
   }
 
   return (
-    <section className="w-full max-w-[100vw] pt-28 md:pt-32 pb-16 md:pb-24 relative overflow-hidden">
-      {/* Base Background gradient */}
+    <section
+      className={cn(
+        "w-full relative overflow-hidden pt-32 pb-16 md:pb-24 px-4 sm:px-6",
+        isDark ? "bg-black" : "bg-white"
+      )}
+    >
+      {/* Subtle top halo background */}
       <div
-        className="absolute inset-0 z-0"
+        aria-hidden="true"
+        className="pointer-events-none fixed top-0 left-0 right-0 h-[45vh] z-0"
         style={{
           background: isDark
-            ? `linear-gradient(180deg, ${theme.colors.common.black}, #E0FF5C)`
-            : `linear-gradient(180deg, ${theme.colors.common.white}, #E0FF5C)`,
+            ? `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.20) 0%, rgba(212,237,49,0.12) 15%, rgba(212,237,49,0.06) 35%, rgba(0,0,0,0.1) 55%, rgba(0,0,0,0) 75%)`
+            : `radial-gradient(ellipse at center 20%, rgba(212,237,49,0.25) 0%, rgba(212,237,49,0.15) 18%, rgba(212,237,49,0.08) 38%, rgba(255,255,255,0.1) 58%, rgba(255,255,255,0) 78%)`,
+          filter: 'blur(20px)'
         }}
       />
 
-      {/* Grain effect overlay */}
       <div
         className={cn(
-          "absolute inset-0 z-0 mix-blend-soft-light",
-          isDark ? "opacity-90" : "opacity-50"
+          "max-w-[1250px] mx-auto px-4 sm:px-6 py-8 md:py-12 relative z-10 rounded-2xl border",
+          isDark ? "border-white/10" : "border-black/5"
         )}
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.8'/%3E%3C/svg%3E\")",
-          backgroundRepeat: "repeat",
-          backgroundSize: "100px 100px",
-        }}
-      />
-
-      {/* Overlay gradient */}
-      <div
-        className="absolute bottom-0 left-0 right-0 z-[1]"
-        style={{
-          background: isDark
-            ? "linear-gradient(to top, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0) 100%)"
-            : "linear-gradient(to top, rgb(243, 244, 246) 0%, rgba(243, 244, 246, 1) 40%, rgba(243, 244, 246, 0) 100%)",
-          height: "25%",
-        }}
-      />
-
-      <div className="max-w-[1250px] mx-auto px-4 relative z-10">
+      >
+        {/* Background pattern */}
+        <div className="absolute inset-0 rounded-2xl -z-10">
+          <div
+            className="absolute inset-0 rounded-2xl"
+            style={{
+              backgroundImage: "url('/backgroundeffect.png')",
+              backgroundRepeat: "repeat",
+              backgroundSize: "200px",
+              opacity: isDark ? "0.25" : "0.04"
+            }}
+          />
+        </div>
         {/* Header */}
-        <div className="text-center mb-12 md:mb-16">
+        <div className="text-center mb-8 xs:mb-10 sm:mb-12 md:mb-16">
           <span
             className={cn(
-              "text-base mb-4 block font-semibold",
+              "text-sm xs:text-base mb-3 xs:mb-4 block font-semibold",
               isDark ? "text-[#E0FF5C]" : "text-black"
             )}
           >
-            Agence {category.name}
+            {category.name}
           </span>
           <h1
             className={cn(
-              "text-3xl md:text-5xl font-normal mb-4",
+              "text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-normal mb-3 xs:mb-4",
               isDark ? "text-white" : "text-black"
             )}
           >
             L&apos;actualité {category.name}
-            <br />
-            de notre agence
+            <br className="hidden xs:block" /> de notre agence
           </h1>
           <div
             className={cn(
-              "w-12 h-0.5 mx-auto mb-4",
+              "w-10 xs:w-12 h-0.5 mx-auto mb-3 xs:mb-4",
               isDark ? "bg-[#E0FF5C]" : "bg-black"
             )}
           />
           {category.description && (
             <p
               className={cn(
-                "text-base md:text-lg",
-                isDark ? "text-white/100" : "text-black"
+                "text-sm xs:text-base md:text-lg",
+                isDark ? "text-white/100" : "text-black/80"
               )}
             >
               {category.description}
@@ -156,46 +344,41 @@ export default function BlogCategoryClientSide({
           )}
         </div>
 
-        {/* Featured Post */}
+        {/* Hero section with featured image */}
         {featuredPost && (
-          <div className="relative w-full h-[40vh] md:h-[50vh] mb-16 rounded-3xl overflow-hidden shadow-xl">
+          <div className="relative w-full h-[35vh] xs:h-[40vh] sm:h-[45vh] md:h-[50vh] mb-12 xs:mb-14 sm:mb-16 rounded-2xl xs:rounded-3xl overflow-hidden shadow-xl">
             <img
               src={featuredPost.featured_image_url}
-              alt={featuredPost.title}
-              className="object-cover w-full h-full rounded-3xl"
-              loading="eager"
+              alt={cleanHtmlEntities(capitalizeTitle(featuredPost.title))}
+              className="object-cover rounded-2xl xs:rounded-3xl w-full h-full"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
-            <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-14">
+            <div className="absolute inset-0 flex flex-col justify-end p-4 xs:p-6 sm:p-8 md:p-14">
               <div className="max-w-5xl mx-auto w-full">
-                <div className="mb-4">
-                  <span className="inline-block px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-sm z-10">
-                    {featuredPost.category}
+                <div className="mb-3 xs:mb-4 flex flex-wrap gap-2">
+                  <span className="inline-block px-2 xs:px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-xs xs:text-sm">
+                    {featuredPost.category || "Blog"}
                   </span>
-                  <span
-                    className={cn(
-                      "text-sm uppercase tracking-wider font-semibold inline-block px-3 py-1 rounded-full",
-                      isDark
-                        ? "bg-[#E0FF5C] text-black"
-                        : "bg-black text-[#E0FF5C]"
-                    )}
-                  >
+                  <span className="text-xs xs:text-sm uppercase tracking-wider font-semibold inline-block px-2 xs:px-3 py-1 rounded-full bg-[#E0FF5C] text-black">
                     À la une
                   </span>
                 </div>
-                <h2 className="text-3xl md:text-5xl font-bold max-w-3xl mb-4 text-white">
-                  {decodeHTMLEntities(
-                    featuredPost.title.rendered || featuredPost.title
-                  )}
+                <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold max-w-3xl mb-3 xs:mb-4 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.7)]">
+                  {cleanHtmlEntities(capitalizeTitle(featuredPost.title))}
                 </h2>
-                <div className="text-white/80 flex flex-wrap items-center text-sm space-x-4 mt-4">
+                <div className="text-white/80 flex flex-wrap items-center text-xs xs:text-sm space-x-2 xs:space-x-4 mt-3 xs:mt-4">
                   <span>{featuredPost.author}</span>
                   <span>•</span>
                   <span>{featuredPost.reading_time} min de lecture</span>
+                  <span>•</span>
+                  <span>
+                    {new Date(featuredPost.date).toLocaleDateString("fr-FR")}
+                  </span>
                 </div>
                 <Link
                   href={`/blog/${featuredPost.slug}`}
-                  className="px-6 py-2 rounded-full text-sm font-medium mt-8 inline-block bg-[#E0FF5C] text-black"
+                  className="px-4 xs:px-6 py-1.5 xs:py-2 rounded-full text-xs xs:text-sm font-medium mt-4 xs:mt-6 sm:mt-8 inline-block transition-all
+                    bg-[#E0FF5C] text-black hover:bg-[#E0FF5C]/90"
                 >
                   Lire l&apos;article
                 </Link>
@@ -204,98 +387,51 @@ export default function BlogCategoryClientSide({
           </div>
         )}
 
-        {/* Blog grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 md:mb-16">
-          {blogPosts.map((post) => (
-            <Link
-              key={post.id}
-              href={`/blog/${post.slug}`}
-              className="group rounded-3xl overflow-hidden shadow-lg bg-[#E0FF5C]"
-            >
-              {/* Image */}
-              <div className="relative w-full h-[250px] overflow-hidden">
-                <img
-                  src={`${post.featured_image_url.replace(
-                    /\.(jpg|jpeg|png|gif)$/,
-                    "-400x250.$1"
-                  )}.webp`}
-                  alt={post.title}
-                  className="object-cover w-full h-full"
-                  loading="lazy"
-                  onError={(e) => {
-                    const target = e.currentTarget as HTMLImageElement;
-                    const originalUrl = post.featured_image_url;
-                    const jpgFallback = originalUrl.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1');
-                    if (target.src !== jpgFallback) {
-                      target.src = jpgFallback;
-                    }
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                {post.category && (
-                  <span className="absolute bottom-4 left-4 inline-block px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-sm z-10">
-                    {post.category}
-                  </span>
-                )}
+        {/* Blog grid avec état de chargement */}
+        <div className="relative">
+          {isLoading && (
+            <div className="absolute inset-0 bg-black/5 dark:bg-white/5 backdrop-blur-sm z-10 flex items-center justify-center rounded-xl">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-[#E0FF5C] rounded-full animate-bounce" />
+                <div className="w-2 h-2 bg-[#E0FF5C] rounded-full animate-bounce [animation-delay:0.2s]" />
+                <div className="w-2 h-2 bg-[#E0FF5C] rounded-full animate-bounce [animation-delay:0.4s]" />
               </div>
-
-              <div className="p-6 space-y-4">
-                <h3 className="text-xl font-semibold text-black">
-                  {decodeHTMLEntities(post.title.rendered || post.title)}
-                </h3>
-
-                <div
-                  className="text-black line-clamp-2"
-                  dangerouslySetInnerHTML={{ __html: post.excerpt }}
-                  style={{ color: "rgba(0, 0, 0, 0.9)" }}
-                />
-
-                <div className="flex items-center gap-2 text-sm text-black/70">
-                  <div className="w-6 h-6 rounded-full bg-black/10 flex items-center justify-center">
-                    <i className="ri-time-line text-sm" aria-hidden="true" />
-                  </div>
-                  {post.reading_time} min de lecture
-                </div>
-              </div>
-            </Link>
-          ))}
+            </div>
+          )}
+          <div
+            className={cn(
+              "grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 md:mb-16",
+              isLoading && "opacity-50"
+            )}
+          >
+            {displayedPosts.map((post) => (
+              <BlogCard key={post.id} post={post} />
+            ))}
+          </div>
         </div>
 
-        {/* Pagination avec support progressif */}
-        {totalPages > 1 && (
-          <div className="mb-16">
-            {isLoading ? (
-              <div className="flex justify-center items-center h-64">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-              </div>
-            ) : (
-              <>
-                {console.log("Rendering pagination with:", {
-                  totalPages,
-                  currentPage,
-                  hasNextPage: currentPage < totalPages,
-                  hasPrevPage: currentPage > 1,
-                  postsCount: blogPosts.length,
-                })}
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={handlePageChange}
-                  basePath={baseUrl}
-                />
-              </>
-            )}
-          </div>
-        )}
+        {/* Pagination */}
+        <div className="mt-12 mb-16">
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+            disabled={isLoading}
+          />
+        </div>
       </div>
 
-      {/* PreFooter Section */}
-      <div className="max-w-[1250px] mx-auto px-4 relative z-10">
-        <PreFooter noBgGradient />
-      </div>
+      <StickyShareButtons
+        url=""
+        title={`${category.name} | Blog UCLIC`}
+      />
 
+      <div className="relative z-10 w-full overflow-hidden mt-10 md:mt-16 pt-8 pb-16 md:pt-12 md:pb-24 px-4 sm:px-6">
+        <div className="max-w-[1250px] mx-auto">
+          <PreFooter/>
+        </div>
+      </div>
       <ScrollToTop />
-      <StickyShareButtons url="" title={`${category.name} | Blog UCLIC`} />
     </section>
   );
 }
