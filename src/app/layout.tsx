@@ -440,8 +440,8 @@ export default function RootLayout({
 
                 // Optimisation des polices
                 const criticalFonts = [
-                  { href: '/fonts/absans-regular.woff2', type: 'font/woff2' },
-                  { href: '/fonts/remixicon.woff2', type: 'font/woff2' }
+                  { href: '/absans-regular.woff', type: 'font/woff' },
+                  { href: '/remixicon.woff', type: 'font/woff' }
                 ];
 
                 criticalFonts.forEach(font => {
