@@ -266,7 +266,7 @@ function ProcessSteps() {
       )}
       style={{
         backgroundColor: isDark ? '#000000' : '#ffffff',
-        backgroundImage: isDark ? 'none' : `url(/backgroundstep.svg)`,
+        backgroundImage: isDark ? 'none' : `url(${require('@/lib/assets').getAssetUrl('/backgroundstep.svg')})`,
         backgroundPosition: 'right top',
         backgroundRepeat: 'no-repeat',
         backgroundSize: '30% auto'
@@ -277,7 +277,7 @@ function ProcessSteps() {
         <div 
           className="absolute inset-0 pointer-events-none z-0"
           style={{
-            backgroundImage: `url(/backgroundstep.svg)`,
+            backgroundImage: `url(${require('@/lib/assets').getAssetUrl('/backgroundstep.svg')})`,
             backgroundPosition: 'right top',
             backgroundRepeat: 'no-repeat',
             backgroundSize: '30% auto',
