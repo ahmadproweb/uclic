@@ -11,7 +11,7 @@ export default function ImageTest() {
       <div>
         <h3 className="text-lg font-semibold mb-2">Image Next.js normale</h3>
         <Image
-          src="/logo.png"
+          src={require('../../lib/assets').logoPngUrl}
           alt="Logo Uclic"
           width={200}
           height={100}
@@ -23,7 +23,7 @@ export default function ImageTest() {
       <div>
         <h3 className="text-lg font-semibold mb-2">Image avec lazy loading</h3>
         <Image
-          src="/heroo.png"
+          src={require('../../lib/assets').heroImageUrl}
           alt="Hero Image"
           width={400}
           height={300}
@@ -36,7 +36,7 @@ export default function ImageTest() {
       <div>
         <h3 className="text-lg font-semibold mb-2">Image avec priority</h3>
         <Image
-          src="/backgroundeffect.png"
+          src={require('../../lib/assets').backgroundEffectUrl}
           alt="Background Effect"
           width={300}
           height={200}
@@ -66,7 +66,7 @@ export default function ImageTest() {
       {/* Images en bas pour tester le lazy loading */}
       <div className="grid grid-cols-2 gap-4">
         <Image
-          src="/logo.png"
+          src={require('../../lib/assets').logoPngUrl}
           alt="Logo 1"
           width={150}
           height={75}
@@ -74,7 +74,7 @@ export default function ImageTest() {
           loading="lazy"
         />
         <Image
-          src="/heroo.png"
+          src={require('../../lib/assets').heroImageUrl}
           alt="Hero 1"
           width={150}
           height={75}
@@ -82,7 +82,7 @@ export default function ImageTest() {
           loading="lazy"
         />
         <Image
-          src="/backgroundeffect.png"
+          src={require('../../lib/assets').backgroundEffectUrl}
           alt="Background 1"
           width={150}
           height={75}
@@ -90,7 +90,7 @@ export default function ImageTest() {
           loading="lazy"
         />
         <Image
-          src="/logo.png"
+          src={require('../../lib/assets').logoPngUrl}
           alt="Logo 2"
           width={150}
           height={75}

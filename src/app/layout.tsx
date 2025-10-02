@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     siteName: "Uclic",
     images: [
       {
-        url: "https://www.uclic.fr/open.png",
+        url: "https://static.uclic.fr/open.png",
         width: 1200,
         height: 630,
         alt: "Uclic - Agence Growth Marketing & IA",

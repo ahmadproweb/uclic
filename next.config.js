@@ -9,6 +9,16 @@ const nextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
+  // Optimisations de performance critiques
+  generateEtags: true,
+  httpAgentOptions: {
+    keepAlive: true,
+    keepAliveMsecs: 1000,
+    maxSockets: 50,
+    maxFreeSockets: 10,
+    timeout: 60000,
+    freeSocketTimeout: 30000,
+  },
   devIndicators: {
     position: 'bottom-right',
   },
@@ -44,11 +54,16 @@ const nextConfig = {
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    domains: ['api.uclic.fr', 'ph-files.imgix.net', 'url2png.producthunt.com', 'secure.gravatar.com'],
+    domains: ['api.uclic.fr', 'media.uclic.fr', 'static.uclic.fr', 'ph-files.imgix.net', 'url2png.producthunt.com', 'secure.gravatar.com'],
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'api.uclic.fr',
+        pathname: '/wp-content/uploads/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'media.uclic.fr',
         pathname: '/wp-content/uploads/**',
       },
       {
