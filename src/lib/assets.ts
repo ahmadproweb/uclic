@@ -1,5 +1,5 @@
 export const ASSETS_BASE_URL: string =
-  process.env.NEXT_PUBLIC_ASSETS_BASE_URL ?? '';
+  process.env.NEXT_PUBLIC_ASSETS_BASE_URL ?? 'https://static.uclic.fr';
 
 export function getAssetUrl(path: string): string {
   if (!path) return path;

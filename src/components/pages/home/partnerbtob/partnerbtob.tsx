@@ -133,7 +133,7 @@ function PartnerBtoB() {
       <div 
         className="absolute inset-0 -z-10"
         style={{
-          backgroundImage: 'url("/backgroundeffect.png")',
+          backgroundImage: `url(${require('@/lib/assets').backgroundEffectUrl})`,
           backgroundRepeat: 'repeat',
           backgroundSize: '200px',
           opacity: isDark ? 0.25 : 0.04

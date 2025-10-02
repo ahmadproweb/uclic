@@ -190,17 +190,17 @@ const MainMenu = memo(
                 {/* Ligne 1 */}
                 <div className="flex items-center space-x-2">
                   <img
-                    src="/partners/louisvuitton.png"
+                    src={require('@/lib/assets').getAssetUrl('/partners/louisvuitton.png')}
                     alt="Logo Louis Vuitton"
                     className="h-4 w-auto object-contain brightness-0 dark:invert"
                   />
                   <img
-                    src="/partners/lemonde.png"
+                    src={require('@/lib/assets').getAssetUrl('/partners/lemonde.png')}
                     alt="Logo Le Monde"
                     className="h-4 w-auto object-contain brightness-0 dark:invert"
                   />
                   <img
-                    src="/partners/tehtris.png"
+                    src={require('@/lib/assets').getAssetUrl('/partners/tehtris.png')}
                     alt="Logo Tehtris"
                     className="h-4 w-auto object-contain brightness-0 dark:invert"
                   />
@@ -208,17 +208,17 @@ const MainMenu = memo(
                 {/* Ligne 2 */}
                 <div className="flex items-center space-x-2">
                   <img
-                    src="/partners/oreal.png"
+                    src={require('@/lib/assets').getAssetUrl('/partners/oreal.png')}
                     alt="Logo L'Oréal"
                     className="h-4 w-auto object-contain brightness-0 dark:invert"
                   />
                   <img
-                    src="/partners/agicap.png"
+                    src={require('@/lib/assets').getAssetUrl('/partners/agicap.png')}
                     alt="Logo Agicap"
                     className="h-4 w-auto object-contain brightness-0 dark:invert"
                   />
                   <img
-                    src="/partners/deepki.png"
+                    src={require('@/lib/assets').getAssetUrl('/partners/deepki.png')}
                     alt="Logo Deepki"
                     className="h-4 w-auto object-contain brightness-0 dark:invert"
                   />
@@ -226,17 +226,17 @@ const MainMenu = memo(
                 {/* Ligne 3 */}
                 <div className="flex items-center space-x-2">
                   <img
-                    src="/partners/muzzo.png"
+                    src={require('@/lib/assets').getAssetUrl('/partners/muzzo.png')}
                     alt="Logo Muzzo"
                     className="h-4 w-auto object-contain brightness-0 dark:invert"
                   />
                   <img
-                    src="/partners/codingame.png"
+                    src={require('@/lib/assets').getAssetUrl('/partners/codingame.png')}
                     alt="Logo CodinGame"
                     className="h-4 w-auto object-contain brightness-0 dark:invert"
                   />
                   <img
-                    src="/partners/floa.png"
+                    src={require('@/lib/assets').getAssetUrl('/partners/floa.png')}
                     alt="Logo Floa"
                     className="h-4 w-auto object-contain brightness-0 dark:invert"
                   />

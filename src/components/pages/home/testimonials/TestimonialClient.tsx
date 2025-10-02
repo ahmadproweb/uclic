@@ -74,7 +74,7 @@ const TestimonialCard = memo(({ testimonial, isDark, index, isMasonry = false }:
       >
         {testimonial.imageTesti && (
           <img 
-            src={testimonial.imageTesti} 
+            src={require('@/lib/assets').getAssetUrl(`/${testimonial.imageTesti}`)} 
             alt={`Photo de ${testimonial.title}`}
             className="w-full h-full object-cover rounded-full block"
             loading="lazy"

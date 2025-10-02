@@ -68,6 +68,11 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'static.uclic.fr',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
         hostname: 'ph-files.imgix.net',
         pathname: '/**',
       },
