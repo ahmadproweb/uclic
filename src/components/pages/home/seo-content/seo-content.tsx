@@ -181,7 +181,7 @@ const SEOContentSection = memo(function SEOContentSection() {
           <div 
             className="absolute inset-0 pointer-events-none opacity-[0.03] z-0"
             style={{
-              backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+              backgroundImage: "url('/backgroundeffect.png')",
               backgroundRepeat: "repeat",
               backgroundSize: "200px"
             }}

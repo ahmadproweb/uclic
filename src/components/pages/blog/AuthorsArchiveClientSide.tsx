@@ -49,7 +49,7 @@ export default function AuthorsArchiveClientSide({
           <div
             className="absolute inset-0 rounded-2xl"
             style={{
-              backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+              backgroundImage: "url('/backgroundeffect.png')",
               backgroundRepeat: "repeat",
               backgroundSize: "200px",
               opacity: isDark ? "0.25" : "0.04"
@@ -93,7 +93,7 @@ export default function AuthorsArchiveClientSide({
               <div
                 className="absolute inset-0 rounded-xl -z-10"
                 style={{
-                  backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+                  backgroundImage: "url('/backgroundeffect.png')",
                   backgroundRepeat: "repeat",
                   backgroundSize: "200px",
                   opacity: isDark ? "0.4" : "0.04"

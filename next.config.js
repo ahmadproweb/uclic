@@ -5,6 +5,7 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
+  swcMinify: true,
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
@@ -31,7 +32,13 @@ const nextConfig = {
     optimisticClientCache: true,
     serverActions: {
       bodySizeLimit: '2mb'
-    }
+    },
+  },
+  modularizeImports: {
+    'lucide-react': {
+      transform: 'lucide-react/dist/esm/icons/{{kebabCase member}}',
+      skipDefaultConversion: true,
+    },
   },
   images: {
     formats: ['image/avif', 'image/webp'],
@@ -102,6 +109,10 @@ const nextConfig = {
           {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable'
+          },
+          {
+            key: 'Expires',
+            value: 'Thu, 31 Dec 2025 23:59:59 GMT'
           }
         ]
       },
@@ -112,6 +123,20 @@ const nextConfig = {
           {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable'
+          },
+          {
+            key: 'Expires',
+            value: 'Thu, 31 Dec 2025 23:59:59 GMT'
+          }
+        ]
+      },
+      {
+        // API routes - cache court
+        source: '/api/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=300, s-maxage=300'
           }
         ]
       },

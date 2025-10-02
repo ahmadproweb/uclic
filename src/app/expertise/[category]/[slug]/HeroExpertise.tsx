@@ -17,7 +17,7 @@ const HeroBackground = memo(function HeroBackground() {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 z-0"
         style={{
-          backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+          backgroundImage: "url('/backgroundeffect.png')",
           backgroundRepeat: 'repeat',
           backgroundSize: '200px',
           opacity: isDark ? 0.12 : 0.04

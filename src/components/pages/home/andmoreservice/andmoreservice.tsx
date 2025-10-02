@@ -248,7 +248,7 @@ export default function AndMoreService({ children }: AndMoreServiceProps) {
       <div 
         className="absolute inset-0 z-0"
         style={{
-          backgroundImage: 'url("https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png")',
+          backgroundImage: 'url("/backgroundeffect.png")',
           backgroundRepeat: 'repeat',
           backgroundSize: '200px',
           opacity: isDark ? 0.15 : 0.08

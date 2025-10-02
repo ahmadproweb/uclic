@@ -116,7 +116,7 @@ export default function LeveePage({
           <div
             className="absolute inset-0 rounded-2xl"
             style={{
-              backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+              backgroundImage: "url('/backgroundeffect.png')",
               backgroundRepeat: "repeat",
               backgroundSize: "200px",
               opacity: "0.04"
@@ -281,7 +281,7 @@ export default function LeveePage({
                   <div
                     className="absolute inset-0 rounded-3xl -z-10"
                     style={{
-                      backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+                      backgroundImage: "url('/backgroundeffect.png')",
                       backgroundRepeat: "repeat",
                       backgroundSize: "200px",
                       opacity: "0.04"
@@ -330,7 +330,7 @@ export default function LeveePage({
               <div
                 className="absolute inset-0 rounded-3xl -z-10"
                 style={{
-                  backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')",
+                  backgroundImage: "url('/backgroundeffect.png')",
                   backgroundRepeat: "repeat",
                   backgroundSize: "200px",
                   opacity: "0.04"

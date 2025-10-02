@@ -97,32 +97,6 @@ export default function RootLayout({
         <Script id="performance-optimizations" strategy="afterInteractive">
           {`
             const deferredInit = () => {
-              // Lazy loading avec IntersectionObserver
-              if ('IntersectionObserver' in window) {
-                const loadImage = (img) => {
-                  const src = img.dataset.src;
-                  if (src) {
-                    img.src = src;
-                    img.removeAttribute('data-src');
-                  }
-                };
-
-                const imageObserver = new IntersectionObserver(
-                  (entries, observer) => {
-                    entries.forEach(entry => {
-                      if (entry.isIntersecting) {
-                        loadImage(entry.target);
-                        observer.unobserve(entry.target);
-                      }
-                    });
-                  },
-                  { rootMargin: '50px' }
-                );
-
-                document.querySelectorAll('img[loading="lazy"][data-src]')
-                  .forEach(img => imageObserver.observe(img));
-              }
-
               // Web Vitals optimisé
               if ('PerformanceObserver' in window) {
                 try {
@@ -259,6 +233,240 @@ export default function RootLayout({
             </SpotifyPlayerProvider>
           </VideoPopupProvider>
         </ThemeProvider>
+
+        {/* Optimisations PageSpeed - Scripts lazy loading */}
+        <Script
+          id="pagespeed-optimizations"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              // Lazy loading des scripts basé sur les interactions
+              (function() {
+                let scriptsLoaded = false;
+                const scripts = [
+                  {
+                    src: 'https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID',
+                    id: 'google-analytics',
+                    priority: 'low',
+                    delay: 3000,
+                    condition: () => !document.querySelector('#google-analytics')
+                  },
+                  {
+                    src: 'https://platform.linkedin.com/in.js',
+                    id: 'linkedin-script',
+                    priority: 'low',
+                    delay: 5000,
+                    condition: () => !document.querySelector('#linkedin-script')
+                  }
+                ];
+
+                function loadScript(script) {
+                  return new Promise((resolve, reject) => {
+                    // Vérifier la condition avant de charger
+                    if (script.condition && !script.condition()) {
+                      resolve();
+                      return;
+                    }
+
+                    const scriptElement = document.createElement('script');
+                    scriptElement.src = script.src;
+                    scriptElement.async = true;
+                    scriptElement.defer = true;
+                    
+                    if (script.id) {
+                      scriptElement.id = script.id;
+                    }
+
+                    scriptElement.onload = () => {
+                      console.log('Script loaded:', script.src);
+                      resolve();
+                    };
+
+                    scriptElement.onerror = () => {
+                      console.warn('Failed to load script:', script.src);
+                      reject();
+                    };
+
+                    document.head.appendChild(scriptElement);
+                  });
+                }
+
+                function loadScriptsByPriority() {
+                  if (scriptsLoaded) return;
+                  scriptsLoaded = true;
+
+                  const highPriority = scripts.filter(s => s.priority === 'high' || !s.priority);
+                  const mediumPriority = scripts.filter(s => s.priority === 'medium');
+                  const lowPriority = scripts.filter(s => s.priority === 'low');
+
+                  // Charger les scripts haute priorité immédiatement
+                  highPriority.forEach(script => {
+                    loadScript(script).catch(() => {});
+                  });
+
+                  // Charger les scripts moyenne priorité avec un délai
+                  setTimeout(() => {
+                    mediumPriority.forEach(script => {
+                      loadScript(script).catch(() => {});
+                    });
+                  }, 100);
+
+                  // Charger les scripts basse priorité avec un délai plus long
+                  setTimeout(() => {
+                    lowPriority.forEach(script => {
+                      loadScript(script).catch(() => {});
+                    });
+                  }, 500);
+                }
+
+                // Déclencheurs d'interaction
+                const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
+                let triggered = false;
+
+                function handleInteraction() {
+                  if (!triggered) {
+                    triggered = true;
+                    loadScriptsByPriority();
+                    
+                    // Supprimer les listeners après le premier déclenchement
+                    events.forEach(event => {
+                      document.removeEventListener(event, handleInteraction);
+                    });
+                  }
+                }
+
+                // Ajouter les listeners d'interaction
+                events.forEach(event => {
+                  document.addEventListener(event, handleInteraction, { passive: true, once: true });
+                });
+
+                // Déclencheur de scroll
+                window.addEventListener('scroll', () => {
+                  if (!triggered) {
+                    handleInteraction();
+                  }
+                }, { passive: true });
+
+                // Intersection Observer pour le viewport
+                if ('IntersectionObserver' in window) {
+                  const observer = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                      if (entry.isIntersecting && !triggered) {
+                        handleInteraction();
+                      }
+                    });
+                  }, { threshold: 0.1 });
+
+                  observer.observe(document.body);
+                }
+
+                // Optimisation des images (seulement pour les images avec data-src)
+                function optimizeImages() {
+                  const images = document.querySelectorAll('img[data-src]');
+                  
+                  if ('IntersectionObserver' in window) {
+                    const imageObserver = new IntersectionObserver((entries) => {
+                      entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                          const img = entry.target;
+                          const src = img.getAttribute('data-src');
+                          
+                          if (src) {
+                            img.src = src;
+                            img.removeAttribute('data-src');
+                            
+                            // Ajouter un effet de fade-in seulement si l'image n'est pas déjà chargée
+                            if (!img.complete) {
+                              img.style.transition = 'opacity 0.3s ease-in-out';
+                              img.style.opacity = '0';
+                              
+                              img.onload = () => {
+                                img.style.opacity = '1';
+                              };
+                            }
+                          }
+                          
+                          imageObserver.unobserve(img);
+                        }
+                      });
+                    }, {
+                      rootMargin: '50px 0px',
+                      threshold: 0.1
+                    });
+
+                    images.forEach(img => imageObserver.observe(img));
+                  }
+                }
+
+                // Délayer l'optimisation des images
+                setTimeout(optimizeImages, 500);
+
+                // Préconnexion optimisée (max 4 comme recommandé par Lighthouse)
+                const criticalDomains = [
+                  'https://fonts.googleapis.com',
+                  'https://fonts.gstatic.com',
+                  'https://api.uclic.fr',
+                  'https://ph-files.imgix.net'
+                ];
+
+                // DNS Prefetch pour tous les domaines
+                const allDomains = [
+                  'https://fonts.googleapis.com',
+                  'https://fonts.gstatic.com',
+                  'https://www.google-analytics.com',
+                  'https://www.googletagmanager.com',
+                  'https://api.uclic.fr',
+                  'https://ph-files.imgix.net',
+                  'https://secure.gravatar.com',
+                  'https://platform.linkedin.com',
+                  'https://cdn.jsdelivr.net'
+                ];
+
+                allDomains.forEach(domain => {
+                  const dnsLink = document.createElement('link');
+                  dnsLink.rel = 'dns-prefetch';
+                  dnsLink.href = domain;
+                  document.head.appendChild(dnsLink);
+                });
+
+                // Preconnect seulement pour les domaines critiques (max 4)
+                criticalDomains.forEach(domain => {
+                  const preconnectLink = document.createElement('link');
+                  preconnectLink.rel = 'preconnect';
+                  preconnectLink.href = domain;
+                  preconnectLink.crossOrigin = 'anonymous';
+                  document.head.appendChild(preconnectLink);
+                });
+
+                // Optimisation des polices
+                const criticalFonts = [
+                  { href: '/fonts/absans-regular.woff2', type: 'font/woff2' },
+                  { href: '/fonts/remixicon.woff2', type: 'font/woff2' }
+                ];
+
+                criticalFonts.forEach(font => {
+                  const link = document.createElement('link');
+                  link.rel = 'preload';
+                  link.href = font.href;
+                  link.as = 'font';
+                  link.type = font.type;
+                  link.crossOrigin = 'anonymous';
+                  document.head.appendChild(link);
+                });
+
+                // Optimiser le chargement des Google Fonts
+                const googleFontsLink = document.querySelector('link[href*="fonts.googleapis.com"]');
+                if (googleFontsLink) {
+                  const href = googleFontsLink.getAttribute('href');
+                  if (href && !href.includes('display=swap')) {
+                    const separator = href.includes('?') ? '&' : '?';
+                    googleFontsLink.setAttribute('href', href + separator + 'display=swap');
+                  }
+                }
+              })();
+            `
+          }}
+        />
       </body>
     </html>
   );

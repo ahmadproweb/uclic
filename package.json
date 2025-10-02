@@ -7,7 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "optimize-images": "node scripts/optimize-images.js"
+    "optimize-images": "node scripts/optimize-images.js",
+    "optimize-performance": "node scripts/optimize-performance.js",
+    "build:optimized": "npm run optimize-performance && npm run build",
+    "analyze-bundle": "ANALYZE=true npm run build",
+    "optimize-images-advanced": "node scripts/optimize-images-advanced.js",
+    "optimize-all": "npm run optimize-images-advanced && npm run optimize-performance && npm run build"
   },
   "dependencies": {
     "@emailjs/browser": "^4.3.3",

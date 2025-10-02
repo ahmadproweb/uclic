@@ -142,7 +142,7 @@ export default function ExpertisePartners({ title, subtitle }: ExpertisePartners
       <div 
         className="absolute inset-0 -z-10"
         style={{
-          backgroundImage: 'url("https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png")',
+          backgroundImage: 'url("/backgroundeffect.png")',
           backgroundRepeat: 'repeat',
           backgroundSize: '200px',
           opacity: isDark ? 0.25 : 0.04

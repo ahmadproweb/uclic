@@ -367,7 +367,7 @@ export const MobileMenu = memo(
           <div 
             className="pointer-events-none absolute inset-0 z-0" 
             style={{
-              backgroundImage: "url('https://framerusercontent.com/images/g0QcWrxr87K0ufOxIUFBakwYA8.png')", 
+              backgroundImage: "url('/backgroundeffect.png')", 
               backgroundRepeat: 'repeat', 
               backgroundSize: '200px', 
               opacity: isDark ? 0.03 : 0.04
