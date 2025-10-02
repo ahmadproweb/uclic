@@ -181,7 +181,7 @@ const SEOContentSection = memo(function SEOContentSection() {
           <div 
             className="absolute inset-0 pointer-events-none opacity-[0.03] z-0"
             style={{
-              backgroundImage: "url('/backgroundeffect.png')",
+              backgroundImage: `url(${require('@/lib/assets').backgroundEffectUrl})`,
               backgroundRepeat: "repeat",
               backgroundSize: "200px"
             }}

@@ -41,7 +41,7 @@ export default function TeamPageClient({ members }: TeamPageClientProps) {
             <div
               className="absolute inset-0 rounded-2xl"
               style={{
-                backgroundImage: "url('/backgroundeffect.png')",
+                backgroundImage: `url(${require('@/lib/assets').backgroundEffectUrl})`,
                 backgroundRepeat: "repeat",
                 backgroundSize: "200px",
                 opacity: isDark ? "0.25" : "0.04"
@@ -93,7 +93,7 @@ export default function TeamPageClient({ members }: TeamPageClientProps) {
                 <div
                   className="absolute inset-0 rounded-3xl z-0 pointer-events-none"
                   style={{
-                    backgroundImage: "url('/backgroundeffect.png')",
+                    backgroundImage: `url(${require('@/lib/assets').backgroundEffectUrl})`,
                     backgroundRepeat: "repeat",
                     backgroundSize: "200px",
                     opacity: isDark ? "0.4" : "0.04"

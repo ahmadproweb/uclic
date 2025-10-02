@@ -14,7 +14,7 @@ export default function HeroBackground() {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 z-0"
         style={{
-          backgroundImage: "url('/backgroundeffect.png')",
+          backgroundImage: `url(${require('@/lib/assets').backgroundEffectUrl})`,
           backgroundRepeat: 'repeat',
           backgroundSize: '200px',
           opacity: isDark ? 0.12 : 0.04

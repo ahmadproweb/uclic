@@ -127,7 +127,7 @@ export default function LegalPageClient({
           <div
             className="absolute inset-0 rounded-2xl"
             style={{
-              backgroundImage: "url('/backgroundeffect.png')",
+              backgroundImage: `url(${require('@/lib/assets').backgroundEffectUrl})`,
               backgroundRepeat: "repeat",
               backgroundSize: "200px",
               opacity: isDark ? "0.25" : "0.04"

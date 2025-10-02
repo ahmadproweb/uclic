@@ -149,7 +149,7 @@ const BackgroundSpiral = memo(({ isDark }: { isDark: boolean }) => (
       "animate-fade-in-up"
     )}
     style={{
-      maskImage: 'url("/spiral.svg")',
+      maskImage: `url(${require('@/lib/assets').getAssetUrl('/spiral.svg')})`,
       maskSize: 'contain',
       maskRepeat: 'no-repeat',
       backgroundColor: isDark ? theme.colors.primary.main : 'black',

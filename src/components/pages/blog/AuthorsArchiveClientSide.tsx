@@ -49,7 +49,7 @@ export default function AuthorsArchiveClientSide({
           <div
             className="absolute inset-0 rounded-2xl"
             style={{
-              backgroundImage: "url('/backgroundeffect.png')",
+              backgroundImage: `url(${require('@/lib/assets').backgroundEffectUrl})`,
               backgroundRepeat: "repeat",
               backgroundSize: "200px",
               opacity: isDark ? "0.25" : "0.04"
@@ -93,7 +93,7 @@ export default function AuthorsArchiveClientSide({
               <div
                 className="absolute inset-0 rounded-xl -z-10"
                 style={{
-                  backgroundImage: "url('/backgroundeffect.png')",
+                  backgroundImage: `url(${require('@/lib/assets').backgroundEffectUrl})`,
                   backgroundRepeat: "repeat",
                   backgroundSize: "200px",
                   opacity: isDark ? "0.4" : "0.04"
