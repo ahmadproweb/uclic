@@ -736,13 +736,20 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
               borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)",
             }}
           >
-            <img
-              src={post.featured_image_url}
-              alt={cleanHtmlEntities(post.title)}
-              className="absolute inset-0 w-full h-full object-cover"
-              width="1200"
-              height="800"
-              loading="eager"
+             <img
+               src={`${post.featured_image_url.replace(/\.(jpg|jpeg|png|gif)$/,'.$1')}.webp`}
+               alt={cleanHtmlEntities(post.title)}
+               className="absolute inset-0 w-full h-full object-cover"
+               width="1200"
+               height="800"
+               loading="eager"
+               onError={(e) => {
+                 const target = e.currentTarget as HTMLImageElement;
+                 const originalUrl = post.featured_image_url;
+                 if (target.src !== originalUrl) {
+                   target.src = originalUrl;
+                 }
+               }}
             />
             {/* Gradient overlay plus fort en bas pour le texte */}
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30"></div>

@@ -6,8 +6,15 @@ const nextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
   swcMinify: true,
+  
+  // Optimiser pour les navigateurs modernes
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
+  },
+  
+  // Configuration SWC pour navigateurs modernes
+  experimental: {
+    forceSwcTransforms: true,
   },
   // Optimisations de performance critiques
   generateEtags: true,
@@ -152,7 +159,11 @@ const nextConfig = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=86400, stale-while-revalidate=604800'
+            value: 'public, max-age=31536000, immutable'
+          },
+          {
+            key: 'Expires',
+            value: 'Thu, 31 Dec 2025 23:59:59 GMT'
           }
         ]
       },

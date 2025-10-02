@@ -154,7 +154,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
         <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
       </head>
-      <body className="overflow-x-hidden">
+      <body className="overflow-x-hidden" suppressHydrationWarning={true}>
         <Script id="website-schema" type="application/ld+json" strategy="afterInteractive">
           {JSON.stringify({
             "@context": "https://schema.org",
@@ -246,30 +246,28 @@ export default function RootLayout({
                 let scriptsLoaded = false;
                 const scripts = [
                   {
-                    src: 'https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID',
+                    src: 'https://www.googletagmanager.com/gtag/js?id=GTM-P6CSQ32',
                     id: 'google-analytics',
                     priority: 'low',
-                    delay: 3000,
-                    condition: () => !document.querySelector('#google-analytics')
+                    delay: 3000
                   },
                   {
                     src: 'https://platform.linkedin.com/in.js',
                     id: 'linkedin-script',
                     priority: 'low',
-                    delay: 15000,
-                    condition: () => !document.querySelector('#linkedin-script')
+                    delay: 15000
                   }
                 ];
 
                 function loadScript(script) {
-                  return new Promise((resolve, reject) => {
-                    // Vérifier la condition avant de charger
-                    if (script.condition && !script.condition()) {
+                  return new Promise(function(resolve, reject) {
+                    // Vérifier si le script existe déjà
+                    if (script.id && document.querySelector('#' + script.id)) {
                       resolve();
                       return;
                     }
 
-                    const scriptElement = document.createElement('script');
+                    var scriptElement = document.createElement('script');
                     scriptElement.src = script.src;
                     scriptElement.async = true;
                     scriptElement.defer = true;
@@ -278,12 +276,12 @@ export default function RootLayout({
                       scriptElement.id = script.id;
                     }
 
-                    scriptElement.onload = () => {
+                    scriptElement.onload = function() {
                       console.log('Script loaded:', script.src);
                       resolve();
                     };
 
-                    scriptElement.onerror = () => {
+                    scriptElement.onerror = function() {
                       console.warn('Failed to load script:', script.src);
                       reject();
                     };
@@ -550,7 +548,7 @@ export default function RootLayout({
                 // Lancer l'optimisation après le chargement initial
                 setTimeout(optimizeMainThread, 100);
 
-                // Précharger les CSS critiques
+                // Précharger les CSS critiques avec onload
                 const criticalCSS = [
                   '/globals.css',
                   '/_next/static/css/app/layout.css'
@@ -561,7 +559,21 @@ export default function RootLayout({
                   link.rel = 'preload';
                   link.href = href;
                   link.as = 'style';
+                  link.onload = function() {
+                    this.rel = 'stylesheet';
+                  };
                   document.head.appendChild(link);
+                });
+
+                // Déferrer les CSS non-critiques
+                const nonCriticalCSS = document.querySelectorAll('link[rel="stylesheet"]:not([data-critical])');
+                nonCriticalCSS.forEach((link, index) => {
+                  if (index > 0) {
+                    link.media = 'print';
+                    link.onload = function() {
+                      this.media = 'all';
+                    };
+                  }
                 });
               })();
             `
