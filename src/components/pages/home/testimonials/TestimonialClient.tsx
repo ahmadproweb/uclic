@@ -351,14 +351,19 @@ const LinkedInVideoCard = memo(({ isDark }: { isDark: boolean }) => (
         
         {/* Video Player */}
         <div className="mb-4 rounded-2xl overflow-hidden">
-          <video 
-            controls 
+          {/* Lazy video */}
+          {(() => {
+            const LazyVideo = require('../../../optimization/LazyVideo').default;
+            return (
+              <LazyVideo
+            src="/webinar-growthhacking-linkedin-linkedintips-linkedin-wladimir-delcros.mp4#t=0.1"
             className="w-full aspect-video object-cover"
-            preload="metadata"
-          >
-            <source src="/webinar-growthhacking-linkedin-linkedintips-linkedin-wladimir-delcros.mp4#t=0.1" type="video/mp4" />
-            Votre navigateur ne supporte pas la lecture de vidéos.
-          </video>
+            preload="none"
+            poster="/open.png"
+            onVisiblePlay={false}
+              />
+            );
+          })()}
         </div>
         
         {/* Publié par */}
@@ -418,14 +423,18 @@ const LaGrowthMachineVideoCard = memo(({ isDark }: { isDark: boolean }) => (
         
         {/* Video Player */}
         <div className="mb-4 rounded-2xl overflow-hidden">
-          <video 
-            controls 
+          {(() => {
+            const LazyVideo = require('../../../optimization/LazyVideo').default;
+            return (
+              <LazyVideo
+            src="/lagrowthmachine-wladimir-delcros.mp4#t=20"
             className="w-full aspect-video object-cover"
-            preload="metadata"
-          >
-            <source src="/lagrowthmachine-wladimir-delcros.mp4#t=20" type="video/mp4" />
-            Votre navigateur ne supporte pas la lecture de vidéos.
-          </video>
+            preload="none"
+            poster="/open.png"
+            onVisiblePlay={false}
+              />
+            );
+          })()}
         </div>
         
         {/* Présenté par */}

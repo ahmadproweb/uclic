@@ -91,7 +91,7 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
-        <link rel="preload" href="/fonts/absans-regular.woff" as="font" type="font/woff" crossOrigin="anonymous" />
+        <link rel="preload" href="/absans-regular.woff" as="font" type="font/woff" crossOrigin="anonymous" />
         <link rel="preload" href="/logo.svg" as="image" />
 
         <Script id="performance-optimizations" strategy="afterInteractive">
