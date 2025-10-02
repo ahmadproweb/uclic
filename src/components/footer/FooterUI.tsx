@@ -33,7 +33,7 @@ FooterLogo.displayName = 'FooterLogo';
 
 const FooterLinks = memo(({ isDark, title, links }: { isDark: boolean; title: string; links: Array<{ href: string; text: string }> }) => (
   <div className="col-span-1 md:col-span-3 mb-8 md:mb-0">
-    <h3 className={`text-sm md:text-base font-bold mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>{title}</h3>
+    <span className={`text-sm md:text-base font-bold mb-4 block ${isDark ? 'text-white' : 'text-gray-900'}`}>{title}</span>
     <ul className="space-y-2 md:space-y-4">
       {links.map(({ href, text }) => (
         <li key={href}>

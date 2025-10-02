@@ -12,24 +12,13 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === 'production',
   },
   
-  // Configuration SWC pour navigateurs modernes
+  // Configuration SWC pour navigateurs modernes - Optimisation performance
   experimental: {
     forceSwcTransforms: true,
-  },
-  // Optimisations de performance critiques
-  generateEtags: true,
-  httpAgentOptions: {
-    keepAlive: true,
-    keepAliveMsecs: 1000,
-    maxSockets: 50,
-    maxFreeSockets: 10,
-    timeout: 60000,
-    freeSocketTimeout: 30000,
-  },
-  devIndicators: {
-    position: 'bottom-right',
-  },
-  experimental: {
+    // Optimisation pour navigateurs modernes
+    modernBrowsers: true,
+    // Réduction des polyfills inutiles
+    reducePolyfills: true,
     optimizeCss: true,
     optimizePackageImports: [
       '@heroicons/react',

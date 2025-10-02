@@ -30,11 +30,13 @@ const LeftContent = memo(({ isDark }: { isDark: boolean }) => (
         opacity: isDark ? "0.25" : "0.04"
       }}
     />
-    <h2
-      className="text-3xl md:text-5xl font-normal mb-4 animate-fade-in-up text-black dark:text-white"
+    <span
+      className="text-3xl md:text-5xl font-normal mb-4 animate-fade-in-up text-black dark:text-white block"
+      role="text"
+      aria-label="Prêt à automatiser votre croissance avec l'IA ?"
     >
       Prêt à automatiser votre croissance avec l&apos;IA ?
-    </h2>
+    </span>
     <p
       className="text-base md:text-lg mb-8 animate-fade-in-up text-black dark:text-white"
       style={{ animationDelay: '100ms' }}

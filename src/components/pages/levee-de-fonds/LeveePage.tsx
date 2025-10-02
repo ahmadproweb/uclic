@@ -105,12 +105,12 @@ export default function LeveePage({
       />
 
 
-      <div
-        className={cn(
-          "max-w-[1250px] mx-auto px-4 sm:px-6 py-8 md:py-12 relative z-10 rounded-2xl border overflow-hidden",
-          "border-black/5 dark:border-white/10"
-        )}
-      >
+        <div
+          className={cn(
+            "max-w-[1250px] mx-auto px-4 sm:px-6 py-8 md:py-12 relative z-10 rounded-2xl border overflow-hidden",
+            "bg-white/90 dark:bg-black/90 border-black/5 dark:border-white/10"
+          )}
+        >
         {/* Background pattern */}
         <div className="absolute inset-0 rounded-2xl -z-10">
           <div
@@ -139,6 +139,9 @@ export default function LeveePage({
               alt={post.featuredImage?.node.altText || post.title}
               className="object-cover w-full h-full"
               loading="eager"
+              fetchPriority="high"
+              width="1200"
+              height="800"
             />
             {/* Gradient overlay plus fort en bas pour le texte */}
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30" />
@@ -275,7 +278,7 @@ export default function LeveePage({
             <div className="w-full lg:w-72 shrink-0 order-2 lg:order-1 relative">
               <div className="hidden lg:block">
                 <div 
-                  className="p-6 rounded-3xl border backdrop-blur-md relative bg-transparent border-black/5 dark:border-white/10"
+                  className="p-6 rounded-3xl border backdrop-blur-md relative bg-white/80 dark:bg-black/80 border-black/5 dark:border-white/10"
                 >
                   {/* Background pattern */}
                   <div
@@ -295,10 +298,10 @@ export default function LeveePage({
                       filter: 'blur(12px)',
                     }}
                   />
-                  <h4 className="text-sm sm:text-base font-medium mb-2 sm:mb-3 relative z-20 text-black dark:text-white">
+                  <span className="text-sm sm:text-base font-medium mb-2 sm:mb-3 relative z-20 text-black dark:text-white block">
                     Table des matières
-                  </h4>
-                  <nav className="space-y-1 sm:space-y-1.5 max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-black/10 hover:scrollbar-thumb-black/20 dark:scrollbar-thumb-white/10 dark:hover:scrollbar-thumb-white/20 relative z-20">
+                  </span>
+                  <span className="space-y-1 sm:space-y-1.5 max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-black/10 hover:scrollbar-thumb-black/20 dark:scrollbar-thumb-white/10 dark:hover:scrollbar-thumb-white/20 relative z-20 block">
                     {tocItems.map((item) => (
                       <a
                         key={item.id}
@@ -316,7 +319,7 @@ export default function LeveePage({
                         {decodeHtmlEntitiesServer(item.text)}
                       </a>
                     ))}
-                  </nav>
+                  </span>
                 </div>
               </div>
             </div>
@@ -324,7 +327,7 @@ export default function LeveePage({
           {/* Main content */}
           <div className="flex-1 order-1 lg:order-2">
             <div 
-              className="rounded-3xl border backdrop-blur-md relative p-6 sm:p-8 bg-transparent border-black/5 dark:border-white/10"
+              className="rounded-3xl border backdrop-blur-md relative p-6 sm:p-8 bg-white/80 dark:bg-black/80 border-black/5 dark:border-white/10"
             >
               {/* Background pattern */}
               <div

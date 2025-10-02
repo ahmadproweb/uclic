@@ -53,13 +53,26 @@ function RelatedLeveeCard({ post }: { post: LeveePost }) {
       />
       <div className="relative w-full h-48 overflow-hidden">
         <img
-          src={post.featuredImage?.node.sourceUrl || "/images/default-post.jpg"}
+          src={post.featuredImage?.node.sourceUrl ? 
+            `${post.featuredImage.node.sourceUrl.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1')}.webp` :
+            "/images/default-post.jpg"
+          }
           alt={post.featuredImage?.node.altText || post.title}
           className="object-cover transition-transform duration-500 group-hover:scale-105"
           width={400}
           height={250}
           loading="lazy"
           sizes="(max-width: 768px) 100vw, 400px"
+          onError={(e) => {
+            const target = e.currentTarget as HTMLImageElement;
+            const originalUrl = post.featuredImage?.node.sourceUrl;
+            const jpgFallback = originalUrl ? 
+              originalUrl.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1') : 
+              "/images/default-post.jpg";
+            if (target.src !== jpgFallback) {
+              target.src = jpgFallback;
+            }
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
         <span className="absolute bottom-4 left-4 inline-block px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-sm z-20">
@@ -115,14 +128,14 @@ function RelatedPosts({ latestPosts = [] }: { latestPosts: LeveePost[] }) {
 
   return (
     <div className="mb-16">
-      <h3
-        className="text-xl md:text-2xl font-medium mb-6 transition-colors duration-300"
+      <span
+        className="text-xl md:text-2xl font-medium mb-6 transition-colors duration-300 block"
         style={{
           color: isDark ? themeColors.common.white : themeColors.common.black,
         }}
       >
         Articles récents
-      </h3>
+      </span>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Carte colorée selon la charte graphique */}
         <div
@@ -162,14 +175,14 @@ function RelatedPosts({ latestPosts = [] }: { latestPosts: LeveePost[] }) {
             >
               Levées de fonds
             </span>
-            <h4
+            <h2
               className={cn(
                 "text-xl font-bold mb-4 transition-colors duration-300",
                 isDark ? "text-white" : "text-black"
               )}
             >
               Découvrez toutes nos levées de fonds
-            </h4>
+            </h2>
             <p
               className={cn(
                 "mb-4 transition-colors duration-300",
@@ -242,6 +255,16 @@ function RelatedPosts({ latestPosts = [] }: { latestPosts: LeveePost[] }) {
                       height={250}
                       loading="lazy"
                       sizes="(max-width: 768px) 100vw, 400px"
+                      onError={(e) => {
+                        const target = e.currentTarget as HTMLImageElement;
+                        const originalUrl = post.featuredImage?.node.sourceUrl;
+                        const jpgFallback = originalUrl ? 
+                          originalUrl.replace(/\.(jpg|jpeg|png|gif)$/, '-400x250.$1') : 
+                          "/images/default-post.jpg";
+                        if (target.src !== jpgFallback) {
+                          target.src = jpgFallback;
+                        }
+                      }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
                     <span className="absolute bottom-4 left-4 inline-block px-3 py-1 bg-black text-[#E0FF5C] rounded-full text-sm z-20">
@@ -346,7 +369,7 @@ export default function LeveePageClient({
         <div 
           className="relative rounded-2xl overflow-hidden border backdrop-blur-md p-8 border-black/5 dark:border-white/10"
           style={{
-            background: "rgba(255,255,255,0.4)"
+            background: isDark ? "rgba(0,0,0,0.4)" : "rgba(255,255,255,0.4)"
           }}
         >
           {/* Hover halo effect */}
@@ -359,9 +382,9 @@ export default function LeveePageClient({
           />
         <div className="flex justify-between items-center relative z-20">
           <div>
-            <h3 className="text-lg font-medium mb-2 text-black dark:text-white">
+            <span className="text-lg font-medium mb-2 text-black dark:text-white block">
               Partager cet article
-            </h3>
+            </span>
             <div className="flex space-x-3">
               {/* Native share button */}
               <button 

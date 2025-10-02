@@ -1,0 +1,31 @@
+# Navigateurs modernes uniquement - Optimisation performance
+# Cible les navigateurs qui supportent ES2020+ nativement
+
+# Navigateurs modernes (dernières 2 versions)
+last 2 Chrome versions
+last 2 Firefox versions
+last 2 Safari versions
+last 2 Edge versions
+
+# Navigateurs mobiles modernes
+last 2 ChromeAndroid versions
+last 2 FirefoxAndroid versions
+last 2 iOS versions
+
+# Exclusion des navigateurs anciens qui nécessitent des polyfills
+not IE 11
+not IE_Mob 11
+not OperaMini all
+not Android <= 4.4
+not Chrome < 80
+not Firefox < 72
+not Safari < 13.1
+not Edge < 80
+
+# Support minimum pour ES2020+
+Chrome >= 80
+Firefox >= 72
+Safari >= 13.1
+Edge >= 80
+iOS >= 13.4
+Android >= 80

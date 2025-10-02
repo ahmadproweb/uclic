@@ -130,10 +130,10 @@ function RelatedPosts({
     console.log("[RelatedPosts] Loading state...");
     return (
       <div className="animate-pulse">
-        <h3 className="text-xl md:text-2xl font-medium mb-6 transition-colors duration-300"
+        <span className="text-xl md:text-2xl font-medium mb-6 transition-colors duration-300 block"
           style={{ color: isDark ? themeColors.common.white : themeColors.common.black }}>
             Articles récents
-          </h3>
+          </span>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[1, 2, 3].map((i) => (
               <div key={i} className="h-[320px] rounded-xl transition-colors duration-300"
@@ -146,10 +146,10 @@ function RelatedPosts({
 
   return (
     <div className="mb-16">
-      <h3 className="text-xl md:text-2xl font-medium mb-6 transition-colors duration-300"
+      <span className="text-xl md:text-2xl font-medium mb-6 transition-colors duration-300 block"
         style={{ color: isDark ? themeColors.common.white : themeColors.common.black }}>
         Articles récents
-      </h3>
+      </span>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
         {/* Carte colorée selon la charte graphique */}
@@ -176,12 +176,12 @@ function RelatedPosts({
             )}>
               Blog UCLIC
             </span>
-            <h4 className={cn(
-              "text-xl font-bold mb-4 transition-colors duration-300",
+            <span className={cn(
+              "text-xl font-bold mb-4 transition-colors duration-300 block",
               isDark ? "text-white" : "text-black"
             )}>
               Découvrez tous nos articles
-            </h4>
+            </span>
             <p className={cn(
               "mb-4 transition-colors duration-300",
               isDark ? "text-white/80" : "text-black/80"
@@ -269,12 +269,12 @@ function RelatedPosts({
                       </div>
                       
                       <div className="p-6 space-y-3">
-                        <h4 className={cn(
+                        <div className={cn(
                           "text-xl font-semibold",
                           isDark ? "text-white" : "text-black"
                         )}>
                           {capitalizeTitle(title)}
-                        </h4>
+                        </div>
                         
                         <div className={cn(
                           "flex items-center gap-2 text-sm",
@@ -359,10 +359,10 @@ function RelatedPosts({
       {/* Articles associés de la même catégorie */}
       {relatedPosts.length > 0 && (
         <div className="mt-16">
-          <h3 className={cn(
+          <h2 className={cn(
             "text-xl md:text-2xl font-medium mb-6",
             isDark ? "text-white" : "text-black"
-          )}>Dans la même catégorie</h3>
+          )}>Dans la même catégorie</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {relatedPosts.slice(0, 3).map((post) => {
@@ -429,12 +429,12 @@ function RelatedPosts({
                     </div>
                     
                     <div className="p-6 space-y-3">
-                      <h4 className={cn(
+                      <h3 className={cn(
                         "text-xl font-semibold",
                         isDark ? "text-white" : "text-black"
                       )}>
                         {capitalizeTitle(title)}
-                      </h4>
+                      </h3>
                       
                       <div className={cn(
                         "flex items-center gap-2 text-sm",
@@ -743,6 +743,7 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
                width="1200"
                height="800"
                loading="eager"
+               fetchPriority="high"
                onError={(e) => {
                  const target = e.currentTarget as HTMLImageElement;
                  const originalUrl = post.featured_image_url;
@@ -877,14 +878,14 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
                       filter: 'blur(12px)',
                     }}
                   />
-                  <h4 className={cn(
-                    "text-sm sm:text-base font-medium mb-2 sm:mb-3 relative z-20",
+                  <span className={cn(
+                    "text-sm sm:text-base font-medium mb-2 sm:mb-3 relative z-20 block",
                     isDark ? "text-white" : "text-black"
                   )}>
                     Table des matières
-                  </h4>
-                  <nav className={cn(
-                    "space-y-1 sm:space-y-1.5 max-h-[60vh] overflow-y-auto relative z-20",
+                  </span>
+                  <span className={cn(
+                    "space-y-1 sm:space-y-1.5 max-h-[60vh] overflow-y-auto relative z-20 block",
                     "scrollbar-thin scrollbar-track-transparent",
                     isDark 
                       ? "scrollbar-thumb-white/10 hover:scrollbar-thumb-white/20" 
@@ -926,7 +927,7 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
                         {item.text}
                       </a>
                     ))}
-                  </nav>
+                  </span>
                 </div>
               </div>
             </div>
@@ -987,9 +988,9 @@ export default function BlogPostClientSide({ post, preloadedRelatedPosts = [], p
             />
           <div className="flex justify-between items-center relative z-20">
             <div>
-              <h3 className="text-lg font-medium mb-2 text-black dark:text-white">
+              <span className="text-lg font-medium mb-2 text-black dark:text-white block">
                 Partager cet article
-              </h3>
+              </span>
               <div className="flex space-x-3">
                 {/* Native share button */}
                 <button 

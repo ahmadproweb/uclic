@@ -153,6 +153,24 @@ export default function RootLayout({
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
         <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+        
+        {/* Préchargement des polices critiques pour réduire la latence */}
+        <link
+          rel="preload"
+          href="/remixicon.woff"
+          as="font"
+          type="font/woff"
+          crossOrigin="anonymous"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          href="/fonts/absans-regular.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+          fetchPriority="high"
+        />
       </head>
       <body className="overflow-x-hidden" suppressHydrationWarning={true}>
         <Script id="website-schema" type="application/ld+json" strategy="afterInteractive">
@@ -437,63 +455,47 @@ export default function RootLayout({
                   document.head.appendChild(preconnectLink);
                 });
 
-                // Optimisation des polices
-                const criticalFonts = [
-                  { href: '/fonts/absans-regular.woff2', type: 'font/woff2' },
-                  { href: '/fonts/remixicon.woff2', type: 'font/woff2' }
-                ];
+                // Les polices sont déjà préchargées dans le <head> statique
 
-                criticalFonts.forEach(font => {
-                  const link = document.createElement('link');
+                // Préchargement des ressources critiques
+                var preloadImage = function(href) {
+                  var link = document.createElement('link');
                   link.rel = 'preload';
-                  link.href = font.href;
-                  link.as = 'font';
-                  link.type = font.type;
-                  link.crossOrigin = 'anonymous';
+                  link.href = href;
+                  link.as = 'image';
                   document.head.appendChild(link);
-                });
+                };
 
-                // Optimisation des ressources critiques
-                const criticalResources = [
-                  { href: '/logo.png', as: 'image' },
-                  { href: '/heroo.png', as: 'image' },
-                  { href: '/backgroundeffect.png', as: 'image' }
-                ];
-
-                criticalResources.forEach(resource => {
-                  const link = document.createElement('link');
-                  link.rel = 'preload';
-                  link.href = resource.href;
-                  link.as = resource.as;
-                  document.head.appendChild(link);
-                });
+                preloadImage('/logo.png');
+                preloadImage('/heroo.png');
+                preloadImage('/backgroundeffect.png');
 
                 // Optimiser le chargement des Google Fonts
-                const googleFontsLink = document.querySelector('link[href*="fonts.googleapis.com"]');
+                var googleFontsLink = document.querySelector('link[href*="fonts.googleapis.com"]');
                 if (googleFontsLink) {
-                  const href = googleFontsLink.getAttribute('href');
+                  var href = googleFontsLink.getAttribute('href');
                   if (href && !href.includes('display=swap')) {
-                    const separator = href.includes('?') ? '&' : '?';
+                    var separator = href.includes('?') ? '&' : '?';
                     googleFontsLink.setAttribute('href', href + separator + 'display=swap');
                   }
                 }
 
                 // Optimiser le chargement des CSS non-critiques
-                const nonCriticalCSS = document.querySelectorAll('link[rel="stylesheet"]:not([media="print"])');
-                nonCriticalCSS.forEach((link, index) => {
-                  // Déferrer les CSS non-critiques
-                  if (index > 0) {
+                var nonCriticalCSS = document.querySelectorAll('link[rel="stylesheet"]:not([media="print"])');
+                for (var i = 0; i < nonCriticalCSS.length; i++) {
+                  var link = nonCriticalCSS[i];
+                  if (i > 0) {
                     link.media = 'print';
-                    link.onload = () => {
-                      link.media = 'all';
+                    link.onload = function() {
+                      this.media = 'all';
                     };
                   }
-                });
+                }
 
                 // Optimiser le travail du thread principal
                 const optimizeMainThread = () => {
                   // Découper les tâches longues en plus petites
-                  const processInChunks = (tasks: (() => void)[], chunkSize = 5) => {
+                  const processInChunks = (tasks, chunkSize = 5) => {
                     let index = 0;
                     
                     const processChunk = () => {
@@ -518,7 +520,7 @@ export default function RootLayout({
                   const optimizeAnimations = () => {
                     const animatedElements = document.querySelectorAll('[style*="animation"], [style*="transition"]');
                     animatedElements.forEach(el => {
-                      (el as HTMLElement).style.willChange = 'transform, opacity';
+                      el.style.willChange = 'transform, opacity';
                     });
                   };
 
@@ -527,7 +529,7 @@ export default function RootLayout({
                     const images = document.querySelectorAll('img[loading="lazy"]');
                     images.forEach(img => {
                       if ('loading' in img) {
-                        (img as HTMLImageElement).loading = 'lazy';
+                        img.loading = 'lazy';
                       }
                     });
                   };
@@ -559,6 +561,7 @@ export default function RootLayout({
                   link.rel = 'preload';
                   link.href = href;
                   link.as = 'style';
+                  link.fetchPriority = 'high';
                   link.onload = function() {
                     this.rel = 'stylesheet';
                   };

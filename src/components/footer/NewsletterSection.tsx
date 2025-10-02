@@ -31,9 +31,9 @@ function NewsletterSection() {
     <div className={`${isDark ? 'bg-white/20' : 'bg-black/10'} rounded-[32px] p-4 md:p-8 animate-fade-in-up`}>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
-          <h3 className={`text-xs md:text-sm font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>
+          <span className={`text-xs md:text-sm font-medium block ${isDark ? 'text-white' : 'text-gray-900'}`}>
             Abonnez-vous
-          </h3>
+          </span>
           <p className={`${isDark ? 'text-white/90' : 'text-gray-700'} text-xs md:text-sm`}>
             Profitez de conseil d&apos;experts dans votre boîte mail
           </p>
