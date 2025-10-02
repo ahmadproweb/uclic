@@ -569,8 +569,8 @@ export default function RootLayout({
                 });
 
                 // Déferrer les CSS non-critiques
-                const nonCriticalCSS = document.querySelectorAll('link[rel="stylesheet"]:not([data-critical])');
-                nonCriticalCSS.forEach((link, index) => {
+                const nonCriticalCSSLinks = document.querySelectorAll('link[rel="stylesheet"]:not([data-critical])');
+                nonCriticalCSSLinks.forEach((link, index) => {
                   if (index > 0) {
                     link.media = 'print';
                     link.onload = function() {

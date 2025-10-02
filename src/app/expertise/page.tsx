@@ -1,29 +1,50 @@
 import { getExpertiseCategories } from "@/lib/wordpress";
 import { Metadata } from "next";
 import Link from "next/link";
+import Script from "next/script";
 
 export const metadata: Metadata = {
-  title: "Expertise Growth Marketing & Sales | Agence Growth",
+  title: "Expertises Growth Marketing & Sales | UCLIC - Agence d'Experts Certifiés",
   description:
-    "Découvrez nos expertises en Growth Marketing, Sales Ops et Product Marketing. Notre agence d'experts certifiés optimise votre croissance et vos processus commerciaux.",
+    "Découvrez nos expertises en Growth Marketing, Sales Ops et Product Marketing. Notre agence UCLIC d'experts certifiés optimise votre croissance et vos processus commerciaux avec des stratégies data-driven.",
+  keywords: "expertise growth marketing, sales ops, product marketing, agence uclic, experts certifiés, croissance entreprise, stratégies data-driven, marketing automation, lead generation, performance marketing",
+  authors: [{ name: "UCLIC" }],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   alternates: {
     canonical: "https://www.uclic.fr/expertise",
   },
   openGraph: {
-    title: "Expertise Growth Marketing & Sales | Agence Growth",
+    title: "Expertises Growth Marketing & Sales | UCLIC - Agence d'Experts Certifiés",
     description:
-      "Découvrez nos expertises en Growth Marketing, Sales Ops et Product Marketing. Notre agence d'experts certifiés optimise votre croissance et vos processus commerciaux.",
+      "Découvrez nos expertises en Growth Marketing, Sales Ops et Product Marketing. Notre agence UCLIC d'experts certifiés optimise votre croissance et vos processus commerciaux avec des stratégies data-driven.",
     url: "https://www.uclic.fr/expertise",
     type: "website",
     locale: "fr_FR",
-    siteName: "Uclic",
+    siteName: "UCLIC",
+    images: [{
+      url: "https://static.uclic.fr/open.png",
+      width: 1200,
+      height: 630,
+      alt: "Expertises Growth Marketing & Sales UCLIC",
+    }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Expertise Growth Marketing & Sales | Agence Growth",
+    title: "Expertises Growth Marketing & Sales | UCLIC - Agence d'Experts Certifiés",
     description:
-      "Découvrez nos expertises en Growth Marketing, Sales Ops et Product Marketing. Notre agence d'experts certifiés optimise votre croissance et vos processus commerciaux.",
+      "Découvrez nos expertises en Growth Marketing, Sales Ops et Product Marketing. Notre agence UCLIC d'experts certifiés optimise votre croissance.",
     site: "@uclic_fr",
+    images: ["https://static.uclic.fr/open.png"],
   },
 };
 
@@ -31,7 +52,95 @@ export default async function ExpertisePage() {
   const categories = await getExpertiseCategories();
 
   return (
-    <section className="w-full max-w-[100vw] pt-28 md:pt-32 pb-16 md:pb-24 relative overflow-hidden bg-gray-50 dark:bg-black">
+    <>
+      {/* JSON-LD: BreadcrumbList */}
+      <Script id="ld-breadcrumb-expertise" type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Accueil",
+              item: "https://www.uclic.fr/"
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Expertises",
+              item: "https://www.uclic.fr/expertise"
+            }
+          ]
+        })}
+      </Script>
+      
+      {/* JSON-LD: CollectionPage for expertises */}
+      <Script id="ld-collection-expertise" type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "Expertises Growth Marketing & Sales UCLIC",
+          description: "Découvrez nos expertises en Growth Marketing, Sales Ops et Product Marketing. Notre agence d'experts certifiés optimise votre croissance.",
+          url: "https://www.uclic.fr/expertise",
+          mainEntity: {
+            "@type": "ItemList",
+            itemListElement: categories.slice(0, 10).map((category, index) => ({
+              "@type": "ListItem",
+              position: index + 1,
+              url: `https://www.uclic.fr/expertise/${category.slug}`,
+              name: category.name
+            }))
+          },
+          isPartOf: {
+            "@type": "WebSite",
+            name: "UCLIC",
+            url: "https://www.uclic.fr"
+          },
+          about: {
+            "@type": "Thing",
+            name: "Expertises Growth Marketing",
+            description: "Services et expertises en Growth Marketing, Sales Ops et Product Marketing"
+          },
+          publisher: {
+            "@type": "Organization",
+            name: "UCLIC",
+            url: "https://www.uclic.fr",
+            logo: {
+              "@type": "ImageObject",
+              url: "https://www.uclic.fr/logo.png",
+              width: 200,
+              height: 60
+            },
+            sameAs: [
+              "https://www.linkedin.com/company/uclic-growth-marketing/",
+              "https://x.com/delcros_w/"
+            ]
+          }
+        })}
+      </Script>
+      
+      {/* JSON-LD: FAQPage for main expertise page - Dynamic from API */}
+      {categories.some(cat => (cat as any).faq && (cat as any).faq.length > 0) && (
+        <Script id="ld-faq-expertise-main" type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: categories
+              .filter(cat => (cat as any).faq && (cat as any).faq.length > 0)
+              .flatMap(cat => (cat as any).faq.map((faq: any, index: number) => ({
+                "@type": "Question",
+                name: faq.question || `Question ${index + 1} - ${cat.name}`,
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: faq.answer || ""
+                }
+              })))
+          })}
+        </Script>
+      )}
+      
+      <section className="w-full max-w-[100vw] pt-28 md:pt-32 pb-16 md:pb-24 relative overflow-hidden bg-gray-50 dark:bg-black">
       {/* Base Background gradient */}
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-white to-[#E0FF5C] dark:from-black dark:to-[#E0FF5C]" />
 
@@ -187,5 +296,6 @@ export default async function ExpertisePage() {
         </div>
       </div>
     </section>
+    </>
   );
 }

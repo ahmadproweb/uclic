@@ -15,6 +15,7 @@ import ExpertiseMarquee from "./ExpertiseMarquee";
 import FAQExpertise from "./FAQExpertise";
 import HeroExpertise from "./HeroExpertise";
 import ProcessExpertise from "./ProcessExpertise";
+import Script from "next/script";
 
 function formatFr(input?: string) {
   if (!input) return "";
@@ -43,15 +44,28 @@ export async function generateMetadata(
     expertise.expertiseGrowthCategories?.nodes?.[0]?.slug;
   if (expertiseCategory !== category) return notFound();
 
+  // Generate enhanced keywords
+  const expertiseKeywords = [
+    expertise.title.toLowerCase(),
+    "expertise",
+    "growth marketing",
+    "sales ops",
+    "product marketing",
+    "agence uclic",
+    "stratégies data-driven",
+    "optimisation croissance",
+    "uclic",
+    ...(expertise.expertiseGrowthCategories?.nodes?.[0]?.name ? [expertise.expertiseGrowthCategories.nodes[0].name.toLowerCase()] : [])
+  ].join(', ');
+
+  const title = expertise.expertiseFields?.metaTitle || expertise.title;
+  const description = expertise.expertiseFields?.metaDescription || expertise.expertiseFields?.subtitle || "Découvrez nos expertises en création de site web, branding, et développement digital.";
+
   return {
-    ...previousMetadata,
-    title:
-      (expertise.expertiseFields?.metaTitle || expertise.title) +
-      " | Agence Growth",
-    description:
-      expertise.expertiseFields?.metaDescription ||
-      expertise.expertiseFields?.subtitle ||
-      "Découvrez nos expertises en création de site web, branding, et développement digital.",
+    title: `${title} | Expertises UCLIC`,
+    description: description.length > 160 ? description.substring(0, 157) + '...' : description,
+    keywords: expertiseKeywords,
+    authors: [{ name: "UCLIC" }],
     robots: {
       index: true,
       follow: true,
@@ -62,6 +76,32 @@ export async function generateMetadata(
         "max-image-preview": "large",
         "max-snippet": -1,
       },
+    },
+    alternates: {
+      canonical: `https://www.uclic.fr/expertise/${category}/${slug}`,
+    },
+    openGraph: {
+      title: `${title} | Expertises UCLIC`,
+      description: description,
+      url: `https://www.uclic.fr/expertise/${category}/${slug}`,
+      type: "article",
+      locale: "fr_FR",
+      siteName: "UCLIC",
+      images: [{
+        url: "https://static.uclic.fr/open.png",
+        width: 1200,
+        height: 630,
+        alt: `${title} - Expertises UCLIC`,
+      }],
+      section: "Expertises",
+      tags: expertise.expertiseGrowthCategories?.nodes?.map(cat => cat.name) || [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} | Expertises UCLIC`,
+      description: description,
+      site: "@uclic_fr",
+      images: ["https://static.uclic.fr/open.png"],
     },
   };
 }
@@ -157,7 +197,128 @@ export default async function ExpertisePage({ params }: ExpertisePageProps) {
   }
 
   return (
-    <main className="flex flex-col">
+    <>
+      {/* JSON-LD: BreadcrumbList for expertise */}
+      <Script id="ld-breadcrumb-expertise-single" type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Accueil",
+              item: "https://www.uclic.fr/"
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Expertises",
+              item: "https://www.uclic.fr/expertise"
+            },
+            {
+              "@type": "ListItem",
+              position: 3,
+              name: expertise.expertiseGrowthCategories?.nodes?.[0]?.name || "Expertise",
+              item: `https://www.uclic.fr/expertise/${category}`
+            },
+            {
+              "@type": "ListItem",
+              position: 4,
+              name: expertise.title,
+              item: `https://www.uclic.fr/expertise/${category}/${slug}`
+            }
+          ]
+        })}
+      </Script>
+      
+      {/* JSON-LD: Service for expertise */}
+      <Script id="ld-service-expertise" type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Service",
+          name: expertise.title,
+          description: expertise.expertiseFields?.metaDescription || expertise.expertiseFields?.subtitle || "Découvrez nos expertises en création de site web, branding, et développement digital.",
+          url: `https://www.uclic.fr/expertise/${category}/${slug}`,
+          provider: {
+            "@type": "Organization",
+            name: "UCLIC",
+            url: "https://www.uclic.fr",
+            logo: {
+              "@type": "ImageObject",
+              url: "https://www.uclic.fr/logo.png",
+              width: 200,
+              height: 60
+            },
+            sameAs: [
+              "https://www.linkedin.com/company/uclic-growth-marketing/",
+              "https://x.com/delcros_w/"
+            ]
+          },
+          serviceType: expertise.expertiseGrowthCategories?.nodes?.[0]?.name || "Expertise",
+          areaServed: "France",
+          availableLanguage: "fr",
+          offers: {
+            "@type": "Offer",
+            description: "Service d'expertise professionnel",
+            priceCurrency: "EUR"
+          }
+        })}
+      </Script>
+      
+      {/* JSON-LD: FAQPage for expertise - Dynamic from API */}
+      {(expertise.expertiseFields as any)?.faq && (expertise.expertiseFields as any).faq.length > 0 && (
+        <Script id="ld-faq-expertise" type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: (expertise.expertiseFields as any).faq.map((faq: any, index: number) => ({
+              "@type": "Question",
+              name: faq.question || `Question ${index + 1}`,
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: faq.answer || ""
+              }
+            }))
+          })}
+        </Script>
+      )}
+      
+      {/* JSON-LD: HowTo for expertise process - Dynamic from API */}
+      {(expertise.expertiseFields as any)?.process && (expertise.expertiseFields as any).process.length > 0 && (
+        <Script id="ld-howto-expertise" type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "HowTo",
+            name: `Comment optimiser votre ${expertise.title} avec UCLIC`,
+            description: expertise.expertiseFields?.metaDescription || `Guide complet pour optimiser votre ${expertise.title} avec les méthodes UCLIC`,
+            image: "https://static.uclic.fr/open.png",
+            totalTime: (expertise.expertiseFields as any)?.duration || "P30D",
+            estimatedCost: {
+              "@type": "MonetaryAmount",
+              currency: "EUR",
+              value: (expertise.expertiseFields as any)?.price || "Contactez-nous pour un devis personnalisé"
+            },
+            step: (expertise.expertiseFields as any).process.map((step: any, index: number) => ({
+              "@type": "HowToStep",
+              name: step.title || `Étape ${index + 1}`,
+              text: step.description || "",
+              image: step.image || "https://static.uclic.fr/open.png"
+            })),
+            author: {
+              "@type": "Organization",
+              name: "UCLIC",
+              url: "https://www.uclic.fr",
+              sameAs: [
+                "https://www.linkedin.com/company/uclic-growth-marketing/",
+                "https://x.com/delcros_w/"
+              ]
+            }
+          })}
+        </Script>
+      )}
+      
+      <main className="flex flex-col">
       <HeroExpertise expertise={expertise} />
       <Partners />
       <ExpertiseBenefits {...expertise.expertiseFields} />
@@ -184,5 +345,6 @@ export default async function ExpertisePage({ params }: ExpertisePageProps) {
       <FAQExpertise expertiseFields={expertise.expertiseFields} />
       <Blog />
     </main>
+    </>
   );
 }

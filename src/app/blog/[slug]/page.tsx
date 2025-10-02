@@ -25,6 +25,7 @@ interface JsonLdOrganization {
   name: string;
   url: string;
   logo?: JsonLdImage;
+  sameAs?: string[];
 }
 
 interface JsonLdPerson {
@@ -53,6 +54,9 @@ interface BlogPostJsonLd {
   articleBody?: string;
   keywords?: string;
   articleSection?: string;
+  inLanguage?: string;
+  isAccessibleForFree?: boolean;
+  speakable?: any;
 }
 
 // Add JSON-LD Script component
@@ -86,11 +90,67 @@ export async function generateMetadata({
     };
   }
 
+  // Extract keywords from content and title
+  const content = decodeHtmlEntitiesServer(post.content.rendered.replace(/<[^>]*>/g, ""));
+  const title = decodeHtmlEntitiesServer(post.title.rendered);
+  const excerpt = decodeHtmlEntitiesServer(post.excerpt.rendered.replace(/<[^>]*>/g, ""));
+  
+  // Generate keywords from title and content
+  const keywords = [
+    ...title.toLowerCase().split(' ').filter(word => word.length > 3),
+    ...content.toLowerCase().split(' ').filter(word => word.length > 4).slice(0, 10),
+    'growth marketing',
+    'marketing digital',
+    'uclic',
+    'conseils marketing'
+  ].join(', ');
+
   return {
-    title: `${decodeHtmlEntitiesServer(post.title.rendered)} | Blog UCLIC`,
-    description: decodeHtmlEntitiesServer(
-      post.excerpt.rendered.replace(/<[^>]*>/g, "")
-    ),
+    title: `${title} | Blog UCLIC - Growth Marketing`,
+    description: excerpt.length > 160 ? excerpt.substring(0, 157) + '...' : excerpt,
+    keywords: keywords,
+    authors: [{ name: post._embedded?.author?.[0]?.name || "Uclic" }],
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
+    alternates: {
+      canonical: `https://www.uclic.fr/blog/${post.slug}`,
+    },
+    openGraph: {
+      title: `${title} | Blog UCLIC`,
+      description: excerpt,
+      url: `https://www.uclic.fr/blog/${post.slug}`,
+      type: 'article',
+      locale: 'fr_FR',
+      siteName: 'UCLIC',
+      publishedTime: post.date,
+      modifiedTime: post.date,
+      authors: [post._embedded?.author?.[0]?.name || "Uclic"],
+      section: post._embedded?.["wp:term"]?.[0]?.[0]?.name || "Growth Marketing",
+      tags: post._embedded?.["wp:term"]?.[1]?.map(tag => tag.name) || [],
+      images: post._embedded?.["wp:featuredmedia"]?.[0]?.source_url ? [{
+        url: post._embedded["wp:featuredmedia"][0].source_url,
+        width: 1200,
+        height: 630,
+        alt: title,
+      }] : [],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${title} | Blog UCLIC`,
+      description: excerpt,
+      site: '@uclic_fr',
+      creator: '@uclic_fr',
+      images: post._embedded?.["wp:featuredmedia"]?.[0]?.source_url ? [post._embedded["wp:featuredmedia"][0].source_url] : [],
+    },
   };
 }
 
@@ -158,17 +218,18 @@ export default async function BlogPostPage({ params }: BlogPostParams) {
     slug: post.slug,
   };
 
-  // Prepare JSON-LD data
+  // Prepare enhanced JSON-LD data
   const jsonLd: BlogPostJsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: transformedPost.title,
     datePublished: transformedPost.date,
     dateModified: transformedPost.date,
-    image: transformedPost.featured_image_url,
+    image: transformedPost.featured_image_url || "",
     author: {
       "@type": "Person",
       name: transformedPost.author,
+      url: `https://www.uclic.fr/blog/author/${transformedPost.author.toLowerCase().replace(/\s+/g, '-')}`,
     },
     publisher: {
       "@type": "Organization",
@@ -176,8 +237,14 @@ export default async function BlogPostPage({ params }: BlogPostParams) {
       url: "https://www.uclic.fr",
       logo: {
         "@type": "ImageObject",
-        url: "https://www.uclic.fr/images/logo.png",
+        url: "https://www.uclic.fr/logo.png",
+        width: 200,
+        height: 60
       },
+      sameAs: [
+        "https://www.linkedin.com/company/uclic-growth-marketing/",
+        "https://x.com/delcros_w/"
+      ]
     },
     description: decodeHtmlEntitiesServer(
       transformedPost.excerpt.replace(/<[^>]*>/g, "")
@@ -191,6 +258,18 @@ export default async function BlogPostPage({ params }: BlogPostParams) {
       transformedPost.content.replace(/<[^>]*>/g, "")
     ),
     articleSection: transformedPost.category,
+    keywords: [
+      ...transformedPost.title.toLowerCase().split(' ').filter(word => word.length > 3),
+      'growth marketing',
+      'marketing digital',
+      'uclic'
+    ].join(', '),
+    inLanguage: "fr-FR",
+    isAccessibleForFree: true,
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: ["h1", "h2", ".excerpt"]
+    }
   };
 
   return (

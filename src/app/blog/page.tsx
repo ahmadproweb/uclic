@@ -13,6 +13,19 @@ export const metadata: Metadata = {
   title: "Blog Growth Marketing & Sales | Conseils d'Experts",
   description:
     "Articles et conseils d'experts en Growth Marketing, Sales Ops et Product Marketing. Découvrez nos stratégies data-driven pour optimiser votre croissance.",
+  keywords: "growth marketing, marketing digital, sales ops, product marketing, conseils experts, stratégies data-driven, uclic, blog marketing",
+  authors: [{ name: "UCLIC" }],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   alternates: {
     canonical: "https://www.uclic.fr/blog",
   },
@@ -23,7 +36,7 @@ export const metadata: Metadata = {
     url: "https://www.uclic.fr/blog",
     type: "website",
     locale: "fr_FR",
-    siteName: "Uclic",
+    siteName: "UCLIC",
   },
   twitter: {
     card: "summary_large_image",

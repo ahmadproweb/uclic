@@ -12,6 +12,8 @@ import Script from "next/script";
 interface JsonLdImage {
   "@type": "ImageObject";
   url: string;
+  width?: number;
+  height?: number;
 }
 
 interface JsonLdOrganization {
@@ -19,6 +21,7 @@ interface JsonLdOrganization {
   name: string;
   url: string;
   logo?: JsonLdImage;
+  sameAs?: string[];
 }
 
 interface JsonLdWebPage {
@@ -32,11 +35,17 @@ interface ArticleJsonLd {
   headline: string;
   datePublished: string;
   dateModified: string;
-  image: string;
+  image: any[];
   author: JsonLdOrganization;
   publisher: JsonLdOrganization;
   description: string;
   mainEntityOfPage: JsonLdWebPage;
+  keywords?: string;
+  inLanguage?: string;
+  isAccessibleForFree?: boolean;
+  articleSection?: string;
+  about?: any;
+  speakable?: any;
 }
 
 // Add JSON-LD Script component
@@ -77,9 +86,23 @@ export async function generateMetadata({
   const twitterMeta = openGraph?.twitterMeta;
   const baseUrl = "https://www.uclic.fr";
 
+  // Generate keywords from title and content
+  const keywords = [
+    ...post.title.toLowerCase().split(' ').filter(word => word.length > 3),
+    'levée de fonds',
+    'startup',
+    'investissement',
+    'financement',
+    'france',
+    'uclic',
+    'écosystème startup'
+  ].join(', ');
+
   const metadata: Metadata = {
-    title: seo.title,
-    description: seo.description,
+    title: `${seo.title} | Levée de fonds UCLIC`,
+    description: seo.description.length > 160 ? seo.description.substring(0, 157) + '...' : seo.description,
+    keywords: keywords,
+    authors: [{ name: "UCLIC" }],
     robots: {
       index: true,
       follow: true,
@@ -154,18 +177,39 @@ export default async function Page({ params }: LeveePostParams) {
     getLatestLevees(3, [post.id]),
   ]);
 
-  // Prepare JSON-LD data
+  // Prepare enhanced JSON-LD data for funding rounds
+  const jsonLdKeywords = [
+    ...post.title.toLowerCase().split(' ').filter(word => word.length > 3),
+    'levée de fonds',
+    'startup',
+    'investissement',
+    'financement',
+    'france',
+    'uclic',
+    'écosystème startup'
+  ].join(', ');
+
   const jsonLd: ArticleJsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: post.title,
     datePublished: post.date,
     dateModified: post.date,
-    image: post.featuredImage?.node.sourceUrl || "",
+    image: post.featuredImage?.node.sourceUrl ? [{
+      "@type": "ImageObject",
+      url: post.featuredImage.node.sourceUrl,
+      width: 1200,
+      height: 630,
+      caption: post.title
+    }] : [],
     author: {
       "@type": "Organization",
       name: "UCLIC",
       url: "https://www.uclic.fr",
+      sameAs: [
+        "https://www.linkedin.com/company/uclic-growth-marketing/",
+        "https://x.com/delcros_w/"
+      ]
     },
     publisher: {
       "@type": "Organization",
@@ -173,7 +217,9 @@ export default async function Page({ params }: LeveePostParams) {
       url: "https://www.uclic.fr",
       logo: {
         "@type": "ImageObject",
-        url: "https://www.uclic.fr/images/logo.png",
+        url: "https://www.uclic.fr/logo.png",
+        width: 200,
+        height: 60
       },
     },
     description: post.seo?.description || "",
@@ -181,6 +227,19 @@ export default async function Page({ params }: LeveePostParams) {
       "@type": "WebPage",
       "@id": `https://www.uclic.fr/levee-de-fonds/${post.slug}`,
     },
+    keywords: jsonLdKeywords,
+    inLanguage: "fr-FR",
+    isAccessibleForFree: true,
+    articleSection: "Levée de fonds",
+    about: {
+      "@type": "Thing",
+      name: "Levée de fonds startup",
+      description: "Actualité sur les levées de fonds des startups françaises"
+    },
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: ["h1", "h2", ".excerpt"]
+    }
   };
 
   return (
