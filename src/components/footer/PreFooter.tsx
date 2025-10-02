@@ -112,7 +112,7 @@ const RightContent = memo(({ isDark }: { isDark: boolean }) => (
     <div className="absolute inset-0" />
     
     <img
-      src="/man-516x378.webp"
+      src={require('../../lib/assets').getAssetUrl('/man-516x378.webp')}
       alt="Notre équipe"
       width="516"
       height="378"
