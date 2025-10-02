@@ -1,29 +1,30 @@
 "use client";
 
 import AvatarGroup from './AvatarGroup';
+import { getAssetUrl } from '@/lib/assets';
 import { useTheme } from '@/context/ThemeContext';
 import { cn } from '@/lib/utils';
 
 const teamAvatars = [
   {
-    src: "/hero/brice-maurin.webp",
+    src: getAssetUrl('/hero/brice-maurin.webp'),
     alt: "Brice Maurin"
   },
   {
-    src: "/hero/denis.webp",
+    src: getAssetUrl('/hero/denis.webp'),
     alt: "Denis Cohen"
   },
   {
-    src: "/hero/jean.webp",
+    src: getAssetUrl('/hero/jean.webp'),
     alt: "Jean"
   },
   {
-    src: "/hero/benoit.webp",
-    alt: "Benoit"
+    src: getAssetUrl('/hero/benoit.webp'),
+    alt: "Benoit Dubos"
   },
   {
-    src: "/hero/cabane.webp",
-    alt: "Cabane"
+    src: getAssetUrl('/hero/cabane.webp'),
+    alt: "GuillaumeCabane"
   }
 ];
 

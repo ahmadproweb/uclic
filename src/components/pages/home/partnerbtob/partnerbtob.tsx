@@ -2,6 +2,7 @@
 
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
+import { getAssetUrl } from "@/lib/assets";
 import { UnderlinedText } from '@/components/ui/underlined-text';
 import { memo } from 'react';
 
@@ -16,21 +17,21 @@ interface Partner {
 const partners: Partner[] = [
   { 
     name: "PostHog", 
-    logo: "/partners/posthog.png",
-    description: "Plateforme d'analyse produit open source" 
+    logo: getAssetUrl('/partners/posthog.png'),
+    description: "Analytics produit open‑source et event tracking" 
   },
-  { name: "Partner 2", logo: "/partners/lemlist.png", description: "Description du partenaire 3" },
-  { name: "Partner 3", logo: "/partners/hightouch.png", description: "Description du partenaire 3" },
-  { name: "Partner 4", logo: "/partners/hubspot.png", description: "Description du partenaire 4" },
-  { name: "Partner 5", logo: "/partners/openai.png", description: "Description du partenaire 5" },
-  { name: "Partner 6", logo: "/partners/googleanalytics.png", description: "Description du partenaire 6" },
-  { name: "Partner 7", logo: "/partners/pipedrive.png", description: "Description du partenaire 7" },
-  { name: "Partner 8", logo: "/partners/n8n.png", description: "Description du partenaire 8" },
-  { name: "Partner 9", logo: "/partners/salesforce.png", description: "Description du partenaire 9" },
-  { name: "Partner 10", logo: "/partners/zoho.png", description: "Description du partenaire 10" },
-  { name: "Partner 11", logo: "/partners/ahref.png", description: "Description du partenaire 11" },
-  { name: "Semrush", logo: "/partners/semrush.png", description: "Description du partenaire 12" },
-  { name: "Partner 13", logo: "/partners/oncrawl.png", description: "Description du partenaire 13" },
+  { name: "Lemlist", logo: getAssetUrl('/partners/lemlist.png'), description: "Cold email, délivrabilité et séquences multicanales" },
+  { name: "Hightouch", logo: getAssetUrl('/partners/hightouch.png'), description: "Reverse ETL: synchro data warehouse → outils go‑to‑market" },
+  { name: "HubSpot", logo: getAssetUrl('/partners/hubspot.png'), description: "CRM, marketing automation et sales pipeline" },
+  { name: "OpenAI", logo: getAssetUrl('/partners/openai.png'), description: "Modèles IA (GPT) pour génération et automation" },
+  { name: "Google Analytics", logo: getAssetUrl('/partners/googleanalytics.png'), description: "Web analytics et mesure d’audience" },
+  { name: "Pipedrive", logo: getAssetUrl('/partners/pipedrive.png'), description: "CRM de vente simple et efficace" },
+  { name: "n8n", logo: getAssetUrl('/partners/n8n.png'), description: "Workflows d’automatisation low‑code" },
+  { name: "Salesforce", logo: getAssetUrl('/partners/salesforce.png'), description: "CRM enterprise et écosystème AppExchange" },
+  { name: "Zoho", logo: getAssetUrl('/partners/zoho.png'), description: "Suite CRM et apps business intégrées" },
+  { name: "Ahrefs", logo: getAssetUrl('/partners/ahref.png'), description: "SEO: backlinks, mots‑clés et audit technique" },
+  { name: "Semrush", logo: getAssetUrl('/partners/semrush.png'), description: "Suite SEO/SEA: recherche, content et ads" },
+  { name: "Oncrawl", logo: getAssetUrl('/partners/oncrawl.png'), description: "SEO technique et analyse de logs" },
 ];
 
 // Memoized Partner Card Component
