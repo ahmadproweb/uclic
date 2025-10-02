@@ -68,4 +68,4 @@ Ou upload manuellement :
 `);
 
 // Décommente pour exécuter
-// uploadLinkedInImages();
+uploadLinkedInImages();

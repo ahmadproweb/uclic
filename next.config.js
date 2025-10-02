@@ -137,16 +137,32 @@ const nextConfig = {
         ]
       },
       {
-        // JavaScript et CSS
-        source: '/:path*.(js|css)',
+        // CSS et JS statiques Next.js
+        source: '/_next/static/:path*',
         headers: [
           {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable'
-          },
+          }
+        ]
+      },
+      {
+        // CSS généraux
+        source: '/:path*.css',
+        headers: [
           {
-            key: 'Expires',
-            value: 'Thu, 31 Dec 2025 23:59:59 GMT'
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, stale-while-revalidate=604800'
+          }
+        ]
+      },
+      {
+        // JS généraux
+        source: '/:path*.js',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, stale-while-revalidate=604800'
           }
         ]
       },

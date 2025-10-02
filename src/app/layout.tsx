@@ -10,6 +10,7 @@ import { VideoPopupProvider } from "@/context/VideoPopupContext";
 import { absans, gmono, inter } from "@/lib/fonts";
 import type { Metadata } from "next";
 import Script from "next/script";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -255,7 +256,7 @@ export default function RootLayout({
                     src: 'https://platform.linkedin.com/in.js',
                     id: 'linkedin-script',
                     priority: 'low',
-                    delay: 5000,
+                    delay: 15000,
                     condition: () => !document.querySelector('#linkedin-script')
                   }
                 ];
@@ -440,8 +441,8 @@ export default function RootLayout({
 
                 // Optimisation des polices
                 const criticalFonts = [
-                  { href: '/absans-regular.woff', type: 'font/woff' },
-                  { href: '/remixicon.woff', type: 'font/woff' }
+                  { href: '/fonts/absans-regular.woff2', type: 'font/woff2' },
+                  { href: '/fonts/remixicon.woff2', type: 'font/woff2' }
                 ];
 
                 criticalFonts.forEach(font => {
@@ -454,6 +455,21 @@ export default function RootLayout({
                   document.head.appendChild(link);
                 });
 
+                // Optimisation des ressources critiques
+                const criticalResources = [
+                  { href: '/logo.png', as: 'image' },
+                  { href: '/heroo.png', as: 'image' },
+                  { href: '/backgroundeffect.png', as: 'image' }
+                ];
+
+                criticalResources.forEach(resource => {
+                  const link = document.createElement('link');
+                  link.rel = 'preload';
+                  link.href = resource.href;
+                  link.as = resource.as;
+                  document.head.appendChild(link);
+                });
+
                 // Optimiser le chargement des Google Fonts
                 const googleFontsLink = document.querySelector('link[href*="fonts.googleapis.com"]');
                 if (googleFontsLink) {
@@ -463,10 +479,95 @@ export default function RootLayout({
                     googleFontsLink.setAttribute('href', href + separator + 'display=swap');
                   }
                 }
+
+                // Optimiser le chargement des CSS non-critiques
+                const nonCriticalCSS = document.querySelectorAll('link[rel="stylesheet"]:not([media="print"])');
+                nonCriticalCSS.forEach((link, index) => {
+                  // Déferrer les CSS non-critiques
+                  if (index > 0) {
+                    link.media = 'print';
+                    link.onload = () => {
+                      link.media = 'all';
+                    };
+                  }
+                });
+
+                // Optimiser le travail du thread principal
+                const optimizeMainThread = () => {
+                  // Découper les tâches longues en plus petites
+                  const processInChunks = (tasks: (() => void)[], chunkSize = 5) => {
+                    let index = 0;
+                    
+                    const processChunk = () => {
+                      const endIndex = Math.min(index + chunkSize, tasks.length);
+                      
+                      for (let i = index; i < endIndex; i++) {
+                        tasks[i]();
+                      }
+                      
+                      index = endIndex;
+                      
+                      if (index < tasks.length) {
+                        // Utiliser setTimeout pour libérer le thread principal
+                        setTimeout(processChunk, 0);
+                      }
+                    };
+                    
+                    processChunk();
+                  };
+
+                  // Optimiser les animations
+                  const optimizeAnimations = () => {
+                    const animatedElements = document.querySelectorAll('[style*="animation"], [style*="transition"]');
+                    animatedElements.forEach(el => {
+                      (el as HTMLElement).style.willChange = 'transform, opacity';
+                    });
+                  };
+
+                  // Optimiser les images
+                  const optimizeImages = () => {
+                    const images = document.querySelectorAll('img[loading="lazy"]');
+                    images.forEach(img => {
+                      if ('loading' in img) {
+                        (img as HTMLImageElement).loading = 'lazy';
+                      }
+                    });
+                  };
+
+                  // Traiter les optimisations par chunks
+                  processInChunks([
+                    optimizeAnimations,
+                    optimizeImages,
+                    () => {
+                      // Forcer le garbage collection si possible
+                      if (window.gc) {
+                        window.gc();
+                      }
+                    }
+                  ]);
+                };
+
+                // Lancer l'optimisation après le chargement initial
+                setTimeout(optimizeMainThread, 100);
+
+                // Précharger les CSS critiques
+                const criticalCSS = [
+                  '/globals.css',
+                  '/_next/static/css/app/layout.css'
+                ];
+                
+                criticalCSS.forEach(href => {
+                  const link = document.createElement('link');
+                  link.rel = 'preload';
+                  link.href = href;
+                  link.as = 'style';
+                  document.head.appendChild(link);
+                });
               })();
             `
           }}
         />
+        <SpeedInsights />
       </body>
     </html>
   );
