@@ -3,6 +3,7 @@
 import { memo } from 'react';
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
+import { cleanHtmlEntities } from "@/utils/string";
 
 function formatFrenchPunctuation(input: string): string {
   return input
@@ -124,9 +125,7 @@ export default function ExpertisePartners({ title, subtitle }: ExpertisePartners
   const formattedTitle = formatFrenchPunctuation(
     title || "Notre stack technologique : les meilleurs outils pour votre croissance"
   );
-  const formattedSubtitle = formatFrenchPunctuation(
-    subtitle || "Notre agence Growth déploie la meilleure stack IA du marché : automatisation, analytics, outbound, CRM, SEO. Chaque outil est choisi pour maximiser votre ROI et scaler votre acquisition."
-  );
+  const formattedSubtitle = subtitle || "Notre agence Growth déploie la meilleure stack IA du marché : automatisation, analytics, outbound, CRM, SEO. Chaque outil est choisi pour maximiser votre ROI et scaler votre acquisition.";
 
   return (
     <section 
@@ -169,13 +168,53 @@ export default function ExpertisePartners({ title, subtitle }: ExpertisePartners
           )}>
             {formattedTitle}
           </h2>
-
-          <p className={cn(
-            "text-center max-w-3xl mx-auto mb-12 md:mb-16 text-base md:text-lg leading-relaxed text-pretty",
-            isDark ? "text-white/70" : "text-black/70"
-          )}>
-            {formattedSubtitle}
-          </p>
+        </div>
+      </div>
+      
+      {/* Content avec largeur limitée */}
+      <div className="max-w-[1250px] mx-auto px-4 sm:px-6">
+        <div className={cn(
+          "rounded-3xl border backdrop-blur-md relative p-6 sm:p-8 bg-transparent",
+          "border-black/5 dark:border-white/10"
+        )}>
+          {/* Background pattern */}
+          <div
+            className="absolute inset-0 rounded-3xl -z-10"
+            style={{
+              backgroundImage: `url(${require('@/lib/assets').backgroundEffectUrl})`,
+              backgroundRepeat: "repeat",
+              backgroundSize: "200px",
+              opacity: "0.04"
+            }}
+          />
+          {/* Halo effect */}
+          <div 
+            className="absolute inset-0 opacity-60 hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
+            style={{
+              background: `radial-gradient(ellipse at top, rgba(212,237,49,0.25) 0%, rgba(212,237,49,0.15) 40%, transparent 70%)`,
+              filter: 'blur(8px)',
+            }}
+          />
+          <article
+            className={cn(
+              "max-w-none wp-content-styles relative z-20",
+              "text-base md:text-lg",
+              "leading-relaxed",
+              "text-black/70 dark:text-white/70",
+              "text-pretty",
+              // Styles Tailwind pour le HTML WordPress
+              "[&_h2]:text-2xl [&_h2]:font-bold [&_h2]:mb-4 [&_h2]:mt-8 [&_h2]:text-black dark:[&_h2]:text-white",
+              "[&_h3]:text-xl [&_h3]:font-semibold [&_h3]:mb-3 [&_h3]:mt-6 [&_h3]:text-black dark:[&_h3]:text-white",
+              "[&_p]:mb-4 [&_p]:leading-relaxed",
+              "[&_ul]:mb-4 [&_ul]:pl-6",
+              "[&_li]:mb-2 [&_li]:list-disc",
+              "[&_strong]:font-semibold",
+              "[&_a]:text-blue-600 dark:[&_a]:text-blue-400 [&_a]:underline [&_a]:hover:text-blue-800 dark:[&_a]:hover:text-blue-300"
+            )}
+            dangerouslySetInnerHTML={{
+              __html: cleanHtmlEntities(formattedSubtitle)
+            }}
+          />
         </div>
       </div>
     </section>

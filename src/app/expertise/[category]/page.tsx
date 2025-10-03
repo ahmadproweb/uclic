@@ -1,9 +1,7 @@
-import AndMoreService from "@/components/pages/home/andmoreservice/andmoreservice";
 import Blog from "@/components/pages/home/blog/blog";
 import CaseStudyWrapper from "@/components/pages/home/casestudy";
 import Partners from "@/components/pages/home/partner/partner";
 import ExpertisePartners from "./ExpertisePartners";
-import TeamSection from "@/components/pages/home/team/team-section";
 import Testimonials from "@/components/pages/home/testimonials/testimonials";
 import { cn } from "@/lib/utils";
 import {
@@ -12,7 +10,6 @@ import {
 } from "@/lib/wordpress";
 import { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 import ExpertiseBenefits from "./ExpertiseBenefits";
 import ExpertiseMarquee from "./ExpertiseMarquee";
 import FAQExpertise from "./FAQExpertise";
@@ -224,17 +221,6 @@ export default async function CategoryPage(props: CategoryPageProps) {
         <ExpertiseBenefits {...categoryData.expertiseFields} />
         <ExpertiseMarquee words={marqueeItems} />
 
-        <AndMoreService>
-          <Suspense
-            fallback={
-              <div className="w-full h-[400px] flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-              </div>
-            }
-          >
-            <TeamSection />
-          </Suspense>
-        </AndMoreService>
 
         <ExpertisePartners 
           title={categoryData.expertiseFields.h22}

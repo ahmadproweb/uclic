@@ -104,7 +104,7 @@ export default function ExpertiseContactForm() {
         "border backdrop-blur-sm",
         isDark ? "border-white/10 bg-white/5" : "border-black/5 bg-black/5"
       )}>
-        <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+        <form ref={formRef} onSubmit={handleSubmit} className="space-y-6" suppressHydrationWarning>
           <div>
             <label 
               htmlFor="name" 

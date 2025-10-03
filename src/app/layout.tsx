@@ -12,6 +12,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
+import "@/styles/wordpress-content.css";
 
 export const metadata: Metadata = {
   title: {

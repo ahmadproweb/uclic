@@ -3,6 +3,7 @@
 import { memo } from 'react';
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
+import { cleanHtmlEntities } from "@/utils/string";
 
 // Memoized decorative squares component
 const DecorativeSquares = memo(({ isDark }: { isDark: boolean }) => {
@@ -125,9 +126,7 @@ export default function ExpertisePartners({ title, subtitle }: ExpertisePartners
   const formattedTitle = formatFrenchPunctuation(
     title || "Notre stack technologique : les meilleurs outils pour votre croissance"
   );
-  const formattedSubtitle = formatFrenchPunctuation(
-    subtitle || "Notre agence Growth déploie la meilleure stack IA du marché : automatisation, analytics, outbound, CRM, SEO. Chaque outil est choisi pour maximiser votre ROI et scaler votre acquisition."
-  );
+  const formattedSubtitle = subtitle || "Notre agence Growth déploie la meilleure stack IA du marché : automatisation, analytics, outbound, CRM, SEO. Chaque outil est choisi pour maximiser votre ROI et scaler votre acquisition.";
 
   return (
     <section 
@@ -171,12 +170,23 @@ export default function ExpertisePartners({ title, subtitle }: ExpertisePartners
             {formattedTitle}
           </h2>
 
-          <p className={cn(
-            "text-center max-w-3xl mx-auto mb-12 md:mb-16 text-base md:text-lg leading-relaxed text-pretty",
-            isDark ? "text-white/70" : "text-black/70"
-          )}>
-            {formattedSubtitle}
-          </p>
+          <div 
+            className={cn(
+              "wp-content-styles text-center max-w-3xl mx-auto mb-12 md:mb-16 text-base md:text-lg leading-relaxed text-pretty",
+              isDark ? "text-white/70" : "text-black/70",
+              // Styles Tailwind pour le HTML WordPress
+              "[&_h2]:text-2xl [&_h2]:font-bold [&_h2]:mb-4 [&_h2]:mt-8 [&_h2]:text-black dark:[&_h2]:text-white",
+              "[&_h3]:text-xl [&_h3]:font-semibold [&_h3]:mb-3 [&_h3]:mt-6 [&_h3]:text-black dark:[&_h3]:text-white",
+              "[&_p]:mb-4 [&_p]:leading-relaxed",
+              "[&_ul]:mb-4 [&_ul]:pl-6",
+              "[&_li]:mb-2 [&_li]:list-disc",
+              "[&_strong]:font-semibold",
+              "[&_a]:text-blue-600 dark:[&_a]:text-blue-400 [&_a]:underline [&_a]:hover:text-blue-800 dark:[&_a]:hover:text-blue-300"
+            )}
+            dangerouslySetInnerHTML={{
+              __html: cleanHtmlEntities(formattedSubtitle)
+            }}
+          />
         </div>
       </div>
     </section>

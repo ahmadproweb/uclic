@@ -177,6 +177,7 @@ const TeamMemberCard = memo(function TeamMemberCard({
             ? themeColors.common.black
             : undefined,
         }}
+        suppressHydrationWarning
       >
         <figure className="relative w-16 md:w-24 h-16 md:h-24 flex-shrink-0">
           <div className="relative w-full h-full">
@@ -208,12 +209,11 @@ const TeamMemberCard = memo(function TeamMemberCard({
                 "bg-[linear-gradient(to_right,#00000011,transparent_2px),linear-gradient(to_bottom,#00000011,transparent_2px)]",
                 "[background-size:3px_3px]",
                 "mix-blend-overlay opacity-30",
-                "group-hover/card:opacity-0 transition-opacity duration-300"
-              )}
-              className={cn(
+                "group-hover/card:opacity-0 transition-opacity duration-300",
                 isDark ? "bg-white/3" : "bg-black/3"
               )}
               aria-hidden="true"
+              suppressHydrationWarning
             />
           </div>
         </figure>
@@ -307,6 +307,7 @@ const ClientTeam = memo(function ClientTeam({
       style={{
         backgroundColor: themeColors.primary.main,
       }}
+      suppressHydrationWarning
     >
       {/* Décorations */}
       <i

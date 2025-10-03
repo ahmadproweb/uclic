@@ -1,21 +1,19 @@
-import AndMoreService from "@/components/pages/home/andmoreservice/andmoreservice";
 import Blog from "@/components/pages/home/blog/blog";
 import CaseStudyWrapper from "@/components/pages/home/casestudy";
 import Partners from "@/components/pages/home/partner/partner";
 import ExpertisePartners from "./ExpertisePartners";
-import TeamSection from "@/components/pages/home/team/team-section";
 import Testimonials from "@/components/pages/home/testimonials/testimonials";
 import { cn } from "@/lib/utils";
 import { getExpertise, getExpertisePostsByCategory } from "@/lib/wordpress";
 import { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 import ExpertiseBenefits from "./ExpertiseBenefits";
 import ExpertiseMarquee from "./ExpertiseMarquee";
 import FAQExpertise from "./FAQExpertise";
 import HeroExpertise from "./HeroExpertise";
 import ProcessExpertise from "./ProcessExpertise";
 import Script from "next/script";
+import { cleanHtmlEntities } from "@/utils/string";
 
 function formatFr(input?: string) {
   if (!input) return "";
@@ -113,6 +111,14 @@ export default async function ExpertisePage({ params }: ExpertisePageProps) {
   const expertise = await getExpertise(slug);
   if (!expertise) return notFound();
 
+  // Debug: Vérifier les données de l'expertise
+  console.log("🔍 EXPERTISE DATA DEBUG:");
+  console.log("Expertise title:", expertise.title);
+  console.log("Expertise fields:", expertise.expertiseFields);
+  console.log("Content2 raw:", expertise.expertiseFields?.content2);
+  console.log("Content2 type:", typeof expertise.expertiseFields?.content2);
+  console.log("Content2 length:", expertise.expertiseFields?.content2?.length || 0);
+
   const expertiseCategory =
     expertise.expertiseGrowthCategories?.nodes?.[0]?.slug;
   if (expertiseCategory !== category) return notFound();
@@ -139,17 +145,6 @@ export default async function ExpertisePage({ params }: ExpertisePageProps) {
         <HeroExpertise expertise={expertise} />
         <Partners />
         <ExpertiseBenefits {...expertise.expertiseFields} />
-        <AndMoreService>
-          <Suspense
-            fallback={
-              <div className="w-full h-[400px] flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-              </div>
-            }
-          >
-            <TeamSection />
-          </Suspense>
-        </AndMoreService>
         <section
           className={cn(
             "w-full relative py-8 md:py-16",
@@ -170,21 +165,54 @@ export default async function ExpertisePage({ params }: ExpertisePageProps) {
               >
                 {formatFr(expertise.expertiseFields?.h22)}
               </h2>
-
-              <div className="max-w-[800px] mx-auto">
-                <p
-                  className={cn(
-                    "text-base md:text-lg",
-                    "leading-relaxed",
-                    "text-black/70 dark:text-white/70",
-                    "whitespace-pre-line",
-                    "text-pretty"
-                  )}
-                >
-                  {formatFr(expertise.expertiseFields?.content2)}
-                </p>
-              </div>
             </div>
+          </div>
+          
+          {/* Content2 en pleine largeur */}
+          <div className="w-full px-4">
+                <div className={cn(
+                  "w-full rounded-3xl border backdrop-blur-md relative p-6 sm:p-8 bg-transparent",
+                  "border-black/5 dark:border-white/10"
+                )}>
+                  {/* Background pattern */}
+                  <div
+                    className="absolute inset-0 rounded-3xl -z-10"
+                    style={{
+                      backgroundImage: `url(${require('@/lib/assets').backgroundEffectUrl})`,
+                      backgroundRepeat: "repeat",
+                      backgroundSize: "200px",
+                      opacity: "0.04"
+                    }}
+                  />
+                  {/* Halo effect */}
+                  <div 
+                    className="absolute inset-0 opacity-60 hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10"
+                    style={{
+                      background: `radial-gradient(ellipse at top, rgba(212,237,49,0.25) 0%, rgba(212,237,49,0.15) 40%, transparent 70%)`,
+                      filter: 'blur(8px)',
+                    }}
+                  />
+                  <article
+                    className={cn(
+                      "max-w-none wp-content-styles relative z-20",
+                      "text-base md:text-lg",
+                      "leading-relaxed",
+                      "text-black/70 dark:text-white/70",
+                      "text-pretty",
+                      // Styles Tailwind pour le HTML WordPress
+                      "[&_h2]:text-2xl [&_h2]:font-bold [&_h2]:mb-4 [&_h2]:mt-8 [&_h2]:text-black dark:[&_h2]:text-white",
+                      "[&_h3]:text-xl [&_h3]:font-semibold [&_h3]:mb-3 [&_h3]:mt-6 [&_h3]:text-black dark:[&_h3]:text-white",
+                      "[&_p]:mb-4 [&_p]:leading-relaxed",
+                      "[&_ul]:mb-4 [&_ul]:pl-6",
+                      "[&_li]:mb-2 [&_li]:list-disc",
+                      "[&_strong]:font-semibold",
+                      "[&_a]:text-blue-600 dark:[&_a]:text-blue-400 [&_a]:underline [&_a]:hover:text-blue-800 dark:[&_a]:hover:text-blue-300"
+                    )}
+                    dangerouslySetInnerHTML={{
+                      __html: cleanHtmlEntities(expertise.expertiseFields?.content2 || "")
+                    }}
+                  />
+                </div>
           </div>
         </section>
         <ProcessExpertise expertiseFields={expertise.expertiseFields} />
@@ -324,20 +352,9 @@ export default async function ExpertisePage({ params }: ExpertisePageProps) {
       <ExpertiseBenefits {...expertise.expertiseFields} />
       <ExpertiseMarquee words={marqueeItems} />
 
-      <AndMoreService>
-        <Suspense
-          fallback={
-            <div className="w-full h-[400px] flex items-center justify-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-            </div>
-          }
-        >
-          <TeamSection />
-        </Suspense>
-      </AndMoreService>
       <ExpertisePartners 
         title={formatFr(expertise.expertiseFields?.h22)}
-        subtitle={formatFr(expertise.expertiseFields?.content2)}
+        subtitle={expertise.expertiseFields?.content2 || ""}
       />
       <ProcessExpertise expertiseFields={expertise.expertiseFields} />
       <CaseStudyWrapper />
