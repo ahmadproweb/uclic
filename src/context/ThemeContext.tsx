@@ -2,6 +2,13 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 
+// Déclaration globale pour le thème initial
+declare global {
+  interface Window {
+    __INITIAL_THEME__?: string;
+  }
+}
+
 type Theme = "light" | "dark";
 
 interface ThemeContextType {
@@ -13,7 +20,23 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
-  const [theme, setTheme] = useState<Theme>("light");
+  const [theme, setTheme] = useState<Theme>(() => {
+    // Utiliser le thème initial appliqué par le script
+    if (typeof window !== 'undefined') {
+      try {
+        // Priorité au thème déjà appliqué par le script
+        if (window.__INITIAL_THEME__) {
+          return window.__INITIAL_THEME__ as Theme;
+        }
+        const savedTheme = localStorage.getItem("theme") as Theme | null;
+        const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        return savedTheme || (systemPrefersDark ? 'dark' : 'light');
+      } catch (e) {
+        return 'dark'; // Fallback vers dark par défaut
+      }
+    }
+    return 'dark'; // Fallback vers dark par défaut
+  });
 
   // Initialisation du thème
   useEffect(() => {
@@ -29,9 +52,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       console.log('[Theme] no stored preference, using system default');
     }
 
-    const savedTheme = resolvedTheme;
-    setTheme(savedTheme);
-    applyTheme(savedTheme);
+    // Ne mettre à jour que si le thème a changé
+    if (resolvedTheme !== theme) {
+      setTheme(resolvedTheme);
+    }
+    // Appliquer le thème même si c'est le même (au cas où le script n'aurait pas fonctionné)
+    applyTheme(resolvedTheme);
   }, []);
 
   // Application du thème
@@ -57,9 +83,18 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     applyTheme(newTheme);
   };
 
+  // Éviter l'hydratation mismatch en ne rendant qu'après le montage
+  if (!mounted) {
+    return (
+      <ThemeContext.Provider value={{ theme: "light", toggleTheme: () => {} }}>
+        <div suppressHydrationWarning>{children}</div>
+      </ThemeContext.Provider>
+    );
+  }
+
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      <div>{children}</div>
+      <div suppressHydrationWarning>{children}</div>
     </ThemeContext.Provider>
   );
 }

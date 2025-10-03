@@ -38,9 +38,10 @@ const row2 = [
 interface PartnersProps {
   forceBlackLogos?: boolean;
   noTopBorder?: boolean;
+  hideText?: boolean;
 }
 
-export default function Partners({ forceBlackLogos = false, noTopBorder = false }: PartnersProps) {
+export default function Partners({ forceBlackLogos = false, noTopBorder = false, hideText = false }: PartnersProps) {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
@@ -49,7 +50,7 @@ export default function Partners({ forceBlackLogos = false, noTopBorder = false 
       className={cn(
         "w-full flex flex-col gap-0 pt-8 md:pt-12 pb-12 md:pb-16 overflow-hidden relative",
         noTopBorder ? "border-b" : "border-y",
-        isDark ? "bg-black border-white/10" : "bg-transparent border-black/5"
+        isDark ? "bg-black border-white/10" : "bg-white border-black/5"
       )}
       aria-label="Nos partenaires de confiance"
     >
@@ -63,7 +64,7 @@ export default function Partners({ forceBlackLogos = false, noTopBorder = false 
           opacity: isDark ? 0.12 : 0.04
         }}
       />
-      <PartnerClient row1={row1} row2={row2} forceBlackLogos={forceBlackLogos} />
+      <PartnerClient row1={row1} row2={row2} forceBlackLogos={forceBlackLogos} hideText={hideText} />
     </div>
   );
 } 

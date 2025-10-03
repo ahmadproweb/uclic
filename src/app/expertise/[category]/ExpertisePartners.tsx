@@ -150,7 +150,7 @@ export default function ExpertisePartners({ title, subtitle }: ExpertisePartners
         aria-hidden="true"
       />
 
-      <div className="max-w-[1250px] mx-auto px-4 sm:px-6">
+      <div className="w-full">
         <div className="text-center">
           <div className={cn(
             "inline-flex px-4 py-2 border rounded-full mb-6",

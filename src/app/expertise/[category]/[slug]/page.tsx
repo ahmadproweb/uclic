@@ -350,7 +350,7 @@ export default async function ExpertisePage({ params }: ExpertisePageProps) {
       
       <main className="flex flex-col">
       <HeroExpertise expertise={expertise} />
-      <Partners />
+      <Partners noTopBorder />
       <ExpertiseBenefits {...expertise.expertiseFields} />
       <ExpertiseMarquee words={marqueeItems} />
 

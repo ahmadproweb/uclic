@@ -120,6 +120,7 @@ function FooterUI({ legalPages, categories }: FooterUIProps) {
     { href: '/equipe', text: 'Notre équipe' },
     { href: '/levee-de-fonds', text: 'Levées de fonds' },
     { href: '/charte-freelance', text: 'La charte du Freelance' },
+    { href: '/meilleure-agence-growth', text: 'Meilleure Agence Growth' },
     { href: '/contact', text: 'Nous rejoindre' },
     { href: '/toolbox', text: 'Toolbox' }
   ];

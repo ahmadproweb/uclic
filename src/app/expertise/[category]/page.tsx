@@ -217,7 +217,7 @@ export default async function CategoryPage(props: CategoryPageProps) {
           categoryName={categoryData.name}
           expertiseFields={categoryData.expertiseFields}
         />
-        <Partners />
+        <Partners noTopBorder />
         <ExpertiseBenefits {...categoryData.expertiseFields} />
         <ExpertiseMarquee words={marqueeItems} />
 

@@ -119,7 +119,7 @@ export default function HeroExpertise({ categoryName, expertiseFields }: HeroExp
   return (
     <section className={cn(
       "relative z-10 min-h-[calc(70vh-var(--header-height))] flex items-center pt-28 sm:pt-32 md:pt-36 overflow-hidden",
-      isDark ? "bg-black" : "bg-transparent"
+      isDark ? "bg-black" : "bg-white"
     )}>
       <div className="relative z-10 w-full max-w-[1250px] mx-auto px-4 sm:px-6">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">

@@ -95,39 +95,31 @@ export default function RootLayout({
         />
         <link rel="preload" href="/absans-regular.woff" as="font" type="font/woff" crossOrigin="anonymous" />
         <link rel="preload" href="/logo.svg" as="image" />
+        
 
-        <Script id="performance-optimizations" strategy="afterInteractive">
-          {`
-            const deferredInit = () => {
-              // Web Vitals optimisé
-              if ('PerformanceObserver' in window) {
-                try {
-                  const vitalsObserver = new PerformanceObserver((list) => {
-                    list.getEntries().forEach(entry => {
-                      const value = entry.startTime || entry.value;
-                      const id = entry.id || entry.entryType;
-                      console.debug('[Web Vitals]', id, Math.round(value * 100) / 100);
-                    });
-                  });
-
-                  vitalsObserver.observe({ 
-                    entryTypes: ['largest-contentful-paint', 'first-input', 'layout-shift']
-                  });
-                } catch (e) {
-                  console.warn('Web Vitals:', e);
-                }
-              }
-            };
-
-            // Différer l'initialisation
-            if (window.requestIdleCallback) {
-              requestIdleCallback(deferredInit);
-            } else {
-              setTimeout(deferredInit, 1);
-            }
-          `}
-        </Script>
-
+        {/* Script minimal pour éviter le FOUC du thème */}
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            (function() {
+              const savedTheme = localStorage.getItem('theme');
+              const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+              const theme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+              
+              document.documentElement.className = theme + ' loading';
+              document.documentElement.style.setProperty('--background', theme === 'dark' ? '#000000' : '#ffffff', 'important');
+              document.documentElement.style.setProperty('--foreground', theme === 'dark' ? '#F5F5F1' : '#000000', 'important');
+              window.__INITIAL_THEME__ = theme;
+              
+              // Fade-out après chargement
+              window.addEventListener('load', function() {
+                setTimeout(function() {
+                  document.documentElement.classList.remove('loading');
+                }, 100);
+              });
+            })();
+          `
+        }} />
+        
         <link
           rel="apple-touch-icon"
           sizes="180x180"
@@ -174,6 +166,9 @@ export default function RootLayout({
         />
       </head>
       <body className="overflow-x-hidden" suppressHydrationWarning={true}>
+        {/* Overlay de fade-in */}
+        <div className="loading-overlay"></div>
+        
         <Script id="website-schema" type="application/ld+json" strategy="afterInteractive">
           {JSON.stringify({
             "@context": "https://schema.org",

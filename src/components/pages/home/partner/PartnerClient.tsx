@@ -1,6 +1,6 @@
 "use client";
 
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { useTheme } from "@/context/ThemeContext";
 import { cn } from "@/lib/utils";
 import './partner.css';
@@ -15,6 +15,7 @@ interface PartnerClientProps {
   row1: Partner[];
   row2: Partner[];
   forceBlackLogos?: boolean;
+  hideText?: boolean;
 }
 
 const PartnerLogo = memo(function PartnerLogo({ 
@@ -55,19 +56,22 @@ PartnerLogo.displayName = 'PartnerLogo';
 const PartnerRow = memo(function PartnerRow({ 
   partners, 
   isReverse = false,
-  filter
+  filter,
+  isLoaded = false
 }: { 
   partners: Partner[];
   isReverse?: boolean;
   filter: string;
+  isLoaded?: boolean;
 }) {
   return (
     <div className="partner-container">
       <div 
         className={cn(
           "partner-scroll",
-          isReverse ? "animate-marquee-right" : "animate-marquee-left"
+          isLoaded && (isReverse ? "animate-marquee-right" : "animate-marquee-left")
         )}
+        style={{ opacity: isLoaded ? 1 : 0 }}
       >
         {[...partners, ...partners].map((partner, idx) => (
           <PartnerLogo 
@@ -85,13 +89,24 @@ const PartnerRow = memo(function PartnerRow({
 
 PartnerRow.displayName = 'PartnerRow';
 
-export const PartnerClient = memo(function PartnerClient({ 
+export const PartnerClient = memo(function PartnerClient({
   row1, 
   row2, 
-  forceBlackLogos = false 
+  forceBlackLogos = false,
+  hideText = false
 }: PartnerClientProps) {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    // Petit délai pour éviter le flash des logos mal ordonnés
+    const timer = setTimeout(() => {
+      setIsLoaded(true);
+    }, 50);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const getLogoFilter = () => {
     if (forceBlackLogos) return "[filter:brightness(0)]";
@@ -100,17 +115,19 @@ export const PartnerClient = memo(function PartnerClient({
 
   return (
     <div className="w-full">
-      <div className="max-w-[1250px] mx-auto px-4">
-        <h2 className="text-2xl md:text-4xl font-normal text-center mb-4 text-black dark:text-white">
-          Nos partenaires de confiance
-        </h2>
-        <p className="text-center text-lg text-black dark:text-gray-300 max-w-2xl mx-auto mb-8">
-          Ils ont fait confiance à nos services <strong>Growth</strong>, <strong>automatisation</strong> & <strong>IA</strong>
-        </p>
-      </div>
+      {!hideText && (
+        <div className="max-w-[1250px] mx-auto px-4">
+          <h2 className="text-2xl md:text-4xl font-normal text-center mb-4 text-black dark:text-white">
+            Nos partenaires de confiance
+          </h2>
+          <p className="text-center text-lg text-black dark:text-gray-300 max-w-2xl mx-auto mb-8">
+            Ils ont fait confiance à nos services <strong>Growth</strong>, <strong>automatisation</strong> & <strong>IA</strong>
+          </p>
+        </div>
+      )}
       <div className="flex flex-col space-y-6">
-        <PartnerRow partners={row1} filter={getLogoFilter()} />
-        <PartnerRow partners={row2} isReverse filter={getLogoFilter()} />
+        <PartnerRow partners={row1} filter={getLogoFilter()} isLoaded={isLoaded} />
+        <PartnerRow partners={row2} isReverse filter={getLogoFilter()} isLoaded={isLoaded} />
       </div>
     </div>
   );
