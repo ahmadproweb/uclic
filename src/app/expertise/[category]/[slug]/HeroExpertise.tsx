@@ -142,7 +142,9 @@ export default function HeroExpertise({ expertise }: HeroExpertiseProps) {
               "whitespace-pre-line"
             )}>
               {(() => {
-                const title = expertise.expertiseFields?.h1 || expertise.title;
+                const title = expertise.expertiseFields?.h1;
+                if (!title) return expertise.title;
+                
                 const words = title.split(' ');
                 const lastWord = words.pop() || '';
                 const restOfTitle = words.join(' ');

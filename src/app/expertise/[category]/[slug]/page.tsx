@@ -115,6 +115,8 @@ export default async function ExpertisePage({ params }: ExpertisePageProps) {
   console.log("🔍 EXPERTISE DATA DEBUG:");
   console.log("Expertise title:", expertise.title);
   console.log("Expertise fields:", expertise.expertiseFields);
+  console.log("H1 field:", expertise.expertiseFields?.h1);
+  console.log("H2_1 field:", expertise.expertiseFields?.h2_1);
   console.log("Content2 raw:", expertise.expertiseFields?.content2);
   console.log("Content2 type:", typeof expertise.expertiseFields?.content2);
   console.log("Content2 length:", expertise.expertiseFields?.content2?.length || 0);
