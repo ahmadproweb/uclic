@@ -9,7 +9,7 @@ html {
   font-family: "Absans", "Inter", system-ui, -apple-system, sans-serif !important;
 }
 
-/* Fade-in overlay propre */
+/* Fade-in overlay optimisé */
 .loading-overlay {
   position: fixed;
   top: 0;
@@ -19,7 +19,7 @@ html {
   z-index: 9999;
   pointer-events: none;
   opacity: 1;
-  transition: opacity 0.8s ease-out;
+  transition: opacity 0.3s ease-out;
 }
 
 .loading-overlay.fade-out {

@@ -20,7 +20,7 @@ const SEOContent = memo(function SEOContent() {
       <div
         className="absolute inset-0 z-0"
         style={{
-          backgroundImage: `url(${require('@/lib/assets').backgroundEffectUrl})`,
+          backgroundImage: "url('/backgroundeffect.png')",
           backgroundRepeat: "repeat",
           backgroundSize: "200px",
           opacity: isDark ? 0.12 : 0.04

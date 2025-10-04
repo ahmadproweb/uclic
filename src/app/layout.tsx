@@ -112,10 +112,13 @@ export default function RootLayout({
               
               // Fade-out après chargement
               window.addEventListener('load', function() {
-                setTimeout(function() {
-                  document.documentElement.classList.remove('loading');
-                }, 100);
+                document.documentElement.classList.remove('loading');
               });
+              
+              // Fallback rapide si DOM est déjà prêt
+              if (document.readyState === 'complete') {
+                document.documentElement.classList.remove('loading');
+              }
             })();
           `
         }} />
@@ -147,15 +150,10 @@ export default function RootLayout({
         <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
         <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
         
-        {/* Préchargement des polices critiques pour réduire la latence */}
-        <link
-          rel="preload"
-          href="/remixicon.woff"
-          as="font"
-          type="font/woff"
-          crossOrigin="anonymous"
-          fetchPriority="high"
-        />
+        {/* Préchargement des ressources critiques */}
+        <link rel="preload" href="/backgroundeffect.png" as="image" />
+        <link rel="preload" href="/absans-regular.woff" as="font" type="font/woff" crossOrigin="anonymous" />
+        <link rel="preload" href="/remixicon.woff" as="font" type="font/woff" crossOrigin="anonymous" fetchPriority="high" />
         <link
           rel="preload"
           href="/fonts/absans-regular.woff2"
