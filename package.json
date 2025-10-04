@@ -23,6 +23,7 @@
     "optimize-all": "npm run optimize-images-advanced && npm run optimize-performance && npm run build"
   },
   "dependencies": {
+    "@babel/runtime": "^7.28.4",
     "@emailjs/browser": "^4.3.3",
     "@radix-ui/react-slot": "^1.1.2",
     "@vercel/speed-insights": "^1.2.0",
@@ -46,6 +47,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.28.3",
     "@eslint/eslintrc": "^3",
     "@next/bundle-analyzer": "^15.2.4",
     "@tailwindcss/postcss": "^4",
