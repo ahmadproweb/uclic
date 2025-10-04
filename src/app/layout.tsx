@@ -105,20 +105,13 @@ export default function RootLayout({
               const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
               const theme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
               
-              document.documentElement.className = theme + ' loading';
+              document.documentElement.className = theme;
               document.documentElement.style.setProperty('--background', theme === 'dark' ? '#000000' : '#ffffff', 'important');
               document.documentElement.style.setProperty('--foreground', theme === 'dark' ? '#F5F5F1' : '#000000', 'important');
+              document.documentElement.style.fontFamily = '"Absans", "Inter", system-ui, -apple-system, sans-serif';
               window.__INITIAL_THEME__ = theme;
               
-              // Fade-out après chargement
-              window.addEventListener('load', function() {
-                document.documentElement.classList.remove('loading');
-              });
-              
-              // Fallback rapide si DOM est déjà prêt
-              if (document.readyState === 'complete') {
-                document.documentElement.classList.remove('loading');
-              }
+              // CSS critique appliqué immédiatement
             })();
           `
         }} />
@@ -164,9 +157,6 @@ export default function RootLayout({
         />
       </head>
       <body className="overflow-x-hidden" suppressHydrationWarning={true}>
-        {/* Overlay de fade-in */}
-        <div className="loading-overlay"></div>
-        
         <Script id="website-schema" type="application/ld+json" strategy="afterInteractive">
           {JSON.stringify({
             "@context": "https://schema.org",
