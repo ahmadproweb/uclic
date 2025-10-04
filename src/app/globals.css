@@ -4,9 +4,26 @@
 
 @plugin "tailwindcss-animate";
 
-/* Force font loading to prevent FOUC */
+/* CLS Prevention - Critical */
 html {
   font-family: "Absans", "Inter", system-ui, -apple-system, sans-serif !important;
+  overflow-x: clip;
+  scrollbar-gutter: stable; /* Prevent scrollbar shift */
+}
+
+body {
+  overflow-x: clip;
+  min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport for mobile */
+}
+
+/* Font loading optimization - Prevent FOUC and CLS */
+@font-face {
+  font-family: 'Absans';
+  src: url('/fonts/absans-regular.woff2') format('woff2');
+  font-display: optional; /* Prevents layout shift */
+  font-weight: 400;
+  font-style: normal;
 }
 
 /* Fade-in overlay ultra-rapide */
@@ -33,11 +50,6 @@ html:not(.loading) .loading-overlay {
 
 .light .loading-overlay {
   background-color: #ffffff;
-}
-
-/* Animation de fade-in au chargement complet */
-html:not(.loading) .loading-overlay {
-  opacity: 0;
 }
 
 @custom-variant dark (&:is(.dark *));
@@ -158,6 +170,28 @@ html:not(.loading) .loading-overlay {
   body {
     @apply bg-background text-foreground;
   }
+  
+  /* Prevent CLS from dynamic content */
+  [hidden] {
+    display: none !important;
+  }
+  
+  /* Reserve aspect ratios to prevent shifts */
+  .aspect-video {
+    aspect-ratio: 16 / 9;
+  }
+  
+  .aspect-square {
+    aspect-ratio: 1 / 1;
+  }
+}
+
+/* CSS Containment for performance */
+.video-container,
+.popup-container,
+.chat-widget,
+iframe {
+  contain: layout style paint;
 }
 
 /* Classe pour le contour de texte */
@@ -241,7 +275,6 @@ html:not(.loading) .loading-overlay {
   }
 }
 
-/* Subtle breathing pulse for contact hero gradient (only when class applied) */
 @keyframes uclic-gradient-pulse {
   0%, 100% {
     background-size: 130% 120%;
@@ -279,7 +312,8 @@ html:not(.loading) .loading-overlay {
 
 @media (prefers-reduced-motion: reduce) {
   .animate-slide,
-  .animate-slide-reverse {
+  .animate-slide-reverse,
+  .animate-glow {
     animation: none;
   }
 }
@@ -291,11 +325,10 @@ html:not(.loading) .loading-overlay {
     animation-duration: 30s;
   }
   @media (max-width: 767px) {
-    animation-duration: 20s; /* Plus rapide sur mobile */
+    animation-duration: 20s;
   }
 }
 
-/* Animation de la lueur */
 @keyframes glow {
   0% {
     transform: translate(-50%, -50%) scale(0.8);
@@ -311,24 +344,13 @@ html:not(.loading) .loading-overlay {
   animation: glow 2s ease-in-out infinite alternate;
 }
 
-/* Pause des animations au hover */
 .animation-pause {
   animation-play-state: paused;
 }
 
-/* État hover pour les animations */
 .carousel:hover .animate-slide,
 .carousel:hover .animate-slide-reverse {
   animation-play-state: paused;
-}
-
-/* Support des préférences de mouvement réduit */
-@media (prefers-reduced-motion: reduce) {
-  .animate-glow,
-  .animate-slide,
-  .animate-slide-reverse {
-    animation: none;
-  }
 }
 
 .custom-notch-shape {
@@ -373,7 +395,6 @@ html:not(.loading) .loading-overlay {
   animation-play-state: paused;
 }
 
-/* Pause all marquees when hovering the wrapper */
 .marquee-wrapper:hover .animate-marquee {
   animation-play-state: paused;
 }
@@ -406,11 +427,6 @@ html:not(.loading) .loading-overlay {
   will-change: transform;
 }
 
-.animation-play-state-paused {
-  animation-play-state: paused;
-}
-
-/* JavaScript detection styles */
 @media (scripting: none) {
   .js-only {
     display: none !important;
@@ -423,12 +439,10 @@ html:not(.loading) .loading-overlay {
   }
 }
 
-/* Light mode hover styles */
 :root:not([data-theme="dark"]) {
   --hover-green: rgb(174, 204, 60);
 }
 
-/* Interactive elements hover - Only for text links, excluding CTAButton and other buttons */
 :root:not([data-theme="dark"]) {
   & a:not(.group):not([role="button"]):hover {
     color: var(--hover-green) !important;
@@ -439,7 +453,6 @@ html:not(.loading) .loading-overlay {
   }
 }
 
-/* Styles pour le contenu WordPress */
 .prose ul {
   list-style-type: disc;
   padding-left: 1.5rem;

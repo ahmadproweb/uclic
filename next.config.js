@@ -5,7 +5,6 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
-  swcMinify: true,
   
   // Optimiser pour les navigateurs modernes
   compiler: {
@@ -14,18 +13,18 @@ const nextConfig = {
   
   // Configuration SWC pour navigateurs modernes - Optimisation performance
   experimental: {
-    forceSwcTransforms: true,
-    // Optimisation pour navigateurs modernes
-    modernBrowsers: true,
-    // Réduction des polyfills inutiles
-    reducePolyfills: true,
     optimizeCss: true,
+    cssChunking: 'strict', 
+      inlineCss: true,
     optimizePackageImports: [
       '@heroicons/react',
-      '@mui/icons-material',
-      '@mui/material',
-      'date-fns',
-      'lodash'
+    '@mui/icons-material',
+    '@mui/material',
+    'date-fns',
+    'lodash',
+    'lucide-react',
+    'recharts', // Add if using
+    'd3',
     ],
     webVitalsAttribution: ['CLS', 'LCP', 'FCP', 'FID', 'TTFB', 'INP'],
     turbo: {
@@ -83,111 +82,113 @@ const nextConfig = {
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
-  headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on'
-          },
-          {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=31536000; includeSubDomains'
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'SAMEORIGIN'
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff'
-          },
-          {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block'
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin'
-          },
-          {
-            key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()'
-          }
-        ]
-      },
-      {
-        // Images, fonts et médias statiques
-        source: '/:path*.(jpg|jpeg|png|gif|ico|svg|webp|woff|woff2|ttf|eot)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable'
-          },
-          {
-            key: 'Expires',
-            value: 'Thu, 31 Dec 2025 23:59:59 GMT'
-          }
-        ]
-      },
-      {
-        // CSS et JS statiques Next.js
-        source: '/_next/static/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable'
-          }
-        ]
-      },
-      {
-        // CSS généraux
-        source: '/:path*.css',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable'
-          },
-          {
-            key: 'Expires',
-            value: 'Thu, 31 Dec 2025 23:59:59 GMT'
-          }
-        ]
-      },
-      {
-        // JS généraux
-        source: '/:path*.js',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=86400, stale-while-revalidate=604800'
-          }
-        ]
-      },
-      {
-        // API routes - cache court
-        source: '/api/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=300, s-maxage=300'
-          }
-        ]
-      },
-      {
-        // HTML et autres ressources dynamiques
-        source: '/:path*.html',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=0, must-revalidate'
-          }
-        ]
-      }
-    ];
-  },
+ headers() {
+  return [
+    {
+      source: '/:path*',
+      headers: [
+        {
+          key: 'X-DNS-Prefetch-Control',
+          value: 'on'
+        },
+        {
+          key: 'Strict-Transport-Security',
+          value: 'max-age=31536000; includeSubDomains; preload'
+        },
+        {
+          key: 'X-Frame-Options',
+          value: 'SAMEORIGIN'
+        },
+        {
+          key: 'X-Content-Type-Options',
+          value: 'nosniff'
+        },
+        {
+          key: 'X-XSS-Protection',
+          value: '1; mode=block'
+        },
+        {
+          key: 'Referrer-Policy',
+          value: 'strict-origin-when-cross-origin'
+        },
+        {
+          key: 'Permissions-Policy',
+          value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()'
+        }
+      ]
+    },
+    {
+      // Images, fonts - Maximum cache
+      source: '/:path*.(jpg|jpeg|png|gif|ico|svg|webp|avif|woff|woff2|ttf|eot)',
+      headers: [
+        {
+          key: 'Cache-Control',
+          value: 'public, max-age=31536000, immutable'
+        }
+      ]
+    },
+    {
+      // Next.js static assets - Maximum cache
+      source: '/_next/static/:path*',
+      headers: [
+        {
+          key: 'Cache-Control',
+          value: 'public, max-age=31536000, immutable'
+        }
+      ]
+    },
+    {
+      // CSS files - Maximum cache
+      source: '/_next/static/css/:path*.css',
+      headers: [
+        {
+          key: 'Cache-Control',
+          value: 'public, max-age=31536000, immutable'
+        }
+      ]
+    },
+    {
+      // JS chunks - Maximum cache
+      source: '/_next/static/chunks/:path*.js',
+      headers: [
+        {
+          key: 'Cache-Control',
+          value: 'public, max-age=31536000, immutable'
+        }
+      ]
+    },
+    {
+      // API routes - Short cache with stale-while-revalidate
+      source: '/api/:path*',
+      headers: [
+        {
+          key: 'Cache-Control',
+          value: 'public, max-age=60, s-maxage=300, stale-while-revalidate=86400'
+        }
+      ]
+    },
+    {
+      // HTML pages - CDN cache with revalidation
+      source: '/:path*.html',
+      headers: [
+        {
+          key: 'Cache-Control',
+          value: 'public, max-age=0, s-maxage=3600, stale-while-revalidate=86400'
+        }
+      ]
+    },
+    {
+      // Dynamic pages - Smart caching
+      source: '/((?!_next|api|static).*)',
+      headers: [
+        {
+          key: 'Cache-Control',
+          value: 'public, max-age=0, s-maxage=3600, stale-while-revalidate=86400'
+        }
+      ]
+    }
+  ];
+},
   typescript: {
     ignoreBuildErrors: true
   },

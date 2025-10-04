@@ -29,7 +29,7 @@ export default function LazyYouTube({
   controls = true,
   start,
   end,
-  lazy = true,
+  lazy = false,
   placeholder
 }: LazyYouTubeProps) {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -38,33 +38,20 @@ export default function LazyYouTube({
   const containerRef = useRef<HTMLDivElement>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
-  useEffect(() => {
-    if (!lazy) {
-      setIsIntersecting(true);
-      return;
-    }
-
-    if (!containerRef.current) return;
-
-    observerRef.current = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsIntersecting(true);
-          observerRef.current?.disconnect();
-        }
-      },
-      {
-        rootMargin: '50px 0px',
-        threshold: 0.1
-      }
-    );
-
-    observerRef.current.observe(containerRef.current);
-
-    return () => {
-      observerRef.current?.disconnect();
-    };
-  }, [lazy]);
+ useEffect(() => {
+  // Force click-only mode for PageSpeed
+  // IntersectionObserver ko disable karo
+  return; // Early return - observer kabhi run nahi hoga
+  
+  // Baaki code commented/removed
+  /* 
+  if (!lazy) {
+    setIsIntersecting(true);
+    return;
+  }
+  ...rest of code...
+  */
+}, [lazy]);
 
   const handleLoad = () => {
     setIsLoaded(true);
