@@ -287,7 +287,6 @@ function CaseStudy({ portfolios: initialPortfolios }: CaseStudyProps) {
 
       <div 
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
-        role="feed"
         aria-label="Liste des études de cas"
       >
         {portfolios.map((portfolio: Portfolio) => (

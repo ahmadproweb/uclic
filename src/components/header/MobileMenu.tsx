@@ -22,30 +22,25 @@ const MenuHeader = memo(
     };
 
     return (
-        <div
-          className={cn(
-            "fixed top-0 left-0 right-0 flex items-center justify-between px-6 py-4 z-[110] backdrop-blur-md border rounded-b-2xl",
-            isDark 
-              ? "border-white/10 bg-black/40"
-              : "border-black/5 bg-white/40"
-          )}
-        >
+      <div
+        className={cn(
+          "fixed top-0 left-0 right-0 flex items-center justify-between px-6 py-4 z-[110] backdrop-blur-md border rounded-b-2xl",
+          isDark ? "border-white/10 bg-black/40" : "border-black/5 bg-white/40"
+        )}
+      >
         <Logo />
         <div className="flex items-center gap-3">
           <div
             className={cn(
               "flex items-center gap-2 p-1.5 px-4 rounded-lg cursor-pointer transition-all duration-200 border backdrop-blur-md",
-              isDark 
-                ? "bg-black/40 hover:bg-black/50 text-white border-white/10" 
+              isDark
+                ? "bg-black/40 hover:bg-black/50 text-white border-white/10"
                 : "bg-white/40 hover:bg-white/50 text-black border-black/5"
             )}
             onClick={handleThemeClick}
           >
             <i
-              className={cn(
-                isDark ? "ri-sun-line" : "ri-moon-line",
-                "text-lg"
-              )}
+              className={cn(isDark ? "ri-sun-line" : "ri-moon-line", "text-lg")}
               aria-hidden="true"
             />
             <span className={cn("text-sm font-medium truncate")}>Thème</span>
@@ -54,8 +49,8 @@ const MenuHeader = memo(
             onClick={onClose}
             className={cn(
               "p-2 rounded-lg transition-all duration-200 hover:text-[#E0FF5C] active:scale-95",
-              isDark 
-                ? "text-white hover:bg-white/10" 
+              isDark
+                ? "text-white hover:bg-white/10"
                 : "text-black hover:bg-black/10"
             )}
             aria-label="Fermer le menu"
@@ -74,14 +69,24 @@ const ServiceMenu = memo(
   ({ isDark, onBack, onServiceSelect, serviceItems }: ServiceMenuProps) => (
     <div className="pt-24 flex-1 flex flex-col px-6 overflow-y-auto">
       <div className="max-w-sm mx-auto w-full">
-          <button
-            onClick={onBack}
-            className={cn("flex items-center mb-8 transition-all duration-200 hover:text-[#00E6A7] hover:scale-[1.02] active:scale-[0.98] p-3 -ml-2 rounded-xl backdrop-blur-md border", isDark ? "text-white bg-black/40 border-white/10" : "text-black bg-white/40 border-black/5")}
-          >
-            <ArrowIcon className={cn("mr-3 w-6 h-6 rotate-180 transition-transform duration-200 group-hover:-translate-x-1", isDark ? "text-white" : "text-black")} />
-            <span className="text-xl mr-3">💡</span>
-            <span className="text-lg font-medium">Expertises</span>
-          </button>
+        <button
+          onClick={onBack}
+          className={cn(
+            "flex items-center mb-8 transition-all duration-200 hover:text-[#00E6A7] hover:scale-[1.02] active:scale-[0.98] p-3 -ml-2 rounded-xl backdrop-blur-md border",
+            isDark
+              ? "text-white bg-black/40 border-white/10"
+              : "text-black bg-white/40 border-black/5"
+          )}
+        >
+          <ArrowIcon
+            className={cn(
+              "mr-3 w-6 h-6 rotate-180 transition-transform duration-200 group-hover:-translate-x-1",
+              isDark ? "text-white" : "text-black"
+            )}
+          />
+          <span className="text-xl mr-3">💡</span>
+          <span className="text-lg font-medium">Expertises</span>
+        </button>
 
         <div className="flex flex-col space-y-4 pb-6">
           {serviceItems.map((service) => (
@@ -132,7 +137,9 @@ const MainMenu = memo(
                 key={item.href}
                 className={cn(
                   "backdrop-blur-md hover:bg-[#E0FF5C] hover:text-black hover:scale-[1.02] active:scale-[0.98] rounded-xl py-4 px-6 flex items-center justify-between w-full text-left border transition-all duration-200 ease-out",
-                  isDark ? "bg-black/40 border-white/10 text-white" : "bg-white/40 border-black/5 text-black"
+                  isDark
+                    ? "bg-black/40 border-white/10 text-white"
+                    : "bg-white/40 border-black/5 text-black"
                 )}
                 onClick={onServiceMenuOpen}
               >
@@ -140,16 +147,22 @@ const MainMenu = memo(
                   <span className="text-xl">{getIcon(item.label)}</span>
                   <p className="text-base font-medium m-0">{item.label}</p>
                 </div>
-                <ArrowIcon className={`w-[18px] h-[18px] ${isDark ? "text-white" : "text-black"} hover:text-black transition-transform duration-200 group-hover:translate-x-1`} />
+                <ArrowIcon
+                  className={`w-[18px] h-[18px] ${
+                    isDark ? "text-white" : "text-black"
+                  } hover:text-black transition-transform duration-200 group-hover:translate-x-1`}
+                />
               </button>
             ) : (
               <Link
                 key={item.href}
-                  prefetch={false} 
+                prefetch={false}
                 href={item.href}
                 className={cn(
                   "backdrop-blur-md hover:bg-[#E0FF5C] hover:text-black hover:scale-[1.02] active:scale-[0.98] rounded-xl py-4 px-6 flex items-center justify-between border transition-all duration-200 ease-out group",
-                  isDark ? "bg-black/40 border-white/10 text-white" : "bg-white/40 border-black/5 text-black"
+                  isDark
+                    ? "bg-black/40 border-white/10 text-white"
+                    : "bg-white/40 border-black/5 text-black"
                 )}
                 onClick={() => {
                   // Réinitialiser le style du body avant la navigation
@@ -181,64 +194,115 @@ const MainMenu = memo(
             >
               Audit Gratuit
             </CTAButton>
-            
+
+            {/* Logos clients */}
             {/* Logos clients */}
             <div className="flex flex-col items-center space-y-3">
-              <p className={cn("text-xs opacity-60", isDark ? "text-white" : "text-black")}>
+              <p
+                className={cn(
+                  "text-xs opacity-60",
+                  isDark ? "text-white" : "text-black"
+                )}
+              >
                 Ils nous font confiance
               </p>
               <div className="flex flex-col items-center space-y-2 opacity-50">
                 {/* Ligne 1 */}
                 <div className="flex items-center space-x-2">
                   <img
-                    src={require('@/lib/assets').getAssetUrl('/partners/louisvuitton.png')}
+                    src={require("@/lib/assets").getAssetUrl(
+                      "/partners/louisvuitton.png"
+                    )}
                     alt="Logo Louis Vuitton"
+                    width="60"
+                    height="16"
+                    loading="lazy"
                     className="h-4 w-auto object-contain brightness-0 dark:invert"
                   />
                   <img
-                    src={require('@/lib/assets').getAssetUrl('/partners/lemonde.png')}
+                    src={require("@/lib/assets").getAssetUrl(
+                      "/partners/lemonde.png"
+                    )}
                     alt="Logo Le Monde"
+                    width="60"
+                    height="16"
+                    loading="lazy"
                     className="h-4 w-auto object-contain brightness-0 dark:invert"
                   />
                   <img
-                    src={require('@/lib/assets').getAssetUrl('/partners/tehtris.png')}
+                    src={require("@/lib/assets").getAssetUrl(
+                      "/partners/tehtris.png"
+                    )}
                     alt="Logo Tehtris"
+                    width="60"
+                    height="16"
+                    loading="lazy"
                     className="h-4 w-auto object-contain brightness-0 dark:invert"
                   />
                 </div>
                 {/* Ligne 2 */}
                 <div className="flex items-center space-x-2">
                   <img
-                    src={require('@/lib/assets').getAssetUrl('/partners/oreal.png')}
+                    src={require("@/lib/assets").getAssetUrl(
+                      "/partners/oreal.png"
+                    )}
                     alt="Logo L'Oréal"
+                    width="60"
+                    height="16"
+                    loading="lazy"
                     className="h-4 w-auto object-contain brightness-0 dark:invert"
                   />
                   <img
-                    src={require('@/lib/assets').getAssetUrl('/partners/agicap.png')}
+                    src={require("@/lib/assets").getAssetUrl(
+                      "/partners/agicap.png"
+                    )}
                     alt="Logo Agicap"
+                    width="60"
+                    height="16"
+                    loading="lazy"
                     className="h-4 w-auto object-contain brightness-0 dark:invert"
                   />
                   <img
-                    src={require('@/lib/assets').getAssetUrl('/partners/deepki.png')}
+                    src={require("@/lib/assets").getAssetUrl(
+                      "/partners/deepki.png"
+                    )}
                     alt="Logo Deepki"
+                    width="60"
+                    height="16"
+                    loading="lazy"
                     className="h-4 w-auto object-contain brightness-0 dark:invert"
                   />
                 </div>
                 {/* Ligne 3 */}
                 <div className="flex items-center space-x-2">
                   <img
-                    src={require('@/lib/assets').getAssetUrl('/partners/muzzo.png')}
+                    src={require("@/lib/assets").getAssetUrl(
+                      "/partners/muzzo.png"
+                    )}
                     alt="Logo Muzzo"
+                    width="60"
+                    height="16"
+                    loading="lazy"
                     className="h-4 w-auto object-contain brightness-0 dark:invert"
                   />
                   <img
-                    src={require('@/lib/assets').getAssetUrl('/partners/codingame.png')}
+                    src={require("@/lib/assets").getAssetUrl(
+                      "/partners/codingame.png"
+                    )}
                     alt="Logo CodinGame"
+                    width="60"
+                    height="16"
+                    loading="lazy"
                     className="h-4 w-auto object-contain brightness-0 dark:invert"
                   />
                   <img
-                    src={require('@/lib/assets').getAssetUrl('/partners/floa.png')}
+                    src={require("@/lib/assets").getAssetUrl(
+                      "/partners/floa.png"
+                    )}
                     alt="Logo Floa"
+                    width="60"
+                    height="16"
+                    loading="lazy"
                     className="h-4 w-auto object-contain brightness-0 dark:invert"
                   />
                 </div>
@@ -316,19 +380,24 @@ export const MobileMenu = memo(
         <div
           className={cn(
             "fixed left-0 top-0 h-full w-full transition-all duration-300 ease-out flex flex-col min-h-screen overflow-y-auto",
-            isOpen
-              ? "translate-x-0"
-              : "-translate-x-full"
+            isOpen ? "translate-x-0" : "-translate-x-full"
           )}
           style={{
-            background: isDark ? "rgba(0, 0, 0, 0.4)" : "rgba(255, 255, 255, 0.4)",
+            background: isDark
+              ? "rgba(0, 0, 0, 0.4)"
+              : "rgba(255, 255, 255, 0.4)",
             backdropFilter: "blur(12px)",
             WebkitBackdropFilter: "blur(12px)",
           }}
         >
           <MenuHeader isDark={isDark} onClose={handleClose} />
           <div className="flex items-center justify-center h-full">
-            <div className={cn("animate-spin rounded-full h-8 w-8 border-t-2 border-b-2", isDark ? "border-white" : "border-black")}></div>
+            <div
+              className={cn(
+                "animate-spin rounded-full h-8 w-8 border-t-2 border-b-2",
+                isDark ? "border-white" : "border-black"
+              )}
+            ></div>
           </div>
         </div>
       </div>
@@ -340,41 +409,43 @@ export const MobileMenu = memo(
         )}
       >
         {/* Halo background effect */}
-        <div 
+        <div
           className="fixed inset-0 pointer-events-none"
           style={{
-            background: isDark 
+            background: isDark
               ? "radial-gradient(circle at 50% 50%, rgba(0, 230, 167, 0.15) 0%, rgba(0, 0, 0, 0.9) 70%)"
-              : "radial-gradient(circle at 50% 50%, rgba(0, 230, 167, 0.1) 0%, rgba(255, 255, 255, 0.95) 70%)"
+              : "radial-gradient(circle at 50% 50%, rgba(0, 230, 167, 0.1) 0%, rgba(255, 255, 255, 0.95) 70%)",
           }}
         />
-        
+
         {/* Blur overlay for better readability */}
-        <div className={cn(
-          "fixed inset-0 min-h-screen backdrop-blur-lg pointer-events-none",
-          isDark ? "bg-black/50" : "bg-white/60"
-        )} />
-        
+        <div
+          className={cn(
+            "fixed inset-0 min-h-screen backdrop-blur-lg pointer-events-none",
+            isDark ? "bg-black/50" : "bg-white/60"
+          )}
+        />
+
         {/* Menu panel */}
         <div
-            className={cn(
-              "fixed left-0 top-0 h-full w-full transition-all duration-300 ease-out flex flex-col min-h-screen overflow-y-auto bg-transparent pointer-events-auto relative",
-              isOpen
-                ? "translate-x-0"
-                : "-translate-x-full"
-            )}
-      >
+          className={cn(
+            "fixed left-0 top-0 h-full w-full transition-all duration-300 ease-out flex flex-col min-h-screen overflow-y-auto bg-transparent pointer-events-auto relative",
+            isOpen ? "translate-x-0" : "-translate-x-full"
+          )}
+        >
           {/* Texture grain background */}
-          <div 
-            className="pointer-events-none absolute inset-0 z-0" 
+          <div
+            className="pointer-events-none absolute inset-0 z-0"
             style={{
-              backgroundImage: `url(${require('@/lib/assets').backgroundEffectUrl})`, 
-              backgroundRepeat: 'repeat', 
-              backgroundSize: '200px', 
-              opacity: isDark ? 0.03 : 0.04
-            }} 
+              backgroundImage: `url(${
+                require("@/lib/assets").backgroundEffectUrl
+              })`,
+              backgroundRepeat: "repeat",
+              backgroundSize: "200px",
+              opacity: isDark ? 0.03 : 0.04,
+            }}
           />
-          
+
           <MenuHeader isDark={isDark} onClose={handleClose} />
 
           <div className="relative z-10">

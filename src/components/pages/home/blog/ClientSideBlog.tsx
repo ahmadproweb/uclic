@@ -170,7 +170,7 @@ function ClientSideBlog({ blogPosts }: ClientSideBlogProps) {
       <div className="max-w-[1250px] mx-auto px-4 relative z-10">
         <BlogHeader isDark={isDark} />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 md:mb-16" role="feed" aria-label="Articles de blog récents">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 md:mb-16"  aria-label="Articles de blog récents">
           {blogPosts.map((post, index) => (
             <BlogPostCard
               key={post.id}

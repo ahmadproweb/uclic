@@ -73,62 +73,75 @@ const TestimonialCard = memo(({ testimonial, isDark, index, isMasonry = false }:
   </blockquote>
 )}
     </div>
-    <footer className="flex items-center gap-2 md:gap-3 mt-auto">
-      {testimonial.authorProfileUrl ? (
-      <a
-        href={testimonial.authorProfileUrl ?? undefined}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={cn(
-          "w-10 h-10 md:w-12 md:h-12 aspect-square rounded-full overflow-hidden relative shrink-0",
-          "flex items-center justify-center",
-          isDark ? "bg-white/10 ring-1 ring-white/15" : "bg-black/10 ring-1 ring-black/10"
-        )}
-        aria-label={`Voir le profil de ${testimonial.title}`}
-      >
-        {testimonial.imageTesti && (
-          <img
-            src={require('@/lib/assets').getAssetUrl(`/${testimonial.imageTesti}`)} 
-            alt={`Photo de ${testimonial.title}`}
-            className="w-full h-full object-cover rounded-full block"
-            loading="lazy"
-            itemProp="image"
-          />
-        )}
-        <i 
-          className={cn(
-            "ri-user-line text-xl md:text-2xl absolute inset-0 flex items-center justify-center",
-            isDark ? "text-white/80" : "text-black/80",
-            testimonial.imageTesti ? "opacity-0 group-hover:opacity-100 transition-opacity duration-300" : ""
-          )}
-          aria-hidden="true"
+  <footer className="flex items-center gap-2 md:gap-3 mt-auto">
+  {testimonial.authorProfileUrl ? (
+    <a
+      href={testimonial.authorProfileUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={cn(
+        "w-10 h-10 md:w-12 md:h-12 aspect-square rounded-full overflow-hidden relative shrink-0",
+        "flex items-center justify-center",
+        isDark ? "bg-white/10 ring-1 ring-white/15" : "bg-black/10 ring-1 ring-black/10"
+      )}
+      aria-label={`Voir le profil de ${testimonial.title}`}
+    >
+      {testimonial.imageTesti && (
+        <img
+          src={require('@/lib/assets').getAssetUrl(`/${testimonial.imageTesti}`)} 
+          alt={`Photo de ${testimonial.title}`}
+          className="w-full h-full object-cover rounded-full block"
+          loading="lazy"
+          itemProp="image"
         />
-      </a>
-) : (
+      )}
+      <i 
+        className={cn(
+          "ri-user-line text-xl md:text-2xl absolute inset-0 flex items-center justify-center",
+          isDark ? "text-white/80" : "text-black/80",
+          testimonial.imageTesti ? "opacity-0 group-hover:opacity-100 transition-opacity duration-300" : ""
+        )}
+        aria-hidden="true"
+      />
+    </a>
+  ) : (
+    <div className={cn(
+      "w-10 h-10 md:w-12 md:h-12 aspect-square rounded-full overflow-hidden relative shrink-0",
+      "flex items-center justify-center",
+      isDark ? "bg-white/10 ring-1 ring-white/15" : "bg-black/10 ring-1 ring-black/10"
+    )}>
+      <i 
+        className={cn(
+          "ri-user-line text-xl md:text-2xl",
+          isDark ? "text-white/80" : "text-black/80"
+        )}
+        aria-hidden="true"
+      />
+    </div>
+  )}
+  
   <div itemProp="author" itemScope itemType="https://schema.org/Person">
-        <cite 
-          className={cn(
-            "text-sm md:text-[15px] font-medium not-italic",
-            isDark ? "text-white" : "text-black"
-          )}
-          itemProp="name"
-        >
-          {testimonial.title}
-        </cite>
-        <div 
-          className={cn(
-            "text-[11px] md:text-xs line-clamp-1",
-            isDark ? "text-white/60" : "text-black/70"
-          )}
-          itemProp="jobTitle"
-        >
-          {testimonial.clientDesignation}
-        </div>
-      </div>
-)}
-
+    <cite 
+      className={cn(
+        "text-sm md:text-[15px] font-medium not-italic",
+        isDark ? "text-white" : "text-black"
+      )}
+      itemProp="name"
+    >
+      {testimonial.title}
+    </cite>
+    <div 
+      className={cn(
+        "text-[11px] md:text-xs line-clamp-1",
+        isDark ? "text-white/60" : "text-black/70"
+      )}
+      itemProp="jobTitle"
+    >
+      {testimonial.clientDesignation}
+    </div>
+  </div>
+</footer>
      
-    </footer>
   </article>
 )});
 
@@ -234,6 +247,7 @@ const SpotifyEpisodeCard = memo(({ isDark }: { isDark: boolean }) => (
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
             loading="lazy"
             className="rounded-2xl"
+            title="Podcast Spotify - Automatiser à 100% sa Lead Generation B2B avec Wladimir Delcros"
           />
         </div>
         
@@ -275,7 +289,6 @@ const YouTubeVideoCard = memo(({ isDark }: { isDark: boolean }) => (
         ? "bg-[#FF0000]/10 border-[#FF0000]/30 shadow-lg shadow-[#FF0000]/10" 
         : "bg-[#FF0000]/10 border-[#FF0000]/30 shadow-lg shadow-[#FF0000]/10"
     )}>
-      {/* Halo YouTube rouge */}
       <div
         className="pointer-events-none absolute inset-0 z-0 rounded-3xl"
         style={{
@@ -300,22 +313,23 @@ const YouTubeVideoCard = memo(({ isDark }: { isDark: boolean }) => (
           Wladimir Delcros et Benoit Dubos (Scalezia) partagent leurs stratégies pour automatiser votre prospection et contacter vos leads au moment optimal.
         </p>
         
-        {/* YouTube Embed */}
-        <div className="mb-4 rounded-2xl overflow-hidden">
-          <iframe 
-            width="100%" 
-            height="315" 
-            src="https://www.youtube.com/embed/GRlZO8KtB7A" 
-            title="Wladimir Delcros avec Benoit Dubos : Contacter les prospects au bon moment" 
-            frameBorder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-            referrerPolicy="strict-origin-when-cross-origin" 
-            allowFullScreen
-            className="rounded-2xl aspect-video"
-          />
-        </div>
+        {/* YouTube Embed - Privacy Mode */}
+       {/* LazyYouTube - Click to Load */}
+<div className="mb-4">
+  {(() => {
+    const LazyYouTube = require('../../../optimization/LazyYouTube').default;
+    return (
+      <LazyYouTube
+        videoId="GRlZO8KtB7A"
+        title="Wladimir Delcros avec Benoit Dubos : Contacter les prospects au bon moment"
+        className="rounded-2xl overflow-hidden"
+        privacyMode={true}
+        lazy={false}
+      />
+    );
+  })()}
+</div>
         
-        {/* Invité par */}
         <div className="flex items-center gap-3 pl-1">
           <span className={cn("text-xs font-medium", isDark ? "text-white/60" : "text-black/60")}>
             Invité par :
@@ -323,12 +337,12 @@ const YouTubeVideoCard = memo(({ isDark }: { isDark: boolean }) => (
           <div className="flex items-center gap-2">
             <div className="relative">
               <img 
-           src="/images/benoit-dubos.jpg"
-        alt="Benoit Dubos"
-        width="40"
-        height="40"
-        className="w-10 h-10 rounded-full border-2 border-[#FF0000]/30 object-cover"
-        loading="lazy"
+                src="/images/benoit-dubos.jpg"
+                alt="Benoit Dubos"
+                width="40"
+                height="40"
+                className="w-10 h-10 rounded-full border-2 border-[#FF0000]/30 object-cover"
+                loading="lazy"
               />
               <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-[#FF0000] rounded-full border-2 border-white dark:border-black" />
             </div>

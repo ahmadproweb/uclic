@@ -8,14 +8,14 @@ const nextConfig = {
   
   // Optimiser pour les navigateurs modernes
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
+     removeConsole: process.env.NODE_ENV === 'production' ? true : false,
   },
-  
   // Configuration SWC pour navigateurs modernes - Optimisation performance
   experimental: {
     optimizeCss: true,
     cssChunking: 'strict', 
-      inlineCss: true,
+    inlineCss: true,
+    browsersListForSwc: true,
     optimizePackageImports: [
       '@heroicons/react',
     '@mui/icons-material',
