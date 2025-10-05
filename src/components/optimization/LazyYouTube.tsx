@@ -16,6 +16,8 @@ interface LazyYouTubeProps {
   end?: number;
   lazy?: boolean;
   placeholder?: React.ReactNode;
+  // NAYA: Privacy mode enable/disable karne ke liye
+  privacyMode?: boolean;
 }
 
 export default function LazyYouTube({
@@ -30,7 +32,9 @@ export default function LazyYouTube({
   start,
   end,
   lazy = false,
-  placeholder
+  placeholder,
+  // Default TRUE - cookies nahi aayengi
+  privacyMode = true
 }: LazyYouTubeProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isIntersecting, setIsIntersecting] = useState(false);
@@ -38,20 +42,10 @@ export default function LazyYouTube({
   const containerRef = useRef<HTMLDivElement>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
- useEffect(() => {
-  // Force click-only mode for PageSpeed
-  // IntersectionObserver ko disable karo
-  return; // Early return - observer kabhi run nahi hoga
-  
-  // Baaki code commented/removed
-  /* 
-  if (!lazy) {
-    setIsIntersecting(true);
+  useEffect(() => {
+    // Click-only mode - IntersectionObserver disabled
     return;
-  }
-  ...rest of code...
-  */
-}, [lazy]);
+  }, [lazy]);
 
   const handleLoad = () => {
     setIsLoaded(true);
@@ -62,7 +56,12 @@ export default function LazyYouTube({
   };
 
   const buildYouTubeUrl = () => {
-    const baseUrl = `https://www.youtube.com/embed/${videoId}`;
+    // YEH HAI MAIN FIX! 🎯
+    // Agar privacyMode true hai toh youtube-nocookie use karo
+    const baseUrl = privacyMode 
+      ? `https://www.youtube-nocookie.com/embed/${videoId}`
+      : `https://www.youtube.com/embed/${videoId}`;
+    
     const params = new URLSearchParams();
 
     if (autoplay) params.append('autoplay', '1');
@@ -71,13 +70,13 @@ export default function LazyYouTube({
     if (start) params.append('start', start.toString());
     if (end) params.append('end', end.toString());
     
-    // Optimisations de performance
-    params.append('rel', '0'); // Pas de vidéos suggérées
-    params.append('modestbranding', '1'); // Logo YouTube minimal
-    params.append('iv_load_policy', '3'); // Pas d'annotations
-    params.append('fs', '0'); // Pas de plein écran
-    params.append('disablekb', '1'); // Pas de contrôles clavier
-    params.append('playsinline', '1'); // Lecture inline sur mobile
+    // Performance optimizations
+    params.append('rel', '0');
+    params.append('modestbranding', '1');
+    params.append('iv_load_policy', '3');
+    params.append('fs', '0');
+    params.append('disablekb', '1');
+    params.append('playsinline', '1');
 
     return `${baseUrl}?${params.toString()}`;
   };
@@ -97,7 +96,7 @@ export default function LazyYouTube({
           {title}
         </h3>
         <p className="text-white/80 text-xs">
-          Cliquez pour charger la vidéo
+          Click karein video load karne ke liye
         </p>
       </div>
     </div>
@@ -107,7 +106,7 @@ export default function LazyYouTube({
     return (
       <div className={cn("w-full bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center", className)} style={{ height }}>
         <div className="text-center p-8">
-          <p className="text-gray-600 dark:text-gray-400 mb-4">Erreur de chargement de la vidéo</p>
+          <p className="text-gray-600 dark:text-gray-400 mb-4">Video load nahi ho saki</p>
           <button
             onClick={() => {
               setHasError(false);
@@ -115,7 +114,7 @@ export default function LazyYouTube({
             }}
             className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
-            Réessayer
+            Dobara try karein
           </button>
         </div>
       </div>

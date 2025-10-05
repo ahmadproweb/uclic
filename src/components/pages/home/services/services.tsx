@@ -60,7 +60,6 @@ export default function Services() {
       
       <div 
         className="max-w-[1250px] mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
-        role="list"
       >
         {serviceData.map((service, index) => (
           <ServiceCard 

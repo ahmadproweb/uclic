@@ -24,11 +24,9 @@ export default function SpotifyPlayer({
   const { theme: currentTheme } = useTheme();
   const isDark = currentTheme === "dark";
 
-  // Fonction pour contrôler la lecture
   const togglePlay = () => {
     if (!iframeLoaded) {
       setIframeLoaded(true);
-      // On attend que l'iframe soit chargée pour lancer la lecture
       setTimeout(() => {
         if (iframeRef.current) {
           iframeRef.current.contentWindow?.postMessage(
@@ -37,7 +35,7 @@ export default function SpotifyPlayer({
           );
           setIsPlaying(true);
         }
-      }, 1000); // Délai pour s'assurer que l'iframe est bien chargée
+      }, 1000);
     } else if (iframeRef.current) {
       const iframe = iframeRef.current;
       const message = isPlaying ? "pause" : "play";
@@ -46,7 +44,6 @@ export default function SpotifyPlayer({
     }
   };
 
-  // Écouter les messages de l'iframe pour synchroniser l'état de lecture
   useEffect(() => {
     if (!iframeLoaded) return;
 
@@ -71,7 +68,6 @@ export default function SpotifyPlayer({
     return () => window.removeEventListener("message", handleMessage);
   }, [setIsPlaying, iframeLoaded]);
 
-  // Détecter le scroll pour afficher le player
   useEffect(() => {
     const handleScroll = () => {
       const scrollPercentage =
@@ -93,7 +89,6 @@ export default function SpotifyPlayer({
 
   const shouldBeVisible = isVisible || isPlaying;
 
-  // Charger l'iframe uniquement quand nécessaire
   const handleExpandClick = () => {
     if (!iframeLoaded && !isMinimized) {
       setIframeLoaded(true);
@@ -142,6 +137,7 @@ export default function SpotifyPlayer({
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
+                  aria-hidden="true"
                 >
                   <path d="m18 15-6-6-6 6" />
                 </svg>
@@ -159,6 +155,7 @@ export default function SpotifyPlayer({
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
+                  aria-hidden="true"
                 >
                   <path d="m6 9 6 6 6-6" />
                 </svg>
@@ -190,6 +187,7 @@ export default function SpotifyPlayer({
               style={{
                 colorScheme: isDark ? "dark" : "light",
               }}
+              title="Lecteur Spotify - Automatiser à 100% sa Lead Generation B2B"
             />
           )}
         </div>
@@ -203,6 +201,8 @@ export default function SpotifyPlayer({
                   "hover:scale-105 p-1.5 rounded-full",
                   isDark ? "hover:bg-[#E0FF5C]/10" : "hover:bg-black/5"
                 )}
+                aria-label={isPlaying ? "Mettre en pause le podcast" : "Lire le podcast"}
+                title={isPlaying ? "Mettre en pause" : "Lire"}
               >
                 {isPlaying ? (
                   <svg
@@ -216,6 +216,7 @@ export default function SpotifyPlayer({
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     className={isDark ? "text-[#E0FF5C]" : "text-[#1DB954]"}
+                    aria-hidden="true"
                   >
                     <circle cx="12" cy="12" r="10" />
                     <path d="M10 15V9M14 15V9" />
@@ -232,6 +233,7 @@ export default function SpotifyPlayer({
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     className={isDark ? "text-[#E0FF5C]" : "text-[#1DB954]"}
+                    aria-hidden="true"
                   >
                     <circle cx="12" cy="12" r="10" />
                     <polygon points="10 8 16 12 10 16 10 8" />
@@ -240,7 +242,7 @@ export default function SpotifyPlayer({
               </button>
               <div className="flex items-center gap-3 min-w-0 flex-1">
                 <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-[#1DB954] text-white inline-flex items-center gap-1.5 whitespace-nowrap">
-                  <i className="ri-spotify-line"></i>
+                  <i className="ri-spotify-line" aria-hidden="true"></i>
                   Podcast chez Wild Marketer
                 </span>
                 <div className="flex items-center gap-2 min-w-0 flex-1">
@@ -269,6 +271,8 @@ export default function SpotifyPlayer({
                   ? "text-white/70 hover:bg-[#E0FF5C]/10 hover:text-[#E0FF5C]"
                   : "text-black/50 hover:bg-black/5 hover:text-black"
               )}
+              aria-label="Ouvrir cet épisode sur Spotify"
+              title="Ouvrir sur Spotify"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -280,6 +284,7 @@ export default function SpotifyPlayer({
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                aria-hidden="true"
               >
                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
                 <polyline points="15 3 21 3 21 9" />

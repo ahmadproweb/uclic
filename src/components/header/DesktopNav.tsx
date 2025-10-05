@@ -88,6 +88,7 @@ const NavItem = memo(
         </p>
         {!isMegaMenu && (
           <Link
+          prefetch={false} 
             href={item.href}
             className="absolute inset-0 z-10"
             aria-label={`Accéder à ${item.label}`}

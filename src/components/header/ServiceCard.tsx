@@ -89,8 +89,9 @@ export function ServiceCard({ service, isMobile, onSelect }: ServiceCardProps) {
             <ul className="space-y-1.5" aria-label={`Services inclus dans ${service.title}`}>
               {service.items.map((item, i) => (
                 <li key={i}>
-                  <a
+                  <Link
                     href={item.href}
+                      prefetch={false} 
                     onClick={(e) => handleNavigation(e, item.href)}
                     className={cn(
                       "text-sm block truncate font-normal",
@@ -103,7 +104,7 @@ export function ServiceCard({ service, isMobile, onSelect }: ServiceCardProps) {
                     title={item.title}
                   >
                     {item.title}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

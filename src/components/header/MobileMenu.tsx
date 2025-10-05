@@ -145,6 +145,7 @@ const MainMenu = memo(
             ) : (
               <Link
                 key={item.href}
+                  prefetch={false} 
                 href={item.href}
                 className={cn(
                   "backdrop-blur-md hover:bg-[#E0FF5C] hover:text-black hover:scale-[1.02] active:scale-[0.98] rounded-xl py-4 px-6 flex items-center justify-between border transition-all duration-200 ease-out group",

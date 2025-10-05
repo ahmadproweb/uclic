@@ -41,26 +41,40 @@ const TestimonialCard = memo(({ testimonial, isDark, index, isMasonry = false }:
   >
     <div className="flex-1 flex flex-col">
       <StarRating rating={testimonial.reviewGivenStar} />
-      <a
-        href={testimonial.commentUrl ?? undefined}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="no-underline"
-        aria-label="Voir la preuve du commentaire"
-      >
-      <blockquote 
-        className={cn(
-          "text-sm md:text-[15px] leading-relaxed mb-4 flex-1",
-          isDark ? "text-white" : "text-black",
-          isMasonry && "md:line-clamp-4"
-        )}
-        itemProp="reviewBody"
-      >
-        {testimonial.review}
-      </blockquote>
-      </a>
+     {testimonial.commentUrl ? (
+     <a  
+    href={testimonial.commentUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="no-underline"
+    aria-label="Voir la preuve du commentaire"
+  >
+    <blockquote 
+      className={cn(
+        "text-sm md:text-[15px] leading-relaxed mb-4 flex-1",
+        isDark ? "text-white" : "text-black",
+        isMasonry && "md:line-clamp-4"
+      )}
+      itemProp="reviewBody"
+    >
+      {testimonial.review}
+    </blockquote>
+  </a>
+) : (
+  <blockquote 
+    className={cn(
+      "text-sm md:text-[15px] leading-relaxed mb-4 flex-1",
+      isDark ? "text-white" : "text-black",
+      isMasonry && "md:line-clamp-4"
+    )}
+    itemProp="reviewBody"
+  >
+    {testimonial.review}
+  </blockquote>
+)}
     </div>
     <footer className="flex items-center gap-2 md:gap-3 mt-auto">
+      {testimonial.authorProfileUrl ? (
       <a
         href={testimonial.authorProfileUrl ?? undefined}
         target="_blank"
@@ -73,7 +87,7 @@ const TestimonialCard = memo(({ testimonial, isDark, index, isMasonry = false }:
         aria-label={`Voir le profil de ${testimonial.title}`}
       >
         {testimonial.imageTesti && (
-          <img 
+          <img
             src={require('@/lib/assets').getAssetUrl(`/${testimonial.imageTesti}`)} 
             alt={`Photo de ${testimonial.title}`}
             className="w-full h-full object-cover rounded-full block"
@@ -90,7 +104,8 @@ const TestimonialCard = memo(({ testimonial, isDark, index, isMasonry = false }:
           aria-hidden="true"
         />
       </a>
-      <div itemProp="author" itemScope itemType="https://schema.org/Person">
+) : (
+  <div itemProp="author" itemScope itemType="https://schema.org/Person">
         <cite 
           className={cn(
             "text-sm md:text-[15px] font-medium not-italic",
@@ -110,6 +125,9 @@ const TestimonialCard = memo(({ testimonial, isDark, index, isMasonry = false }:
           {testimonial.clientDesignation}
         </div>
       </div>
+)}
+
+     
     </footer>
   </article>
 )});
@@ -227,8 +245,11 @@ const SpotifyEpisodeCard = memo(({ isDark }: { isDark: boolean }) => (
           <div className="flex items-center gap-2">
             <div className="relative">
               <img 
-                src="https://media.licdn.com/dms/image/v2/D4E03AQG6UAytpiLqHg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1708605179714?e=1762387200&v=beta&t=CT_FSdVNEKxeCErSUzNII-yDIce7UXaGoP-T5bYikiY"
+                   src="/images/alexandre-brengues.jpg"
                 alt="Alexandre Brengues"
+                   width="40"
+        height="40"
+          loading="lazy"
                 className="w-10 h-10 rounded-full border-2 border-[#1DB954]/30 object-cover"
               />
               <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-[#1DB954] rounded-full border-2 border-white dark:border-black" />
@@ -302,9 +323,12 @@ const YouTubeVideoCard = memo(({ isDark }: { isDark: boolean }) => (
           <div className="flex items-center gap-2">
             <div className="relative">
               <img 
-                src="https://media.licdn.com/dms/image/v2/D4D03AQEoC1DbTOyABA/profile-displayphoto-shrink_200_200/B4DZd9Rcx0GYAY-/0/1750153416386?e=1762387200&v=beta&t=sI0-T64Xn9p8w7VhfFgMoOJraMhSZLeU1iBRLc7_ApE"
-                alt="Benoit Dubos"
-                className="w-10 h-10 rounded-full border-2 border-[#FF0000]/30 object-cover"
+           src="/images/benoit-dubos.jpg"
+        alt="Benoit Dubos"
+        width="40"
+        height="40"
+        className="w-10 h-10 rounded-full border-2 border-[#FF0000]/30 object-cover"
+        loading="lazy"
               />
               <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-[#FF0000] rounded-full border-2 border-white dark:border-black" />
             </div>
@@ -374,9 +398,12 @@ const LinkedInVideoCard = memo(({ isDark }: { isDark: boolean }) => (
           <div className="flex items-center gap-2">
             <div className="relative">
               <img 
-                src="https://media.licdn.com/dms/image/v2/C4E03AQFJfjmIIQBvxw/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1605084585589?e=1762387200&v=beta&t=n886zJyIfK2OyLJ-U9U5fMbiXeQYmKUq1vmP7ONTmY0"
-                alt="Jean Bonnenfant"
-                className="w-10 h-10 rounded-full border-2 border-[#0A66C2]/30 object-cover"
+           src="/images/jean-bonnenfant.jpg"
+        alt="Jean Bonnenfant"
+        width="40"
+        height="40"
+        className="w-10 h-10 rounded-full border-2 border-[#0A66C2]/30 object-cover"
+        loading="lazy"
               />
               <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-[#0A66C2] rounded-full border-2 border-white dark:border-black" />
             </div>
